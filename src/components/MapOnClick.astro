@@ -5,6 +5,7 @@
  * Position : src/config/site.ts (map.latitude / map.longitude).
  * Tant qu'elle n'est pas renseignée, un message « [À FOURNIR] » s'affiche.
  */
+import Button from './Button.astro';
 import Icon from './Icon.astro';
 import TextLink from './TextLink.astro';
 import { site, TO_PROVIDE } from '../config/site';
@@ -47,13 +48,7 @@ if (latitude !== null && longitude !== null) {
         hasPosition ? (
           <div class="flex max-w-md flex-col items-center gap-5 p-6 text-center" data-map-placeholder>
             <Icon name="map-pin" size={32} />
-            <button
-              type="button"
-              data-map-load
-              class="bg-primary px-8 py-4 text-sm font-semibold tracking-wide text-on-primary transition-colors duration-300 hover:bg-primary-hover"
-            >
-              {page.map.button}
-            </button>
+            <Button data-map-load>{page.map.button}</Button>
             <p class="text-sm">{page.map.notice}</p>
           </div>
         ) : (

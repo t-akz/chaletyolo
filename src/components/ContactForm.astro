@@ -1,0 +1,320 @@
+---
+/**
+ * Formulaire de demande de séjour (Netlify Forms) — §7 de CLAUDE.md.
+ *
+ * Netlify Forms :
+ * - un seul formulaire « demande-sejour » pour le FR et l'EN (mêmes noms de champs) ;
+ * - Netlify le détecte au déploiement grâce à data-netlify="true" ;
+ * - champ caché « form-name » (obligatoire pour Netlify) et « langue » (fr / en) ;
+ * - anti-spam : champ piège « bot-field » (invisible ; s'il est rempli, Netlify ignore l'envoi) ;
+ * - après l'envoi : page /merci/ ou /en/thank-you/.
+ * ATTENTION : l'envoi réel ne fonctionne pas en local, seulement sur Netlify.
+ *
+ * Validation :
+ * - sans JavaScript : celle du navigateur (champs « required », email, dates…) ;
+ * - avec JavaScript : messages dans la langue de la page, sous chaque champ,
+ *   date de départ obligatoirement après l'arrivée, pas de date passée.
+ */
+import Button from './Button.astro';
+import FormField from './FormField.astro';
+import Icon from './Icon.astro';
+import { figures } from '../content/chalet';
+import type { Lang } from '../i18n/languages';
+import { getContent, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const page = getContent(lang, 'contact');
+const f = page.form;
+
+// Nombre maximal de personnes (capacité du chalet, §8).
+const maxGuests = figures.guests;
+
+// Apparence commune des champs (uniquement des couleurs du design system).
+const inputClass =
+  'mt-2 block w-full border border-text/60 bg-bg-alt px-4 py-3 text-text transition-colors focus-visible:border-accent aria-[invalid=true]:border-error';
+const checkboxClass = 'mt-0.5 size-5 shrink-0 accent-primary';
+
+const services = Object.entries(f.services);
+---
+
+<form
+  name="demande-sejour"
+  method="POST"
+  action={localizedPath('thanks', lang)}
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  data-contact-form
+  data-errors={JSON.stringify(page.errors)}
+  class="grid gap-8 md:grid-cols-2 md:gap-x-6"
+>
+  <!-- Champs techniques pour Netlify -->
+  <input type="hidden" name="form-name" value="demande-sejour" />
+  <input type="hidden" name="langue" value={lang} />
+  <p class="hidden">
+    <label>
+      {f.honeypot}
+      <input name="bot-field" tabindex="-1" autocomplete="off" />
+    </label>
+  </p>
+
+  <FormField id="nom" label={f.name} requiredLabel={page.form.required}>
+    <input
+      id="nom"
+      name="nom"
+      type="text"
+      required
+      maxlength="120"
+      autocomplete="name"
+      aria-describedby="nom-error"
+      data-validate
+      class={inputClass}
+    />
+  </FormField>
+
+  <FormField id="email" label={f.email} requiredLabel={page.form.required}>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      required
+      maxlength="200"
+      autocomplete="email"
+      aria-describedby="email-error"
+      data-validate
+      class={inputClass}
+    />
+  </FormField>
+
+  <FormField id="telephone" label={f.phone}>
+    <input
+      id="telephone"
+      name="telephone"
+      type="tel"
+      maxlength="40"
+      autocomplete="tel"
+      aria-describedby="telephone-error"
+      data-validate
+      class={inputClass}
+    />
+  </FormField>
+
+  <div class="hidden md:block" aria-hidden="true"></div>
+
+  <FormField id="arrivee" label={f.arrival} requiredLabel={page.form.required}>
+    <input
+      id="arrivee"
+      name="arrivee"
+      type="date"
+      required
+      aria-describedby="arrivee-error"
+      data-validate
+      class={inputClass}
+    />
+  </FormField>
+
+  <FormField id="depart" label={f.departure} requiredLabel={page.form.required}>
+    <input
+      id="depart"
+      name="depart"
+      type="date"
+      required
+      aria-describedby="depart-error"
+      data-validate
+      class={inputClass}
+    />
+  </FormField>
+
+  <label class="flex items-start gap-3 md:col-span-2">
+    <input type="checkbox" name="dates_flexibles" value="oui" class={checkboxClass} />
+    <span>{f.flexible}</span>
+  </label>
+
+  <FormField id="adultes" label={f.adults}>
+    <input
+      id="adultes"
+      name="adultes"
+      type="number"
+      min="1"
+      max={maxGuests}
+      step="1"
+      inputmode="numeric"
+      aria-describedby="adultes-error"
+      data-validate
+      class={inputClass}
+    />
+  </FormField>
+
+  <FormField id="enfants" label={f.children}>
+    <input
+      id="enfants"
+      name="enfants"
+      type="number"
+      min="0"
+      max={maxGuests}
+      step="1"
+      inputmode="numeric"
+      aria-describedby="enfants-error"
+      data-validate
+      class={inputClass}
+    />
+  </FormField>
+
+  <!-- Visible seulement s'il y a au moins un enfant (géré par le script) -->
+  <FormField id="age_enfants" label={f.childrenAges} hint={f.childrenAgesHint} class="md:col-span-2" data-children-ages>
+    <input
+      id="age_enfants"
+      name="age_enfants"
+      type="text"
+      maxlength="200"
+      aria-describedby="age_enfants-hint age_enfants-error"
+      class={inputClass}
+    />
+  </FormField>
+
+  <fieldset class="md:col-span-2">
+    <legend class="text-sm font-medium">{f.servicesLegend}</legend>
+    <div class="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map(([value, label]) => (
+          <label class="flex items-start gap-3">
+            <input type="checkbox" name="services[]" value={value} class={checkboxClass} />
+            <span>{label}</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <FormField id="message" label={f.message} class="md:col-span-2">
+    <textarea
+      id="message"
+      name="message"
+      rows="6"
+      maxlength="3000"
+      aria-describedby="message-error"
+      data-validate
+      class={inputClass}></textarea>
+  </FormField>
+
+  <div class="md:col-span-2">
+    <label class="flex items-start gap-3">
+      <input
+        id="consentement"
+        type="checkbox"
+        name="consentement"
+        value="oui"
+        required
+        aria-describedby="consentement-error"
+        data-validate
+        class={checkboxClass}
+      />
+      <span>
+        {f.consentBefore}
+        <a href={localizedPath('privacy', lang)} class="text-accent underline underline-offset-4">{f.consentLink}</a>.
+        <span class="text-sm"> {page.form.required}</span>
+      </span>
+    </label>
+    <p id="consentement-error" class="mt-2 flex items-start gap-2 text-sm text-error" hidden>
+      <Icon name="circle-alert" size={16} class="mt-0.5 shrink-0" />
+      <span data-error-text></span>
+    </p>
+  </div>
+
+  <div class="md:col-span-2">
+    <Button type="submit">{f.submit}</Button>
+  </div>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  if (form) {
+    const messages = JSON.parse(form.dataset.errors ?? '{}') as Record<string, string>;
+    // Le script prend le relais du navigateur pour afficher les erreurs dans la bonne langue.
+    form.noValidate = true;
+
+    const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
+    const arrival = field('arrivee');
+    const departure = field('depart');
+    const children = field('enfants');
+    const agesWrapper = form.querySelector<HTMLElement>('[data-children-ages]');
+    const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-validate]'));
+    let submitted = false;
+
+    // --- Dates : pas de date passée, départ au moins 1 jour après l'arrivée ---
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const now = new Date();
+    const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const nextDay = (iso: string) => {
+      const date = new Date(`${iso}T00:00:00Z`);
+      date.setUTCDate(date.getUTCDate() + 1);
+      return date.toISOString().slice(0, 10);
+    };
+    arrival.min = today;
+    departure.min = nextDay(today);
+    arrival.addEventListener('change', () => {
+      departure.min = nextDay(arrival.value || today);
+      if (submitted || departure.value) validate(departure);
+    });
+
+    // --- « Âge des enfants » : visible seulement s'il y a des enfants ---
+    const toggleAges = () => {
+      if (agesWrapper) agesWrapper.hidden = !(Number(children.value) > 0);
+    };
+    children.addEventListener('input', toggleAges);
+    toggleAges();
+
+    // --- Message d'erreur adapté à chaque cas ---
+    const messageFor = (input: HTMLInputElement | HTMLTextAreaElement): string => {
+      const v = input.validity;
+      if (v.valueMissing) return input.type === 'checkbox' ? messages.consent! : messages.required!;
+      if (v.typeMismatch) return messages.email!;
+      if (input.type === 'date') {
+        if (v.badInput) return messages.date!;
+        if (input === departure && arrival.value && input.value && input.value <= arrival.value) {
+          return messages.departureAfter!;
+        }
+        if (v.rangeUnderflow) return messages.pastDate!;
+      }
+      if (input.type === 'number' && !v.valid) {
+        return messages.number!.replace('{min}', (input as HTMLInputElement).min).replace('{max}', (input as HTMLInputElement).max);
+      }
+      return v.valid ? '' : messages.required!;
+    };
+
+    // Affiche (ou efface) l'erreur sous le champ. Renvoie vrai si le champ est valide.
+    const validate = (input: HTMLInputElement | HTMLTextAreaElement): boolean => {
+      const message = messageFor(input);
+      const error = document.getElementById(`${input.id}-error`);
+      if (message) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+      if (error) {
+        error.querySelector('[data-error-text]')!.textContent = message;
+        error.hidden = !message;
+      }
+      return !message;
+    };
+
+    // Revalidation pendant la saisie, une fois qu'une erreur a été signalée.
+    fields.forEach((input) => {
+      const recheck = () => {
+        if (submitted || input.hasAttribute('aria-invalid')) validate(input);
+      };
+      input.addEventListener('input', recheck);
+      input.addEventListener('change', recheck);
+    });
+
+    form.addEventListener('submit', (event) => {
+      submitted = true;
+      const invalid = fields.filter((input) => !validate(input));
+      if (invalid.length > 0) {
+        event.preventDefault();
+        invalid[0]!.focus();
+      }
+    });
+  }
+</script>

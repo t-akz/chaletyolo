@@ -12,7 +12,7 @@
    thèmes B et C de changer toutes les couleurs d'un coup ; « reference » évite de
    redéclarer les variables (elles sont déjà définies dans tokens.css).
    Classes obtenues : bg-bg, bg-bg-alt, bg-accent-soft, text-heading,
-   text-text, bg-primary, bg-primary-hover, text-on-primary, border-border, text-accent…
+   text-text, bg-primary, bg-primary-hover, text-on-primary, border-border, text-accent, text-error…
    -------------------------------------------------------------------------- */
 @theme inline reference {
   --color-*: initial;
@@ -29,6 +29,7 @@
   --color-on-primary: var(--color-on-primary);
   --color-border: var(--color-border);
   --color-accent: var(--color-accent);
+  --color-error: var(--color-error);
 }
 
 @theme {

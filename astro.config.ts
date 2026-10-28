@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { site } from './src/config/site';
+import { routes } from './src/i18n/routes';
 
 export default defineConfig({
   // Adresse du site (src/config/site.ts) : sert aux URL canoniques et au sitemap.
@@ -23,8 +24,10 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      // La page de démonstration des composants (temporaire) n'est pas référencée.
-      filter: (page) => !page.includes('/dev/'),
+      // Pages non référencées : démonstration des composants (temporaire)
+      // et pages de remerciement après l'envoi du formulaire.
+      filter: (page) =>
+        !page.includes('/dev/') && ![routes.thanks.fr, routes.thanks.en].some((path) => page.endsWith(path)),
       i18n: {
         defaultLocale: 'fr',
         locales: { fr: 'fr', en: 'en' },

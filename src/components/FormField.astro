@@ -1,0 +1,41 @@
+---
+/**
+ * Champ de formulaire : libellé + contrôle (placé dans le « slot ») + aide
+ * éventuelle + zone de message d'erreur (remplie par le script de ContactForm).
+ *
+ * Le contrôle doit avoir id={id} et aria-describedby={`${id}-error`}
+ * (plus `${id}-hint` s'il y a une aide).
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  id: string;
+  label: string;
+  /** Texte « (obligatoire) » affiché après le libellé, si le champ l'est. */
+  requiredLabel?: string;
+  hint?: string;
+  class?: string;
+  [key: `data-${string}`]: string | boolean | undefined;
+}
+
+const { id, label, requiredLabel, hint, class: className, ...rest } = Astro.props;
+---
+
+<div class={className} {...rest}>
+  <label for={id} class="block text-sm font-medium">
+    {label}
+    {requiredLabel && <span class="font-normal"> {requiredLabel}</span>}
+  </label>
+  {
+    hint && (
+      <p id={`${id}-hint`} class="mt-1 text-sm">
+        {hint}
+      </p>
+    )
+  }
+  <slot />
+  <p id={`${id}-error`} class="mt-2 flex items-start gap-2 text-sm text-error" hidden>
+    <Icon name="circle-alert" size={16} class="mt-0.5 shrink-0" />
+    <span data-error-text></span>
+  </p>
+</div>

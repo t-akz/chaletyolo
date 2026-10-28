@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Contact — Chalet Yolo, Méribel",
+    "description": "Stay enquiry for Chalet Yolo, a private chalet in Méribel: dates, number of guests and services you would like."
+  },
+  "title": "Contact",
+  "intro": "TODO-COPY: one-line introduction to the form.",
+  "form": {
+    "required": "(required)",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "arrival": "Arrival date",
+    "departure": "Departure date",
+    "flexible": "My dates are flexible",
+    "adults": "Adults",
+    "children": "Children",
+    "childrenAges": "Children's ages",
+    "childrenAgesHint": "For example: 4, 9",
+    "servicesLegend": "Services you would like",
+    "services": {
+      "chef-a-domicile": "Private chef",
+      "traiteur": "Catering",
+      "petit-dejeuner": "Breakfast",
+      "moniteur-de-ski": "Ski instructor",
+      "forfaits": "Ski passes",
+      "materiel-de-ski": "Ski equipment",
+      "massages": "Massages",
+      "babysitting": "Babysitting",
+      "transferts": "Transfers"
+    },
+    "message": "Message",
+    "consentBefore": "I agree that my data may be used to respond to my enquiry, in accordance with the",
+    "consentLink": "privacy policy",
+    "honeypot": "Do not fill in this field if you are human:",
+    "submit": "Send my enquiry"
+  },
+  "errors": {
+    "required": "This field is required.",
+    "email": "Please enter a valid email address, for example name@example.com.",
+    "date": "Please enter a valid date.",
+    "pastDate": "Please choose a future date.",
+    "departureAfter": "The departure date must be after the arrival date.",
+    "number": "Please enter a number between {min} and {max}.",
+    "consent": "Please tick this box to send your enquiry."
+  },
+  "direct": {
+    "title": "Or contact us directly",
+    "whatsapp": "WhatsApp",
+    "email": "Email"
+  },
+  "access": {
+    "title": "Getting there",
+    "link": "Full access details"
+  }
+}

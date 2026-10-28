@@ -20,6 +20,7 @@
   --color-on-primary: #ffffff; /* Texte sur le bouton principal */
   --color-border: rgb(139 106 85 / 0.3); /* Filets et séparateurs (taupe à 30 %) — jamais pour du texte */
   --color-accent: var(--color-text); /* Sur-titres et liens (= couleur du texte en A) */
+  --color-error: #a1262b; /* Messages d'erreur du formulaire (rouge brique) */
 
   color-scheme: light;
 }
@@ -42,6 +43,7 @@
   --color-on-primary: #ffffff; /* Texte sur le bouton principal */
   --color-border: #9a9890; /* Filets et séparateurs (gris pierre) — jamais pour du texte */
   --color-accent: var(--color-text); /* Sur-titres et liens (= couleur du texte en C) */
+  --color-error: #a8322a; /* Messages d'erreur du formulaire (rouge brique) */
 }
 /* ========================== FIN THÈME C ================================== */
 
@@ -63,6 +65,7 @@
   --color-on-primary: #000000; /* Texte sur le bouton principal */
   --color-accent: #c9a96e; /* Sur-titres, liens, filets, anneau de focus (or) */
   --color-border: var(--color-accent); /* Filets et séparateurs en or */
+  --color-error: #ff8a7a; /* Messages d'erreur du formulaire (corail clair, lisible sur noir) */
 
   color-scheme: dark; /* Barres de défilement et contrôles natifs en version sombre */
 }

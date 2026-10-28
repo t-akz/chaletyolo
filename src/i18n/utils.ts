@@ -18,6 +18,10 @@ import frMeribel from '../content/fr/meribel.json';
 import enMeribel from '../content/en/meribel.json';
 import frGallery from '../content/fr/gallery.json';
 import enGallery from '../content/en/gallery.json';
+import frContact from '../content/fr/contact.json';
+import enContact from '../content/en/contact.json';
+import frThanks from '../content/fr/thanks.json';
+import enThanks from '../content/en/thanks.json';
 import frDev from '../content/fr/dev.json';
 import enDev from '../content/en/dev.json';
 
@@ -28,6 +32,8 @@ const fr = {
   services: frServices,
   meribel: frMeribel,
   gallery: frGallery,
+  contact: frContact,
+  thanks: frThanks,
   dev: frDev,
 };
 
@@ -49,6 +55,8 @@ const content: Record<Lang, Content> = {
     services: enServices,
     meribel: enMeribel,
     gallery: enGallery,
+    contact: enContact,
+    thanks: enThanks,
     dev: enDev,
   },
 };

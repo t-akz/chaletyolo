@@ -1,0 +1,28 @@
+---
+/**
+ * Page « Merci » (FR et EN), affichée après l'envoi du formulaire.
+ * Non indexée par les moteurs de recherche et absente du sitemap.
+ * Textes : src/content/{fr,en}/thanks.json.
+ */
+import TextLink from '../components/TextLink.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../i18n/languages';
+import { getContent, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const page = getContent(lang, 'thanks');
+---
+
+<BaseLayout lang={lang} routeKey="thanks" title={page.meta.title} description={page.meta.description} noindex>
+  <section class="container-page flex min-h-[60svh] flex-col justify-center py-24">
+    <h1>{page.title}</h1>
+    <p class="mt-6 max-w-xl">{page.text}</p>
+    <div class="mt-10">
+      <TextLink href={localizedPath('home', lang)}>{page.link}</TextLink>
+    </div>
+  </section>
+</BaseLayout>

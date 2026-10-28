@@ -11,6 +11,7 @@ import Car from '@lucide/astro/icons/car';
 import ChevronDown from '@lucide/astro/icons/chevron-down';
 import ChevronLeft from '@lucide/astro/icons/chevron-left';
 import ChevronRight from '@lucide/astro/icons/chevron-right';
+import CircleAlert from '@lucide/astro/icons/circle-alert';
 import ConciergeBell from '@lucide/astro/icons/concierge-bell';
 import Layers from '@lucide/astro/icons/layers';
 import Lock from '@lucide/astro/icons/lock';
@@ -34,6 +35,7 @@ export const icons = {
   'chevron-down': ChevronDown,
   'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight,
+  'circle-alert': CircleAlert,
   'concierge-bell': ConciergeBell,
   layers: Layers,
   lock: Lock,

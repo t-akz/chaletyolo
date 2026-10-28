@@ -2,24 +2,35 @@
 /**
  * Bouton principal — le SEUL style de bouton du site (§5.1).
  * Les autres actions utilisent TextLink (lien texte discret).
+ * - Avec « href » : lien (<a>) qui ressemble à un bouton.
+ * - Sans « href » : vrai bouton (<button>), ex. envoi du formulaire.
  */
 interface Props {
-  href: string;
+  href?: string;
+  /** Type du bouton quand il n'y a pas de lien (« submit » pour envoyer un formulaire). */
+  type?: 'button' | 'submit';
   /** « sm » : version compacte (en-tête). */
   size?: 'md' | 'sm';
   class?: string;
+  [key: `data-${string}`]: string | boolean | undefined;
 }
 
-const { href, size = 'md', class: className } = Astro.props;
+const { href, type = 'button', size = 'md', class: className, ...rest } = Astro.props;
+const classes = [
+  'inline-flex items-center justify-center bg-primary font-semibold tracking-wide text-on-primary transition-colors duration-300 hover:bg-primary-hover',
+  size === 'md' ? 'px-8 py-4 text-sm' : 'px-5 py-2.5 text-xs',
+  className,
+];
 ---
 
-<a
-  href={href}
-  class:list={[
-    'inline-flex items-center justify-center bg-primary font-semibold tracking-wide text-on-primary transition-colors duration-300 hover:bg-primary-hover',
-    size === 'md' ? 'px-8 py-4 text-sm' : 'px-5 py-2.5 text-xs',
-    className,
-  ]}
->
-  <slot />
-</a>
+{
+  href ? (
+    <a href={href} class:list={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class:list={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}
