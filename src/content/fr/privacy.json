@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "title": "Confidentialité — Chalet Yolo",
+    "description": "Politique de confidentialité du site du Chalet Yolo : données du formulaire, absence de cookies, statistiques sans cookies, vos droits."
+  },
+  "title": "Politique de confidentialité",
+  "updated": "Dernière mise à jour : [À FOURNIR]",
+  "sections": [
+    {
+      "title": "Responsable du traitement",
+      "paragraphs": ["[À FOURNIR] (raison sociale, adresse et email de contact)."]
+    },
+    {
+      "title": "Données collectées",
+      "paragraphs": [
+        "Lorsque vous utilisez le formulaire de contact, nous recevons les informations que vous saisissez : nom, email, téléphone, dates de séjour, nombre d'adultes et d'enfants, âge des enfants, services souhaités et message."
+      ]
+    },
+    {
+      "title": "Finalité et base légale",
+      "paragraphs": [
+        "Ces données servent uniquement à répondre à votre demande de séjour.",
+        "Elles sont traitées sur la base de votre consentement, donné en cochant la case prévue dans le formulaire."
+      ]
+    },
+    {
+      "title": "Destinataires et hébergement",
+      "paragraphs": [
+        "Les demandes envoyées via le formulaire sont reçues et stockées par notre hébergeur Netlify, Inc., société située aux États-Unis.",
+        "Garanties encadrant ce transfert hors de l'Union européenne : [À FOURNIR]"
+      ]
+    },
+    {
+      "title": "Durée de conservation",
+      "paragraphs": ["[À FOURNIR]"]
+    },
+    {
+      "title": "Cookies",
+      "paragraphs": [
+        "Ce site ne dépose aucun cookie.",
+        "La carte de la page Méribel, fournie par OpenStreetMap, n'est chargée que si vous cliquez sur « Afficher la carte »."
+      ]
+    },
+    {
+      "title": "Mesure d'audience",
+      "paragraphs": [
+        "Si la mesure d'audience est activée, le site utilise Umami, un outil de statistiques qui fonctionne sans cookies.",
+        "Mesure d'audience activée : [À FOURNIR]"
+      ]
+    },
+    {
+      "title": "Vos droits",
+      "paragraphs": [
+        "Conformément au Règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données.",
+        "Pour exercer ces droits : [À FOURNIR] (email de contact).",
+        "Vous pouvez également adresser une réclamation à la CNIL : https://www.cnil.fr"
+      ]
+    }
+  ]
+}

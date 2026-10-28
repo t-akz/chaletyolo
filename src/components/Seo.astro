@@ -1,0 +1,71 @@
+---
+/**
+ * Balises SEO de chaque page (dans <head>) :
+ * titre, description, adresse canonique, versions FR/EN (hreflang + x-default),
+ * aperçu de partage (Open Graph / Twitter) et données structurées éventuelles.
+ *
+ * Image de partage : la photo « photoId » (src/content/photos.ts), recadrée en
+ * 1200 × 630. Tant que la photo n'est pas fournie, aucune image n'est indiquée.
+ */
+import { getImage } from 'astro:assets';
+import { lodgingBusinessJsonLd } from './structuredData';
+import { site } from '../config/site';
+import { getPhoto } from '../content/photos';
+import { defaultLang, languages, locales, type Lang } from '../i18n/languages';
+import type { RouteKey } from '../i18n/routes';
+import { getAlternates, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  routeKey?: RouteKey;
+  title: string;
+  description: string;
+  noindex?: boolean;
+  /** Photo utilisée pour l'aperçu de partage (par défaut : photo principale de l'accueil). */
+  photoId?: string;
+  /** Ajoute les données structurées « LodgingBusiness » (page d'accueil). */
+  lodging?: boolean;
+}
+
+const { lang, routeKey, title, description, noindex = false, photoId = 'accueil', lodging = false } = Astro.props;
+
+const absolute = (path: string) => new URL(path, site.url).href;
+const canonical = routeKey ? absolute(localizedPath(routeKey, lang)) : undefined;
+const alternates = routeKey ? getAlternates(routeKey) : [];
+
+const photo = getPhoto(photoId);
+const ogImage = photo.image
+  ? absolute((await getImage({ src: photo.image, width: 1200, height: 630, fit: 'cover', format: 'jpg' })).src)
+  : undefined;
+const otherLocales = languages.filter((code) => code !== lang).map((code) => locales[code].og);
+const jsonLd = lodging ? lodgingBusinessJsonLd(lang, description, ogImage) : undefined;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex" />}
+{canonical && <link rel="canonical" href={canonical} />}
+{alternates.map((alt) => <link rel="alternate" hreflang={locales[alt.lang].hreflang} href={absolute(alt.path)} />)}
+{routeKey && <link rel="alternate" hreflang="x-default" href={absolute(localizedPath(routeKey, defaultLang))} />}
+
+<!-- Aperçu de partage (Facebook, WhatsApp, LinkedIn…) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+<meta property="og:locale" content={locales[lang].og} />
+{otherLocales.map((locale) => <meta property="og:locale:alternate" content={locale} />)}
+{
+  ogImage && (
+    <>
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={photo.alt[lang]} />
+    </>
+  )
+}
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

@@ -22,8 +22,12 @@ import frContact from '../content/fr/contact.json';
 import enContact from '../content/en/contact.json';
 import frThanks from '../content/fr/thanks.json';
 import enThanks from '../content/en/thanks.json';
-import frDev from '../content/fr/dev.json';
-import enDev from '../content/en/dev.json';
+import frLegal from '../content/fr/legal.json';
+import enLegal from '../content/en/legal.json';
+import frPrivacy from '../content/fr/privacy.json';
+import enPrivacy from '../content/en/privacy.json';
+import frNotFound from '../content/fr/notfound.json';
+import enNotFound from '../content/en/notfound.json';
 
 const fr = {
   common: frCommon,
@@ -34,7 +38,9 @@ const fr = {
   gallery: frGallery,
   contact: frContact,
   thanks: frThanks,
-  dev: frDev,
+  legal: frLegal,
+  privacy: frPrivacy,
+  notFound: frNotFound,
 };
 
 /** Forme attendue des textes : celle des fichiers français. */
@@ -57,7 +63,9 @@ const content: Record<Lang, Content> = {
     gallery: enGallery,
     contact: enContact,
     thanks: enThanks,
-    dev: enDev,
+    legal: enLegal,
+    privacy: enPrivacy,
+    notFound: enNotFound,
   },
 };
 

@@ -1,9 +1,7 @@
 ---
 /**
- * Gabarit commun à toutes les pages : <html lang>, <head> (titre, description,
- * adresses canoniques et alternatives FR/EN), polices, styles, thème,
- * en-tête, pied de page et bouton WhatsApp.
- * Le SEO complet (Open Graph, JSON-LD, statistiques) sera ajouté à l'étape 7.
+ * Gabarit commun à toutes les pages : <html lang>, <head> (SEO, favicon,
+ * polices, styles, thème, statistiques), en-tête, pied de page et bouton WhatsApp.
  */
 import '@fontsource/cormorant-garamond/400.css';
 import '@fontsource/cormorant-garamond/500.css';
@@ -12,12 +10,13 @@ import '../styles/global.css';
 
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import Seo from '../components/Seo.astro';
 import ThemeScript from '../components/ThemeScript.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
-import { site } from '../config/site';
-import { defaultLang, locales, type Lang } from '../i18n/languages';
+import { getAnalytics } from '../config/site';
+import type { Lang } from '../i18n/languages';
 import type { RouteKey } from '../i18n/routes';
-import { getAlternates, getContent, localizedPath } from '../i18n/utils';
+import { getContent } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -27,16 +26,19 @@ interface Props {
   description: string;
   /** Vrai si la page commence par une photo plein écran : l'en-tête est alors transparent. */
   hero?: boolean;
-  /** Empêche l'indexation (pages de remerciement, page de démonstration…). */
+  /** Empêche l'indexation (pages de remerciement, 404…). */
   noindex?: boolean;
+  /** Photo de l'aperçu de partage (identifiant de src/content/photos.ts). */
+  photoId?: string;
+  /** Ajoute les données structurées « LodgingBusiness » (page d'accueil). */
+  lodging?: boolean;
 }
 
-const { lang, routeKey, title, description, hero = false, noindex = false } = Astro.props;
+const { lang, routeKey, title, description, hero = false, noindex = false, photoId, lodging } = Astro.props;
 const common = getContent(lang, 'common');
 
-const absolute = (path: string) => new URL(path, site.url).href;
-const canonical = routeKey ? absolute(localizedPath(routeKey, lang)) : undefined;
-const alternates = routeKey ? getAlternates(routeKey) : [];
+// Statistiques Umami (sans cookies) : uniquement si les 2 variables du .env sont remplies.
+const analytics = getAnalytics();
 ---
 
 <!doctype html>
@@ -49,17 +51,19 @@ const alternates = routeKey ? getAlternates(routeKey) : [];
       document.documentElement.classList.add('js');
     </script>
     <ThemeScript />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex" />}
-    {canonical && <link rel="canonical" href={canonical} />}
-    {
-      alternates.map((alt) => (
-        <link rel="alternate" hreflang={locales[alt.lang].hreflang} href={absolute(alt.path)} />
-      ))
-    }
-    {routeKey && <link rel="alternate" hreflang="x-default" href={absolute(localizedPath(routeKey, defaultLang))} />}
+    <Seo
+      lang={lang}
+      routeKey={routeKey}
+      title={title}
+      description={description}
+      noindex={noindex}
+      photoId={photoId}
+      lodging={lodging}
+    />
+    <!-- Favicon PROVISOIRE (« Y ») : à remplacer par le logo dans public/favicon.svg -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
+    {analytics && <script is:inline defer src={analytics.src} data-website-id={analytics.websiteId}></script>}
   </head>
   <body class="flex min-h-svh flex-col bg-bg text-text">
     <a

@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "title": "Privacy policy — Chalet Yolo",
+    "description": "Privacy policy of the Chalet Yolo website: contact form data, no cookies, cookie-free analytics, your rights."
+  },
+  "title": "Privacy policy",
+  "updated": "Last updated: [À FOURNIR]",
+  "sections": [
+    {
+      "title": "Data controller",
+      "paragraphs": ["[À FOURNIR] (company name, address and contact email)."]
+    },
+    {
+      "title": "Data collected",
+      "paragraphs": [
+        "When you use the contact form, we receive the information you enter: name, email, phone, stay dates, number of adults and children, children's ages, requested services and message."
+      ]
+    },
+    {
+      "title": "Purpose and legal basis",
+      "paragraphs": [
+        "This data is used solely to respond to your stay enquiry.",
+        "It is processed on the basis of your consent, given by ticking the box provided in the form."
+      ]
+    },
+    {
+      "title": "Recipients and hosting",
+      "paragraphs": [
+        "Enquiries sent through the form are received and stored by our hosting provider Netlify, Inc., a company based in the United States.",
+        "Safeguards for this transfer outside the European Union: [À FOURNIR]"
+      ]
+    },
+    {
+      "title": "Retention period",
+      "paragraphs": ["[À FOURNIR]"]
+    },
+    {
+      "title": "Cookies",
+      "paragraphs": [
+        "This website does not set any cookies.",
+        "The map on the Méribel page, provided by OpenStreetMap, only loads if you click “Show the map”."
+      ]
+    },
+    {
+      "title": "Audience measurement",
+      "paragraphs": [
+        "If audience measurement is enabled, the website uses Umami, an analytics tool that works without cookies.",
+        "Audience measurement enabled: [À FOURNIR]"
+      ]
+    },
+    {
+      "title": "Your rights",
+      "paragraphs": [
+        "Under the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase, restrict, object to and port your data.",
+        "To exercise these rights: [À FOURNIR] (contact email).",
+        "You can also lodge a complaint with the CNIL (the French data protection authority): https://www.cnil.fr"
+      ]
+    }
+  ]
+}

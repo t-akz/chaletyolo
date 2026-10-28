@@ -1,0 +1,32 @@
+---
+/**
+ * Page 404 (page introuvable), utilisée automatiquement par Netlify.
+ * Une seule page pour les deux langues : le français d'abord, puis une ligne
+ * en anglais. Non indexée par les moteurs de recherche.
+ * Textes : src/content/{fr,en}/notfound.json.
+ */
+import TextLink from '../components/TextLink.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getContent, localizedPath } from '../i18n/utils';
+
+const fr = getContent('fr', 'notFound');
+const en = getContent('en', 'notFound');
+---
+
+<BaseLayout lang="fr" title={fr.meta.title} description={fr.meta.description} noindex>
+  <section class="container-page flex min-h-[60svh] flex-col justify-center py-24">
+    <p class="eyebrow">404</p>
+    <h1 class="mt-4">{fr.title}</h1>
+    <p class="mt-6 max-w-xl">{fr.text}</p>
+    <div class="mt-8">
+      <TextLink href={localizedPath('home', 'fr')}>{fr.link}</TextLink>
+    </div>
+
+    <div lang="en" class="mt-16 border-t border-border pt-8">
+      <p>{en.title}. {en.text}</p>
+      <div class="mt-4">
+        <TextLink href={localizedPath('home', 'en')} hreflang="en">{en.link}</TextLink>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

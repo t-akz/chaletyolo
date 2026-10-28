@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Mentions légales — Chalet Yolo",
+    "description": "Mentions légales du site du Chalet Yolo, chalet privé à Méribel : éditeur, hébergement, propriété intellectuelle."
+  },
+  "title": "Mentions légales",
+  "updated": "Dernière mise à jour : [À FOURNIR]",
+  "sections": [
+    {
+      "title": "Éditeur du site",
+      "paragraphs": [
+        "Raison sociale : [À FOURNIR]",
+        "Forme juridique et capital social : [À FOURNIR]",
+        "Adresse du siège : [À FOURNIR]",
+        "SIRET : [À FOURNIR]",
+        "Directeur de la publication : [À FOURNIR]",
+        "Contact : [À FOURNIR]"
+      ]
+    },
+    {
+      "title": "Hébergement",
+      "paragraphs": [
+        "Le site est hébergé par Netlify, Inc.",
+        "Adresse : [À FOURNIR]",
+        "Site web : https://www.netlify.com"
+      ]
+    },
+    {
+      "title": "Propriété intellectuelle",
+      "paragraphs": [
+        "Les textes, photographies et logos présents sur ce site sont protégés par le droit d'auteur. Toute reproduction sans autorisation préalable est interdite.",
+        "Crédits photos : [À FOURNIR]"
+      ]
+    },
+    {
+      "title": "Données personnelles",
+      "paragraphs": ["Le traitement des données transmises via le formulaire de contact est décrit dans notre politique de confidentialité."],
+      "link": "Lire la politique de confidentialité"
+    }
+  ]
+}

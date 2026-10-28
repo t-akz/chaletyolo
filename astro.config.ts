@@ -24,10 +24,8 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      // Pages non référencées : démonstration des composants (temporaire)
-      // et pages de remerciement après l'envoi du formulaire.
-      filter: (page) =>
-        !page.includes('/dev/') && ![routes.thanks.fr, routes.thanks.en].some((path) => page.endsWith(path)),
+      // Pages non référencées : remerciements après l'envoi du formulaire.
+      filter: (page) => ![routes.thanks.fr, routes.thanks.en].some((path) => page.endsWith(path)),
       i18n: {
         defaultLocale: 'fr',
         locales: { fr: 'fr', en: 'en' },
