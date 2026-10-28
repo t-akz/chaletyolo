@@ -1,0 +1,43 @@
+---
+/**
+ * Appel à l'action de fin de page, ex. « Parlons de votre séjour ».
+ * Bouton principal + lien WhatsApp discret (optionnel).
+ */
+import Button from './Button.astro';
+import Eyebrow from './Eyebrow.astro';
+import TextLink from './TextLink.astro';
+import type { Lang } from '../i18n/languages';
+import { getContent, localizedPath } from '../i18n/utils';
+import { whatsappUrl } from './whatsapp';
+
+interface Props {
+  lang: Lang;
+  eyebrow?: string;
+  title: string;
+  text?: string;
+  /** Affiche le lien « WhatsApp » à côté du bouton. */
+  showWhatsapp?: boolean;
+}
+
+const { lang, eyebrow, title, text, showWhatsapp = true } = Astro.props;
+const common = getContent(lang, 'common');
+---
+
+<section class="bg-bg-alt py-20 md:py-32">
+  <div class="container-page max-w-4xl" data-reveal>
+    {eyebrow && <Eyebrow class="mb-5">{eyebrow}</Eyebrow>}
+    <h2 class="text-h1">{title}</h2>
+    {text && <p class="mt-6 max-w-xl">{text}</p>}
+    <div class="mt-10 flex flex-wrap items-center gap-x-10 gap-y-6">
+      <Button href={localizedPath('contact', lang)}>{common.cta.contact}</Button>
+      {
+        showWhatsapp && (
+          <TextLink href={whatsappUrl(lang)} external>
+            {common.whatsapp.label}
+            <span class="sr-only">{common.newTab}</span>
+          </TextLink>
+        )
+      }
+    </div>
+  </div>
+</section>

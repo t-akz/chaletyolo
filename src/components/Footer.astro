@@ -1,0 +1,96 @@
+---
+/**
+ * Pied de page : fond nude, logo, « Méribel, 73550 », contact (email,
+ * WhatsApp), réseaux sociaux, liens légaux.
+ * Les valeurs non renseignées dans src/config/site.ts affichent « [À FOURNIR] ».
+ */
+import Logo from './Logo.astro';
+import { identity } from '../content/chalet';
+import { isProvided, site, TO_PROVIDE } from '../config/site';
+import type { Lang } from '../i18n/languages';
+import { getContent, localizedPath } from '../i18n/utils';
+import { whatsappUrl } from './whatsapp';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const common = getContent(lang, 'common');
+const year = new Date().getFullYear();
+
+const socials = [
+  { name: 'Instagram', url: site.social.instagram },
+  { name: 'Facebook', url: site.social.facebook },
+  { name: 'TikTok', url: site.social.tiktok },
+];
+---
+
+<footer class="bg-accent-soft text-text">
+  <div class="container-page grid gap-12 py-16 md:grid-cols-4 md:py-20">
+    <div>
+      <a href={localizedPath('home', lang)} aria-label={common.header.homeLink}>
+        <Logo />
+      </a>
+      <p class="mt-6 text-sm">{identity.resort}, {identity.postalCode}</p>
+    </div>
+
+    <div>
+      <h2 class="eyebrow font-sans text-text">{common.footer.contactTitle}</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li>
+          {
+            isProvided(site.email) ? (
+              <a href={`mailto:${site.email}`} class="hover:underline">
+                {site.email}
+              </a>
+            ) : (
+              <span>{TO_PROVIDE}</span>
+            )
+          }
+        </li>
+        <li>
+          <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="hover:underline">
+            {common.footer.whatsapp}
+            <span class="sr-only">{common.newTab}</span>
+          </a>
+          {!isProvided(site.whatsapp) && <span> {TO_PROVIDE}</span>}
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="eyebrow font-sans text-text">{common.footer.socialTitle}</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        {
+          socials.map((social) => (
+            <li>
+              {isProvided(social.url) ? (
+                <a href={social.url} target="_blank" rel="noopener" class="hover:underline">
+                  {social.name}
+                  <span class="sr-only">{common.newTab}</span>
+                </a>
+              ) : (
+                <span>
+                  {social.name} {TO_PROVIDE}
+                </span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="eyebrow font-sans text-text">{common.footer.legalTitle}</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href={localizedPath('legal', lang)} class="hover:underline">{common.footer.legal}</a></li>
+        <li><a href={localizedPath('privacy', lang)} class="hover:underline">{common.footer.privacy}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container-page border-t border-text/15 py-6 text-xs">
+    <p>© {year} {identity.name}. {common.footer.rights}</p>
+  </div>
+</footer>

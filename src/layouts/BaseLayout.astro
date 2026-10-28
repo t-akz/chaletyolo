@@ -1,7 +1,8 @@
 ---
 /**
  * Gabarit commun à toutes les pages : <html lang>, <head> (titre, description,
- * adresses canoniques et alternatives FR/EN), polices, styles, thème.
+ * adresses canoniques et alternatives FR/EN), polices, styles, thème,
+ * en-tête, pied de page et bouton WhatsApp.
  * Le SEO complet (Open Graph, JSON-LD, statistiques) sera ajouté à l'étape 7.
  */
 import '@fontsource/cormorant-garamond/400.css';
@@ -9,7 +10,10 @@ import '@fontsource/cormorant-garamond/500.css';
 import '@fontsource-variable/manrope';
 import '../styles/global.css';
 
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
 import ThemeScript from '../components/ThemeScript.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
 import { site } from '../config/site';
 import { defaultLang, locales, type Lang } from '../i18n/languages';
 import type { RouteKey } from '../i18n/routes';
@@ -21,11 +25,13 @@ interface Props {
   routeKey?: RouteKey;
   title: string;
   description: string;
+  /** Vrai si la page commence par une photo plein écran : l'en-tête est alors transparent. */
+  hero?: boolean;
   /** Empêche l'indexation (pages de remerciement, page de démonstration…). */
   noindex?: boolean;
 }
 
-const { lang, routeKey, title, description, noindex = false } = Astro.props;
+const { lang, routeKey, title, description, hero = false, noindex = false } = Astro.props;
 const common = getContent(lang, 'common');
 
 const absolute = (path: string) => new URL(path, site.url).href;
@@ -38,6 +44,10 @@ const alternates = routeKey ? getAlternates(routeKey) : [];
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Signale que JavaScript est actif (sert aux animations d'apparition) -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <ThemeScript />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -51,17 +61,21 @@ const alternates = routeKey ? getAlternates(routeKey) : [];
     {routeKey && <link rel="alternate" hreflang="x-default" href={absolute(localizedPath(routeKey, defaultLang))} />}
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body class="min-h-svh bg-bg text-text">
+  <body class="flex min-h-svh flex-col bg-bg text-text">
     <a
       href="#contenu"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-bg focus:px-4 focus:py-2"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-bg focus:px-4 focus:py-2 focus:text-text"
     >
       {common.skipLink}
     </a>
-    <slot name="header" />
-    <main id="contenu">
+    <Header lang={lang} routeKey={routeKey} transparent={hero} />
+    <main id="contenu" class:list={['flex-1', !hero && 'pt-20']}>
       <slot />
     </main>
-    <slot name="footer" />
+    <Footer lang={lang} />
+    <WhatsAppButton lang={lang} />
+    <script>
+      import '../scripts/reveal';
+    </script>
   </body>
 </html>

@@ -1,0 +1,55 @@
+---
+/**
+ * Sélecteur de langue « FR | EN ».
+ * Mène vers la page équivalente dans l'autre langue (table src/i18n/routes.ts).
+ * Sans page équivalente connue, mène à l'accueil de l'autre langue.
+ */
+import { languages, type Lang } from '../i18n/languages';
+import type { RouteKey } from '../i18n/routes';
+import { getContent, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  routeKey?: RouteKey;
+  class?: string;
+}
+
+const { lang, routeKey, class: className } = Astro.props;
+const common = getContent(lang, 'common');
+---
+
+<nav aria-label={common.languageSwitcher.label} class:list={['text-xs font-semibold tracking-[0.15em]', className]}>
+  <ul class="flex items-center gap-2">
+    {
+      languages.map((code, index) => {
+        const labels = common.languageSwitcher[code];
+        return (
+          <li class="flex items-center gap-2">
+            {index > 0 && (
+              <span aria-hidden="true" class="opacity-50">
+                |
+              </span>
+            )}
+            {code === lang ? (
+              <span aria-current="true" class="underline decoration-1 underline-offset-[6px]">
+                <abbr title={labels.name} class="no-underline">
+                  {labels.short}
+                </abbr>
+              </span>
+            ) : (
+              <a
+                href={localizedPath(routeKey ?? 'home', code)}
+                hreflang={code}
+                lang={code}
+                aria-label={labels.name}
+                class="opacity-70 transition-opacity hover:opacity-100"
+              >
+                {labels.short}
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>

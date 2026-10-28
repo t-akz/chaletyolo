@@ -1,0 +1,64 @@
+---
+/**
+ * Photo du site.
+ * - Si le fichier existe dans src/assets/photos/ : image optimisée AVIF + WebP,
+ *   en plusieurs tailles (le navigateur choisit la plus adaptée).
+ * - Sinon : aplat neutre avec le nom de l'espace et le fichier attendu.
+ * La photo remplit toujours son conteneur (donnez une hauteur ou un ratio au parent).
+ */
+import { Picture } from 'astro:assets';
+import type { Lang } from '../i18n/languages';
+import { getPhoto, photoFolders } from '../content/photos';
+
+interface Props {
+  id: string;
+  lang: Lang;
+  /** Largeur d'affichage, pour choisir la bonne taille, ex. « (min-width: 768px) 50vw, 100vw ». */
+  sizes?: string;
+  /** Photo visible dès l'arrivée (hero) : chargée en priorité. */
+  priority?: boolean;
+  class?: string;
+}
+
+const { id, lang, sizes = '100vw', priority = false, class: className } = Astro.props;
+const photo = getPhoto(id);
+const alt = photo.alt[lang];
+
+// Tailles générées : jusqu'à 2400 px, sans dépasser la largeur du fichier d'origine.
+const candidateWidths = [480, 768, 1080, 1440, 1920, 2400];
+const maxWidth = photo.image ? Math.min(photo.image.width, 2400) : 0;
+const widths = photo.image ? [...candidateWidths.filter((w) => w < maxWidth), maxWidth] : [];
+---
+
+{
+  photo.hidden ? null : photo.image ? (
+    <Picture
+      src={photo.image}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={widths}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding={priority ? 'sync' : 'async'}
+      class:list={['h-full w-full object-cover', className]}
+      pictureAttributes={{ class: 'contents' }}
+    />
+  ) : (
+    <div
+      role="img"
+      aria-label={alt}
+      class:list={[
+        'flex h-full w-full flex-col items-center justify-center gap-1 bg-accent-soft p-4 text-center text-text',
+        className,
+      ]}
+    >
+      <span class="eyebrow" aria-hidden="true">
+        {photoFolders[photo.folder][lang]}
+      </span>
+      <span class="text-xs opacity-70" aria-hidden="true">
+        {`${photo.folder}/${photo.id}`}
+      </span>
+    </div>
+  )
+}

@@ -1,0 +1,131 @@
+---
+/**
+ * TEMPORAIRE — page de démonstration de tous les composants communs.
+ * Non indexée, absente du sitemap. À supprimer à l'étape 7, avec :
+ * src/pages/dev/, src/pages/en/dev/, src/content/{fr,en}/dev.json,
+ * la route « dev » (src/i18n/routes.ts) et son import (src/i18n/utils.ts).
+ */
+import Accordion from '../components/Accordion.astro';
+import Button from '../components/Button.astro';
+import CTASection from '../components/CTASection.astro';
+import FeatureSection from '../components/FeatureSection.astro';
+import Hero from '../components/Hero.astro';
+import KeyFigures from '../components/KeyFigures.astro';
+import Photo from '../components/Photo.astro';
+import ServiceList from '../components/ServiceList.astro';
+import TextLink from '../components/TextLink.astro';
+import { serviceIcons } from '../components/icons';
+import { amenities, figures, highlightedServices, included, visibleFeatures } from '../content/chalet';
+import { getVisiblePhotos } from '../content/photos';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../i18n/languages';
+import { getContent, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const common = getContent(lang, 'common');
+const page = getContent(lang, 'dev');
+
+const features = visibleFeatures();
+const featureLabel = (id: string) => features.find((f) => f.id === id)?.label[lang] ?? '';
+
+const sectionTitle = 'eyebrow container-page pt-16 opacity-60';
+---
+
+<BaseLayout lang={lang} routeKey="dev" title={page.meta.title} description={page.meta.description} hero noindex>
+  <Hero
+    lang={lang}
+    photoId="accueil"
+    title={page.hero.title}
+    subtitle={page.hero.subtitle}
+    cta={{ href: localizedPath('contact', lang), label: common.cta.contact }}
+  />
+
+  <div class="container-page py-16">
+    <h2 class="text-h2">{page.intro.title}</h2>
+    <p class="mt-4">{page.intro.text}</p>
+  </div>
+
+  <p class={sectionTitle}>{page.sections.figures}</p>
+  <KeyFigures
+    items={[
+      { value: figures.surfaceM2, label: common.figures.surface },
+      { value: figures.guests, label: common.figures.guests },
+      { value: figures.bedrooms, label: common.figures.bedrooms },
+      { value: figures.bathrooms, label: common.figures.bathrooms },
+    ]}
+  />
+
+  <p class={sectionTitle}>{page.sections.features}</p>
+  <FeatureSection
+    lang={lang}
+    photoId="piscine-01"
+    title={featureLabel('pool')}
+    text={page.feature.text}
+    link={{ href: localizedPath('chalet', lang), label: page.feature.link }}
+  />
+  <FeatureSection
+    lang={lang}
+    photoId="cinema-01"
+    title={featureLabel('cinema')}
+    text={page.feature.text}
+    link={{ href: localizedPath('chalet', lang), label: page.feature.link }}
+    reverse
+    background="alt"
+  />
+
+  <p class={sectionTitle}>{page.sections.services}</p>
+  <ServiceList
+    title={page.servicesTitle}
+    groups={[
+      {
+        items: highlightedServices.map((service) => ({
+          label: service.label[lang],
+          icon: serviceIcons[service.id],
+        })),
+      },
+    ]}
+  />
+
+  <p class={sectionTitle}>{page.sections.included}</p>
+  <ServiceList
+    background="alt"
+    groups={included.map((group) => ({
+      title: group.title[lang],
+      items: group.items.map((item) => ({ label: item[lang] })),
+    }))}
+  />
+
+  <p class={sectionTitle}>{page.sections.accordion}</p>
+  <section class="container-page py-16">
+    <h2 class="mb-10 text-h2">{page.accordionTitle}</h2>
+    <Accordion
+      items={amenities.map((group) => ({
+        title: group.title[lang],
+        content: group.items.map((item) => item[lang]),
+      }))}
+    />
+  </section>
+
+  <p class={sectionTitle}>{page.sections.buttons}</p>
+  <section class="container-page flex flex-wrap items-center gap-10 py-16">
+    <Button href={localizedPath('contact', lang)}>{common.cta.contact}</Button>
+    <TextLink href={localizedPath('chalet', lang)}>{page.textLink}</TextLink>
+  </section>
+
+  <p class={sectionTitle}>{page.sections.photos}</p>
+  <section class="container-page grid grid-cols-2 gap-4 py-16 md:grid-cols-4">
+    {
+      getVisiblePhotos().map((photo) => (
+        <div class="aspect-square">
+          <Photo id={photo.id} lang={lang} sizes="(min-width: 768px) 25vw, 50vw" />
+        </div>
+      ))
+    }
+  </section>
+
+  <CTASection lang={lang} title={page.cta.title} />
+</BaseLayout>

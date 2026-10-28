@@ -1,0 +1,10 @@
+---
+/** Sur-titre : petites majuscules espacées, au-dessus d'un titre. */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<p class:list={['eyebrow', className]}><slot /></p>

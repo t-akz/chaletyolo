@@ -18,6 +18,8 @@ export const routes = {
   thanks: { fr: '/merci/', en: '/en/thank-you/' },
   legal: { fr: '/mentions-legales/', en: '/en/legal-notice/' },
   privacy: { fr: '/confidentialite/', en: '/en/privacy/' },
+  // TEMPORAIRE — page de démonstration des composants (supprimée à l'étape 7).
+  dev: { fr: '/dev/composants/', en: '/en/dev/components/' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 /** Identifiant d'une page, ex. « chalet ». */

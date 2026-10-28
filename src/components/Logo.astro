@@ -1,0 +1,14 @@
+---
+/**
+ * Logo « Chalet Yolo / MERIBEL ».
+ * En attendant le fichier du logo ([À FOURNIR] dans src/assets/logo/), le logo
+ * est écrit en texte. Il prend la couleur du texte autour : blanc sur l'en-tête
+ * transparent (variante claire), foncé sur fond crème.
+ */
+import { identity } from '../content/chalet';
+---
+
+<span class="flex flex-col leading-none">
+  <span class="font-serif text-2xl font-medium tracking-wide">{identity.name}</span>
+  <span class="mt-1 text-[0.625rem] font-semibold tracking-[0.35em] uppercase">{identity.resort}</span>
+</span>

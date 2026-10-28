@@ -1,0 +1,70 @@
+---
+/**
+ * Hero : photo plein écran avec voile sombre léger, titre, sous-titre, bouton.
+ * La photo est chargée en priorité (pas de chargement différé).
+ *
+ * Vidéo de fond (optionnelle, désactivée par défaut) : passez « video » avec
+ * l'adresse d'un fichier mp4 placé dans public/ (ex. « /video/hero.mp4 »).
+ * La photo reste affichée en repli (et si l'utilisateur limite les animations).
+ */
+import Button from './Button.astro';
+import Photo from './Photo.astro';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  /** Identifiant de la photo (src/content/photos.ts). */
+  photoId: string;
+  title: string;
+  /** Petite ligne au-dessus du titre, ex. « Chalet privé · Méribel ». */
+  subtitle?: string;
+  cta?: { href: string; label: string };
+  /** « full » = 100 % de la hauteur d'écran ; « large » = 75 % (pages intérieures). */
+  height?: 'full' | 'large';
+  video?: string;
+}
+
+const { lang, photoId, title, subtitle, cta, height = 'full', video } = Astro.props;
+---
+
+<section
+  class:list={[
+    'relative isolate flex items-end overflow-hidden text-white',
+    height === 'full' ? 'min-h-svh' : 'min-h-[75svh]',
+  ]}
+>
+  <div class="absolute inset-0 -z-10">
+    <Photo id={photoId} lang={lang} priority />
+    {
+      video && (
+        <video
+          class="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-hidden="true"
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+      )
+    }
+    <!-- Voile sombre : assure la lisibilité du texte blanc -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-black/30" aria-hidden="true"></div>
+  </div>
+
+  <div class="container-page pt-32 pb-16 md:pb-24">
+    <div class="max-w-4xl" data-reveal>
+      {subtitle && <p class="eyebrow mb-6">{subtitle}</p>}
+      <h1 class="text-display text-white">{title}</h1>
+      {
+        cta && (
+          <div class="mt-10">
+            <Button href={cta.href}>{cta.label}</Button>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

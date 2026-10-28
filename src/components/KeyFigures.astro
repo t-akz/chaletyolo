@@ -1,0 +1,26 @@
+---
+/**
+ * Chiffres clés, ex. « 350 m² · 15 personnes · 6 chambres · 6 salles de bain ».
+ * 2 colonnes sur mobile, 4 sur ordinateur.
+ */
+interface Props {
+  items: { value: string | number; label: string }[];
+  /** Fond de la section : principal (crème) ou alterné. */
+  background?: 'bg' | 'alt';
+}
+
+const { items, background = 'bg' } = Astro.props;
+---
+
+<section class:list={['py-16 md:py-24', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
+  <dl class="container-page grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4" data-reveal>
+    {
+      items.map((item) => (
+        <div class="flex flex-col-reverse gap-2 border-l border-heading/30 pl-5">
+          <dt class="text-sm">{item.label}</dt>
+          <dd class="font-serif text-h2 leading-none text-heading">{item.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>

@@ -131,3 +131,46 @@
   margin-inline: auto;
   padding-inline: clamp(1.25rem, 4vw, 4rem);
 }
+
+/* --------------------------------------------------------------------------
+   Animations
+   -------------------------------------------------------------------------- */
+
+/* Apparition au défilement (script : src/scripts/reveal.ts).
+   Uniquement si JavaScript est actif (classe « js » sur <html>) :
+   sans JavaScript, tout reste visible. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 1.2s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 1.2s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Menu mobile : fondu à l'ouverture, page bloquée derrière */
+.menu-dialog[open] {
+  animation: menu-fade-in 0.4s ease-out;
+}
+
+@keyframes menu-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+html:has(dialog[open]) {
+  overflow: hidden;
+}

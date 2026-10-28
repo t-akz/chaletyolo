@@ -1,0 +1,27 @@
+---
+/**
+ * Bouton WhatsApp flottant (bas droite), présent sur toutes les pages.
+ * Ouvre une conversation avec un message prérempli dans la langue de la page.
+ */
+import Icon from './Icon.astro';
+import type { Lang } from '../i18n/languages';
+import { getContent } from '../i18n/utils';
+import { whatsappUrl } from './whatsapp';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const common = getContent(lang, 'common');
+---
+
+<a
+  href={whatsappUrl(lang)}
+  target="_blank"
+  rel="noopener"
+  class="fixed right-5 bottom-5 z-30 flex size-14 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_4px_20px_rgb(0_0_0/0.18)] transition-colors duration-300 hover:bg-primary-hover md:right-8 md:bottom-8"
+>
+  <Icon name="message-circle" size={26} />
+  <span class="sr-only">{common.whatsapp.label} {common.newTab}</span>
+</a>

@@ -1,0 +1,35 @@
+---
+/**
+ * Accordéon (ex. « Tous les équipements »).
+ * Basé sur <details>/<summary> : fonctionne au clavier et sans JavaScript.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  items: { title: string; content: string[] }[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<div class:list={['border-t border-heading/30', className]}>
+  {
+    items.map((item) => (
+      <details class="group border-b border-heading/30">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
+          <span class="font-serif text-h3 text-heading">{item.title}</span>
+          <Icon name="chevron-down" size={22} class="shrink-0 transition-transform duration-300 group-open:rotate-180" />
+        </summary>
+        <ul class="grid gap-x-8 gap-y-2 pb-8 sm:grid-cols-2 lg:grid-cols-3">
+          {item.content.map((line) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-[0.75em] h-px w-3 shrink-0 bg-heading" aria-hidden="true" />
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+      </details>
+    ))
+  }
+</div>

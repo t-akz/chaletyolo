@@ -1,0 +1,72 @@
+---
+/**
+ * Liste de services, en un ou plusieurs groupes.
+ * - Accueil : un groupe de 4 services avec icônes.
+ * - Page Services : plusieurs groupes titrés (Arrivée, Pendant le séjour, Départ…).
+ */
+import Eyebrow from './Eyebrow.astro';
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  groups: {
+    title?: string;
+    items: { label: string; icon?: IconName }[];
+  }[];
+  background?: 'bg' | 'alt';
+}
+
+const { eyebrow, title, intro, groups, background = 'bg' } = Astro.props;
+// Avec un seul groupe sans titre, les services s'affichent en grille (2 puis 4 colonnes).
+const isGrid = groups.length === 1 && !groups[0]?.title;
+---
+
+<section class:list={['py-16 md:py-28', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
+  <div class="container-page">
+    {
+      (eyebrow || title || intro) && (
+        <div class="mb-12 max-w-2xl md:mb-16" data-reveal>
+          {eyebrow && <Eyebrow class="mb-5">{eyebrow}</Eyebrow>}
+          {title && <h2 class="text-h2">{title}</h2>}
+          {intro && <p class="mt-6">{intro}</p>}
+        </div>
+      )
+    }
+
+    {
+      isGrid ? (
+        <ul class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4" data-reveal>
+          {groups[0]!.items.map((item) => (
+            <li class="flex flex-col gap-4">
+              {item.icon && <Icon name={item.icon} size={32} class="text-heading" />}
+              <span class="font-medium">{item.label}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="grid gap-12 md:grid-cols-3 md:gap-10">
+          {groups.map((group) => (
+            <div data-reveal>
+              {group.title && <h3 class="mb-6 border-b border-heading/30 pb-4">{group.title}</h3>}
+              <ul class="space-y-3">
+                {group.items.map((item) => (
+                  <li class="flex items-start gap-3">
+                    {item.icon ? (
+                      <Icon name={item.icon} size={20} class="mt-1 shrink-0 text-heading" />
+                    ) : (
+                      <span class="mt-[0.7em] h-px w-3 shrink-0 bg-heading" aria-hidden="true" />
+                    )}
+                    <span>{item.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

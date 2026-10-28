@@ -10,10 +10,13 @@ import frCommon from '../content/fr/common.json';
 import enCommon from '../content/en/common.json';
 import frHome from '../content/fr/home.json';
 import enHome from '../content/en/home.json';
+import frDev from '../content/fr/dev.json';
+import enDev from '../content/en/dev.json';
 
 const fr = {
   common: frCommon,
   home: frHome,
+  dev: frDev,
 };
 
 /** Forme attendue des textes : celle des fichiers français. */
@@ -30,6 +33,7 @@ const content: Record<Lang, Content> = {
   en: {
     common: enCommon,
     home: enHome,
+    dev: enDev,
   },
 };
 

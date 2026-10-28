@@ -1,0 +1,31 @@
+---
+/**
+ * Lien texte discret : souligné fin + flèche (actions secondaires).
+ * Il prend la couleur du texte qui l'entoure.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  /** Ouvre le lien dans un nouvel onglet (sites externes). */
+  external?: boolean;
+  hreflang?: string;
+  class?: string;
+}
+
+const { href, external = false, hreflang, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  hreflang={hreflang}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+  class:list={[
+    'group inline-flex items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-[6px] transition-[text-underline-offset] duration-300 hover:underline-offset-[9px]',
+    className,
+  ]}
+>
+  <slot />
+  <Icon name="arrow-right" size={16} class="transition-transform duration-300 group-hover:translate-x-1" />
+</a>

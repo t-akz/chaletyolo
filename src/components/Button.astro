@@ -1,0 +1,25 @@
+---
+/**
+ * Bouton principal — le SEUL style de bouton du site (§5.1).
+ * Les autres actions utilisent TextLink (lien texte discret).
+ */
+interface Props {
+  href: string;
+  /** « sm » : version compacte (en-tête). */
+  size?: 'md' | 'sm';
+  class?: string;
+}
+
+const { href, size = 'md', class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'inline-flex items-center justify-center bg-primary font-semibold tracking-wide text-on-primary transition-colors duration-300 hover:bg-primary-hover',
+    size === 'md' ? 'px-8 py-4 text-sm' : 'px-5 py-2.5 text-xs',
+    className,
+  ]}
+>
+  <slot />
+</a>

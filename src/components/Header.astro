@@ -1,0 +1,157 @@
+---
+/**
+ * En-tête du site.
+ * - Pages avec photo plein écran (« transparent ») : en-tête transparent,
+ *   texte blanc, puis fond crème + légère ombre dès que l'on fait défiler.
+ * - Autres pages : fond crème dès le départ.
+ * - Mobile et tablette : bouton « Menu » qui ouvre un menu plein écran
+ *   (fermeture : bouton, touche Échap ou clic sur un lien).
+ */
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import Logo from './Logo.astro';
+import type { Lang } from '../i18n/languages';
+import type { RouteKey } from '../i18n/routes';
+import { getContent, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  routeKey?: RouteKey;
+  /** Vrai si la page commence par une photo plein écran (Hero). */
+  transparent?: boolean;
+}
+
+const { lang, routeKey, transparent = false } = Astro.props;
+const common = getContent(lang, 'common');
+
+// Entrées du menu, dans l'ordre d'affichage.
+const menuKeys = ['chalet', 'services', 'meribel', 'gallery', 'contact'] as const;
+const menu = menuKeys.map((key) => ({
+  key,
+  label: common.nav[key],
+  href: localizedPath(key, lang),
+  current: key === routeKey,
+}));
+---
+
+<header
+  data-header
+  data-transparent={transparent ? 'true' : 'false'}
+  data-solid={transparent ? 'false' : 'true'}
+  class="fixed inset-x-0 top-0 z-40 text-white transition-[background-color,color,box-shadow] duration-500 data-[solid=true]:bg-bg data-[solid=true]:text-text data-[solid=true]:shadow-[0_1px_16px_rgb(0_0_0/0.07)]"
+>
+  <div class="container-page flex h-20 items-center justify-between gap-6">
+    <a href={localizedPath('home', lang)} aria-label={common.header.homeLink}>
+      <Logo />
+    </a>
+
+    <!-- Menu ordinateur -->
+    <nav aria-label={common.nav.label} class="hidden lg:block">
+      <ul class="flex items-center gap-8 text-sm font-medium">
+        {
+          menu.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={item.current ? 'page' : undefined}
+                class="underline-offset-[6px] transition-opacity hover:underline hover:decoration-1 aria-[current=page]:underline aria-[current=page]:decoration-1"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="hidden items-center gap-6 lg:flex">
+      <LanguageSwitcher lang={lang} routeKey={routeKey} />
+      <Button href={localizedPath('contact', lang)} size="sm">{common.cta.contact}</Button>
+    </div>
+
+    <!-- Bouton du menu mobile -->
+    <button
+      type="button"
+      data-menu-open
+      aria-controls="menu-mobile"
+      aria-expanded="false"
+      class="-mr-2 p-2 lg:hidden"
+    >
+      <Icon name="menu" size={28} />
+      <span class="sr-only">{common.header.openMenu}</span>
+    </button>
+  </div>
+
+  <!-- Menu mobile plein écran (élément <dialog> : gère Échap et le focus) -->
+  <dialog
+    id="menu-mobile"
+    data-mobile-menu
+    aria-label={common.nav.label}
+    class="menu-dialog m-0 h-svh max-h-none w-full max-w-none bg-bg p-0 text-text open:flex open:flex-col"
+  >
+    <div class="container-page flex h-20 shrink-0 items-center justify-between">
+      <a href={localizedPath('home', lang)} aria-label={common.header.homeLink}>
+        <Logo />
+      </a>
+      <button type="button" data-menu-close class="-mr-2 p-2">
+        <Icon name="x" size={28} />
+        <span class="sr-only">{common.header.closeMenu}</span>
+      </button>
+    </div>
+
+    <nav aria-label={common.nav.label} class="container-page flex flex-1 flex-col justify-center">
+      <ul class="flex flex-col gap-5">
+        {
+          menu.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                data-menu-close
+                aria-current={item.current ? 'page' : undefined}
+                class="font-serif text-[clamp(2rem,8vw,3rem)] leading-tight text-heading aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-8"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="container-page flex shrink-0 items-center justify-between gap-6 py-8">
+      <LanguageSwitcher lang={lang} routeKey={routeKey} />
+      <Button href={localizedPath('contact', lang)}>{common.cta.contact}</Button>
+    </div>
+  </dialog>
+</header>
+
+<script>
+  // En-tête : passe en fond crème après un léger défilement (pages avec photo plein écran).
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header?.dataset.transparent === 'true') {
+    const update = () => {
+      header.dataset.solid = String(window.scrollY > 40);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+
+  // Menu mobile : ouverture / fermeture.
+  const dialog = document.querySelector<HTMLDialogElement>('[data-mobile-menu]');
+  const openButton = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  if (dialog && openButton) {
+    openButton.addEventListener('click', () => {
+      dialog.showModal();
+      openButton.setAttribute('aria-expanded', 'true');
+    });
+    dialog.querySelectorAll('[data-menu-close]').forEach((element) => {
+      element.addEventListener('click', () => dialog.close());
+    });
+    dialog.addEventListener('close', () => openButton.setAttribute('aria-expanded', 'false'));
+    // Si l'écran s'élargit (passage en mode ordinateur), on ferme le menu mobile.
+    window.matchMedia('(min-width: 64rem)').addEventListener('change', (event) => {
+      if (event.matches) dialog.close();
+    });
+  }
+</script>

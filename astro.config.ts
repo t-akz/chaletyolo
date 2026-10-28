@@ -23,6 +23,8 @@ export default defineConfig({
 
   integrations: [
     sitemap({
+      // La page de démonstration des composants (temporaire) n'est pas référencée.
+      filter: (page) => !page.includes('/dev/'),
       i18n: {
         defaultLocale: 'fr',
         locales: { fr: 'fr', en: 'en' },

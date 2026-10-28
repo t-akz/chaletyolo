@@ -8,6 +8,11 @@
     "gallery": "Gallery",
     "contact": "Contact"
   },
+  "header": {
+    "homeLink": "Chalet Yolo — home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
   "languageSwitcher": {
     "label": "Language",
     "fr": { "short": "FR", "name": "Français" },
@@ -15,5 +20,25 @@
   },
   "cta": {
     "contact": "Contact us"
-  }
+  },
+  "figures": {
+    "surface": "m²",
+    "guests": "guests",
+    "bedrooms": "bedrooms",
+    "bathrooms": "bathrooms"
+  },
+  "whatsapp": {
+    "label": "Message us on WhatsApp",
+    "message": "TODO-COPY: Hello, I would like some information about Chalet Yolo."
+  },
+  "footer": {
+    "contactTitle": "Contact",
+    "socialTitle": "Social media",
+    "legalTitle": "Information",
+    "legal": "Legal notice",
+    "privacy": "Privacy",
+    "whatsapp": "WhatsApp",
+    "rights": "All rights reserved."
+  },
+  "newTab": "(opens in a new tab)"
 }
