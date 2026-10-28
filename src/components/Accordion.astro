@@ -13,10 +13,10 @@ interface Props {
 const { items, class: className } = Astro.props;
 ---
 
-<div class:list={['border-t border-heading/30', className]}>
+<div class:list={['border-t border-border', className]}>
   {
     items.map((item) => (
-      <details class="group border-b border-heading/30">
+      <details class="group border-b border-border">
         <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
           <span class="font-serif text-h3 text-heading">{item.title}</span>
           <Icon name="chevron-down" size={22} class="shrink-0 transition-transform duration-300 group-open:rotate-180" />

@@ -16,7 +16,7 @@ const { items, background = 'bg' } = Astro.props;
   <dl class="container-page grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4" data-reveal>
     {
       items.map((item) => (
-        <div class="flex flex-col-reverse gap-2 border-l border-heading/30 pl-5">
+        <div class="flex flex-col-reverse gap-2 border-l border-border pl-5">
           <dt class="text-sm">{item.label}</dt>
           <dd class="font-serif text-h2 leading-none text-heading">{item.value}</dd>
         </div>

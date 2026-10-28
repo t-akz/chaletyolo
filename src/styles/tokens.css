@@ -18,27 +18,27 @@
   --color-primary: #6e2a35; /* Bouton principal (bordeaux) */
   --color-primary-hover: #5a2129; /* Survol : bordeaux légèrement plus foncé */
   --color-on-primary: #ffffff; /* Texte sur le bouton principal */
+  --color-border: rgb(139 106 85 / 0.3); /* Filets et séparateurs (taupe à 30 %) — jamais pour du texte */
 
   color-scheme: light;
 }
 
 /* ==========================================================================
-   THÈME B — « Exclusif sombre » (démo client)                      [THEME-B]
+   THÈME C — « Alpin contemporain » (proposition alternative)      [THEME-C]
    --------------------------------------------------------------------------
-   Activé par l'adresse « ?theme=b » (script : src/components/ThemeScript.astro).
-   Pour supprimer le thème B : effacez ce bloc entier (jusqu'à « FIN THÈME B »)
+   Activé par l'adresse « ?theme=c » (script : src/components/ThemeScript.astro).
+   Pour supprimer le thème C : effacez ce bloc entier (jusqu'à « FIN THÈME C »)
    et suivez la procédure du README.
    ========================================================================== */
-:root[data-theme='b'] {
-  --color-bg: #1e1e1c;
-  --color-bg-alt: #2a2724;
-  --color-accent-soft: #3a3631;
-  --color-heading: #b89b6a;
-  --color-text: #ede8df;
-  --color-primary: #b89b6a;
-  --color-primary-hover: #c8ad7f; /* Survol : doré légèrement plus clair */
-  --color-on-primary: #1e1e1c;
-
-  color-scheme: dark;
+:root[data-theme='c'] {
+  --color-bg: #fafaf8; /* Fond principal (blanc neige) */
+  --color-bg-alt: #efeeea; /* Sections alternées (pierre très claire) */
+  --color-accent-soft: #c8a882; /* Footer, blocs d'accent (bois clair) */
+  --color-heading: #2f4a3e; /* Titres (vert sapin) */
+  --color-text: #3b3f42; /* Texte courant (ardoise) */
+  --color-primary: #2f4a3e; /* Bouton principal (vert sapin) */
+  --color-primary-hover: #243a30; /* Survol : vert sapin légèrement plus foncé */
+  --color-on-primary: #ffffff; /* Texte sur le bouton principal */
+  --color-border: #9a9890; /* Filets et séparateurs (gris pierre) — jamais pour du texte */
 }
-/* ========================== FIN THÈME B ================================== */
+/* ========================== FIN THÈME C ================================== */

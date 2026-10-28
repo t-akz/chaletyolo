@@ -1,14 +1,16 @@
 ---
 /**
- * THÈME B — bascule de thème (démo client).                       [THEME-B]
+ * THÈME C — bascule de thème (proposition alternative).            [THEME-C]
  *
- * - « ?theme=b » dans l'adresse → thème sombre, mémorisé pour l'onglet
- *   (sessionStorage : ce n'est pas un cookie, rien n'est envoyé au serveur).
+ * - « ?theme=c » dans l'adresse → thème « Alpin contemporain », mémorisé pour
+ *   l'onglet (sessionStorage : ce n'est pas un cookie, rien n'est envoyé au serveur).
  * - « ?theme=a » → retour au thème par défaut.
+ * - Toute autre valeur mémorisée (ex. d'un ancien thème retiré) est ignorée
+ *   et effacée : le site reste alors en thème A.
  *
  * Le script est placé dans <head> et s'exécute avant l'affichage de la page :
  * il n'y a donc pas de « flash » de l'ancien thème.
- * Pour supprimer le thème B : supprimez ce fichier et sa ligne dans
+ * Pour supprimer le thème C : supprimez ce fichier et sa ligne dans
  * src/layouts/BaseLayout.astro (procédure complète dans le README).
  */
 ---
@@ -18,10 +20,14 @@
     var key = 'chalet-yolo-theme';
     try {
       var param = new URLSearchParams(window.location.search).get('theme');
-      if (param === 'b') sessionStorage.setItem(key, 'b');
+      if (param === 'c') sessionStorage.setItem(key, 'c');
       if (param === 'a') sessionStorage.removeItem(key);
-      if (sessionStorage.getItem(key) === 'b') {
-        document.documentElement.setAttribute('data-theme', 'b');
+      var stored = sessionStorage.getItem(key);
+      if (stored === 'c') {
+        document.documentElement.setAttribute('data-theme', 'c');
+      } else if (stored !== null) {
+        // Valeur inconnue ou périmée : on la nettoie.
+        sessionStorage.removeItem(key);
       }
     } catch (e) {
       // sessionStorage indisponible (navigation privée stricte) : thème A.
