@@ -1,0 +1,61 @@
+---
+/**
+ * Mosaïque de photos (aperçu, sans agrandissement) — ex. page d'accueil.
+ * 2 colonnes sur mobile, 4 sur ordinateur. Avec 8 photos, la grille est complète :
+ * la 1re photo est grande (2 × 2 cases), la 6e est large (2 cases).
+ * Les photos d'équipements non confirmés sont automatiquement ignorées.
+ * La galerie complète (filtres + agrandissement) est un autre composant.
+ */
+import Photo from './Photo.astro';
+import TextLink from './TextLink.astro';
+import { getPhoto } from '../content/photos';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  /** Identifiants des photos (6 à 8), dans l'ordre d'affichage. */
+  photoIds: string[];
+  title?: string;
+  link?: { href: string; label: string };
+}
+
+const { lang, photoIds, title, link } = Astro.props;
+const ids = photoIds.filter((id) => !getPhoto(id).hidden);
+// Photos mises en valeur : position dans la liste → taille.
+const LARGE = 0;
+const WIDE = 5;
+---
+
+<section class="bg-bg py-16 md:py-28">
+  <div class="container-page">
+    {title && <h2 class="mb-12 text-h2 md:mb-16" data-reveal>{title}</h2>}
+
+    <ul class="grid auto-rows-[40vw] grid-cols-2 gap-3 md:auto-rows-[18vw] md:grid-cols-4 md:gap-4" data-reveal>
+      {
+        ids.map((id, index) => (
+          <li
+            class:list={[
+              'overflow-hidden',
+              index === LARGE && 'col-span-2 row-span-2',
+              index === WIDE && 'col-span-2',
+            ]}
+          >
+            <Photo
+              id={id}
+              lang={lang}
+              sizes={index === LARGE || index === WIDE ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 768px) 25vw, 50vw'}
+            />
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      link && (
+        <div class="mt-12">
+          <TextLink href={link.href}>{link.label}</TextLink>
+        </div>
+      )
+    }
+  </div>
+</section>

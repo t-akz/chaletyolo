@@ -57,3 +57,12 @@ export function localizedPath(key: RouteKey, lang: Lang): string {
 export function getAlternates(key: RouteKey): { lang: Lang; path: string }[] {
   return languages.map((lang) => ({ lang, path: routes[key][lang] }));
 }
+
+/**
+ * Remplace les repères « {nom} » d'un texte par des valeurs.
+ * Ex. format('Fondée en {year}', { year: 1938 }) → « Fondée en 1938 ».
+ * Sert à insérer les chiffres de src/content/chalet.ts dans les textes.
+ */
+export function format(text: string, values: Record<string, string | number>): string {
+  return text.replace(/\{(\w+)\}/g, (match, key: string) => (key in values ? String(values[key]) : match));
+}

@@ -6,6 +6,7 @@
  */
 import Eyebrow from './Eyebrow.astro';
 import Icon from './Icon.astro';
+import TextLink from './TextLink.astro';
 import type { IconName } from './icons';
 
 interface Props {
@@ -16,10 +17,12 @@ interface Props {
     title?: string;
     items: { label: string; icon?: IconName }[];
   }[];
+  /** Lien discret sous la liste, ex. « Voir tous les services ». */
+  link?: { href: string; label: string };
   background?: 'bg' | 'alt';
 }
 
-const { eyebrow, title, intro, groups, background = 'bg' } = Astro.props;
+const { eyebrow, title, intro, groups, link, background = 'bg' } = Astro.props;
 // Avec un seul groupe sans titre, les services s'affichent en grille (2 puis 4 colonnes).
 const isGrid = groups.length === 1 && !groups[0]?.title;
 ---
@@ -65,6 +68,14 @@ const isGrid = groups.length === 1 && !groups[0]?.title;
               </ul>
             </div>
           ))}
+        </div>
+      )
+    }
+
+    {
+      link && (
+        <div class="mt-12 md:mt-16">
+          <TextLink href={link.href}>{link.label}</TextLink>
         </div>
       )
     }

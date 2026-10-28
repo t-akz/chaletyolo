@@ -4,13 +4,44 @@
     "description": "Chalet privé à Méribel (La Gittaz) : 350 m², 15 personnes, 6 chambres dont 4 suites, piscine intérieure chauffée."
   },
   "hero": {
-    "eyebrow": "Chalet privé · Méribel",
-    "title": "Chalet Yolo",
-    "tagline": "TODO-COPY: accroche de la page d'accueil"
+    "title": "TODO-COPY: accroche de la page d'accueil",
+    "subtitle": "Chalet privé · Méribel"
   },
-  "intro": "TODO-COPY: introduction de 2 lignes sur le chalet.",
-  "foundations": {
-    "note": "Page provisoire (étape 2 — fondations). Elle sert seulement à vérifier les couleurs, les polices et la langue.",
-    "otherLanguage": "Voir la version anglaise"
+  "intro": {
+    "text": "TODO-COPY: introduction de 2 lignes sur le chalet.",
+    "link": "Découvrir le chalet"
+  },
+  "features": {
+    "pool": {
+      "text": "TODO-COPY: 2 à 3 lignes sur la piscine."
+    },
+    "wellness": {
+      "title": "Espace bien-être",
+      "text": "TODO-COPY: 2 à 3 lignes sur l'espace bien-être."
+    },
+    "cinema": {
+      "text": "TODO-COPY: 2 à 3 lignes sur le home cinéma."
+    },
+    "livingRoom": {
+      "text": "TODO-COPY: 2 à 3 lignes sur le salon cathédrale."
+    },
+    "link": "Découvrir le chalet"
+  },
+  "services": {
+    "title": "Services inclus",
+    "link": "Voir tous les services"
+  },
+  "meribel": {
+    "eyebrow": "Méribel",
+    "title": "Au cœur des 3 Vallées",
+    "text": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes · architecture savoyarde.",
+    "link": "Découvrir Méribel"
+  },
+  "gallery": {
+    "title": "Galerie",
+    "link": "Voir toutes les photos"
+  },
+  "cta": {
+    "title": "Parlons de votre séjour"
   }
 }

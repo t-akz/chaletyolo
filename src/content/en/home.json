@@ -4,13 +4,44 @@
     "description": "Private chalet in Méribel (La Gittaz): 350 m², 15 guests, 6 bedrooms including 4 suites, heated indoor pool."
   },
   "hero": {
-    "eyebrow": "Private chalet · Méribel",
-    "title": "Chalet Yolo",
-    "tagline": "TODO-COPY: home page tagline"
+    "title": "TODO-COPY: home page tagline",
+    "subtitle": "Private chalet · Méribel"
   },
-  "intro": "TODO-COPY: two-line introduction to the chalet.",
-  "foundations": {
-    "note": "Temporary page (step 2 — foundations). It is only used to check colours, fonts and language.",
-    "otherLanguage": "See the French version"
+  "intro": {
+    "text": "TODO-COPY: two-line introduction to the chalet.",
+    "link": "Discover the chalet"
+  },
+  "features": {
+    "pool": {
+      "text": "TODO-COPY: 2–3 lines about the pool."
+    },
+    "wellness": {
+      "title": "Wellness area",
+      "text": "TODO-COPY: 2–3 lines about the wellness area."
+    },
+    "cinema": {
+      "text": "TODO-COPY: 2–3 lines about the home cinema."
+    },
+    "livingRoom": {
+      "text": "TODO-COPY: 2–3 lines about the cathedral-ceiling living room."
+    },
+    "link": "Discover the chalet"
+  },
+  "services": {
+    "title": "Included services",
+    "link": "See all services"
+  },
+  "meribel": {
+    "eyebrow": "Méribel",
+    "title": "At the heart of Les 3 Vallées",
+    "text": "Resort founded in {foundedYear} · {skiAreaKm} km of slopes · Savoyard architecture.",
+    "link": "Discover Méribel"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "link": "See all photos"
+  },
+  "cta": {
+    "title": "Let's talk about your stay"
   }
 }

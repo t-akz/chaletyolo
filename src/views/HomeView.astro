@@ -1,12 +1,22 @@
 ---
 /**
- * Page d'accueil (FR et EN).
- * PROVISOIRE — étape 2 : sert uniquement à vérifier les fondations
- * (couleurs des deux thèmes, polices, langue). Sera remplacée à l'étape 4.
+ * Page d'accueil (FR et EN) — structure du §6 de CLAUDE.md :
+ * Hero → chiffres clés → intro → 4 équipements phares → 4 services inclus
+ * → aperçu Méribel → mosaïque de photos → appel à l'action.
+ * Textes : src/content/{fr,en}/home.json ; faits : src/content/chalet.ts.
  */
+import CTASection from '../components/CTASection.astro';
+import FeatureSection from '../components/FeatureSection.astro';
+import Hero from '../components/Hero.astro';
+import KeyFigures from '../components/KeyFigures.astro';
+import PhotoMosaic from '../components/PhotoMosaic.astro';
+import ServiceList from '../components/ServiceList.astro';
+import TextLink from '../components/TextLink.astro';
+import { serviceIcons } from '../components/icons';
+import { figures, highlightedServices, meribel, visibleFeatures } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
-import { getContent, localizedPath } from '../i18n/utils';
+import { format, getContent, localizedPath } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -15,39 +25,122 @@ interface Props {
 const { lang } = Astro.props;
 const common = getContent(lang, 'common');
 const page = getContent(lang, 'home');
-const otherLang: Lang = lang === 'fr' ? 'en' : 'fr';
+
+// Libellé d'un équipement phare (uniquement s'il est confirmé).
+const features = visibleFeatures();
+const featureLabel = (id: string) => features.find((feature) => feature.id === id)?.label[lang] ?? '';
+
+// Sur-titre de l'espace bien-être : la liste de ses équipements (faits de chalet.ts).
+const wellnessItems = ['jacuzzi', 'jacuzzi-bath', 'sauna', 'hammam']
+  .map(featureLabel)
+  .filter(Boolean)
+  .join(' · ');
+
+const chaletLink = { href: localizedPath('chalet', lang), label: page.features.link };
+
+// Photos de la mosaïque (8 pour une grille complète), dans l'ordre d'affichage.
+const mosaicPhotos = [
+  'piscine-01',
+  'sejour-01',
+  'chambre-01',
+  'bien-etre-01',
+  'exterieur-01',
+  'cinema-01',
+  'cuisine-01',
+  'meribel-01',
+];
 ---
 
-<BaseLayout lang={lang} routeKey="home" title={page.meta.title} description={page.meta.description}>
-  <section class="container-page flex min-h-svh flex-col justify-center gap-8 py-24">
-    <p class="eyebrow">{page.hero.eyebrow}</p>
-    <h1 class="text-display">{page.hero.title}</h1>
-    <p class="text-lead max-w-xl">{page.hero.tagline}</p>
-    <div class="flex flex-wrap items-center gap-8">
-      <a
-        href={localizedPath('contact', lang)}
-        class="inline-block bg-primary px-8 py-4 text-sm font-semibold tracking-wide text-on-primary transition-colors duration-300 hover:bg-primary-hover"
-      >
-        {common.cta.contact}
-      </a>
-      <a
-        href={localizedPath('home', otherLang)}
-        class="underline decoration-1 underline-offset-4"
-        hreflang={otherLang}
-      >
-        {page.foundations.otherLanguage} <span aria-hidden="true">→</span>
-      </a>
+<BaseLayout lang={lang} routeKey="home" title={page.meta.title} description={page.meta.description} hero>
+  <Hero
+    lang={lang}
+    photoId="accueil"
+    title={page.hero.title}
+    subtitle={page.hero.subtitle}
+    cta={{ href: localizedPath('contact', lang), label: common.cta.contact }}
+  />
+
+  <KeyFigures
+    items={[
+      { value: figures.surfaceM2, label: common.figures.surface },
+      { value: figures.guests, label: common.figures.guests },
+      { value: figures.bedrooms, label: common.figures.bedrooms },
+      { value: figures.bathrooms, label: common.figures.bathrooms },
+    ]}
+  />
+
+  <section class="bg-bg-alt py-16 md:py-28">
+    <div class="container-page max-w-4xl" data-reveal>
+      <p class="font-serif text-h3 leading-snug">{page.intro.text}</p>
+      <div class="mt-8">
+        <TextLink href={localizedPath('chalet', lang)}>{page.intro.link}</TextLink>
+      </div>
     </div>
   </section>
 
-  <section class="bg-bg-alt py-24">
-    <div class="container-page max-w-3xl">
-      <h2>{page.hero.title}</h2>
-      <p class="mt-6">{page.intro}</p>
-    </div>
-  </section>
+  <FeatureSection
+    lang={lang}
+    photoId="piscine-01"
+    title={featureLabel('pool')}
+    text={page.features.pool.text}
+    link={chaletLink}
+  />
+  <FeatureSection
+    lang={lang}
+    photoId="bien-etre-01"
+    eyebrow={wellnessItems}
+    title={page.features.wellness.title}
+    text={page.features.wellness.text}
+    link={chaletLink}
+    reverse
+    background="alt"
+  />
+  <FeatureSection
+    lang={lang}
+    photoId="cinema-01"
+    title={featureLabel('cinema')}
+    text={page.features.cinema.text}
+    link={chaletLink}
+  />
+  <FeatureSection
+    lang={lang}
+    photoId="sejour-01"
+    title={featureLabel('living-room')}
+    text={page.features.livingRoom.text}
+    link={chaletLink}
+    reverse
+    background="alt"
+  />
 
-  <section class="bg-accent-soft py-16">
-    <p class="container-page text-sm">{page.foundations.note}</p>
-  </section>
+  <ServiceList
+    title={page.services.title}
+    groups={[
+      {
+        items: highlightedServices.map((service) => ({
+          label: service.label[lang],
+          icon: serviceIcons[service.id],
+        })),
+      },
+    ]}
+    link={{ href: localizedPath('services', lang), label: page.services.link }}
+  />
+
+  <FeatureSection
+    lang={lang}
+    photoId="meribel-01"
+    eyebrow={page.meribel.eyebrow}
+    title={page.meribel.title}
+    text={format(page.meribel.text, { foundedYear: meribel.foundedYear, skiAreaKm: meribel.skiAreaKm })}
+    link={{ href: localizedPath('meribel', lang), label: page.meribel.link }}
+    background="alt"
+  />
+
+  <PhotoMosaic
+    lang={lang}
+    photoIds={mosaicPhotos}
+    title={page.gallery.title}
+    link={{ href: localizedPath('gallery', lang), label: page.gallery.link }}
+  />
+
+  <CTASection lang={lang} title={page.cta.title} />
 </BaseLayout>
