@@ -46,6 +46,7 @@ const widths = photo.image ? [...candidateWidths.filter((w) => w < maxWidth), ma
     />
   ) : (
     <div
+      data-photo-placeholder
       role="img"
       aria-label={alt}
       class:list={[

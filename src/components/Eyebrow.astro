@@ -1,5 +1,5 @@
 ---
-/** Sur-titre : petites majuscules espacées, au-dessus d'un titre. */
+/** Sur-titre : petites majuscules espacées, au-dessus d'un titre (couleur --color-accent). */
 interface Props {
   class?: string;
 }
@@ -7,4 +7,4 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<p class:list={['eyebrow', className]}><slot /></p>
+<p class:list={['eyebrow text-accent', className]}><slot /></p>

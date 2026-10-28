@@ -9,10 +9,10 @@
    On retire la palette de couleurs par défaut de Tailwind : seules les
    couleurs du design system (tokens.css) sont disponibles. « inline » fait
    pointer chaque classe directement vers la variable CSS, ce qui permet au
-   thème C de changer toutes les couleurs d'un coup ; « reference » évite de
+   thèmes B et C de changer toutes les couleurs d'un coup ; « reference » évite de
    redéclarer les variables (elles sont déjà définies dans tokens.css).
    Classes obtenues : bg-bg, bg-bg-alt, bg-accent-soft, text-heading,
-   text-text, bg-primary, bg-primary-hover, text-on-primary, border-border…
+   text-text, bg-primary, bg-primary-hover, text-on-primary, border-border, text-accent…
    -------------------------------------------------------------------------- */
 @theme inline reference {
   --color-*: initial;
@@ -28,6 +28,7 @@
   --color-primary-hover: var(--color-primary-hover);
   --color-on-primary: var(--color-on-primary);
   --color-border: var(--color-border);
+  --color-accent: var(--color-accent);
 }
 
 @theme {

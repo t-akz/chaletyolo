@@ -19,6 +19,7 @@
   --color-primary-hover: #5a2129; /* Survol : bordeaux légèrement plus foncé */
   --color-on-primary: #ffffff; /* Texte sur le bouton principal */
   --color-border: rgb(139 106 85 / 0.3); /* Filets et séparateurs (taupe à 30 %) — jamais pour du texte */
+  --color-accent: var(--color-text); /* Sur-titres et liens (= couleur du texte en A) */
 
   color-scheme: light;
 }
@@ -40,5 +41,54 @@
   --color-primary-hover: #243a30; /* Survol : vert sapin légèrement plus foncé */
   --color-on-primary: #ffffff; /* Texte sur le bouton principal */
   --color-border: #9a9890; /* Filets et séparateurs (gris pierre) — jamais pour du texte */
+  --color-accent: var(--color-text); /* Sur-titres et liens (= couleur du texte en C) */
 }
 /* ========================== FIN THÈME C ================================== */
+
+/* ==========================================================================
+   THÈME B — « Noir, blanc, or » (proposition sombre)               [THEME-B]
+   --------------------------------------------------------------------------
+   Activé par l'adresse « ?theme=b » (script : src/components/ThemeScript.astro).
+   Pour supprimer le thème B : effacez ce bloc entier (jusqu'à « FIN THÈME B »)
+   et suivez la procédure du README.
+   ========================================================================== */
+:root[data-theme='b'] {
+  --color-bg: #000000; /* Fond principal (noir) */
+  --color-bg-alt: #121212; /* Sections alternées (gris très sombre) */
+  --color-accent-soft: #1c1c1c; /* Footer, blocs d'accent */
+  --color-heading: #ffffff; /* Titres (blanc) */
+  --color-text: #f2eee8; /* Texte courant (blanc cassé, jamais de blanc pur) */
+  --color-primary: #c9a96e; /* Bouton principal (or) */
+  --color-primary-hover: #d6bc8a; /* Survol : or légèrement plus clair */
+  --color-on-primary: #000000; /* Texte sur le bouton principal */
+  --color-accent: #c9a96e; /* Sur-titres, liens, filets, anneau de focus (or) */
+  --color-border: var(--color-accent); /* Filets et séparateurs en or */
+
+  color-scheme: dark; /* Barres de défilement et contrôles natifs en version sombre */
+}
+
+/* Ajustements propres au fond sombre (uniquement en thème B) ------------- */
+
+/* Anneau de focus clavier en or */
+:root[data-theme='b'] :focus-visible {
+  outline-color: var(--color-accent);
+}
+
+/* Texte sélectionné : fond or, texte noir */
+:root[data-theme='b'] ::selection {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* En-tête au défilement : l'ombre est invisible sur fond noir,
+   on la remplace par un filet discret. */
+:root[data-theme='b'] [data-header][data-solid='true'] {
+  box-shadow: 0 1px 0 var(--color-accent-soft);
+}
+
+/* Images de remplacement : filet or pour les détacher du fond noir */
+:root[data-theme='b'] [data-photo-placeholder] {
+  outline: 1px solid var(--color-border);
+  outline-offset: -1px;
+}
+/* ========================== FIN THÈME B ================================== */

@@ -1,7 +1,7 @@
 ---
 /**
  * Lien texte discret : souligné fin + flèche (actions secondaires).
- * Il prend la couleur du texte qui l'entoure.
+ * Couleur : --color-accent (couleur du texte en A et C, or en B).
  */
 import Icon from './Icon.astro';
 
@@ -22,7 +22,7 @@ const { href, external = false, hreflang, class: className } = Astro.props;
   target={external ? '_blank' : undefined}
   rel={external ? 'noopener' : undefined}
   class:list={[
-    'group inline-flex items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-[6px] transition-[text-underline-offset] duration-300 hover:underline-offset-[9px]',
+    'group inline-flex items-center gap-2 text-sm text-accent font-medium underline decoration-1 underline-offset-[6px] transition-[text-underline-offset] duration-300 hover:underline-offset-[9px]',
     className,
   ]}
 >

@@ -1,30 +1,35 @@
 ---
 /**
- * THÈME C — bascule de thème (proposition alternative).            [THEME-C]
+ * Bascule de thème (propositions à présenter au client).
  *
- * - « ?theme=c » dans l'adresse → thème « Alpin contemporain », mémorisé pour
- *   l'onglet (sessionStorage : ce n'est pas un cookie, rien n'est envoyé au serveur).
- * - « ?theme=a » → retour au thème par défaut.
- * - Toute autre valeur mémorisée (ex. d'un ancien thème retiré) est ignorée
- *   et effacée : le site reste alors en thème A.
+ * - « ?theme=b » → thème B « Noir, blanc, or »              [THEME-B]
+ * - « ?theme=c » → thème C « Alpin contemporain »            [THEME-C]
+ * - « ?theme=a » → retour au thème par défaut (A).
+ * Le choix est mémorisé pour l'onglet (sessionStorage : ce n'est pas un
+ * cookie, rien n'est envoyé au serveur). Toute autre valeur est ignorée, et
+ * une valeur mémorisée inconnue est effacée : le site reste alors en thème A.
  *
  * Le script est placé dans <head> et s'exécute avant l'affichage de la page :
  * il n'y a donc pas de « flash » de l'ancien thème.
- * Pour supprimer le thème C : supprimez ce fichier et sa ligne dans
- * src/layouts/BaseLayout.astro (procédure complète dans le README).
+ *
+ * Pour supprimer UN thème : retirez sa lettre de la liste « themes » ci-dessous
+ * (et son bloc dans src/styles/tokens.css). Pour supprimer les DEUX : supprimez
+ * ce fichier et sa ligne dans src/layouts/BaseLayout.astro. Voir le README.
  */
 ---
 
 <script is:inline>
   (function () {
     var key = 'chalet-yolo-theme';
+    // Thèmes alternatifs disponibles : 'b' = [THEME-B], 'c' = [THEME-C].
+    var themes = ['b', 'c'];
     try {
       var param = new URLSearchParams(window.location.search).get('theme');
-      if (param === 'c') sessionStorage.setItem(key, 'c');
       if (param === 'a') sessionStorage.removeItem(key);
+      if (themes.indexOf(param) !== -1) sessionStorage.setItem(key, param);
       var stored = sessionStorage.getItem(key);
-      if (stored === 'c') {
-        document.documentElement.setAttribute('data-theme', 'c');
+      if (themes.indexOf(stored) !== -1) {
+        document.documentElement.setAttribute('data-theme', stored);
       } else if (stored !== null) {
         // Valeur inconnue ou périmée : on la nettoie.
         sessionStorage.removeItem(key);

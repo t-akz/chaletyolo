@@ -36,12 +36,12 @@ const socials = [
     </div>
 
     <div>
-      <h2 class="eyebrow font-sans text-text">{common.footer.contactTitle}</h2>
+      <h2 class="eyebrow font-sans text-accent">{common.footer.contactTitle}</h2>
       <ul class="mt-4 space-y-2 text-sm">
         <li>
           {
             isProvided(site.email) ? (
-              <a href={`mailto:${site.email}`} class="hover:underline">
+              <a href={`mailto:${site.email}`} class="text-accent hover:underline">
                 {site.email}
               </a>
             ) : (
@@ -50,7 +50,7 @@ const socials = [
           }
         </li>
         <li>
-          <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="hover:underline">
+          <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="text-accent hover:underline">
             {common.footer.whatsapp}
             <span class="sr-only">{common.newTab}</span>
           </a>
@@ -60,13 +60,13 @@ const socials = [
     </div>
 
     <div>
-      <h2 class="eyebrow font-sans text-text">{common.footer.socialTitle}</h2>
+      <h2 class="eyebrow font-sans text-accent">{common.footer.socialTitle}</h2>
       <ul class="mt-4 space-y-2 text-sm">
         {
           socials.map((social) => (
             <li>
               {isProvided(social.url) ? (
-                <a href={social.url} target="_blank" rel="noopener" class="hover:underline">
+                <a href={social.url} target="_blank" rel="noopener" class="text-accent hover:underline">
                   {social.name}
                   <span class="sr-only">{common.newTab}</span>
                 </a>
@@ -82,10 +82,10 @@ const socials = [
     </div>
 
     <div>
-      <h2 class="eyebrow font-sans text-text">{common.footer.legalTitle}</h2>
+      <h2 class="eyebrow font-sans text-accent">{common.footer.legalTitle}</h2>
       <ul class="mt-4 space-y-2 text-sm">
-        <li><a href={localizedPath('legal', lang)} class="hover:underline">{common.footer.legal}</a></li>
-        <li><a href={localizedPath('privacy', lang)} class="hover:underline">{common.footer.privacy}</a></li>
+        <li><a href={localizedPath('legal', lang)} class="text-accent hover:underline">{common.footer.legal}</a></li>
+        <li><a href={localizedPath('privacy', lang)} class="text-accent hover:underline">{common.footer.privacy}</a></li>
       </ul>
     </div>
   </div>
