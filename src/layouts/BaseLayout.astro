@@ -1,0 +1,67 @@
+---
+/**
+ * Gabarit commun à toutes les pages : <html lang>, <head> (titre, description,
+ * adresses canoniques et alternatives FR/EN), polices, styles, thème.
+ * Le SEO complet (Open Graph, JSON-LD, statistiques) sera ajouté à l'étape 7.
+ */
+import '@fontsource/cormorant-garamond/400.css';
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+
+import ThemeScript from '../components/ThemeScript.astro';
+import { site } from '../config/site';
+import { defaultLang, locales, type Lang } from '../i18n/languages';
+import type { RouteKey } from '../i18n/routes';
+import { getAlternates, getContent, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** Identifiant de la page dans la table des routes (sert au sélecteur de langue et à hreflang). */
+  routeKey?: RouteKey;
+  title: string;
+  description: string;
+  /** Empêche l'indexation (pages de remerciement, page de démonstration…). */
+  noindex?: boolean;
+}
+
+const { lang, routeKey, title, description, noindex = false } = Astro.props;
+const common = getContent(lang, 'common');
+
+const absolute = (path: string) => new URL(path, site.url).href;
+const canonical = routeKey ? absolute(localizedPath(routeKey, lang)) : undefined;
+const alternates = routeKey ? getAlternates(routeKey) : [];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ThemeScript />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    {
+      alternates.map((alt) => (
+        <link rel="alternate" hreflang={locales[alt.lang].hreflang} href={absolute(alt.path)} />
+      ))
+    }
+    {routeKey && <link rel="alternate" hreflang="x-default" href={absolute(localizedPath(routeKey, defaultLang))} />}
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="min-h-svh bg-bg text-text">
+    <a
+      href="#contenu"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-bg focus:px-4 focus:py-2"
+    >
+      {common.skipLink}
+    </a>
+    <slot name="header" />
+    <main id="contenu">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

@@ -1,0 +1,6 @@
+{
+  // Configuration TypeScript en mode strict (préréglage officiel d'Astro).
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
+}

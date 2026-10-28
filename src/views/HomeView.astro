@@ -1,0 +1,53 @@
+---
+/**
+ * Page d'accueil (FR et EN).
+ * PROVISOIRE — étape 2 : sert uniquement à vérifier les fondations
+ * (couleurs des deux thèmes, polices, langue). Sera remplacée à l'étape 4.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../i18n/languages';
+import { getContent, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const common = getContent(lang, 'common');
+const page = getContent(lang, 'home');
+const otherLang: Lang = lang === 'fr' ? 'en' : 'fr';
+---
+
+<BaseLayout lang={lang} routeKey="home" title={page.meta.title} description={page.meta.description}>
+  <section class="container-page flex min-h-svh flex-col justify-center gap-8 py-24">
+    <p class="eyebrow">{page.hero.eyebrow}</p>
+    <h1 class="text-display">{page.hero.title}</h1>
+    <p class="text-lead max-w-xl">{page.hero.tagline}</p>
+    <div class="flex flex-wrap items-center gap-8">
+      <a
+        href={localizedPath('contact', lang)}
+        class="inline-block bg-primary px-8 py-4 text-sm font-semibold tracking-wide text-on-primary transition-colors duration-300 hover:bg-primary-hover"
+      >
+        {common.cta.contact}
+      </a>
+      <a
+        href={localizedPath('home', otherLang)}
+        class="underline decoration-1 underline-offset-4"
+        hreflang={otherLang}
+      >
+        {page.foundations.otherLanguage} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="bg-bg-alt py-24">
+    <div class="container-page max-w-3xl">
+      <h2>{page.hero.title}</h2>
+      <p class="mt-6">{page.intro}</p>
+    </div>
+  </section>
+
+  <section class="bg-accent-soft py-16">
+    <p class="container-page text-sm">{page.foundations.note}</p>
+  </section>
+</BaseLayout>

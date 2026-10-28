@@ -1,0 +1,30 @@
+---
+/**
+ * THÈME B — bascule de thème (démo client).                       [THEME-B]
+ *
+ * - « ?theme=b » dans l'adresse → thème sombre, mémorisé pour l'onglet
+ *   (sessionStorage : ce n'est pas un cookie, rien n'est envoyé au serveur).
+ * - « ?theme=a » → retour au thème par défaut.
+ *
+ * Le script est placé dans <head> et s'exécute avant l'affichage de la page :
+ * il n'y a donc pas de « flash » de l'ancien thème.
+ * Pour supprimer le thème B : supprimez ce fichier et sa ligne dans
+ * src/layouts/BaseLayout.astro (procédure complète dans le README).
+ */
+---
+
+<script is:inline>
+  (function () {
+    var key = 'chalet-yolo-theme';
+    try {
+      var param = new URLSearchParams(window.location.search).get('theme');
+      if (param === 'b') sessionStorage.setItem(key, 'b');
+      if (param === 'a') sessionStorage.removeItem(key);
+      if (sessionStorage.getItem(key) === 'b') {
+        document.documentElement.setAttribute('data-theme', 'b');
+      }
+    } catch (e) {
+      // sessionStorage indisponible (navigation privée stricte) : thème A.
+    }
+  })();
+</script>

@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Styles globaux : Tailwind + design tokens + typographie
+   ========================================================================== */
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* --------------------------------------------------------------------------
+   Thème Tailwind
+   On retire la palette de couleurs par défaut de Tailwind : seules les
+   couleurs du design system (tokens.css) sont disponibles. « inline » fait
+   pointer chaque classe directement vers la variable CSS, ce qui permet au
+   thème B de changer toutes les couleurs d'un coup ; « reference » évite de
+   redéclarer les variables (elles sont déjà définies dans tokens.css).
+   Classes obtenues : bg-bg, bg-bg-alt, bg-accent-soft, text-heading,
+   text-text, bg-primary, bg-primary-hover, text-on-primary…
+   -------------------------------------------------------------------------- */
+@theme inline reference {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-bg: var(--color-bg);
+  --color-bg-alt: var(--color-bg-alt);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-heading: var(--color-heading);
+  --color-text: var(--color-text);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-on-primary: var(--color-on-primary);
+}
+
+@theme {
+  /* Polices auto-hébergées (@fontsource, importées dans BaseLayout) */
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Échelle typographique fluide : min → max selon la largeur d'écran */
+  --text-eyebrow: 0.75rem; /* 12 px — sur-titres */
+  --text-eyebrow--letter-spacing: 0.2em;
+  --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem); /* 16 → 18 px */
+  --text-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem); /* 18 → 22 px */
+  --text-h3: clamp(1.5rem, 1.3rem + 0.9vw, 2rem); /* 24 → 32 px */
+  --text-h2: clamp(2rem, 1.5rem + 2.2vw, 3.25rem); /* 32 → 52 px */
+  --text-h1: clamp(2.5rem, 1.6rem + 4vw, 5rem); /* 40 → 80 px */
+  --text-display: clamp(3rem, 1.8rem + 5.5vw, 6.5rem); /* 48 → 104 px — hero */
+}
+
+/* --------------------------------------------------------------------------
+   Styles de base
+   -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 100%;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-size: var(--text-body);
+    line-height: 1.65;
+  }
+
+  /* Titres : Cormorant Garamond, taupe (≥ 24 px uniquement, cf. contraste) */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--color-heading);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+  }
+  h2 {
+    font-size: var(--text-h2);
+  }
+  h3 {
+    font-size: var(--text-h3);
+    font-weight: 500;
+  }
+
+  /* Texte toujours aligné à gauche, jamais justifié */
+  p {
+    text-align: left;
+    text-wrap: pretty;
+  }
+
+  /* Focus clavier bien visible */
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  /* Respect de la préférence « réduire les animations » */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utilitaires du design system
+   -------------------------------------------------------------------------- */
+
+/* Sur-titre : Manrope, petites majuscules espacées */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* Conteneur de page : largeur maximale + marges latérales */
+@utility container-page {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 4rem);
+}

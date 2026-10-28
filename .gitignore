@@ -1,0 +1,19 @@
+# Build
+dist/
+.astro/
+
+# Dépendances
+node_modules/
+
+# Variables d'environnement (ne jamais publier)
+.env
+.env.*
+!.env.example
+
+# Netlify (local)
+.netlify/
+
+# Système
+.DS_Store
+npm-debug.log*
+

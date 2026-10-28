@@ -1,0 +1,19 @@
+{
+  "skipLink": "Aller au contenu",
+  "nav": {
+    "label": "Navigation principale",
+    "chalet": "Le chalet",
+    "services": "Services",
+    "meribel": "Méribel",
+    "gallery": "Galerie",
+    "contact": "Contact"
+  },
+  "languageSwitcher": {
+    "label": "Langue",
+    "fr": { "short": "FR", "name": "Français" },
+    "en": { "short": "EN", "name": "English" }
+  },
+  "cta": {
+    "contact": "Nous contacter"
+  }
+}

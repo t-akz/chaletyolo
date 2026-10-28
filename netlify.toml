@@ -1,0 +1,26 @@
+# Configuration Netlify — Chalet Yolo
+# Netlify lit ce fichier à chaque déploiement.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# En-têtes de sécurité appliqués à toutes les pages
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+# Fichiers générés par Astro (CSS, JS, images optimisées) : leur nom change à
+# chaque modification, on peut donc les mettre en cache pendant un an.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
