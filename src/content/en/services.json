@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "title": "Services — Chalet Yolo, Méribel",
+    "description": "Services included at Chalet Yolo (daily cleaning, dedicated concierge, private transport to the ski lifts) and à la carte services: private chef, ski instructor, massages at the chalet."
+  },
+  "hero": {
+    "title": "TODO-COPY: Services page tagline",
+    "subtitle": "Services"
+  },
+  "included": {
+    "eyebrow": "Included",
+    "title": "Included services",
+    "checkIn": "Check-in at {time}",
+    "checkOut": "Check-out at {time}"
+  },
+  "aLaCarte": {
+    "eyebrow": "À la carte",
+    "title": "À la carte services"
+  },
+  "cta": {
+    "title": "Let's talk about your stay",
+    "text": "On request, through our concierge."
+  }
+}

@@ -1,0 +1,36 @@
+---
+/**
+ * Accès au chalet : en voiture, en train, en avion (trois colonnes sur ordinateur).
+ */
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+interface Props {
+  title: string;
+  modes: { icon: IconName; title: string; lines: string[] }[];
+  background?: 'bg' | 'alt';
+}
+
+const { title, modes, background = 'bg' } = Astro.props;
+---
+
+<section class:list={['py-16 md:py-28', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
+  <div class="container-page">
+    <h2 class="mb-12 text-h2 md:mb-16" data-reveal>{title}</h2>
+    <div class="grid gap-12 md:grid-cols-3 md:gap-10">
+      {
+        modes.map((mode) => (
+          <div data-reveal>
+            <Icon name={mode.icon} size={32} class="text-heading" />
+            <h3 class="mt-5 mb-5 border-b border-border pb-4">{mode.title}</h3>
+            <ul class="space-y-2">
+              {mode.lines.map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,100 @@
+---
+/**
+ * Carte OpenStreetMap chargée UNIQUEMENT au clic (aucun contenu externe ni
+ * cookie avant l'action du visiteur).
+ * Position : src/config/site.ts (map.latitude / map.longitude).
+ * Tant qu'elle n'est pas renseignée, un message « [À FOURNIR] » s'affiche.
+ */
+import Icon from './Icon.astro';
+import TextLink from './TextLink.astro';
+import { site, TO_PROVIDE } from '../config/site';
+import type { Lang } from '../i18n/languages';
+import { getContent } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  background?: 'bg' | 'alt';
+}
+
+const { lang, background = 'bg' } = Astro.props;
+const common = getContent(lang, 'common');
+const page = getContent(lang, 'meribel');
+const { latitude, longitude } = site.map;
+const hasPosition = latitude !== null && longitude !== null;
+
+// Adresses OpenStreetMap (carte intégrée + lien vers le site complet).
+let embedUrl = '';
+let openUrl = '';
+if (latitude !== null && longitude !== null) {
+  const delta = 0.012;
+  const bbox = [longitude - delta, latitude - delta / 2, longitude + delta, latitude + delta / 2].join(',');
+  embedUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${latitude},${longitude}`;
+  openUrl = `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=15/${latitude}/${longitude}`;
+}
+---
+
+<section class:list={['py-16 md:py-28', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
+  <div class="container-page">
+    <h2 class="mb-12 text-h2 md:mb-16" data-reveal>{page.map.title}</h2>
+
+    <div
+      class="relative flex aspect-[4/3] items-center justify-center overflow-hidden border border-border bg-accent-soft md:aspect-[21/9]"
+      data-map
+      data-embed={embedUrl}
+      data-title={page.map.iframeTitle}
+    >
+      {
+        hasPosition ? (
+          <div class="flex max-w-md flex-col items-center gap-5 p-6 text-center" data-map-placeholder>
+            <Icon name="map-pin" size={32} />
+            <button
+              type="button"
+              data-map-load
+              class="bg-primary px-8 py-4 text-sm font-semibold tracking-wide text-on-primary transition-colors duration-300 hover:bg-primary-hover"
+            >
+              {page.map.button}
+            </button>
+            <p class="text-sm">{page.map.notice}</p>
+          </div>
+        ) : (
+          <p class="flex max-w-md flex-col items-center gap-4 p-6 text-center">
+            <Icon name="map-pin" size={32} />
+            <span>
+              {page.map.missing} {TO_PROVIDE}
+            </span>
+          </p>
+        )
+      }
+    </div>
+
+    {
+      hasPosition && (
+        <div class="mt-6">
+          <TextLink href={openUrl} external>
+            {page.map.openLink}
+            <span class="sr-only">{common.newTab}</span>
+          </TextLink>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  // Au clic : remplace l'encart par la carte OpenStreetMap.
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((map) => {
+    const button = map.querySelector<HTMLButtonElement>('[data-map-load]');
+    if (!button || !map.dataset.embed) return;
+    button.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = map.dataset.embed!;
+      iframe.title = map.dataset.title ?? '';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer';
+      iframe.className = 'absolute inset-0 h-full w-full border-0';
+      map.querySelector('[data-map-placeholder]')?.remove();
+      map.append(iframe);
+      iframe.focus();
+    });
+  });
+</script>

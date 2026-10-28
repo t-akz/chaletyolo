@@ -1,0 +1,153 @@
+---
+/**
+ * Page « Le chalet » (FR et EN) — structure du §6 de CLAUDE.md :
+ * Hero → chiffres + localisation → une section par espace → 6 chambres
+ * → visite par niveau → tous les équipements → appel à l'action.
+ * Textes : src/content/{fr,en}/chalet.json ; faits : src/content/chalet.ts.
+ */
+import Accordion from '../components/Accordion.astro';
+import CTASection from '../components/CTASection.astro';
+import FeatureSection from '../components/FeatureSection.astro';
+import Hero from '../components/Hero.astro';
+import Icon from '../components/Icon.astro';
+import KeyFigures from '../components/KeyFigures.astro';
+import LevelTour from '../components/LevelTour.astro';
+import RoomCards from '../components/RoomCards.astro';
+import {
+  amenities,
+  bedrooms,
+  figures,
+  identity,
+  isFeatureConfirmed,
+  knownLevels,
+  visibleFeatures,
+} from '../content/chalet';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../i18n/languages';
+import { format, getContent } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const common = getContent(lang, 'common');
+const page = getContent(lang, 'chalet');
+
+const features = visibleFeatures();
+const featureLabel = (id: string) => features.find((feature) => feature.id === id)?.label[lang] ?? '';
+const wellnessItems = ['jacuzzi', 'jacuzzi-bath', 'sauna', 'hammam'].map(featureLabel).filter(Boolean).join(' · ');
+
+// Espaces présentés, dans l'ordre. La salle de jeux n'apparaît que si elle est confirmée.
+const spaces = [
+  { photoId: 'piscine-01', title: featureLabel('pool'), text: page.spaces.pool.text },
+  { photoId: 'bien-etre-01', eyebrow: wellnessItems, title: page.spaces.wellness.title, text: page.spaces.wellness.text },
+  { photoId: 'cinema-01', title: featureLabel('cinema'), text: page.spaces.cinema.text },
+  { photoId: 'yoga-01', title: featureLabel('yoga'), text: page.spaces.yoga.text },
+  {
+    photoId: 'sejour-01',
+    eyebrow: format(page.levels.level, { level: 4 }),
+    title: page.spaces.living.title,
+    text: page.spaces.living.text,
+  },
+  ...(isFeatureConfirmed('games-room')
+    ? [{ photoId: 'jeux-01', title: featureLabel('games-room'), text: page.spaces.games.text }]
+    : []),
+];
+
+const rooms = bedrooms.map((room) => ({
+  name: format(page.rooms.room, { number: room.number }),
+  beds: room.beds[lang],
+  photoId: `chambre-0${room.number}`,
+}));
+
+// Niveaux connus, du plus haut au plus bas ; les autres sont « [À FOURNIR] ».
+const levels = [...knownLevels]
+  .sort((a, b) => b.level - a.level)
+  .map((level) => ({
+    name: format(page.levels.level, { level: level.level }),
+    items: level.items.map((item) => item[lang]),
+  }));
+const allLevelsDescribed = knownLevels.length >= figures.levels;
+---
+
+<BaseLayout lang={lang} routeKey="chalet" title={page.meta.title} description={page.meta.description} hero>
+  <Hero
+    lang={lang}
+    photoId="le-chalet"
+    title={page.hero.title}
+    subtitle={page.hero.subtitle}
+    height="large"
+  />
+
+  <KeyFigures
+    items={[
+      { value: figures.surfaceM2, label: common.figures.surface },
+      { value: figures.guests, label: common.figures.guests },
+      { value: figures.bedrooms, label: common.figures.bedrooms },
+      { value: figures.bathrooms, label: common.figures.bathrooms },
+    ]}
+  />
+
+  <section class="bg-bg pb-16 md:pb-24">
+    <div class="container-page" data-reveal>
+      <h2 class="sr-only">{page.location.title}</h2>
+      <p class="flex items-start gap-3">
+        <Icon name="map-pin" size={22} class="mt-0.5 shrink-0 text-heading" />
+        <span>
+          {identity.hamlet}, {identity.resort} · {identity.postalCode} {identity.town}, {identity.region}
+          <br />
+          {page.location.complex}
+        </span>
+      </p>
+    </div>
+  </section>
+
+  {
+    spaces.map((space, index) => (
+      <FeatureSection
+        lang={lang}
+        photoId={space.photoId}
+        eyebrow={space.eyebrow}
+        title={space.title}
+        text={space.text}
+        reverse={index % 2 === 1}
+        background={index % 2 === 0 ? 'alt' : 'bg'}
+      />
+    ))
+  }
+
+  <RoomCards
+    lang={lang}
+    title={page.rooms.title}
+    summary={format(page.rooms.summary, {
+      bedrooms: figures.bedrooms,
+      suites: figures.suites,
+      bathrooms: figures.bathrooms,
+    })}
+    rooms={rooms}
+    background={spaces.length % 2 === 0 ? 'alt' : 'bg'}
+  />
+
+  <LevelTour
+    title={page.levels.title}
+    summary={format(page.levels.summary, { levels: figures.levels })}
+    levels={levels}
+    othersLabel={allLevelsDescribed ? undefined : page.levels.others}
+    background={spaces.length % 2 === 0 ? 'bg' : 'alt'}
+  />
+
+  <section class:list={['py-16 md:py-28', spaces.length % 2 === 0 ? 'bg-bg-alt' : 'bg-bg']}>
+    <div class="container-page">
+      <h2 class="mb-10 text-h2 md:mb-14" data-reveal>{page.amenities.title}</h2>
+      <Accordion
+        items={amenities.map((group) => ({
+          title: group.title[lang],
+          content: group.items.map((item) => item[lang]),
+        }))}
+      />
+    </div>
+  </section>
+
+  <CTASection lang={lang} title={page.cta.title} />
+</BaseLayout>

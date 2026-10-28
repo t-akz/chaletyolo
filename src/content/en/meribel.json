@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "title": "Méribel — Chalet Yolo",
+    "description": "Méribel, a resort founded in 1938 at the heart of Les 3 Vallées (600 km of slopes). Access by car, by train and from Chambéry, Geneva, Lyon and Grenoble airports."
+  },
+  "hero": {
+    "title": "TODO-COPY: Méribel page tagline",
+    "subtitle": "Méribel"
+  },
+  "resort": {
+    "eyebrow": "The resort",
+    "title": "At the heart of Les 3 Vallées",
+    "text": "Resort founded in {foundedYear} · {skiAreaKm} km of slopes · Savoyard architecture."
+  },
+  "activities": {
+    "title": "Winter activities",
+    "ski": "Skiing in Les 3 Vallées: {skiAreaKm} km of slopes",
+    "toConfirm": "[TO BE CONFIRMED]"
+  },
+  "access": {
+    "title": "Getting there",
+    "car": "By car",
+    "train": "By train",
+    "plane": "By air",
+    "airport": "{name} airport: {duration}"
+  },
+  "map": {
+    "title": "Location",
+    "missing": "The map will appear here once the chalet's location has been provided:",
+    "button": "Show the map",
+    "notice": "The map is provided by OpenStreetMap. It only loads after you click.",
+    "iframeTitle": "Chalet Yolo location map",
+    "openLink": "Open in OpenStreetMap"
+  },
+  "cta": {
+    "title": "Let's talk about your stay"
+  }
+}

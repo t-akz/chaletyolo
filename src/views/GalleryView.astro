@@ -1,0 +1,25 @@
+---
+/**
+ * Page « Galerie » (FR et EN) : titre, filtres, mosaïque et visionneuse.
+ * Pas de photo plein écran en ouverture (§6) : l'en-tête est donc opaque.
+ * Textes : src/content/{fr,en}/gallery.json ; photos : src/content/photos.ts.
+ */
+import Gallery from '../components/Gallery.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../i18n/languages';
+import { getContent } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const page = getContent(lang, 'gallery');
+---
+
+<BaseLayout lang={lang} routeKey="gallery" title={page.meta.title} description={page.meta.description}>
+  <section class="container-page py-16 md:py-24">
+    <h1 class="mb-10 md:mb-14">{page.title}</h1>
+    <Gallery lang={lang} />
+  </section>
+</BaseLayout>

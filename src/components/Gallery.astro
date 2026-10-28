@@ -1,0 +1,209 @@
+---
+/**
+ * Galerie : filtres par catégorie + mosaïque + visionneuse (lightbox).
+ *
+ * - Filtres : boutons « Tout · Séjour · Chambres… » (visibles seulement si
+ *   JavaScript est actif ; sans JavaScript, toutes les photos sont affichées).
+ * - Visionneuse : clic sur une photo → plein écran. Flèches ← → (clavier ou
+ *   boutons), Échap ou clic sur le fond pour fermer. La navigation suit le
+ *   filtre actif. Élément <dialog> natif : le focus clavier reste dans la
+ *   visionneuse et revient sur la photo à la fermeture.
+ * - Photos des équipements non confirmés (salle de jeux) : exclues.
+ */
+import { getImage } from 'astro:assets';
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import { galleryCategories, getGalleryPhotos, photoFolders, type GalleryCategory } from '../content/photos';
+import type { Lang } from '../i18n/languages';
+import { format, getContent } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const page = getContent(lang, 'gallery');
+
+// Pour chaque photo réelle, une version grand format (WebP, 2400 px max) pour la visionneuse.
+const photos = await Promise.all(
+  getGalleryPhotos().map(async (photo) => ({
+    ...photo,
+    full: photo.image
+      ? (await getImage({ src: photo.image, width: Math.min(photo.image.width, 2400), format: 'webp' })).src
+      : '',
+  })),
+);
+
+// Filtres : uniquement les catégories qui contiennent au moins une photo.
+const categories = (Object.keys(galleryCategories) as GalleryCategory[]).filter((category) =>
+  photos.some((photo) => photo.category === category),
+);
+
+// Une photo sur 7 est mise en valeur (2 × 2 cases).
+const isLarge = (index: number) => index % 7 === 0;
+---
+
+<div data-gallery>
+  <!-- Filtres -->
+  <div role="group" aria-label={page.filters.label} class="js-only mb-10 flex flex-wrap gap-x-6 gap-y-3 md:mb-14">
+    {
+      ['all', ...categories].map((category) => (
+        <button
+          type="button"
+          data-filter={category}
+          aria-pressed={category === 'all' ? 'true' : 'false'}
+          class="text-accent border-b border-transparent pb-1 text-sm font-medium transition-colors aria-pressed:border-current"
+        >
+          {page.filters[category as keyof typeof page.filters]}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Mosaïque -->
+  <ul
+    class="grid auto-rows-[45vw] grid-flow-dense grid-cols-2 gap-3 md:auto-rows-[28vw] md:grid-cols-3 md:gap-4 lg:auto-rows-[20vw] lg:grid-cols-4"
+  >
+    {
+      photos.map((photo, index) => (
+        <li data-category={photo.category} class:list={['overflow-hidden', isLarge(index) && 'col-span-2 row-span-2']}>
+          <button
+            type="button"
+            data-open
+            data-full={photo.full}
+            data-alt={photo.alt[lang]}
+            data-label={`${photoFolders[photo.folder][lang]} — ${photo.folder}/${photo.id}`}
+            aria-label={format(page.lightbox.open, { alt: photo.alt[lang] })}
+            class="block h-full w-full cursor-zoom-in overflow-hidden"
+          >
+            <Photo
+              id={photo.id}
+              lang={lang}
+              sizes={isLarge(index) ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw'}
+              class="transition-transform duration-700 hover:scale-[1.03]"
+            />
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+
+  <!-- Visionneuse -->
+  <dialog
+    data-lightbox
+    aria-label={page.lightbox.label}
+    class="m-0 h-svh max-h-none w-full max-w-none bg-bg p-0 text-text open:flex open:flex-col"
+  >
+    <div class="flex shrink-0 items-center justify-between px-4 py-3 md:px-8">
+      <p class="text-sm" data-counter aria-live="polite"></p>
+      <button type="button" data-close class="-mr-2 p-2">
+        <Icon name="x" size={28} />
+        <span class="sr-only">{page.lightbox.close}</span>
+      </button>
+    </div>
+
+    <div class="relative flex min-h-0 flex-1 items-center justify-center px-4 pb-6 md:px-20" data-stage>
+      <img data-image alt="" class="hidden max-h-full max-w-full object-contain" />
+      <div
+        data-placeholder
+        class="hidden aspect-[3/2] w-full max-w-4xl items-center justify-center border border-border bg-accent-soft p-6 text-center"
+      >
+        <span class="eyebrow"></span>
+      </div>
+
+      <button
+        type="button"
+        data-prev
+        class="absolute top-1/2 left-1 -translate-y-1/2 p-3 md:left-4"
+      >
+        <Icon name="chevron-left" size={32} />
+        <span class="sr-only">{page.lightbox.previous}</span>
+      </button>
+      <button
+        type="button"
+        data-next
+        class="absolute top-1/2 right-1 -translate-y-1/2 p-3 md:right-4"
+      >
+        <Icon name="chevron-right" size={32} />
+        <span class="sr-only">{page.lightbox.next}</span>
+      </button>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  const gallery = document.querySelector<HTMLElement>('[data-gallery]');
+  const dialog = gallery?.querySelector<HTMLDialogElement>('[data-lightbox]');
+
+  if (gallery && dialog) {
+    const items = Array.from(gallery.querySelectorAll<HTMLLIElement>('li[data-category]'));
+    const filters = Array.from(gallery.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const image = dialog.querySelector<HTMLImageElement>('[data-image]')!;
+    const placeholder = dialog.querySelector<HTMLElement>('[data-placeholder]')!;
+    const counter = dialog.querySelector<HTMLElement>('[data-counter]')!;
+    let current = 0;
+
+    // Photos actuellement visibles (selon le filtre actif).
+    const visibleButtons = () =>
+      items.filter((item) => !item.hidden).map((item) => item.querySelector<HTMLButtonElement>('[data-open]')!);
+
+    // --- Filtres ---------------------------------------------------------
+    filters.forEach((filter) => {
+      filter.addEventListener('click', () => {
+        const category = filter.dataset.filter;
+        filters.forEach((f) => f.setAttribute('aria-pressed', String(f === filter)));
+        items.forEach((item) => {
+          item.hidden = category !== 'all' && item.dataset.category !== category;
+        });
+      });
+    });
+
+    // --- Visionneuse -------------------------------------------------------
+    const show = (index: number) => {
+      const buttons = visibleButtons();
+      if (buttons.length === 0) return;
+      current = (index + buttons.length) % buttons.length;
+      const button = buttons[current]!;
+      const full = button.dataset.full;
+      if (full) {
+        image.src = full;
+        image.alt = button.dataset.alt ?? '';
+        image.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+        placeholder.classList.remove('flex');
+      } else {
+        // Photo pas encore fournie : on affiche l'aplat de remplacement.
+        image.classList.add('hidden');
+        image.removeAttribute('src');
+        placeholder.classList.remove('hidden');
+        placeholder.classList.add('flex');
+        placeholder.setAttribute('role', 'img');
+        placeholder.setAttribute('aria-label', button.dataset.alt ?? '');
+        placeholder.querySelector('span')!.textContent = button.dataset.label ?? '';
+      }
+      counter.textContent = `${current + 1} / ${buttons.length}`;
+    };
+
+    gallery.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((button) => {
+      button.addEventListener('click', () => {
+        show(visibleButtons().indexOf(button));
+        dialog.showModal();
+      });
+    });
+
+    dialog.querySelector('[data-prev]')!.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-next]')!.addEventListener('click', () => show(current + 1));
+    dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(current - 1);
+      if (event.key === 'ArrowRight') show(current + 1);
+    });
+
+    // Clic sur le fond (hors photo et hors boutons) : fermeture.
+    dialog.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target === dialog || target.hasAttribute('data-stage')) dialog.close();
+    });
+  }
+</script>

@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "title": "Gallery — Chalet Yolo, Méribel",
+    "description": "Photos of Chalet Yolo in Méribel: living areas, bedrooms, pool and wellness area, leisure, exterior and the resort."
+  },
+  "title": "Gallery",
+  "filters": {
+    "label": "Filter photos",
+    "all": "All",
+    "sejour": "Living",
+    "chambres": "Bedrooms",
+    "bien-etre": "Wellness",
+    "loisirs": "Leisure",
+    "exterieur": "Exterior",
+    "meribel": "Méribel"
+  },
+  "lightbox": {
+    "label": "Photo viewer",
+    "open": "Enlarge photo: {alt}",
+    "close": "Close",
+    "previous": "Previous photo",
+    "next": "Next photo"
+  }
+}

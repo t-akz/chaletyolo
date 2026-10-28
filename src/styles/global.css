@@ -176,3 +176,9 @@
 html:has(dialog[open]) {
   overflow: hidden;
 }
+
+/* Éléments utiles seulement avec JavaScript (ex. filtres de la galerie) :
+   masqués si JavaScript est désactivé. */
+html:not(.js) .js-only {
+  display: none;
+}

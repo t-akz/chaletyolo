@@ -10,12 +10,24 @@ import frCommon from '../content/fr/common.json';
 import enCommon from '../content/en/common.json';
 import frHome from '../content/fr/home.json';
 import enHome from '../content/en/home.json';
+import frChalet from '../content/fr/chalet.json';
+import enChalet from '../content/en/chalet.json';
+import frServices from '../content/fr/services.json';
+import enServices from '../content/en/services.json';
+import frMeribel from '../content/fr/meribel.json';
+import enMeribel from '../content/en/meribel.json';
+import frGallery from '../content/fr/gallery.json';
+import enGallery from '../content/en/gallery.json';
 import frDev from '../content/fr/dev.json';
 import enDev from '../content/en/dev.json';
 
 const fr = {
   common: frCommon,
   home: frHome,
+  chalet: frChalet,
+  services: frServices,
+  meribel: frMeribel,
+  gallery: frGallery,
   dev: frDev,
 };
 
@@ -33,6 +45,10 @@ const content: Record<Lang, Content> = {
   en: {
     common: enCommon,
     home: enHome,
+    chalet: enChalet,
+    services: enServices,
+    meribel: enMeribel,
+    gallery: enGallery,
     dev: enDev,
   },
 };

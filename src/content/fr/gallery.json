@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "title": "Galerie — Chalet Yolo, Méribel",
+    "description": "Photos du Chalet Yolo à Méribel : séjour, chambres, piscine et espace bien-être, loisirs, extérieur et station."
+  },
+  "title": "Galerie",
+  "filters": {
+    "label": "Filtrer les photos",
+    "all": "Tout",
+    "sejour": "Séjour",
+    "chambres": "Chambres",
+    "bien-etre": "Bien-être",
+    "loisirs": "Loisirs",
+    "exterieur": "Extérieur",
+    "meribel": "Méribel"
+  },
+  "lightbox": {
+    "label": "Visionneuse de photos",
+    "open": "Agrandir la photo : {alt}",
+    "close": "Fermer",
+    "previous": "Photo précédente",
+    "next": "Photo suivante"
+  }
+}

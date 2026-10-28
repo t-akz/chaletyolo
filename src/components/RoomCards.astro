@@ -1,0 +1,46 @@
+---
+/**
+ * Cartes des chambres : photo + nom + couchage.
+ * 1 colonne sur mobile, 2 sur tablette, 3 sur ordinateur.
+ */
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  /** Ligne de résumé sous le titre, ex. « 6 chambres dont 4 suites · 6 salles de bain ». */
+  summary?: string;
+  rooms: { name: string; beds: string; photoId: string }[];
+  background?: 'bg' | 'alt';
+}
+
+const { lang, title, summary, rooms, background = 'bg' } = Astro.props;
+---
+
+<section class:list={['py-16 md:py-28', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
+  <div class="container-page">
+    <div class="mb-12 max-w-2xl md:mb-16" data-reveal>
+      <h2 class="text-h2">{title}</h2>
+      {summary && <p class="mt-6">{summary}</p>}
+    </div>
+
+    <ul class="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        rooms.map((room) => (
+          <li data-reveal>
+            <div class="aspect-[4/5] overflow-hidden">
+              <Photo id={room.photoId} lang={lang} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+            </div>
+            <h3 class="mt-5">{room.name}</h3>
+            <p class="mt-2 flex items-center gap-3">
+              <Icon name="bed-double" size={20} class="shrink-0 text-heading" />
+              <span>{room.beds}</span>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

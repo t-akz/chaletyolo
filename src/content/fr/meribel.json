@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "title": "Méribel — Chalet Yolo",
+    "description": "Méribel, station fondée en 1938 au cœur des 3 Vallées (600 km de pistes). Accès en voiture, en train et depuis les aéroports de Chambéry, Genève, Lyon et Grenoble."
+  },
+  "hero": {
+    "title": "TODO-COPY: accroche de la page Méribel",
+    "subtitle": "Méribel"
+  },
+  "resort": {
+    "eyebrow": "La station",
+    "title": "Au cœur des 3 Vallées",
+    "text": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes · architecture savoyarde."
+  },
+  "activities": {
+    "title": "Activités d'hiver",
+    "ski": "Ski sur les 3 Vallées : {skiAreaKm} km de pistes",
+    "toConfirm": "[À CONFIRMER]"
+  },
+  "access": {
+    "title": "Accès",
+    "car": "En voiture",
+    "train": "En train",
+    "plane": "En avion",
+    "airport": "Aéroport de {name} : {duration}"
+  },
+  "map": {
+    "title": "Localisation",
+    "missing": "La carte s'affichera ici dès que la position du chalet sera renseignée :",
+    "button": "Afficher la carte",
+    "notice": "La carte est fournie par OpenStreetMap. Elle n'est chargée qu'après votre clic.",
+    "iframeTitle": "Carte de localisation du Chalet Yolo",
+    "openLink": "Ouvrir dans OpenStreetMap"
+  },
+  "cta": {
+    "title": "Parlons de votre séjour"
+  }
+}

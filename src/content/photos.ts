@@ -34,6 +34,28 @@ export const photoFolders = {
 
 export type PhotoFolder = keyof typeof photoFolders;
 
+/**
+ * Catégories des filtres de la galerie, et dossiers qui les composent.
+ * Les libellés des filtres sont dans src/content/{fr,en}/gallery.json.
+ * Le dossier « hero » (photos plein écran des pages) n'apparaît pas dans la galerie.
+ */
+export const galleryCategories = {
+  sejour: ['sejour', 'cuisine'],
+  chambres: ['chambres'],
+  'bien-etre': ['piscine', 'bien-etre'],
+  loisirs: ['cinema', 'yoga', 'jeux'],
+  exterieur: ['exterieur'],
+  meribel: ['meribel'],
+} as const satisfies Record<string, readonly PhotoFolder[]>;
+
+export type GalleryCategory = keyof typeof galleryCategories;
+
+/** Catégorie de galerie d'un dossier (ou « undefined » s'il n'est pas dans la galerie). */
+export function categoryOf(folder: PhotoFolder): GalleryCategory | undefined {
+  const entries = Object.entries(galleryCategories) as [GalleryCategory, readonly PhotoFolder[]][];
+  return entries.find(([, folders]) => folders.includes(folder))?.[0];
+}
+
 export type PhotoSlot = {
   /** Identifiant = nom du fichier sans extension, ex. « piscine-01 ». */
   id: string;
@@ -102,4 +124,12 @@ export function getPhoto(id: string): ResolvedPhoto {
 /** Toutes les photos affichables (sans celles des équipements non confirmés). */
 export function getVisiblePhotos(): ResolvedPhoto[] {
   return slots.map((slot) => getPhoto(slot.id)).filter((photo) => !photo.hidden);
+}
+
+/** Photos de la galerie : toutes les photos affichables, sauf les photos plein écran (hero). */
+export function getGalleryPhotos(): (ResolvedPhoto & { category: GalleryCategory })[] {
+  return getVisiblePhotos().flatMap((photo) => {
+    const category = categoryOf(photo.folder);
+    return category ? [{ ...photo, category }] : [];
+  });
 }

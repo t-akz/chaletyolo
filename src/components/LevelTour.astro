@@ -1,0 +1,62 @@
+---
+/**
+ * Visite par niveau : les niveaux connus et leur contenu, puis une ligne
+ * « Autres niveaux : [À FOURNIR] » tant que tous ne sont pas décrits.
+ */
+import Icon from './Icon.astro';
+import { TO_PROVIDE } from '../config/site';
+
+interface Props {
+  title: string;
+  /** Ex. « 5 niveaux desservis par ascenseur ». */
+  summary?: string;
+  levels: { name: string; items: string[] }[];
+  /** Libellé de la ligne des niveaux non décrits ; absent = ligne masquée. */
+  othersLabel?: string;
+  background?: 'bg' | 'alt';
+}
+
+const { title, summary, levels, othersLabel, background = 'bg' } = Astro.props;
+---
+
+<section class:list={['py-16 md:py-28', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
+  <div class="container-page grid gap-12 md:grid-cols-12 md:gap-16">
+    <div class="md:col-span-4" data-reveal>
+      <h2 class="text-h2">{title}</h2>
+      {
+        summary && (
+          <p class="mt-6 flex items-center gap-3">
+            <Icon name="layers" size={22} class="shrink-0 text-heading" />
+            <span>{summary}</span>
+          </p>
+        )
+      }
+    </div>
+
+    <ol class="border-t border-border md:col-span-8">
+      {
+        levels.map((level) => (
+          <li class="grid gap-4 border-b border-border py-8 sm:grid-cols-3" data-reveal>
+            <h3>{level.name}</h3>
+            <ul class="space-y-2 sm:col-span-2">
+              {level.items.map((item) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-[0.75em] h-px w-3 shrink-0 bg-heading" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+      {
+        othersLabel && (
+          <li class="grid gap-4 border-b border-border py-8 sm:grid-cols-3" data-reveal>
+            <h3>{othersLabel}</h3>
+            <p class="sm:col-span-2">{TO_PROVIDE}</p>
+          </li>
+        )
+      }
+    </ol>
+  </div>
+</section>

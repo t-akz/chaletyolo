@@ -1,0 +1,59 @@
+---
+/**
+ * Page « Services » (FR et EN) — structure du §6 de CLAUDE.md :
+ * Hero → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte
+ * (Activités · Restauration · Conciergerie) → « Sur demande… » + appel à l'action.
+ * Textes : src/content/{fr,en}/services.json ; faits : src/content/chalet.ts.
+ */
+import CTASection from '../components/CTASection.astro';
+import Hero from '../components/Hero.astro';
+import ServiceList from '../components/ServiceList.astro';
+import { aLaCarte, figures, included } from '../content/chalet';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../i18n/languages';
+import { format, getContent } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const page = getContent(lang, 'services');
+
+// Heure au format de la langue : « 17h00 » en français, « 17:00 » en anglais.
+const time = (value: string) => (lang === 'fr' ? value.replace(':', 'h') : value);
+
+// Horaires ajoutés en tête des groupes Arrivée et Départ.
+const schedule: Partial<Record<(typeof included)[number]['id'], string>> = {
+  arrival: format(page.included.checkIn, { time: time(figures.checkIn) }),
+  departure: format(page.included.checkOut, { time: time(figures.checkOut) }),
+};
+
+const includedGroups = included.map((group) => ({
+  title: group.title[lang],
+  items: [
+    ...(schedule[group.id] ? [{ label: schedule[group.id]! }] : []),
+    ...group.items.map((item) => ({ label: item[lang] })),
+  ],
+}));
+
+const aLaCarteGroups = aLaCarte.map((group) => ({
+  title: group.title[lang],
+  items: group.items.map((item) => ({ label: item[lang] })),
+}));
+---
+
+<BaseLayout lang={lang} routeKey="services" title={page.meta.title} description={page.meta.description} hero>
+  <Hero lang={lang} photoId="services" title={page.hero.title} subtitle={page.hero.subtitle} height="large" />
+
+  <ServiceList eyebrow={page.included.eyebrow} title={page.included.title} groups={includedGroups} />
+
+  <ServiceList
+    eyebrow={page.aLaCarte.eyebrow}
+    title={page.aLaCarte.title}
+    groups={aLaCarteGroups}
+    background="alt"
+  />
+
+  <CTASection lang={lang} title={page.cta.title} text={page.cta.text} />
+</BaseLayout>

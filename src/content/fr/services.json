@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "title": "Services — Chalet Yolo, Méribel",
+    "description": "Services inclus au Chalet Yolo (ménage quotidien, conciergerie dédiée, transport privé vers les remontées) et services à la carte : chef à domicile, moniteur de ski, massages au chalet."
+  },
+  "hero": {
+    "title": "TODO-COPY: accroche de la page Services",
+    "subtitle": "Services"
+  },
+  "included": {
+    "eyebrow": "Inclus",
+    "title": "Services inclus",
+    "checkIn": "Arrivée à {time}",
+    "checkOut": "Départ à {time}"
+  },
+  "aLaCarte": {
+    "eyebrow": "À la carte",
+    "title": "Services à la carte"
+  },
+  "cta": {
+    "title": "Parlons de votre séjour",
+    "text": "Sur demande, auprès de notre conciergerie."
+  }
+}
