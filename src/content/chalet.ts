@@ -226,6 +226,23 @@ export const slopesAccess = {
 };
 
 // ---------------------------------------------------------------------------
+// Formules de location (confirmé par le client le 30/10/2026)
+// Location proposée exclusivement en Half Catered ou Full Catered,
+// avec chef privé, majordome et chauffeur.
+// ---------------------------------------------------------------------------
+export const catering = {
+  formulas: [
+    { id: 'half-catered', label: { fr: 'Half Catered — demi-pension', en: 'Half Catered — half board' } },
+    { id: 'full-catered', label: { fr: 'Full Catered — pension complète', en: 'Full Catered — full board' } },
+  ] satisfies { id: string; label: Localized }[],
+  staff: [
+    { id: 'chef', label: { fr: 'Chef privé', en: 'Private chef' } },
+    { id: 'butler', label: { fr: 'Majordome', en: 'Butler' } },
+    { id: 'chauffeur', label: { fr: 'Chauffeur', en: 'Chauffeur' } },
+  ] satisfies { id: string; label: Localized }[],
+};
+
+// ---------------------------------------------------------------------------
 // Services inclus
 // ---------------------------------------------------------------------------
 export const included: { id: 'arrival' | 'stay' | 'departure'; title: Localized; items: Localized[] }[] = [
@@ -292,7 +309,6 @@ export const aLaCarte: { id: 'activities' | 'dining' | 'concierge'; title: Local
     items: [
       { fr: 'Petit-déjeuner continental', en: 'Continental breakfast' },
       { fr: 'Plats traiteur', en: 'Catered dishes' },
-      { fr: 'Chef à domicile', en: 'Private chef' },
       { fr: 'Carte des vins et champagnes', en: 'Wine and champagne list' },
     ],
   },

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "Chalet Yolo — Chalet privé à Méribel",
-    "description": "Chalet privé à Méribel (La Gittaz) : 350 m², 15 personnes, 6 chambres dont 4 suites, piscine intérieure chauffée."
+    "title": "Location chalet de luxe à Méribel avec chef — Chalet Yolo",
+    "description": "Chalet Yolo, location de chalet de luxe à Méribel avec chef privé et majordome : piscine intérieure chauffée, spa et 6 chambres pour 15 personnes."
   },
   "hero": {
     "title": "TODO-COPY: accroche de la page d'accueil",
-    "subtitle": "Chalet privé · Méribel"
+    "subtitle": "Chalet de luxe avec chef · Méribel"
   },
   "intro": {
     "text": "TODO-COPY: introduction de 2 lignes sur le chalet.",
@@ -16,7 +16,7 @@
       "text": "TODO-COPY: 2 à 3 lignes sur la piscine."
     },
     "wellness": {
-      "title": "Espace bien-être",
+      "title": "Espace bien-être et spa",
       "text": "TODO-COPY: 2 à 3 lignes sur l'espace bien-être."
     },
     "cinema": {

@@ -10,8 +10,9 @@
  * « piscine-01 » → src/assets/photos/piscine/piscine-01.jpg
  * Tant que le fichier est absent, un aplat neutre avec un libellé s'affiche.
  *
- * Les textes alternatifs ci-dessous décrivent l'espace de manière générique ;
- * précisez-les quand les vraies photos seront là.
+ * Les textes alternatifs décrivent ce que montre la photo. Le mot-clé de la
+ * page (ex. « chalet de luxe à Méribel ») n'y figure qu'avec parcimonie, sur
+ * les photos principales, pour éviter le bourrage de mots-clés.
  */
 import type { ImageMetadata } from 'astro';
 import type { Localized } from '../i18n/languages';
@@ -66,28 +67,28 @@ export type PhotoSlot = {
 /** Liste des photos attendues. Ajoutez une ligne pour chaque nouvelle photo. */
 const slots: PhotoSlot[] = [
   // Photos plein écran (hero) de chaque page
-  { id: 'accueil', folder: 'hero', alt: { fr: 'Le Chalet Yolo à Méribel', en: 'Chalet Yolo in Méribel' } },
-  { id: 'le-chalet', folder: 'hero', alt: { fr: 'Le Chalet Yolo', en: 'Chalet Yolo' } },
+  { id: 'accueil', folder: 'hero', alt: { fr: 'Façade en bois et pierre du Chalet Yolo sous la neige, chalet de luxe à Méribel', en: 'Snow-covered wood and stone façade of Chalet Yolo, a luxury catered chalet in Méribel' } },
+  { id: 'le-chalet', folder: 'hero', alt: { fr: 'Le Chalet Yolo sous la neige, à Méribel dans les 3 Vallées', en: 'Chalet Yolo under snow in Méribel, Les 3 Vallées' } },
   { id: 'services', folder: 'hero', alt: { fr: 'Les services du Chalet Yolo', en: 'Chalet Yolo services' } },
-  { id: 'meribel', folder: 'hero', alt: { fr: 'La station de Méribel', en: 'The resort of Méribel' } },
+  { id: 'meribel', folder: 'hero', alt: { fr: 'La station de Méribel enneigée, au cœur des 3 Vallées', en: 'Méribel ski resort under snow, in the heart of Les 3 Vallées' } },
 
   // Espaces du chalet
-  { id: 'piscine-01', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée', en: 'Heated indoor pool' } },
-  { id: 'piscine-02', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée', en: 'Heated indoor pool' } },
-  { id: 'bien-etre-01', folder: 'bien-etre', alt: { fr: 'Espace bien-être', en: 'Wellness area' } },
-  { id: 'bien-etre-02', folder: 'bien-etre', alt: { fr: 'Espace bien-être', en: 'Wellness area' } },
-  { id: 'cinema-01', folder: 'cinema', alt: { fr: 'Home cinéma', en: 'Home cinema' } },
+  { id: 'piscine-01', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée et salon de détente d’un chalet haut de gamme à Méribel', en: 'Heated indoor pool and lounge of a luxury chalet in Méribel' } },
+  { id: 'piscine-02', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée sous une fenêtre en arc', en: 'Heated indoor pool beneath an arched window' } },
+  { id: 'bien-etre-01', folder: 'bien-etre', alt: { fr: 'Spa du chalet avec douche et sauna', en: 'Chalet spa with shower and sauna' } },
+  { id: 'bien-etre-02', folder: 'bien-etre', alt: { fr: 'Hammam voûté de l’espace bien-être', en: 'Vaulted hammam in the spa' } },
+  { id: 'cinema-01', folder: 'cinema', alt: { fr: 'Home cinéma avec grand écran et canapé d’angle', en: 'Home cinema with large screen and corner sofa' } },
   { id: 'yoga-01', folder: 'yoga', alt: { fr: 'Salle de yoga', en: 'Yoga room' } },
-  { id: 'sejour-01', folder: 'sejour', alt: { fr: 'Salon cathédrale avec cheminée', en: 'Cathedral-ceiling living room with fireplace' } },
+  { id: 'sejour-01', folder: 'sejour', alt: { fr: 'Salon cathédrale avec cheminée et poutres en bois', en: 'Cathedral-ceiling living room with fireplace and timber beams' } },
   { id: 'sejour-02', folder: 'sejour', alt: { fr: 'Séjour', en: 'Living room' } },
-  { id: 'cuisine-01', folder: 'cuisine', alt: { fr: 'Cuisine équipée', en: 'Fitted kitchen' } },
+  { id: 'cuisine-01', folder: 'cuisine', alt: { fr: 'Cuisine équipée sous charpente en bois, avec îlot', en: 'Fitted kitchen with island under timber beams' } },
   { id: 'chambre-01', folder: 'chambres', alt: { fr: 'Chambre 1', en: 'Bedroom 1' } },
   { id: 'chambre-02', folder: 'chambres', alt: { fr: 'Chambre 2', en: 'Bedroom 2' } },
   { id: 'chambre-03', folder: 'chambres', alt: { fr: 'Chambre 3', en: 'Bedroom 3' } },
   { id: 'chambre-04', folder: 'chambres', alt: { fr: 'Chambre 4', en: 'Bedroom 4' } },
   { id: 'chambre-05', folder: 'chambres', alt: { fr: 'Chambre 5', en: 'Bedroom 5' } },
   { id: 'chambre-06', folder: 'chambres', alt: { fr: 'Chambre 6', en: 'Bedroom 6' } },
-  { id: 'exterieur-01', folder: 'exterieur', alt: { fr: 'Le chalet vu de l’extérieur', en: 'The chalet from outside' } },
+  { id: 'exterieur-01', folder: 'exterieur', alt: { fr: 'Façade en bois et pierre du chalet sous la neige', en: 'Snow-covered wood and stone façade of the chalet' } },
   { id: 'exterieur-02', folder: 'exterieur', alt: { fr: 'Vue montagne', en: 'Mountain view' } },
   { id: 'meribel-01', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' } },
   { id: 'meribel-02', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' } },

@@ -1,26 +1,40 @@
 {
   "meta": {
-    "title": "The chalet — Chalet Yolo, Méribel",
-    "description": "350 m² over 5 levels with a lift, 6 bedrooms including 4 suites, heated indoor pool, wellness area, home cinema and yoga room. La Gittaz, Méribel."
+    "title": "Ultra-Luxury Chalet in Méribel, 3 Valleys — Chalet Yolo",
+    "description": "350 m² over five levels with a lift: six bedrooms including four suites, heated indoor pool, spa, home cinema and yoga room in Méribel, Les 3 Vallées."
   },
   "hero": {
     "title": "TODO-COPY: The chalet page tagline",
-    "subtitle": "The chalet"
+    "subtitle": "Ultra-Luxury Chalet · Les 3 Vallées"
   },
   "location": {
     "title": "Location",
     "complex": "Part of the Chalets Célénia development"
   },
   "spaces": {
-    "pool": { "text": "TODO-COPY: 2–3 lines about the pool." },
-    "wellness": { "title": "Wellness area", "text": "TODO-COPY: 2–3 lines about the wellness area." },
-    "cinema": { "text": "TODO-COPY: 2–3 lines about the home cinema." },
-    "yoga": { "text": "TODO-COPY: 2–3 lines about the yoga room." },
-    "living": { "title": "Living room and kitchen", "text": "TODO-COPY: 2–3 lines about the cathedral-ceiling living room and the kitchen." },
-    "games": { "text": "TODO-COPY: 2–3 lines about the games room." }
+    "pool": {
+      "text": "TODO-COPY: 2–3 lines about the pool."
+    },
+    "wellness": {
+      "title": "Spa and wellness area",
+      "text": "TODO-COPY: 2–3 lines about the wellness area."
+    },
+    "cinema": {
+      "text": "TODO-COPY: 2–3 lines about the home cinema."
+    },
+    "yoga": {
+      "text": "TODO-COPY: 2–3 lines about the yoga room."
+    },
+    "living": {
+      "title": "Living room and kitchen",
+      "text": "TODO-COPY: 2–3 lines about the cathedral-ceiling living room and the kitchen."
+    },
+    "games": {
+      "text": "TODO-COPY: 2–3 lines about the games room."
+    }
   },
   "rooms": {
-    "title": "The bedrooms",
+    "title": "Bedrooms and suites",
     "summary": "{bedrooms} bedrooms including {suites} suites · {bathrooms} bathrooms",
     "room": "Bedroom {number}"
   },

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "Chalet Yolo — Private chalet in Méribel",
-    "description": "Private chalet in Méribel (La Gittaz): 350 m², 15 guests, 6 bedrooms including 4 suites, heated indoor pool."
+    "title": "Luxury Catered Chalet in Méribel, 3 Valleys — Chalet Yolo",
+    "description": "Chalet Yolo, a luxury catered chalet in Méribel with private chef and butler, heated indoor pool and spa. Six bedrooms for 15 guests in Les 3 Vallées."
   },
   "hero": {
     "title": "TODO-COPY: home page tagline",
-    "subtitle": "Private chalet · Méribel"
+    "subtitle": "Luxury Catered Chalet · Méribel"
   },
   "intro": {
     "text": "TODO-COPY: two-line introduction to the chalet.",
@@ -16,7 +16,7 @@
       "text": "TODO-COPY: 2–3 lines about the pool."
     },
     "wellness": {
-      "title": "Wellness area",
+      "title": "Spa and wellness area",
       "text": "TODO-COPY: 2–3 lines about the wellness area."
     },
     "cinema": {

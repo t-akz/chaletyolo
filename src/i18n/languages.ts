@@ -5,6 +5,12 @@ export type Lang = (typeof languages)[number];
 
 export const defaultLang: Lang = 'fr';
 
+/**
+ * Langue proposée par Google aux visiteurs ni francophones ni anglophones
+ * (balise hreflang « x-default ») : l'anglais, langue internationale du site.
+ */
+export const xDefaultLang: Lang = 'en';
+
 /** Code de langue complet, utilisé pour hreflang et Open Graph. */
 export const locales: Record<Lang, { hreflang: string; og: string }> = {
   fr: { hreflang: 'fr', og: 'fr_FR' },

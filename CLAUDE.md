@@ -155,9 +155,9 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 
 **Ton** : sobre et factuel (titres, chiffres, descriptions) + **une seule accroche complice par page max** (jeu possible sur « Yolo »). **Vouvoiement** en français.
 
-- **Accueil** : Hero (piscine ou extérieur neige, accroche `TODO-COPY`, sous-titre « Chalet privé · Méribel », bouton) → Chiffres clés (350 m² · 15 personnes · 6 chambres · 6 salles de bain) → Intro 2 lignes `TODO-COPY` + lien → 4 équipements phares en `FeatureSection` (piscine intérieure chauffée · espace bien-être · home cinéma · salon cathédrale avec cheminée) → 4 services inclus (navette privée · ménage quotidien · conciergerie · linge et peignoirs) → aperçu Méribel → mosaïque 6–8 photos → CTA « Parlons de votre séjour » + WhatsApp.
+- **Accueil** : Hero (piscine ou extérieur neige, accroche `TODO-COPY`, sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → Chiffres clés (350 m² · 15 personnes · 6 chambres · 6 salles de bain) → Intro 2 lignes `TODO-COPY` + lien → 4 équipements phares en `FeatureSection` (piscine intérieure chauffée · espace bien-être · home cinéma · salon cathédrale avec cheminée) → 4 services inclus (navette privée · ménage quotidien · conciergerie · linge et peignoirs) → aperçu Méribel → mosaïque 6–8 photos → CTA « Parlons de votre séjour » + WhatsApp.
 - **Le chalet** : Hero → chiffres + localisation (La Gittaz) → une `FeatureSection` par espace (piscine · bien-être · cinéma · yoga · salon/cuisine · salle de jeux **seulement si `confirmed: true`**) → 6 cartes chambres → visite par niveau (5 niveaux, ascenseur) → `Accordion` « Tous les équipements » → CTA.
-- **Services** : Hero → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte (Activités · Restauration · Conciergerie) → « Sur demande, auprès de notre conciergerie » + CTA.
+- **Services** : Hero → Gastronomie (formules Half / Full Catered + chef privé, majordome, chauffeur) → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte (Activités · Restauration · Conciergerie) → « Sur demande, auprès de notre conciergerie » + CTA.
 - **Méribel** : Hero → la station → activités d'hiver (icônes) → accès (voiture, train, aéroports) → carte chargée **au clic** (pas de cookie) → CTA.
 - **Galerie** : filtres (Tout · Séjour · Chambres · Bien-être · Loisirs · Extérieur · Méribel) + mosaïque + lightbox.
 - **Contact** : titre, 1 ligne d'intro, formulaire, bloc « Ou directement » (WhatsApp, email), accès résumé.
@@ -221,6 +221,9 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 
 **Accès pistes** : navette privée incluse matin et soir vers les remontées. Télécabine de l'Olympe accessible à pied `[À CONFIRMER]`.
 
+**Formules** (confirmé par le client le 30/10/2026) : location proposée **exclusivement** en **Half Catered** (demi-pension) ou **Full Catered** (pension complète), avec **chef privé**, **majordome** et **chauffeur**. Contenu exact de chaque formule (repas inclus) `[À FOURNIR]`.
+**Non confirmé** : ski-in / ski-out → **ne jamais l'affirmer** (accès aux pistes par navette privée).
+
 **Inclus**
 - *Arrivée* : lits préparés, linge, serviettes, peignoirs, chaussons, serviettes de piscine, produits d'accueil.
 - *Séjour* : ménage quotidien des pièces de vie (6j/7), changement des serviettes à mi-séjour, buanderie, lit et matériel bébé sur demande, conciergerie dédiée, transport privé en van vers les remontées.
@@ -228,7 +231,7 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 
 **À la carte**
 - *Activités* : matériel de ski livré au chalet, forfaits, massages et soins au chalet, moniteur de ski.
-- *Restauration* : petit-déjeuner continental, plats traiteur, chef à domicile, carte des vins et champagnes.
+- *Restauration* : petit-déjeuner continental, plats traiteur, carte des vins et champagnes. (Le chef est désormais inclus : voir « Formules ».)
 - *Conciergerie* : transferts, voiturier en station, babysitting à domicile.
 
 **Méribel** : fondée en 1938, au cœur des 3 Vallées (600 km de pistes), architecture savoyarde.

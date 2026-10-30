@@ -1,11 +1,17 @@
 {
   "meta": {
-    "title": "Chalet services — Chalet Yolo, Méribel",
-    "description": "Services included at Chalet Yolo (daily cleaning, dedicated concierge, private transport to the ski lifts) and à la carte services: private chef, ski instructor, massages at the chalet."
+    "title": "Chalet with Private Chef, Méribel · Full Board — Chalet Yolo",
+    "description": "Half board or full board with private chef, butler and chauffeur: an ultra-luxury catered chalet in Les 3 Vallées, with service tailored to your stay."
   },
   "hero": {
     "title": "TODO-COPY: Services page tagline",
-    "subtitle": "Services"
+    "subtitle": "Private Chef · Half & Full Board"
+  },
+  "catering": {
+    "eyebrow": "Food & drink",
+    "title": "Private chef, half board or full board",
+    "formulas": "Packages",
+    "staff": "Your team"
   },
   "included": {
     "eyebrow": "Included",

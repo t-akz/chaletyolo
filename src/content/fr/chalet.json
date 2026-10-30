@@ -1,26 +1,40 @@
 {
   "meta": {
-    "title": "Le chalet — Chalet Yolo, Méribel",
-    "description": "350 m² sur 5 niveaux avec ascenseur, 6 chambres dont 4 suites, piscine intérieure chauffée, espace bien-être, home cinéma et salle de yoga. La Gittaz, Méribel."
+    "title": "Chalet ultra luxe aux 3 Vallées, Méribel — Chalet Yolo",
+    "description": "350 m² sur cinq niveaux avec ascenseur : six chambres dont quatre suites, piscine intérieure chauffée, spa, home cinéma et salle de yoga à Méribel."
   },
   "hero": {
     "title": "TODO-COPY: accroche de la page Le chalet",
-    "subtitle": "Le chalet"
+    "subtitle": "Chalet ultra luxe · Les 3 Vallées"
   },
   "location": {
     "title": "Localisation",
     "complex": "Ensemble des Chalets Célénia"
   },
   "spaces": {
-    "pool": { "text": "TODO-COPY: 2 à 3 lignes sur la piscine." },
-    "wellness": { "title": "Espace bien-être", "text": "TODO-COPY: 2 à 3 lignes sur l'espace bien-être." },
-    "cinema": { "text": "TODO-COPY: 2 à 3 lignes sur le home cinéma." },
-    "yoga": { "text": "TODO-COPY: 2 à 3 lignes sur la salle de yoga." },
-    "living": { "title": "Salon et cuisine", "text": "TODO-COPY: 2 à 3 lignes sur le salon cathédrale et la cuisine." },
-    "games": { "text": "TODO-COPY: 2 à 3 lignes sur la salle de jeux." }
+    "pool": {
+      "text": "TODO-COPY: 2 à 3 lignes sur la piscine."
+    },
+    "wellness": {
+      "title": "Espace bien-être et spa",
+      "text": "TODO-COPY: 2 à 3 lignes sur l'espace bien-être."
+    },
+    "cinema": {
+      "text": "TODO-COPY: 2 à 3 lignes sur le home cinéma."
+    },
+    "yoga": {
+      "text": "TODO-COPY: 2 à 3 lignes sur la salle de yoga."
+    },
+    "living": {
+      "title": "Salon et cuisine",
+      "text": "TODO-COPY: 2 à 3 lignes sur le salon cathédrale et la cuisine."
+    },
+    "games": {
+      "text": "TODO-COPY: 2 à 3 lignes sur la salle de jeux."
+    }
   },
   "rooms": {
-    "title": "Les chambres",
+    "title": "Les chambres et suites",
     "summary": "{bedrooms} chambres dont {suites} suites · {bathrooms} salles de bain",
     "room": "Chambre {number}"
   },

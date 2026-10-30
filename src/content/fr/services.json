@@ -1,11 +1,17 @@
 {
   "meta": {
-    "title": "Services — Chalet Yolo, Méribel",
-    "description": "Services inclus au Chalet Yolo (ménage quotidien, conciergerie dédiée, transport privé vers les remontées) et services à la carte : chef à domicile, moniteur de ski, massages au chalet."
+    "title": "Chalet prestige à Méribel en demi-pension — Chalet Yolo",
+    "description": "Demi-pension ou pension complète avec chef privé, majordome et chauffeur : un chalet ultra luxe aux 3 Vallées, avec un service pensé pour votre séjour."
   },
   "hero": {
     "title": "TODO-COPY: accroche de la page Services",
-    "subtitle": "Services"
+    "subtitle": "Chef privé · Demi-pension & pension complète"
+  },
+  "catering": {
+    "eyebrow": "Gastronomie",
+    "title": "Chef privé, demi-pension ou pension complète",
+    "formulas": "Formules",
+    "staff": "Votre équipe"
   },
   "included": {
     "eyebrow": "Inclus",

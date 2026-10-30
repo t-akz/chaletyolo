@@ -11,7 +11,7 @@ import { getImage } from 'astro:assets';
 import { lodgingBusinessJsonLd } from './structuredData';
 import { site } from '../config/site';
 import { getPhoto } from '../content/photos';
-import { defaultLang, languages, locales, type Lang } from '../i18n/languages';
+import { languages, locales, xDefaultLang, type Lang } from '../i18n/languages';
 import type { RouteKey } from '../i18n/routes';
 import { getAlternates, localizedPath } from '../i18n/utils';
 
@@ -46,7 +46,7 @@ const jsonLd = lodging ? lodgingBusinessJsonLd(lang, description, ogImage) : und
 {noindex && <meta name="robots" content="noindex" />}
 {canonical && <link rel="canonical" href={canonical} />}
 {alternates.map((alt) => <link rel="alternate" hreflang={locales[alt.lang].hreflang} href={absolute(alt.path)} />)}
-{routeKey && <link rel="alternate" hreflang="x-default" href={absolute(localizedPath(routeKey, defaultLang))} />}
+{routeKey && <link rel="alternate" hreflang="x-default" href={absolute(localizedPath(routeKey, xDefaultLang))} />}
 
 <!-- Aperçu de partage (Facebook, WhatsApp, LinkedIn…) -->
 <meta property="og:type" content="website" />
