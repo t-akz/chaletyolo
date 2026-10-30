@@ -1,0 +1,74 @@
+---
+/**
+ * Groupe de choix unique (boutons radio) avec légende et zone d'erreur.
+ * - « pill » : options présentées comme des boutons fins (formule, canal de réponse) ;
+ *   l'option choisie s'affiche en couleurs inversées.
+ * - « discreet » : petits boutons radio classiques (rôle).
+ *
+ * Le premier bouton porte id={name} et « data-validate » : c'est lui que le
+ * script de ContactForm vérifie (un groupe radio est valide dès qu'une option
+ * est cochée). L'erreur s'affiche dans `${name}-error`.
+ */
+import Icon from './Icon.astro';
+import RequiredMark from './RequiredMark.astro';
+
+interface Props {
+  name: string;
+  legend: string;
+  /** Options : valeur envoyée → libellé affiché. */
+  options: Record<string, string>;
+  /** Un choix est exigé (astérisque rouge après la légende). */
+  required?: boolean;
+  /** Valeur cochée au chargement. */
+  checked?: string;
+  variant?: 'pill' | 'discreet';
+  class?: string;
+}
+
+const { name, legend, options, required = false, checked, variant = 'pill', class: className } = Astro.props;
+const entries = Object.entries(options);
+const errorId = `${name}-error`;
+
+// Option « bouton » : bordure fine ; une fois choisie, couleurs inversées
+// (texte sur fond, et non la couleur du bouton principal, réservée à l'action).
+const pillClass = [
+  'inline-flex items-center border border-text/60 px-5 py-3 text-sm transition-colors duration-300 hover:border-text',
+  'peer-checked:border-text peer-checked:bg-text peer-checked:text-bg',
+  'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-text',
+].join(' ');
+---
+
+<fieldset class={className}>
+  <legend class="text-sm font-medium">
+    {legend}
+    {required && <RequiredMark />}
+  </legend>
+
+  <div class:list={['mt-3 flex flex-wrap', variant === 'pill' ? 'gap-3' : 'flex-col gap-2']}>
+    {
+      entries.map(([value, label], index) => (
+        <label class:list={['cursor-pointer', variant === 'discreet' && 'flex items-start gap-3 text-sm']}>
+          <input
+            type="radio"
+            name={name}
+            value={value}
+            id={index === 0 ? name : undefined}
+            checked={value === checked}
+            required={required}
+            aria-describedby={errorId}
+            data-validate={index === 0 ? true : undefined}
+            class={variant === 'pill' ? 'peer sr-only' : 'mt-0.5 size-4 shrink-0 accent-primary'}
+          />
+          <span class={variant === 'pill' ? pillClass : undefined}>
+            {label}
+          </span>
+        </label>
+      ))
+    }
+  </div>
+
+  <p id={errorId} class="mt-2 flex items-start gap-2 text-sm text-error" hidden>
+    <Icon name="circle-alert" size={16} class="mt-0.5 shrink-0" />
+    <span data-error-text></span>
+  </p>
+</fieldset>

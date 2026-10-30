@@ -1,35 +1,47 @@
 {
   "meta": {
     "title": "Contact — Chalet Yolo, Méribel",
-    "description": "Demande de séjour au Chalet Yolo, chalet privé à Méribel : dates, nombre de personnes et services souhaités."
+    "description": "Demande de séjour au Chalet Yolo, chalet privé à Méribel : dates, formule souhaitée et nombre de convives."
   },
   "title": "Contact",
   "intro": "TODO-COPY: une ligne d'introduction au formulaire.",
   "form": {
-    "required": "(obligatoire)",
-    "name": "Nom",
-    "email": "Email",
-    "phone": "Téléphone",
+    "requiredNote": "Champ obligatoire",
+    "stepLabel": "Étape {current} sur {total}",
+    "steps": {
+      "stay": "Le séjour",
+      "contact": "Le contact"
+    },
+    "next": "Continuer",
+    "back": "Retour",
+    "datesLegend": "Dates souhaitées",
     "arrival": "Date d'arrivée",
     "departure": "Date de départ",
     "flexible": "Mes dates sont flexibles",
+    "formulaLegend": "Formule souhaitée",
+    "formulas": {
+      "full-catered": "Full Catered",
+      "half-catered": "Half Catered",
+      "sur-mesure": "Sur-mesure / À définir"
+    },
+    "guestsLegend": "Nombre de convives",
     "adults": "Adultes",
     "children": "Enfants",
-    "childrenAges": "Âge des enfants",
-    "childrenAgesHint": "Par exemple : 4 ans, 9 ans",
-    "servicesLegend": "Services souhaités",
-    "services": {
-      "chef-a-domicile": "Chef à domicile",
-      "traiteur": "Traiteur",
-      "petit-dejeuner": "Petit-déjeuner",
-      "moniteur-de-ski": "Moniteur de ski",
-      "forfaits": "Forfaits",
-      "materiel-de-ski": "Matériel de ski",
-      "massages": "Massages",
-      "babysitting": "Babysitting",
-      "transferts": "Transferts"
+    "name": "Nom et prénom",
+    "roleLegend": "Votre rôle",
+    "roles": {
+      "pour-moi-meme": "Je réserve pour moi-même",
+      "intermediaire": "Je suis Assistant(e) Personnel(le) / Family Office / Agent"
     },
-    "message": "Message",
+    "channelLegend": "Canal de réponse privilégié",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "appel": "Appel téléphonique"
+    },
+    "phone": "Numéro de téléphone",
+    "phoneHint": "Avec l'indicatif du pays, par exemple +33 6 12 34 56 78",
+    "email": "Email",
     "consentBefore": "J'accepte que mes données soient utilisées pour répondre à ma demande, conformément à la",
     "consentLink": "politique de confidentialité",
     "honeypot": "Ne remplissez pas ce champ si vous êtes humain :",
@@ -37,7 +49,9 @@
   },
   "errors": {
     "required": "Ce champ est obligatoire.",
+    "choice": "Veuillez choisir une option.",
     "email": "Veuillez saisir une adresse email valide, par exemple nom@exemple.fr.",
+    "phone": "Veuillez saisir un numéro de téléphone valide, avec l'indicatif du pays.",
     "date": "Veuillez saisir une date valide.",
     "pastDate": "Veuillez choisir une date à venir.",
     "departureAfter": "La date de départ doit être après la date d'arrivée.",

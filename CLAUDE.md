@@ -167,18 +167,26 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 
 ## 7. Formulaire (Netlify Forms)
 
+Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les deux l'une sous l'autre sans JavaScript).
+
+**Étape 1 — Le séjour**
+
 | Champ | Type | Obligatoire |
 |---|---|---|
-| Nom | texte | **oui** |
-| Email | email | **oui** |
-| Téléphone | tel | non |
 | Date d'arrivée | date | **oui** |
 | Date de départ | date | **oui** (> arrivée) |
 | Dates flexibles | case | non |
-| Adultes / Enfants | nombre | non |
-| Âge des enfants | texte | non (visible si enfants > 0) |
-| Services souhaités | cases multiples (chef à domicile, traiteur, petit-déjeuner, moniteur de ski, forfaits, matériel de ski, massages, babysitting, transferts) | non |
-| Message | zone de texte | non |
+| Formule souhaitée | choix unique en boutons : Full Catered · Half Catered · Sur-mesure / À définir | **oui** |
+| Adultes / Enfants (« Nombre de convives ») | nombre | non |
+
+**Étape 2 — Le contact**
+
+| Champ | Type | Obligatoire |
+|---|---|---|
+| Nom et prénom | texte | **oui** |
+| Rôle | choix discret : « Je réserve pour moi-même » (par défaut) · « Je suis Assistant(e) Personnel(le) / Family Office / Agent » | oui (pré-coché) |
+| Canal de réponse privilégié | choix unique en boutons : WhatsApp · Email · Appel téléphonique | **oui** |
+| Téléphone **ou** Email | tel / email — seul le champ correspondant au canal est affiché (WhatsApp ou appel → téléphone ; Email → email) | **oui** |
 | Consentement RGPD | case + lien confidentialité | **oui** |
 
 - Un seul formulaire `demande-sejour` en FR et EN, champ caché `langue`.

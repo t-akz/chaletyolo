@@ -7,24 +7,25 @@
  * (plus `${id}-hint` s'il y a une aide).
  */
 import Icon from './Icon.astro';
+import RequiredMark from './RequiredMark.astro';
 
 interface Props {
   id: string;
   label: string;
-  /** Texte « (obligatoire) » affiché après le libellé, si le champ l'est. */
-  requiredLabel?: string;
+  /** Affiche l'astérisque rouge après le libellé (champ obligatoire). */
+  required?: boolean;
   hint?: string;
   class?: string;
   [key: `data-${string}`]: string | boolean | undefined;
 }
 
-const { id, label, requiredLabel, hint, class: className, ...rest } = Astro.props;
+const { id, label, required = false, hint, class: className, ...rest } = Astro.props;
 ---
 
 <div class={className} {...rest}>
   <label for={id} class="block text-sm font-medium">
     {label}
-    {requiredLabel && <span class="font-normal"> {requiredLabel}</span>}
+    {required && <RequiredMark />}
   </label>
   {
     hint && (

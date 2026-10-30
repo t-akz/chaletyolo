@@ -1,6 +1,9 @@
 ---
 /**
- * Formulaire de demande de séjour (Netlify Forms) — §7 de CLAUDE.md.
+ * Formulaire de demande de séjour en 2 étapes (Netlify Forms) — §7 de CLAUDE.md.
+ *   Étape 1 « Le séjour » : dates, formule souhaitée, nombre de convives.
+ *   Étape 2 « Le contact » : nom et prénom, rôle, canal de réponse,
+ *   téléphone ou email selon le canal choisi, consentement.
  *
  * Netlify Forms :
  * - un seul formulaire « demande-sejour » pour le FR et l'EN (mêmes noms de champs) ;
@@ -10,17 +13,19 @@
  * - après l'envoi : page /merci/ ou /en/thank-you/.
  * ATTENTION : l'envoi réel ne fonctionne pas en local, seulement sur Netlify.
  *
- * Validation :
- * - sans JavaScript : celle du navigateur (champs « required », email, dates…) ;
- * - avec JavaScript : messages dans la langue de la page, sous chaque champ,
- *   date de départ obligatoirement après l'arrivée, pas de date passée.
+ * Sans JavaScript : les deux étapes s'affichent l'une sous l'autre, avec la
+ * validation du navigateur. Avec JavaScript : une étape à la fois, messages
+ * d'erreur dans la langue de la page sous chaque champ, départ après l'arrivée,
+ * pas de date passée, et seul le champ utile (téléphone ou email) est affiché.
  */
 import Button from './Button.astro';
+import ChoiceGroup from './ChoiceGroup.astro';
 import FormField from './FormField.astro';
 import Icon from './Icon.astro';
+import RequiredMark from './RequiredMark.astro';
 import { figures } from '../content/chalet';
 import type { Lang } from '../i18n/languages';
-import { getContent, localizedPath } from '../i18n/utils';
+import { format, getContent, localizedPath } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -37,8 +42,8 @@ const maxGuests = figures.guests;
 const inputClass =
   'mt-2 block w-full border border-text/60 bg-bg-alt px-4 py-3 text-text transition-colors focus-visible:border-accent aria-[invalid=true]:border-error';
 const checkboxClass = 'mt-0.5 size-5 shrink-0 accent-primary';
-
-const services = Object.entries(f.services);
+// Titre de chaque étape : reçoit le focus quand on change d'étape (tabindex -1).
+const stepTitleClass = 'mt-3 scroll-mt-28 text-h3 focus:outline-none';
 ---
 
 <form
@@ -49,7 +54,7 @@ const services = Object.entries(f.services);
   netlify-honeypot="bot-field"
   data-contact-form
   data-errors={JSON.stringify(page.errors)}
-  class="grid gap-8 md:grid-cols-2 md:gap-x-6"
+  class="grid gap-16"
 >
   <!-- Champs techniques pour Netlify -->
   <input type="hidden" name="form-name" value="demande-sejour" />
@@ -61,175 +66,212 @@ const services = Object.entries(f.services);
     </label>
   </p>
 
-  <FormField id="nom" label={f.name} requiredLabel={page.form.required}>
-    <input
-      id="nom"
-      name="nom"
-      type="text"
-      required
-      maxlength="120"
-      autocomplete="name"
-      aria-describedby="nom-error"
-      data-validate
-      class={inputClass}
-    />
-  </FormField>
-
-  <FormField id="email" label={f.email} requiredLabel={page.form.required}>
-    <input
-      id="email"
-      name="email"
-      type="email"
-      required
-      maxlength="200"
-      autocomplete="email"
-      aria-describedby="email-error"
-      data-validate
-      class={inputClass}
-    />
-  </FormField>
-
-  <FormField id="telephone" label={f.phone}>
-    <input
-      id="telephone"
-      name="telephone"
-      type="tel"
-      maxlength="40"
-      autocomplete="tel"
-      aria-describedby="telephone-error"
-      data-validate
-      class={inputClass}
-    />
-  </FormField>
-
-  <div class="hidden md:block" aria-hidden="true"></div>
-
-  <FormField id="arrivee" label={f.arrival} requiredLabel={page.form.required}>
-    <input
-      id="arrivee"
-      name="arrivee"
-      type="date"
-      required
-      aria-describedby="arrivee-error"
-      data-validate
-      class={inputClass}
-    />
-  </FormField>
-
-  <FormField id="depart" label={f.departure} requiredLabel={page.form.required}>
-    <input
-      id="depart"
-      name="depart"
-      type="date"
-      required
-      aria-describedby="depart-error"
-      data-validate
-      class={inputClass}
-    />
-  </FormField>
-
-  <label class="flex items-start gap-3 md:col-span-2">
-    <input type="checkbox" name="dates_flexibles" value="oui" class={checkboxClass} />
-    <span>{f.flexible}</span>
-  </label>
-
-  <FormField id="adultes" label={f.adults}>
-    <input
-      id="adultes"
-      name="adultes"
-      type="number"
-      min="1"
-      max={maxGuests}
-      step="1"
-      inputmode="numeric"
-      aria-describedby="adultes-error"
-      data-validate
-      class={inputClass}
-    />
-  </FormField>
-
-  <FormField id="enfants" label={f.children}>
-    <input
-      id="enfants"
-      name="enfants"
-      type="number"
-      min="0"
-      max={maxGuests}
-      step="1"
-      inputmode="numeric"
-      aria-describedby="enfants-error"
-      data-validate
-      class={inputClass}
-    />
-  </FormField>
-
-  <!-- Visible seulement s'il y a au moins un enfant (géré par le script) -->
-  <FormField id="age_enfants" label={f.childrenAges} hint={f.childrenAgesHint} class="md:col-span-2" data-children-ages>
-    <input
-      id="age_enfants"
-      name="age_enfants"
-      type="text"
-      maxlength="200"
-      aria-describedby="age_enfants-hint age_enfants-error"
-      class={inputClass}
-    />
-  </FormField>
-
-  <fieldset class="md:col-span-2">
-    <legend class="text-sm font-medium">{f.servicesLegend}</legend>
-    <div class="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        services.map(([value, label]) => (
-          <label class="flex items-start gap-3">
-            <input type="checkbox" name="services[]" value={value} class={checkboxClass} />
-            <span>{label}</span>
-          </label>
-        ))
-      }
+  <!-- ========== Étape 1 : le séjour ========== -->
+  <section data-step aria-labelledby="etape-sejour" class="grid gap-8 md:grid-cols-2 md:gap-x-6">
+    <div class="md:col-span-2">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <p class="eyebrow">{format(f.stepLabel, { current: 1, total: 2 })}</p>
+        <!-- Explication discrète de l'astérisque -->
+        <p class="text-xs"><RequiredMark /> {f.requiredNote}</p>
+      </div>
+      <h2 id="etape-sejour" tabindex="-1" data-step-title class={stepTitleClass}>{f.steps.stay}</h2>
     </div>
-  </fieldset>
 
-  <FormField id="message" label={f.message} class="md:col-span-2">
-    <textarea
-      id="message"
-      name="message"
-      rows="6"
-      maxlength="3000"
-      aria-describedby="message-error"
-      data-validate
-      class={inputClass}></textarea>
-  </FormField>
+    <fieldset class="grid gap-6 md:col-span-2 md:grid-cols-2 md:gap-x-6">
+      <legend class="mb-4 text-sm font-medium">{f.datesLegend}</legend>
 
-  <div class="md:col-span-2">
-    <label class="flex items-start gap-3">
+      <FormField id="arrivee" label={f.arrival} required>
+        <input
+          id="arrivee"
+          name="arrivee"
+          type="date"
+          required
+          aria-describedby="arrivee-error"
+          data-validate
+          class={inputClass}
+        />
+      </FormField>
+
+      <FormField id="depart" label={f.departure} required>
+        <input
+          id="depart"
+          name="depart"
+          type="date"
+          required
+          aria-describedby="depart-error"
+          data-validate
+          class={inputClass}
+        />
+      </FormField>
+
+      <label class="flex items-start gap-3 md:col-span-2">
+        <input type="checkbox" name="dates_flexibles" value="oui" class={checkboxClass} />
+        <span>{f.flexible}</span>
+      </label>
+    </fieldset>
+
+    <ChoiceGroup
+      name="formule"
+      legend={f.formulaLegend}
+      options={f.formulas}
+      required
+      class="md:col-span-2"
+    />
+
+    <fieldset class="grid gap-6 md:col-span-2 md:grid-cols-2 md:gap-x-6">
+      <legend class="mb-4 text-sm font-medium">{f.guestsLegend}</legend>
+
+      <FormField id="adultes" label={f.adults}>
+        <input
+          id="adultes"
+          name="adultes"
+          type="number"
+          min="1"
+          max={maxGuests}
+          step="1"
+          inputmode="numeric"
+          aria-describedby="adultes-error"
+          data-validate
+          class={inputClass}
+        />
+      </FormField>
+
+      <FormField id="enfants" label={f.children}>
+        <input
+          id="enfants"
+          name="enfants"
+          type="number"
+          min="0"
+          max={maxGuests}
+          step="1"
+          inputmode="numeric"
+          aria-describedby="enfants-error"
+          data-validate
+          class={inputClass}
+        />
+      </FormField>
+    </fieldset>
+
+    <!-- Bouton « Continuer » : uniquement avec JavaScript (sinon, l'étape 2 est déjà visible) -->
+    <div class="md:col-span-2" data-js-only hidden>
+      <Button data-next>{f.next}</Button>
+    </div>
+  </section>
+
+  <!-- ========== Étape 2 : le contact ========== -->
+  <section data-step aria-labelledby="etape-contact" class="grid gap-8 md:grid-cols-2 md:gap-x-6">
+    <div class="md:col-span-2">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <p class="eyebrow">{format(f.stepLabel, { current: 2, total: 2 })}</p>
+        <!-- Explication discrète de l'astérisque -->
+        <p class="text-xs"><RequiredMark /> {f.requiredNote}</p>
+      </div>
+      <h2 id="etape-contact" tabindex="-1" data-step-title class={stepTitleClass}>{f.steps.contact}</h2>
+    </div>
+
+    <FormField id="nom" label={f.name} required>
       <input
-        id="consentement"
-        type="checkbox"
-        name="consentement"
-        value="oui"
+        id="nom"
+        name="nom"
+        type="text"
         required
-        aria-describedby="consentement-error"
+        maxlength="120"
+        autocomplete="name"
+        aria-describedby="nom-error"
         data-validate
-        class={checkboxClass}
+        class={inputClass}
       />
-      <span>
-        {f.consentBefore}
-        <a href={localizedPath('privacy', lang)} class="text-accent underline underline-offset-4">{f.consentLink}</a>.
-        <span class="text-sm"> {page.form.required}</span>
-      </span>
-    </label>
-    <p id="consentement-error" class="mt-2 flex items-start gap-2 text-sm text-error" hidden>
-      <Icon name="circle-alert" size={16} class="mt-0.5 shrink-0" />
-      <span data-error-text></span>
-    </p>
-  </div>
+    </FormField>
 
-  <div class="md:col-span-2">
-    <Button type="submit">{f.submit}</Button>
-  </div>
+    <ChoiceGroup
+      name="role"
+      legend={f.roleLegend}
+      options={f.roles}
+      checked="pour-moi-meme"
+      variant="discreet"
+      class="md:col-span-2"
+    />
+
+    <ChoiceGroup
+      name="canal_reponse"
+      legend={f.channelLegend}
+      options={f.channels}
+      required
+      class="md:col-span-2"
+    />
+
+    <!-- Téléphone (WhatsApp ou appel) ou email : le script n'affiche que le champ utile -->
+    <FormField id="telephone" label={f.phone} required hint={f.phoneHint} data-contact-field="phone">
+      <input
+        id="telephone"
+        name="telephone"
+        type="tel"
+        maxlength="40"
+        pattern="[+0-9 \(\)\.\-]{6,40}"
+        autocomplete="tel"
+        aria-describedby="telephone-hint telephone-error"
+        data-validate
+        class={inputClass}
+      />
+    </FormField>
+
+    <FormField id="email" label={f.email} required data-contact-field="email">
+      <input
+        id="email"
+        name="email"
+        type="email"
+        maxlength="200"
+        autocomplete="email"
+        aria-describedby="email-error"
+        data-validate
+        class={inputClass}
+      />
+    </FormField>
+
+    <div class="md:col-span-2">
+      <label class="flex items-start gap-3">
+        <input
+          id="consentement"
+          type="checkbox"
+          name="consentement"
+          value="oui"
+          required
+          aria-describedby="consentement-error"
+          data-validate
+          class={checkboxClass}
+        />
+        <span>
+          {f.consentBefore}
+          <a href={localizedPath('privacy', lang)} class="text-accent underline underline-offset-4">{f.consentLink}</a>.
+          <RequiredMark />
+        </span>
+      </label>
+      <p id="consentement-error" class="mt-2 flex items-start gap-2 text-sm text-error" hidden>
+        <Icon name="circle-alert" size={16} class="mt-0.5 shrink-0" />
+        <span data-error-text></span>
+      </p>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-x-10 gap-y-6 md:col-span-2">
+      <!-- Lien « Retour » : uniquement avec JavaScript -->
+      <button
+        type="button"
+        data-back
+        data-js-only
+        hidden
+        class="group inline-flex items-center gap-2 text-sm font-medium text-accent underline decoration-1 underline-offset-[6px] transition-[text-underline-offset] duration-300 hover:underline-offset-[9px]"
+      >
+        <Icon name="arrow-left" size={16} class="transition-transform duration-300 group-hover:-translate-x-1" />
+        {f.back}
+      </button>
+      <Button type="submit">{f.submit}</Button>
+    </div>
+  </section>
 </form>
 
 <script>
+  type Control = HTMLInputElement | HTMLTextAreaElement;
+
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
 
   if (form) {
@@ -237,13 +279,66 @@ const services = Object.entries(f.services);
     // Le script prend le relais du navigateur pour afficher les erreurs dans la bonne langue.
     form.noValidate = true;
 
-    const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
-    const arrival = field('arrivee');
-    const departure = field('depart');
-    const children = field('enfants');
-    const agesWrapper = form.querySelector<HTMLElement>('[data-children-ages]');
-    const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-validate]'));
+    const arrival = form.querySelector<HTMLInputElement>('#arrivee')!;
+    const departure = form.querySelector<HTMLInputElement>('#depart')!;
+    const steps = Array.from(form.querySelectorAll<HTMLElement>('[data-step]'));
+    const fields = Array.from(form.querySelectorAll<Control>('[data-validate]'));
+    let currentStep = 0;
     let submitted = false;
+
+    // --- Message d'erreur adapté à chaque cas ---
+    const messageFor = (input: Control): string => {
+      // Champ masqué (ex. email quand on a choisi WhatsApp) : jamais en erreur.
+      if (input.disabled) return '';
+      const v = input.validity;
+      if (v.valueMissing) {
+        if (input.type === 'checkbox') return messages.consent!;
+        if (input.type === 'radio') return messages.choice!;
+        return messages.required!;
+      }
+      if (v.typeMismatch) return messages.email!;
+      if (v.patternMismatch) return messages.phone!;
+      if (input.type === 'date') {
+        if (v.badInput) return messages.date!;
+        if (input === departure && arrival.value && input.value && input.value <= arrival.value) {
+          return messages.departureAfter!;
+        }
+        if (v.rangeUnderflow) return messages.pastDate!;
+      }
+      if (input.type === 'number' && !v.valid) {
+        return messages.number!.replace('{min}', (input as HTMLInputElement).min).replace('{max}', (input as HTMLInputElement).max);
+      }
+      return v.valid ? '' : messages.required!;
+    };
+
+    // Affiche (ou efface) l'erreur sous le champ. Renvoie vrai si le champ est valide.
+    const validate = (input: Control): boolean => {
+      const message = messageFor(input);
+      const error = document.getElementById(`${input.id}-error`);
+      if (message) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+      if (error) {
+        error.querySelector('[data-error-text]')!.textContent = message;
+        error.hidden = !message;
+      }
+      return !message;
+    };
+
+    // Champ à vérifier pour un élément modifié (pour un groupe radio : son premier bouton).
+    const fieldFor = (target: EventTarget | null): Control | undefined => {
+      if (target instanceof HTMLInputElement && target.type === 'radio') {
+        return fields.find((input) => input.name === target.name);
+      }
+      return fields.find((input) => input === target);
+    };
+
+    // Revalidation pendant la saisie, une fois qu'une erreur a été signalée.
+    const recheck = (event: Event) => {
+      const input = fieldFor(event.target);
+      if (input && (submitted || input.hasAttribute('aria-invalid'))) validate(input);
+    };
+    form.addEventListener('input', recheck);
+    form.addEventListener('change', recheck);
 
     // --- Dates : pas de date passée, départ au moins 1 jour après l'arrivée ---
     const pad = (n: number) => String(n).padStart(2, '0');
@@ -261,59 +356,60 @@ const services = Object.entries(f.services);
       if (submitted || departure.value) validate(departure);
     });
 
-    // --- « Âge des enfants » : visible seulement s'il y a des enfants ---
-    const toggleAges = () => {
-      if (agesWrapper) agesWrapper.hidden = !(Number(children.value) > 0);
+    // --- Canal de réponse : WhatsApp ou appel → téléphone ; Email → email ---
+    const contactFields = Array.from(form.querySelectorAll<HTMLElement>('[data-contact-field]'));
+    const updateContactField = () => {
+      const channel = form.querySelector<HTMLInputElement>('input[name="canal_reponse"]:checked')?.value;
+      const wanted = channel ? (channel === 'email' ? 'email' : 'phone') : null;
+      contactFields.forEach((wrapper) => {
+        const input = wrapper.querySelector('input')!;
+        const active = wrapper.dataset.contactField === wanted;
+        wrapper.hidden = !active;
+        // Champ masqué : désactivé (ni vérifié, ni envoyé).
+        input.disabled = !active;
+        input.required = active;
+        if (!active) validate(input);
+      });
     };
-    children.addEventListener('input', toggleAges);
-    toggleAges();
+    form.querySelectorAll('input[name="canal_reponse"]').forEach((radio) => radio.addEventListener('change', updateContactField));
+    updateContactField();
 
-    // --- Message d'erreur adapté à chaque cas ---
-    const messageFor = (input: HTMLInputElement | HTMLTextAreaElement): string => {
-      const v = input.validity;
-      if (v.valueMissing) return input.type === 'checkbox' ? messages.consent! : messages.required!;
-      if (v.typeMismatch) return messages.email!;
-      if (input.type === 'date') {
-        if (v.badInput) return messages.date!;
-        if (input === departure && arrival.value && input.value && input.value <= arrival.value) {
-          return messages.departureAfter!;
-        }
-        if (v.rangeUnderflow) return messages.pastDate!;
-      }
-      if (input.type === 'number' && !v.valid) {
-        return messages.number!.replace('{min}', (input as HTMLInputElement).min).replace('{max}', (input as HTMLInputElement).max);
-      }
-      return v.valid ? '' : messages.required!;
-    };
-
-    // Affiche (ou efface) l'erreur sous le champ. Renvoie vrai si le champ est valide.
-    const validate = (input: HTMLInputElement | HTMLTextAreaElement): boolean => {
-      const message = messageFor(input);
-      const error = document.getElementById(`${input.id}-error`);
-      if (message) input.setAttribute('aria-invalid', 'true');
-      else input.removeAttribute('aria-invalid');
-      if (error) {
-        error.querySelector('[data-error-text]')!.textContent = message;
-        error.hidden = !message;
-      }
-      return !message;
+    // --- Étapes : une seule visible à la fois ---
+    const showStep = (index: number, moveFocus = true) => {
+      steps.forEach((step, i) => (step.hidden = i !== index));
+      currentStep = index;
+      if (moveFocus) steps[index]!.querySelector<HTMLElement>('[data-step-title]')!.focus();
     };
 
-    // Revalidation pendant la saisie, une fois qu'une erreur a été signalée.
-    fields.forEach((input) => {
-      const recheck = () => {
-        if (submitted || input.hasAttribute('aria-invalid')) validate(input);
-      };
-      input.addEventListener('input', recheck);
-      input.addEventListener('change', recheck);
-    });
+    // Vérifie les champs d'une étape ; renvoie ceux qui sont en erreur.
+    const invalidFieldsIn = (step: HTMLElement) => fields.filter((input) => step.contains(input) && !validate(input));
+
+    const goToNextStep = () => {
+      const invalid = invalidFieldsIn(steps[0]!);
+      if (invalid.length > 0) invalid[0]!.focus();
+      else showStep(1);
+    };
+
+    form.querySelectorAll<HTMLElement>('[data-js-only]').forEach((element) => (element.hidden = false));
+    form.querySelector('[data-next]')!.addEventListener('click', goToNextStep);
+    form.querySelector('[data-back]')!.addEventListener('click', () => showStep(0));
+    showStep(0, false);
 
     form.addEventListener('submit', (event) => {
+      // « Entrée » pendant l'étape 1 : on passe à l'étape 2 au lieu d'envoyer.
+      if (currentStep === 0) {
+        event.preventDefault();
+        goToNextStep();
+        return;
+      }
       submitted = true;
       const invalid = fields.filter((input) => !validate(input));
       if (invalid.length > 0) {
         event.preventDefault();
-        invalid[0]!.focus();
+        const first = invalid[0]!;
+        const stepIndex = steps.findIndex((step) => step.contains(first));
+        if (stepIndex !== currentStep) showStep(stepIndex, false);
+        first.focus();
       }
     });
   }

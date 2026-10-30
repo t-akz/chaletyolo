@@ -248,7 +248,7 @@ Le formulaire s'appelle **`demande-sejour`** (le même pour le français et l'an
 ### Tester l'envoi
 
 Sur le site publié : remplissez le formulaire, envoyez → vous devez arriver sur la page **Merci**, et la demande apparaît dans **Forms → demande-sejour** (puis dans votre boîte email).
-Vérifiez à cette occasion que **toutes les cases « Services souhaités » cochées** apparaissent bien dans la demande reçue.
+Vérifiez à cette occasion que la **formule**, le **rôle**, le **canal de réponse** et le **téléphone ou l'email** apparaissent bien dans la demande reçue.
 
 ### Anti-spam
 

@@ -4,6 +4,7 @@
  * importez-la ci-dessous et ajoutez-la à la liste « icons ».
  * Les fichiers de contenu font ensuite référence à son nom, ex. « van ».
  */
+import ArrowLeft from '@lucide/astro/icons/arrow-left';
 import ArrowRight from '@lucide/astro/icons/arrow-right';
 import BedDouble from '@lucide/astro/icons/bed-double';
 import CableCar from '@lucide/astro/icons/cable-car';
@@ -28,6 +29,7 @@ import Van from '@lucide/astro/icons/van';
 import X from '@lucide/astro/icons/x';
 
 export const icons = {
+  'arrow-left': ArrowLeft,
   'arrow-right': ArrowRight,
   'bed-double': BedDouble,
   'cable-car': CableCar,

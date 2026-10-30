@@ -1,35 +1,47 @@
 {
   "meta": {
     "title": "Contact us — Chalet Yolo, Méribel",
-    "description": "Stay enquiry for Chalet Yolo, a private chalet in Méribel: dates, number of guests and services you would like."
+    "description": "Stay enquiry for Chalet Yolo, a private chalet in Méribel: dates, preferred package and number of guests."
   },
   "title": "Contact",
   "intro": "TODO-COPY: one-line introduction to the form.",
   "form": {
-    "required": "(required)",
-    "name": "Name",
-    "email": "Email",
-    "phone": "Phone",
+    "requiredNote": "Required field",
+    "stepLabel": "Step {current} of {total}",
+    "steps": {
+      "stay": "Your stay",
+      "contact": "Your details"
+    },
+    "next": "Continue",
+    "back": "Back",
+    "datesLegend": "Preferred dates",
     "arrival": "Arrival date",
     "departure": "Departure date",
     "flexible": "My dates are flexible",
+    "formulaLegend": "Preferred package",
+    "formulas": {
+      "full-catered": "Full Catered",
+      "half-catered": "Half Catered",
+      "sur-mesure": "Bespoke / To be defined"
+    },
+    "guestsLegend": "Number of guests",
     "adults": "Adults",
     "children": "Children",
-    "childrenAges": "Children's ages",
-    "childrenAgesHint": "For example: 4, 9",
-    "servicesLegend": "Services you would like",
-    "services": {
-      "chef-a-domicile": "Private chef",
-      "traiteur": "Catering",
-      "petit-dejeuner": "Breakfast",
-      "moniteur-de-ski": "Ski instructor",
-      "forfaits": "Ski passes",
-      "materiel-de-ski": "Ski equipment",
-      "massages": "Massages",
-      "babysitting": "Babysitting",
-      "transferts": "Transfers"
+    "name": "Full name",
+    "roleLegend": "Your role",
+    "roles": {
+      "pour-moi-meme": "I am booking for myself",
+      "intermediaire": "I am a Personal Assistant / Family Office / Agent"
     },
-    "message": "Message",
+    "channelLegend": "Preferred way to reply",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "appel": "Phone call"
+    },
+    "phone": "Phone number",
+    "phoneHint": "Including the country code, for example +44 7700 900123",
+    "email": "Email",
     "consentBefore": "I agree that my data may be used to respond to my enquiry, in accordance with the",
     "consentLink": "privacy policy",
     "honeypot": "Do not fill in this field if you are human:",
@@ -37,7 +49,9 @@
   },
   "errors": {
     "required": "This field is required.",
+    "choice": "Please choose an option.",
     "email": "Please enter a valid email address, for example name@example.com.",
+    "phone": "Please enter a valid phone number, including the country code.",
     "date": "Please enter a valid date.",
     "pastDate": "Please choose a future date.",
     "departureAfter": "The departure date must be after the arrival date.",
