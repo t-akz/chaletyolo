@@ -36,6 +36,7 @@ const widths = photo.image ? [...candidateWidths.filter((w) => w < maxWidth), ma
       src={photo.image}
       alt={alt}
       formats={['avif', 'webp']}
+      fallbackFormat="jpg"
       widths={widths}
       sizes={sizes}
       loading={priority ? 'eager' : 'lazy'}

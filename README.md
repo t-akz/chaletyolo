@@ -81,7 +81,7 @@ npm install
 | La liste des photos et leurs textes alternatifs | `src/content/photos.ts` |
 | Les fichiers photo | `src/assets/photos/<dossier>/` |
 | Les couleurs | `src/styles/tokens.css` |
-| Le favicon (icône de l'onglet) | `public/favicon.svg` |
+| Le logo / le favicon (icône de l'onglet) | `src/assets/logo/logo-yolo.svg` / `public/favicon.svg` |
 | Les adresses des pages | `src/i18n/routes.ts` (+ renommer le fichier dans `src/pages/`) |
 
 Correspondance fichiers de textes ↔ pages :
@@ -165,7 +165,11 @@ Exemple : la photo `piscine-01` → `src/assets/photos/piscine/piscine-01.jpg`
 | `chambres` | `chambre-01` à `chambre-06` | Cartes des chambres (Le chalet), Galerie ; `chambre-01` aussi dans la mosaïque de l'accueil |
 | `exterieur` | `exterieur-01`, `exterieur-02` | `exterieur-01` : Accueil ; les deux : Galerie |
 | `meribel` | `meribel-01`, `meribel-02` | `meribel-01` : Accueil, Méribel ; les deux : Galerie |
+| `salles-de-bain` | `sdb-01`, `sdb-02`, `sdb-03` | Galerie (filtre Chambres) |
+| `services` | `service-01` (local à skis), `service-02` (apéritif) | Galerie (filtre Séjour) |
 | `jeux` | `jeux-01` | Le chalet, Galerie — uniquement si la salle de jeux est confirmée |
+
+> Le dossier `images/` à la racine du projet contient les **originaux** fournis par le client. Il n'est pas envoyé sur GitHub (voir `.gitignore`) : le site n'utilise que les copies de `src/assets/photos/`.
 
 ### Remplacer une photo
 
@@ -185,8 +189,8 @@ Remplacez le fichier par un autre **portant le même nom**. Si la nouvelle photo
 
    | Filtre de la galerie | Dossiers |
    |---|---|
-   | Séjour | `sejour`, `cuisine` |
-   | Chambres | `chambres` |
+   | Séjour | `sejour`, `cuisine`, `services` |
+   | Chambres | `chambres`, `salles-de-bain` |
    | Bien-être | `piscine`, `bien-etre` |
    | Loisirs | `cinema`, `yoga`, `jeux` |
    | Extérieur | `exterieur` |
@@ -224,9 +228,12 @@ Une fois renseignés, ces éléments apparaissent automatiquement partout (pied 
 
 ### Logo
 
-1. Déposez les fichiers du logo dans `src/assets/logo/` : une version **foncée** et une version **claire** (pour l'en-tête transparent sur photo et pour le thème B).
-2. Le logo est aujourd'hui écrit en texte dans `src/components/Logo.astro` : demandez à l'assistant IA de le remplacer par les fichiers image (les instructions sont en commentaire en haut de ce fichier).
-3. Remplacez aussi le **favicon provisoire** `public/favicon.svg` (le « Y ») par une version du logo (format SVG carré idéalement, sinon PNG 512 × 512 — dans ce cas, adaptez la ligne `<link rel="icon" …>` de `src/layouts/BaseLayout.astro`).
+Le logo est en place : `src/assets/logo/logo-yolo.svg` (copie de l'original `images/logo_yolo.svg`, dont la couleur a été retirée).
+
+- Sa couleur s'adapte toute seule : **blanc** sur l'en-tête transparent (photo), **rouge `#b9121b`** sur fond clair (thèmes A et C), **blanc** partout dans le thème B. Ce rouge est réglé par la ligne `--color-logo` de `src/styles/tokens.css`.
+- Sa taille se règle dans `src/components/Header.astro` (classe `h-15`, en-tête) et `src/components/Footer.astro` (classe `h-20`, pied de page).
+- **Changer de logo** : remplacez `src/assets/logo/logo-yolo.svg` par le nouveau fichier SVG, puis supprimez-y les couleurs (`fill="#…"`, bloc `<style>`) et ajoutez `fill="currentColor"` sur la première balise `<svg …>` — ou demandez-le à l'assistant IA.
+- Le **favicon** (`public/favicon.svg`) reprend la tête d'ourson du logo sur fond crème.
 
 ---
 
@@ -358,8 +365,7 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 | Instagram, Facebook, TikTok | `src/config/site.ts` → `social` |
 | Position GPS du chalet (carte) | `src/config/site.ts` → `map` |
 | Description des niveaux autres que le 3e et le 4e | `src/content/chalet.ts` → `knownLevels` |
-| Logo (versions foncée et claire) + favicon définitif | `src/assets/logo/`, `public/favicon.svg` |
-| Toutes les photos | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
+| Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06`, `exterieur-02` (et `jeux-01` si la salle de jeux est confirmée) | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
 | Mentions légales : date de mise à jour, raison sociale, forme juridique et capital, adresse du siège, SIRET, directeur de publication, contact, adresse de Netlify, crédits photos | `src/content/fr/legal.json` + `en/legal.json` |
 | Confidentialité : date de mise à jour, responsable du traitement, garanties du transfert hors UE, durée de conservation, statistiques activées ou non, email pour exercer ses droits | `src/content/fr/privacy.json` + `en/privacy.json` |
 | Identifiants Umami (si statistiques souhaitées) | Variables Netlify ([§ 8](#8-statistiques-de-visite-umami)) |

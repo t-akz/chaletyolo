@@ -30,6 +30,7 @@
   --color-border: var(--color-border);
   --color-accent: var(--color-accent);
   --color-error: var(--color-error);
+  --color-logo: var(--color-logo);
 }
 
 @theme {

@@ -17,3 +17,6 @@ node_modules/
 .DS_Store
 npm-debug.log*
 
+
+# Photos d’origine déposées par le client (copies optimisées dans src/assets/photos/)
+images/

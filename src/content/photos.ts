@@ -24,6 +24,7 @@ export const photoFolders = {
   sejour: { fr: 'Séjour', en: 'Living room' },
   cuisine: { fr: 'Cuisine', en: 'Kitchen' },
   chambres: { fr: 'Chambres', en: 'Bedrooms' },
+  'salles-de-bain': { fr: 'Salles de bain', en: 'Bathrooms' },
   piscine: { fr: 'Piscine', en: 'Pool' },
   'bien-etre': { fr: 'Bien-être', en: 'Wellness' },
   cinema: { fr: 'Home cinéma', en: 'Home cinema' },
@@ -31,6 +32,7 @@ export const photoFolders = {
   jeux: { fr: 'Salle de jeux', en: 'Games room' },
   exterieur: { fr: 'Extérieur', en: 'Exterior' },
   meribel: { fr: 'Méribel', en: 'Méribel' },
+  services: { fr: 'Services', en: 'Services' },
 } satisfies Record<string, Localized>;
 
 export type PhotoFolder = keyof typeof photoFolders;
@@ -41,8 +43,8 @@ export type PhotoFolder = keyof typeof photoFolders;
  * Le dossier « hero » (photos plein écran des pages) n'apparaît pas dans la galerie.
  */
 export const galleryCategories = {
-  sejour: ['sejour', 'cuisine'],
-  chambres: ['chambres'],
+  sejour: ['sejour', 'cuisine', 'services'],
+  chambres: ['chambres', 'salles-de-bain'],
   'bien-etre': ['piscine', 'bien-etre'],
   loisirs: ['cinema', 'yoga', 'jeux'],
   exterieur: ['exterieur'],
@@ -88,11 +90,18 @@ const slots: PhotoSlot[] = [
   { id: 'chambre-04', folder: 'chambres', alt: { fr: 'Chambre 4', en: 'Bedroom 4' } },
   { id: 'chambre-05', folder: 'chambres', alt: { fr: 'Chambre 5', en: 'Bedroom 5' } },
   { id: 'chambre-06', folder: 'chambres', alt: { fr: 'Chambre 6', en: 'Bedroom 6' } },
+  { id: 'sdb-01', folder: 'salles-de-bain', alt: { fr: 'Salle de bain avec double vasque et peignoirs Chalet Yolo', en: 'Bathroom with double basin and Chalet Yolo bathrobes' } },
+  { id: 'sdb-02', folder: 'salles-de-bain', alt: { fr: 'Salle de bain en pierre grise avec double vasque', en: 'Grey stone bathroom with double basin' } },
+  { id: 'sdb-03', folder: 'salles-de-bain', alt: { fr: 'Salle de bain avec baignoire et double vasque', en: 'Bathroom with bathtub and double basin' } },
   { id: 'exterieur-01', folder: 'exterieur', alt: { fr: 'Façade en bois et pierre du chalet sous la neige', en: 'Snow-covered wood and stone façade of the chalet' } },
   { id: 'exterieur-02', folder: 'exterieur', alt: { fr: 'Vue montagne', en: 'Mountain view' } },
   { id: 'meribel-01', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' } },
   { id: 'meribel-02', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' } },
   { id: 'jeux-01', folder: 'jeux', alt: { fr: 'Salle de jeux', en: 'Games room' } },
+
+  // Illustrations des services (galerie, filtre « Séjour »)
+  { id: 'service-01', folder: 'services', alt: { fr: 'Local à skis avec chaussures, casques et vestes', en: 'Ski room with boots, helmets and jackets' } },
+  { id: 'service-02', folder: 'services', alt: { fr: 'Coupes de champagne et planche de charcuterie et fromages', en: 'Glasses of champagne with a charcuterie and cheese board' } },
 ];
 
 // Tous les fichiers image présents dans src/assets/photos/ (détectés automatiquement).

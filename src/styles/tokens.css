@@ -21,6 +21,7 @@
   --color-border: rgb(139 106 85 / 0.3); /* Filets et séparateurs (taupe à 30 %) — jamais pour du texte */
   --color-accent: var(--color-text); /* Sur-titres et liens (= couleur du texte en A) */
   --color-error: #a1262b; /* Messages d'erreur du formulaire (rouge brique) */
+  --color-logo: #b9121b; /* Logo sur fond clair (rouge d'origine du logo, aussi utilisé en C) */
 
   color-scheme: light;
 }
@@ -66,6 +67,7 @@
   --color-accent: #c9a96e; /* Sur-titres, liens, filets, anneau de focus (or) */
   --color-border: var(--color-accent); /* Filets et séparateurs en or */
   --color-error: #ff8a7a; /* Messages d'erreur du formulaire (corail clair, lisible sur noir) */
+  --color-logo: #ffffff; /* Logo en version claire partout */
 
   color-scheme: dark; /* Barres de défilement et contrôles natifs en version sombre */
 }

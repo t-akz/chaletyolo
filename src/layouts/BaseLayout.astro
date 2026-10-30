@@ -60,7 +60,7 @@ const analytics = getAnalytics();
       photoId={photoId}
       lodging={lodging}
     />
-    <!-- Favicon PROVISOIRE (« Y ») : à remplacer par le logo dans public/favicon.svg -->
+    <!-- Favicon : tête d’ourson du logo (public/favicon.svg) -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
     {analytics && <script is:inline defer src={analytics.src} data-website-id={analytics.websiteId}></script>}
@@ -73,7 +73,7 @@ const analytics = getAnalytics();
       {common.skipLink}
     </a>
     <Header lang={lang} routeKey={routeKey} transparent={hero} />
-    <main id="contenu" class:list={['flex-1', !hero && 'pt-20']}>
+    <main id="contenu" class:list={['flex-1', !hero && 'pt-22']}>
       <slot />
     </main>
     <Footer lang={lang} />

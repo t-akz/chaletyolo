@@ -16,7 +16,7 @@ Les éléments entre crochets `[...]` sont des valeurs à fournir plus tard : **
 3. **N'invente aucun fait** sur le chalet (équipements, distances, services, avis, prix). Source unique : §8. Si une info manque → marqueur visible `[À FOURNIR]`.
 4. **N'invente pas de textes marketing.** Les textes éditoriaux seront fournis séparément. En attendant : faits bruts du §8, et texte provisoire préfixé `TODO-COPY:` pour chaque accroche/intro.
 5. **Ambiguïté → pose la question** (une à la fois) plutôt que de supposer.
-6. **Git** : un commit par étape **validée par moi**, message clair en français (ex. `feat: page d'accueil FR/EN`). Ne jamais réécrire l'historique.
+6. **Git** : le dépôt existe déjà (branche `main`, dépôt distant `origin` = GitHub). Ne refais pas `git init`. Un commit par étape **validée par moi**, message clair en français (ex. `feat: page d'accueil FR/EN`). Ne jamais réécrire l'historique. **Le push vers GitHub, c'est moi qui le fais.**
 7. **Interdits sans mon accord explicite** :
    - ajouter une dépendance hors stack (§3) ;
    - installer quoi que ce soit en global ;
@@ -33,7 +33,7 @@ Les éléments entre crochets `[...]` sont des valeurs à fournir plus tard : **
   - `npm run build` (aucune erreur, aucun warning nouveau) ;
   - `npx astro check` (aucune erreur de types).
 - À la fin de chaque étape, donne-moi une **checklist de preview** courte et concrète :
-  - les **URL locales** à ouvrir (ex. `http://localhost:4321/`, `http://localhost:4321/en/`, `…?theme=b`) ;
+  - les **URL locales** à ouvrir (ex. `http://localhost:4321/`, `http://localhost:4321/en/`, `…?theme=b`, `…?theme=c`) ;
   - ce que je dois regarder sur chaque page (ex. « l'en-tête devient crème au scroll », « la lightbox se ferme avec Échap ») ;
   - les largeurs à tester dans les DevTools : 390 px (mobile), 768 px (tablette), 1440 px (desktop).
 - J'enverrai mes retours (texte et/ou captures). Corrige, puis redonne une checklist ciblée sur les corrections.
@@ -88,7 +88,7 @@ src/
   content/fr/*.json       → textes FR par page
   content/en/*.json       → textes EN par page
   i18n/                   → utilitaires de langue + table des routes
-  styles/tokens.css       → tokens thème A + thème B
+  styles/tokens.css       → tokens thèmes A, B et C
   components/             → composants (§5.6)
   layouts/BaseLayout.astro
   pages/                  → pages FR + pages/en/
@@ -106,7 +106,7 @@ src/
 - Textes courts : **2–3 lignes max** par bloc, **alignés à gauche** (jamais justifiés).
 - **Un seul style de bouton principal** (« Nous contacter »). Les autres actions = liens texte discrets (souligné fin + flèche).
 - Animations **lentes et discrètes** (fondu + léger glissement au scroll), `prefers-reduced-motion` respecté. **Pas de carrousel automatique.**
-- **Mobile-first**. Contrastes **WCAG AA** dans les deux thèmes.
+- **Mobile-first**. Contrastes **WCAG AA** dans les trois thèmes.
 
 ### 5.2 Thème A — « Chaleureux chic » (par défaut)
 | Token | Valeur | Usage |
@@ -119,17 +119,38 @@ src/
 | `--color-primary` | `#6E2A35` | Bouton principal (bordeaux), texte blanc |
 | `--color-primary-hover` | bordeaux légèrement plus foncé | Survol |
 
-### 5.3 Thème B — « Exclusif sombre » (démo client)
-| Token | Valeur |
-|---|---|
-| `--color-bg` | `#1E1E1C` |
-| `--color-bg-alt` | `#2A2724` |
-| `--color-accent-soft` | `#3A3631` |
-| `--color-heading` | `#B89B6A` |
-| `--color-text` | `#EDE8DF` |
-| `--color-primary` | `#B89B6A` (texte `#1E1E1C`) |
+### 5.3 Thème C — « Alpin contemporain » (proposition alternative à présenter au client)
+| Token | Valeur | Usage |
+|---|---|---|
+| `--color-bg` | `#FAFAF8` | Fond principal (blanc neige) |
+| `--color-bg-alt` | `#EFEEEA` | Sections alternées (pierre très claire) |
+| `--color-accent-soft` | `#C8A882` | Footer, blocs d'accent (bois clair) |
+| `--color-heading` | `#2F4A3E` | Titres (vert sapin) |
+| `--color-text` | `#3B3F42` | Texte courant (ardoise) |
+| `--color-primary` | `#2F4A3E` (texte blanc) | Bouton principal (vert sapin) |
+| `--color-primary-hover` | vert sapin légèrement plus foncé | Survol |
 
-**Bascule** : `?theme=b` → attribut `data-theme="b"` sur `<html>`, mémorisé en `sessionStorage`, annulable avec `?theme=a`. Script inline dans `<head>` (pas de flash). Code du thème B **isolé et facile à supprimer** (procédure dans le README). Seules les couleurs changent, pas la mise en page.
+Le gris pierre `#9A9890` est réservé aux filets et séparateurs : **jamais pour du texte** (contraste insuffisant).
+
+### 5.3b Thème B — « Noir, blanc, or » (proposition sombre à présenter au client)
+| Token | Valeur | Usage |
+|---|---|---|
+| `--color-bg` | `#000000` | Fond principal (noir) |
+| `--color-bg-alt` | `#121212` | Sections alternées (gris très sombre) |
+| `--color-accent-soft` | `#1C1C1C` | Footer, blocs d'accent |
+| `--color-heading` | `#FFFFFF` | Titres (blanc) |
+| `--color-text` | `#F2EEE8` | Texte courant (blanc cassé — **jamais de blanc pur pour le texte courant**, halo sur fond noir) |
+| `--color-primary` | `#C9A96E` (texte `#000000`) | Bouton principal (or) |
+| `--color-primary-hover` | or légèrement plus clair | Survol |
+| `--color-accent` | `#C9A96E` | Sur-titres, liens, filets, anneau de focus (or) |
+
+Contrastes vérifiés : texte/fond 18,2 · or/fond 9,4 · noir sur bouton or 9,4 · titres/fond 21.
+Thème sombre : le logo, les icônes et les éléments d'interface (champs de formulaire, accordéon, lightbox, images de remplacement, focus) doivent rester lisibles ; utiliser la **variante claire du logo** partout dans ce thème.
+
+### 5.3c Token commun `--color-accent`
+Défini dans **les trois thèmes** pour les sur-titres, liens et filets. En A et C, sa valeur doit reproduire exactement le rendu actuel (aucun changement visuel sur A et C).
+
+**Bascule** : `?theme=b` ou `?theme=c` → attribut `data-theme="b"` / `"c"` sur `<html>`, mémorisé en `sessionStorage`, `?theme=a` revient au défaut. Toute autre valeur est ignorée. Script inline dans `<head>` (pas de flash). Les thèmes B et C sont **isolés et faciles à supprimer** séparément (procédure dans le README). Seules les couleurs changent, pas la mise en page.
 
 ### 5.4 Typographie
 - Titres : **Cormorant Garamond** (400–500), grandes tailles.
@@ -141,12 +162,12 @@ src/
 Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FICHIER]`. En attendant, texte « Chalet Yolo ». Prévoir une variante claire pour l'en-tête transparent.
 
 ### 5.6 Composants
-- `Header` : transparent sur le hero, fond crème + légère ombre au scroll. Logo, menu (Le chalet, Services, Méribel, Galerie, Contact), sélecteur **FR | EN**, bouton « Nous contacter ». Mobile : menu plein écran.
+- `Header` : transparent sur le hero, fond `--color-bg` + légère ombre au scroll. Logo, menu (Le chalet, Services, Méribel, Galerie, Contact), sélecteur **FR | EN**, bouton « Nous contacter ». Mobile : menu plein écran.
 - `Hero` : image plein écran (`100svh`), voile sombre léger, accroche + sous-titre + bouton. Option **vidéo de fond** (mp4 muet en boucle + image de repli) activable plus tard.
 - `KeyFigures`, `FeatureSection` (photo + texte, alternance gauche/droite), `ServiceList`, `CTASection`, `Accordion`.
 - `Gallery` : mosaïque + **lightbox** (clic, clavier, Échap).
 - `WhatsAppButton` : flottant bas-droite, `https://wa.me/[WHATSAPP_NUMBER]` + message prérempli FR/EN.
-- `Footer` : fond nude, liens légaux, Instagram/Facebook/TikTok, email, « Méribel, 73550 ».
+- `Footer` : fond `--color-accent-soft`, liens légaux, Instagram/Facebook/TikTok, email, « Méribel, 73550 ».
 - `ContactForm` : §7.
 
 ---

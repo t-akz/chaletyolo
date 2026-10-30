@@ -39,16 +39,16 @@ const menu = menuKeys.map((key) => ({
   data-header
   data-transparent={transparent ? 'true' : 'false'}
   data-solid={transparent ? 'false' : 'true'}
-  class="fixed inset-x-0 top-0 z-40 text-white transition-[background-color,color,box-shadow] duration-500 data-[solid=true]:bg-bg data-[solid=true]:text-text data-[solid=true]:shadow-[0_1px_16px_rgb(0_0_0/0.07)]"
+  class="group fixed inset-x-0 top-0 z-40 text-white transition-[background-color,color,box-shadow] duration-500 data-[solid=true]:bg-bg data-[solid=true]:text-text data-[solid=true]:shadow-[0_1px_16px_rgb(0_0_0/0.07)]"
 >
-  <div class="container-page flex h-20 items-center justify-between gap-6">
+  <div class="container-page flex h-22 items-center justify-between gap-6">
     <a href={localizedPath('home', lang)} aria-label={common.header.homeLink}>
-      <Logo />
+      <Logo class="h-15 transition-colors duration-500 group-data-[solid=true]:text-logo" />
     </a>
 
     <!-- Menu ordinateur -->
     <nav aria-label={common.nav.label} class="hidden lg:block">
-      <ul class="flex items-center gap-8 text-sm font-medium">
+      <ul class="flex items-center gap-7 text-base font-medium xl:gap-10 xl:text-[1.0625rem]">
         {
           menu.map((item) => (
             <li>
@@ -65,7 +65,7 @@ const menu = menuKeys.map((key) => ({
       </ul>
     </nav>
 
-    <div class="hidden items-center gap-6 lg:flex">
+    <div class="hidden items-center gap-6 text-base lg:flex xl:gap-8">
       <LanguageSwitcher lang={lang} routeKey={routeKey} />
       <Button href={localizedPath('contact', lang)} size="sm">{common.cta.contact}</Button>
     </div>
@@ -90,9 +90,9 @@ const menu = menuKeys.map((key) => ({
     aria-label={common.nav.label}
     class="menu-dialog m-0 h-svh max-h-none w-full max-w-none bg-bg p-0 text-text open:flex open:flex-col"
   >
-    <div class="container-page flex h-20 shrink-0 items-center justify-between">
+    <div class="container-page flex h-22 shrink-0 items-center justify-between">
       <a href={localizedPath('home', lang)} aria-label={common.header.homeLink}>
-        <Logo />
+        <Logo class="h-15 text-logo" />
       </a>
       <button type="button" data-menu-close class="-mr-2 p-2">
         <Icon name="x" size={28} />
