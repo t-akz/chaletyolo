@@ -4,7 +4,7 @@
     "description": "350 m² over five levels with a lift: six bedrooms including four suites, heated indoor pool, spa, home cinema and yoga room in Méribel, Les 3 Vallées."
   },
   "hero": {
-    "title": "TODO-COPY: The chalet page tagline",
+    "title": "350 m² of wood, stone and silence.",
     "subtitle": "Ultra-Luxury Chalet · Les 3 Vallées"
   },
   "location": {
@@ -13,24 +13,24 @@
   },
   "spaces": {
     "pool": {
-      "text": "TODO-COPY: 2–3 lines about the pool."
+      "text": "Heated and entirely private, the indoor pool welcomes morning lengths and evening unwinding alike, after a day on the 600 km of slopes of Les 3 Vallées."
     },
     "wellness": {
       "title": "Spa and wellness area",
-      "text": "TODO-COPY: 2–3 lines about the wellness area."
+      "text": "Sauna, hammam, Jacuzzi and Jacuzzi bath: a complete spa, all to yourselves. The perfect setting for an in-chalet massage, bookable à la carte."
     },
     "cinema": {
-      "text": "TODO-COPY: 2–3 lines about the home cinema."
+      "text": "A private cinema room for the latest release, a mountain classic or the memories of the day."
     },
     "yoga": {
-      "text": "TODO-COPY: 2–3 lines about the yoga room."
+      "text": "Stretch before the first lift of the morning, release the tension after the last run: a room dedicated to yoga, in peace and quiet, without leaving the chalet."
     },
     "living": {
       "title": "Living room and kitchen",
-      "text": "TODO-COPY: 2–3 lines about the cathedral-ceiling living room and the kitchen."
+      "text": "On the 4th level, the cathedral-ceiling living room brings together a fireplace, a large dining table and a fitted kitchen: double oven, wine cellar, Nespresso. The chef's playground, and the heart of the chalet."
     },
     "games": {
-      "text": "TODO-COPY: 2–3 lines about the games room."
+      "text": "A games room to make the evenings last, with friends or family."
     }
   },
   "rooms": {

@@ -4,7 +4,7 @@
     "description": "Demande de séjour au Chalet Yolo, chalet privé à Méribel : dates, formule souhaitée et nombre de convives."
   },
   "title": "Contact",
-  "intro": "TODO-COPY: une ligne d'introduction au formulaire.",
+  "intro": "Quelques détails sur votre séjour, et notre conciergerie compose une proposition à votre mesure.",
   "form": {
     "requiredNote": "Champ obligatoire",
     "stepLabel": "Étape {current} sur {total}",

@@ -110,7 +110,7 @@ Correspondance fichiers de textes ↔ pages :
 2. Modifiez **uniquement le texte entre guillemets à droite** des deux-points. Exemple :
 
    ```json
-   "title": "TODO-COPY: accroche de la page d'accueil",
+   "title": "Méribel, à votre rythme.",
    ```
    devient
    ```json
@@ -125,11 +125,11 @@ Correspondance fichiers de textes ↔ pages :
 - Les fichiers FR et EN doivent avoir **exactement les mêmes rubriques**. Si une rubrique manque d'un côté, `npx astro check` affiche une erreur.
 - Gardez les guillemets `"` autour du texte et la virgule en fin de ligne quand il y en avait une. Pour écrire un guillemet **dans** un texte, utilisez les guillemets français « » ou l'apostrophe typographique ’.
 - Les repères entre accolades, comme `{skiAreaKm}` ou `{time}`, sont remplacés automatiquement par un chiffre venant de `chalet.ts` : laissez-les tels quels.
-- Les textes provisoires commencent par `TODO-COPY:` : remplacez la ligne entière (préfixe compris) par le texte définitif.
+- Les accroches et textes de présentation ont été rédigés par Claude (novembre 2026) : faites-les relire par le client. Un texte encore provisoire commence par `TODO-COPY:` : remplacez la ligne entière (préfixe compris).
 
 **Modifier un fait** (nombre de chambres, liste des équipements, services inclus…) : tout est dans `src/content/chalet.ts`, avec le libellé français (`fr:`) et anglais (`en:`) côte à côte. Exemple : `{ fr: 'Sauna', en: 'Sauna' }`.
 
-**La salle de jeux** est masquée partout tant que sa ligne dans `chalet.ts` contient `confirmed: false`. Le jour où elle est confirmée, passez à `confirmed: true` : elle apparaît automatiquement sur la page Le chalet, dans la galerie (catégorie Loisirs) et dans les données pour Google. Pensez alors à remplacer son texte `TODO-COPY` dans `chalet.json` (rubrique `games`).
+**La salle de jeux** est masquée partout tant que sa ligne dans `chalet.ts` contient `confirmed: false`. Le jour où elle est confirmée, passez à `confirmed: true` : elle apparaît automatiquement sur la page Le chalet, dans la galerie (catégorie Loisirs) et dans les données pour Google. Pensez alors à relire son texte dans `chalet.json` (rubrique `games`) : il reste volontairement général.
 
 ---
 
@@ -353,7 +353,7 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 
 ## 10. Liste de tout ce qui reste à fournir
 
-État au moment de la livraison. Astuce : dans VS Code, une recherche globale (`Cmd + Maj + F`) sur `À FOURNIR` ou `TODO-COPY` retrouve tous les emplacements.
+État au moment de la livraison. Astuce : dans VS Code, une recherche globale (`Cmd + Maj + F`) sur `À FOURNIR` retrouve tous les emplacements.
 
 ### Informations `[À FOURNIR]`
 
@@ -378,7 +378,7 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 | Salle de jeux (masquée) | `src/content/chalet.ts` → `confirmed: false` |
 | Liste complète des activités d'hiver (la page Méribel n'affiche pour l'instant que des faits existants : ski, navette, télécabine, casier à skis) | `src/views/MeribelView.astro` + `src/content/chalet.ts` |
 
-### Textes provisoires `TODO-COPY` (à remplacer en FR **et** en EN)
+### Textes rédigés par Claude (à faire relire par le client, en FR **et** en EN)
 
 | Fichier (`src/content/fr/` et `src/content/en/`) | Rubriques |
 |---|---|
@@ -388,7 +388,7 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 | `meribel.json` | `hero.title` |
 | `contact.json` | `intro` |
 | `thanks.json` | `text` |
-| `common.json` | `whatsapp.message` (message prérempli envoyé sur WhatsApp — le préfixe `TODO-COPY:` apparaît aussi dans WhatsApp tant qu'il n'est pas retiré) |
+| `common.json` | `whatsapp.message` (message prérempli envoyé sur WhatsApp) |
 
 ---
 
@@ -396,7 +396,7 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 
 - [ ] `npm run build` → « Complete! » sans erreur
 - [ ] `npx astro check` → « 0 errors »
-- [ ] Plus aucun `TODO-COPY` ni `[À FOURNIR]` visible sur les pages
+- [ ] Plus aucun `TODO-COPY` ni `[À FOURNIR]` visible sur les pages, et textes relus par le client
 - [ ] `url` de `src/config/site.ts` = le vrai domaine
 - [ ] Formulaire testé sur le site publié (réception de l'email)
 - [ ] Lighthouse (Chrome → DevTools → Lighthouse, mode Mobile) sur `npm run preview` : ≥ 90 dans les 4 catégories

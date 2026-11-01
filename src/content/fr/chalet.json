@@ -4,7 +4,7 @@
     "description": "350 m² sur cinq niveaux avec ascenseur : six chambres dont quatre suites, piscine intérieure chauffée, spa, home cinéma et salle de yoga à Méribel."
   },
   "hero": {
-    "title": "TODO-COPY: accroche de la page Le chalet",
+    "title": "350 m² de bois, de pierre et de silence.",
     "subtitle": "Chalet ultra luxe · Les 3 Vallées"
   },
   "location": {
@@ -13,24 +13,24 @@
   },
   "spaces": {
     "pool": {
-      "text": "TODO-COPY: 2 à 3 lignes sur la piscine."
+      "text": "Chauffée et entièrement privative, la piscine intérieure accueille les longueurs du matin comme la détente du soir, après une journée sur les 600 km de pistes des 3 Vallées."
     },
     "wellness": {
       "title": "Espace bien-être et spa",
-      "text": "TODO-COPY: 2 à 3 lignes sur l'espace bien-être."
+      "text": "Sauna, hammam, jacuzzi et bain jacuzzi : un spa complet, rien que pour vous. Le cadre idéal pour un massage au chalet, à réserver à la carte."
     },
     "cinema": {
-      "text": "TODO-COPY: 2 à 3 lignes sur le home cinéma."
+      "text": "Une salle de cinéma privée pour le dernier film, un classique de montagne ou les souvenirs de la journée."
     },
     "yoga": {
-      "text": "TODO-COPY: 2 à 3 lignes sur la salle de yoga."
+      "text": "S'étirer avant la première benne du matin, relâcher les tensions après la dernière piste : une salle dédiée au yoga, au calme, sans quitter le chalet."
     },
     "living": {
       "title": "Salon et cuisine",
-      "text": "TODO-COPY: 2 à 3 lignes sur le salon cathédrale et la cuisine."
+      "text": "Au 4e niveau, le salon cathédrale réunit cheminée, grande table et cuisine équipée : double four, cave à vin, Nespresso. Le terrain de jeu du chef, et le cœur du chalet."
     },
     "games": {
-      "text": "TODO-COPY: 2 à 3 lignes sur la salle de jeux."
+      "text": "Une salle de jeux pour prolonger les soirées, entre amis ou en famille."
     }
   },
   "rooms": {

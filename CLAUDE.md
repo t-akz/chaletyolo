@@ -14,7 +14,7 @@ Les éléments entre crochets `[...]` sont des valeurs à fournir plus tard : **
    - fichiers créés/modifiés **et** composants impactés en aval ;
    - la **checklist de preview** (voir §2) adaptée à ce qui vient d'être fait.
 3. **N'invente aucun fait** sur le chalet (équipements, distances, services, avis, prix). Source unique : §8. Si une info manque → marqueur visible `[À FOURNIR]`.
-4. **N'invente pas de textes marketing.** Les textes éditoriaux seront fournis séparément. En attendant : faits bruts du §8, et texte provisoire préfixé `TODO-COPY:` pour chaque accroche/intro.
+4. **Textes éditoriaux** : rédigés par Claude à la demande du client (01/11/2026), ton luxe et contemporain, **à faire relire par le client avant la mise en ligne**. Ils ne contiennent que des faits du §8. Tout nouveau texte suit la même règle ; s'il n'est pas encore rédigé, texte provisoire préfixé `TODO-COPY:`.
 5. **Ambiguïté → pose la question** (une à la fois) plutôt que de supposer.
 6. **Git** : le dépôt existe déjà (branche `main`, dépôt distant `origin` = GitHub). Ne refais pas `git init`. Un commit par étape **validée par moi**, message clair en français (ex. `feat: page d'accueil FR/EN`). Ne jamais réécrire l'historique. **Le push vers GitHub, c'est moi qui le fais.**
 7. **Interdits sans mon accord explicite** :
@@ -176,7 +176,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 
 **Ton** : sobre et factuel (titres, chiffres, descriptions) + **une seule accroche complice par page max** (jeu possible sur « Yolo »). **Vouvoiement** en français.
 
-- **Accueil** : Hero (piscine ou extérieur neige, accroche `TODO-COPY`, sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → Chiffres clés (350 m² · 15 personnes · 6 chambres · 6 salles de bain) → Intro 2 lignes `TODO-COPY` + lien → 4 équipements phares en `FeatureSection` (piscine intérieure chauffée · espace bien-être · home cinéma · salon cathédrale avec cheminée) → 4 services inclus (navette privée · ménage quotidien · conciergerie · linge et peignoirs) → aperçu Méribel → mosaïque 6–8 photos → CTA « Parlons de votre séjour » + WhatsApp.
+- **Accueil** : Hero (piscine ou extérieur neige, accroche « Méribel, à votre rythme. » / « Méribel, at your own pace. », sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → Chiffres clés (350 m² · 15 personnes · 6 chambres · 6 salles de bain) → Intro 2 lignes + lien → 4 équipements phares en `FeatureSection` (piscine intérieure chauffée · espace bien-être · home cinéma · salon cathédrale avec cheminée) → 4 services inclus (navette privée · ménage quotidien · conciergerie · linge et peignoirs) → aperçu Méribel → mosaïque 6–8 photos → CTA « Parlons de votre séjour » + WhatsApp.
 - **Le chalet** : Hero → chiffres + localisation (La Gittaz) → une `FeatureSection` par espace (piscine · bien-être · cinéma · yoga · salon/cuisine · salle de jeux **seulement si `confirmed: true`**) → 6 cartes chambres → visite par niveau (5 niveaux, ascenseur) → `Accordion` « Tous les équipements » → CTA.
 - **Services** : Hero → Gastronomie (formules Half / Full Catered + chef privé, majordome, chauffeur) → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte (Activités · Restauration · Conciergerie) → « Sur demande, auprès de notre conciergerie » + CTA.
 - **Méribel** : Hero → la station → activités d'hiver (icônes) → accès (voiture, train, aéroports) → carte chargée **au clic** (pas de cookie) → CTA.

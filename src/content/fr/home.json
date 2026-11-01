@@ -4,26 +4,26 @@
     "description": "Chalet Yolo, location de chalet de luxe à Méribel avec chef privé et majordome : piscine intérieure chauffée, spa et 6 chambres pour 15 personnes."
   },
   "hero": {
-    "title": "TODO-COPY: accroche de la page d'accueil",
+    "title": "Méribel, à votre rythme.",
     "subtitle": "Chalet de luxe avec chef · Méribel"
   },
   "intro": {
-    "text": "TODO-COPY: introduction de 2 lignes sur le chalet.",
+    "text": "Cinq niveaux, 350 m², un chef privé, un majordome et un chauffeur. Au Chalet Yolo, votre seule décision du jour : la piste ou le spa.",
     "link": "Découvrir le chalet"
   },
   "features": {
     "pool": {
-      "text": "TODO-COPY: 2 à 3 lignes sur la piscine."
+      "text": "De retour des pistes, l'eau chauffée vous attend. Une piscine intérieure et privative, pour quelques longueurs ou un long moment de rien."
     },
     "wellness": {
       "title": "Espace bien-être et spa",
-      "text": "TODO-COPY: 2 à 3 lignes sur l'espace bien-être."
+      "text": "Sauna, hammam, jacuzzi : le rituel d'après-ski se vit sans quitter le chalet. Les jambes lourdes de la journée n'y résistent pas longtemps."
     },
     "cinema": {
-      "text": "TODO-COPY: 2 à 3 lignes sur le home cinéma."
+      "text": "Quand la nuit tombe sur la vallée, le home cinéma prend le relais. Un film en famille ou le match du soir, à l'abri du froid."
     },
     "livingRoom": {
-      "text": "TODO-COPY: 2 à 3 lignes sur le salon cathédrale."
+      "text": "Sous la charpente du salon cathédrale, le feu crépite et la grande table se dresse. C'est ici que les journées se racontent, autour des plats du chef."
     },
     "link": "Découvrir le chalet"
   },

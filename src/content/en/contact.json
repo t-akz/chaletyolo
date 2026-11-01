@@ -4,7 +4,7 @@
     "description": "Stay enquiry for Chalet Yolo, a private chalet in Méribel: dates, preferred package and number of guests."
   },
   "title": "Contact",
-  "intro": "TODO-COPY: one-line introduction to the form.",
+  "intro": "A few details about your stay, and our concierge will put together a proposal tailored to you.",
   "form": {
     "requiredNote": "Required field",
     "stepLabel": "Step {current} of {total}",
