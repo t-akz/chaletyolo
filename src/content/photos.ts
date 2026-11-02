@@ -64,6 +64,18 @@ export type PhotoSlot = {
   id: string;
   folder: PhotoFolder;
   alt: Localized;
+  /**
+   * Retouche facultative appliquée à l'affichage (filtre CSS), ex.
+   * « brightness(0.9) » pour assombrir une photo trop blanche.
+   * Le fichier d'origine n'est pas modifié : supprimez la ligne pour revenir à l'original.
+   */
+  filter?: string;
+  /**
+   * Cadrage facultatif quand la photo est rognée pour remplir son cadre
+   * (position CSS « horizontal vertical »). Ex. « center 75% » : on voit
+   * plutôt le bas de la photo. « 0% » = haut, « 50% » = centre (défaut), « 100% » = bas.
+   */
+  position?: string;
 };
 
 /** Liste des photos attendues. Ajoutez une ligne pour chaque nouvelle photo. */
@@ -71,7 +83,7 @@ const slots: PhotoSlot[] = [
   // Photos plein écran (hero) de chaque page
   { id: 'accueil', folder: 'hero', alt: { fr: 'Façade en bois et pierre du Chalet Yolo sous la neige, chalet de luxe à Méribel', en: 'Snow-covered wood and stone façade of Chalet Yolo, a luxury catered chalet in Méribel' } },
   { id: 'le-chalet', folder: 'hero', alt: { fr: 'Le Chalet Yolo sous la neige, à Méribel dans les 3 Vallées', en: 'Chalet Yolo under snow in Méribel, Les 3 Vallées' } },
-  { id: 'services', folder: 'hero', alt: { fr: 'Les services du Chalet Yolo', en: 'Chalet Yolo services' } },
+  { id: 'services', folder: 'hero', alt: { fr: 'Table dressée pour le repas devant une baie vitrée avec vue sur la montagne', en: 'Table set for a meal by a large window with a mountain view' }, position: 'center 75%' },
   { id: 'meribel', folder: 'hero', alt: { fr: 'La station de Méribel enneigée, au cœur des 3 Vallées', en: 'Méribel ski resort under snow, in the heart of Les 3 Vallées' } },
 
   // Espaces du chalet
@@ -84,12 +96,12 @@ const slots: PhotoSlot[] = [
   { id: 'sejour-01', folder: 'sejour', alt: { fr: 'Salon cathédrale avec cheminée et poutres en bois', en: 'Cathedral-ceiling living room with fireplace and timber beams' } },
   { id: 'sejour-02', folder: 'sejour', alt: { fr: 'Séjour', en: 'Living room' } },
   { id: 'cuisine-01', folder: 'cuisine', alt: { fr: 'Cuisine équipée sous charpente en bois, avec îlot', en: 'Fitted kitchen with island under timber beams' } },
-  { id: 'chambre-01', folder: 'chambres', alt: { fr: 'Chambre 1', en: 'Bedroom 1' } },
-  { id: 'chambre-02', folder: 'chambres', alt: { fr: 'Chambre 2', en: 'Bedroom 2' } },
-  { id: 'chambre-03', folder: 'chambres', alt: { fr: 'Chambre 3', en: 'Bedroom 3' } },
-  { id: 'chambre-04', folder: 'chambres', alt: { fr: 'Chambre 4', en: 'Bedroom 4' } },
-  { id: 'chambre-05', folder: 'chambres', alt: { fr: 'Chambre 5', en: 'Bedroom 5' } },
-  { id: 'chambre-06', folder: 'chambres', alt: { fr: 'Chambre 6', en: 'Bedroom 6' } },
+  { id: 'chambre-01', folder: 'chambres', alt: { fr: 'Chambre Gentiane', en: 'Gentiane Room' } },
+  { id: 'chambre-02', folder: 'chambres', alt: { fr: 'Chambre Centaurée des montagnes', en: 'Centaurée des montagnes Room' } },
+  { id: 'chambre-03', folder: 'chambres', alt: { fr: 'Chambre L’Ancolie', en: 'L’Ancolie Room' } },
+  { id: 'chambre-04', folder: 'chambres', alt: { fr: 'Chambre Rose des Alpes', en: 'Rose des Alpes Room' } },
+  { id: 'chambre-05', folder: 'chambres', alt: { fr: 'Chambre Flocons', en: 'Flocons Room' } },
+  { id: 'chambre-06', folder: 'chambres', alt: { fr: 'Chambre Marmottes', en: 'Marmottes Room' } },
   { id: 'sdb-01', folder: 'salles-de-bain', alt: { fr: 'Salle de bain avec double vasque et peignoirs Chalet Yolo', en: 'Bathroom with double basin and Chalet Yolo bathrobes' } },
   { id: 'sdb-02', folder: 'salles-de-bain', alt: { fr: 'Salle de bain en pierre grise avec double vasque', en: 'Grey stone bathroom with double basin' } },
   { id: 'sdb-03', folder: 'salles-de-bain', alt: { fr: 'Salle de bain avec baignoire et double vasque', en: 'Bathroom with bathtub and double basin' } },
@@ -97,6 +109,8 @@ const slots: PhotoSlot[] = [
   { id: 'exterieur-02', folder: 'exterieur', alt: { fr: 'Vue montagne', en: 'Mountain view' } },
   { id: 'meribel-01', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' } },
   { id: 'meribel-02', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' } },
+  // Neige très lumineuse : légèrement assombrie (90 %) et contrastée (+5 %).
+  { id: 'meribel-03', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' }, filter: 'brightness(0.9) contrast(1.05)' },
   { id: 'jeux-01', folder: 'jeux', alt: { fr: 'Salle de jeux', en: 'Games room' } },
 
   // Illustrations des services (galerie, filtre « Séjour »)

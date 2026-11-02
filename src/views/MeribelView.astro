@@ -1,18 +1,18 @@
 ---
 /**
  * Page « Méribel » (FR et EN) — structure du §6 de CLAUDE.md :
- * Hero → la station → activités d'hiver → accès → carte (au clic) → appel à l'action.
+ * Hero → la station → activités d'hiver → carte (au clic) → appel à l'action.
+ * (Section « Accès » retirée à la demande du client le 02/11/2026.)
  * Les activités d'hiver sont tirées uniquement des faits existants (chalet.ts),
  * en attendant une liste complète.
  * Textes : src/content/{fr,en}/meribel.json ; faits : src/content/chalet.ts.
  */
-import AccessInfo from '../components/AccessInfo.astro';
 import CTASection from '../components/CTASection.astro';
 import FeatureSection from '../components/FeatureSection.astro';
 import Hero from '../components/Hero.astro';
 import MapOnClick from '../components/MapOnClick.astro';
 import ServiceList from '../components/ServiceList.astro';
-import { access, amenities, meribel, slopesAccess } from '../content/chalet';
+import { amenities, meribel, slopesAccess } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { format, getContent } from '../i18n/utils';
@@ -38,11 +38,6 @@ const activities = [
   },
   ...(skiLocker ? [{ label: skiLocker, icon: 'lock' as const }] : []),
 ];
-
-// Itinéraire routier ; la distance (19 km) est ajoutée à la dernière étape.
-const roadLines = access.road.steps.map((step, index) =>
-  index === access.road.steps.length - 1 ? `${step} (${access.road.lastLegKm} km)` : step,
-);
 ---
 
 <BaseLayout lang={lang} routeKey="meribel" title={page.meta.title} description={page.meta.description} photoId="meribel" hero>
@@ -50,7 +45,7 @@ const roadLines = access.road.steps.map((step, index) =>
 
   <FeatureSection
     lang={lang}
-    photoId="meribel-01"
+    photoId="meribel-03"
     eyebrow={page.resort.eyebrow}
     title={page.resort.title}
     text={format(page.resort.text, { foundedYear: meribel.foundedYear, skiAreaKm: meribel.skiAreaKm })}
@@ -58,22 +53,7 @@ const roadLines = access.road.steps.map((step, index) =>
 
   <ServiceList title={page.activities.title} groups={[{ items: activities }]} background="alt" />
 
-  <AccessInfo
-    title={page.access.title}
-    modes={[
-      { icon: 'car', title: page.access.car, lines: roadLines },
-      { icon: 'train-front', title: page.access.train, lines: [access.train[lang]] },
-      {
-        icon: 'plane-landing',
-        title: page.access.plane,
-        lines: access.airports.map((airport) =>
-          format(page.access.airport, { name: airport.name[lang], duration: airport.duration }),
-        ),
-      },
-    ]}
-  />
-
-  <MapOnClick lang={lang} background="alt" />
+  <MapOnClick lang={lang} />
 
   <CTASection lang={lang} title={page.cta.title} />
 </BaseLayout>

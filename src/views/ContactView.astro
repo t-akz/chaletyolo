@@ -1,19 +1,17 @@
 ---
 /**
  * Page « Contact » (FR et EN) — §6 de CLAUDE.md :
- * titre, une ligne d'intro, formulaire, bloc « Ou directement » (WhatsApp,
- * email) et accès résumé.
+ * titre, une ligne d'intro, formulaire et bloc « Ou directement » (WhatsApp,
+ * email). (Bloc « Accès » retiré à la demande du client le 02/11/2026.)
  * Textes : src/content/{fr,en}/contact.json ; faits : src/content/chalet.ts.
  */
 import ContactForm from '../components/ContactForm.astro';
 import Icon from '../components/Icon.astro';
-import TextLink from '../components/TextLink.astro';
 import { whatsappUrl } from '../components/whatsapp';
 import { isProvided, site, TO_PROVIDE } from '../config/site';
-import { access } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
-import { getContent, localizedPath } from '../i18n/utils';
+import { getContent } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -22,22 +20,6 @@ interface Props {
 const { lang } = Astro.props;
 const common = getContent(lang, 'common');
 const page = getContent(lang, 'contact');
-const accessLabels = getContent(lang, 'meribel').access;
-
-// Accès résumé (une ligne par moyen de transport).
-const accessLines = [
-  {
-    icon: 'car' as const,
-    label: accessLabels.car,
-    text: `${access.road.steps.join(' · ')} (${access.road.lastLegKm} km)`,
-  },
-  { icon: 'train-front' as const, label: accessLabels.train, text: access.train[lang] },
-  {
-    icon: 'plane-landing' as const,
-    label: accessLabels.plane,
-    text: access.airports.map((airport) => `${airport.name[lang]} ${airport.duration}`).join(' · '),
-  },
-];
 ---
 
 <BaseLayout lang={lang} routeKey="contact" title={page.meta.title} description={page.meta.description}>
@@ -79,26 +61,6 @@ const accessLines = [
               }
             </li>
           </ul>
-        </div>
-
-        <div>
-          <h2 class="border-b border-border pb-4 text-h3">{page.access.title}</h2>
-          <ul class="mt-6 space-y-5">
-            {
-              accessLines.map((line) => (
-                <li class="flex items-start gap-3">
-                  <Icon name={line.icon} size={22} class="mt-0.5 shrink-0 text-heading" />
-                  <span>
-                    <span class="block text-sm font-semibold">{line.label}</span>
-                    <span class="text-sm">{line.text}</span>
-                  </span>
-                </li>
-              ))
-            }
-          </ul>
-          <div class="mt-6">
-            <TextLink href={localizedPath('meribel', lang)}>{page.access.link}</TextLink>
-          </div>
         </div>
       </aside>
     </div>

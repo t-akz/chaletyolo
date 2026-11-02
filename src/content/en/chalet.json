@@ -5,7 +5,7 @@
   },
   "hero": {
     "title": "350 m² of wood, stone and silence.",
-    "subtitle": "Ultra-Luxury Chalet · Les 3 Vallées"
+    "subtitle": "Luxury Chalet · Les 3 Vallées"
   },
   "location": {
     "title": "Location",
@@ -35,8 +35,7 @@
   },
   "rooms": {
     "title": "Bedrooms and suites",
-    "summary": "{bedrooms} bedrooms including {suites} suites · {bathrooms} bathrooms",
-    "room": "Bedroom {number}"
+    "summary": "{bedrooms} bedrooms including {suites} suites · {bathrooms} bathrooms"
   },
   "levels": {
     "title": "Level by level",

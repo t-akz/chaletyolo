@@ -17,13 +17,6 @@
     "ski": "Skiing in Les 3 Vallées: {skiAreaKm} km of slopes",
     "toConfirm": "[TO BE CONFIRMED]"
   },
-  "access": {
-    "title": "Getting there",
-    "car": "By car",
-    "train": "By train",
-    "plane": "By air",
-    "airport": "{name} airport: {duration}"
-  },
   "map": {
     "title": "Location",
     "missing": "The map will appear here once the chalet's location has been provided:",

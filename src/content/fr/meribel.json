@@ -17,13 +17,6 @@
     "ski": "Ski sur les 3 Vallées : {skiAreaKm} km de pistes",
     "toConfirm": "[À CONFIRMER]"
   },
-  "access": {
-    "title": "Accès",
-    "car": "En voiture",
-    "train": "En train",
-    "plane": "En avion",
-    "airport": "Aéroport de {name} : {duration}"
-  },
   "map": {
     "title": "Localisation",
     "missing": "La carte s'affichera ici dès que la position du chalet sera renseignée :",

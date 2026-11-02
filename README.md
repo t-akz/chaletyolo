@@ -213,7 +213,7 @@ Tout ce qui manque s'affiche sur le site avec le repère visible **[À FOURNIR]*
 | `url` | Adresse complète du site, **sans** `/` à la fin | `'https://www.chalet-yolo.com'` |
 | `email` | Email de contact affiché | `'contact@chalet-yolo.com'` |
 | `whatsapp` | Numéro au format international, **chiffres uniquement**, sans `+`, sans espaces, sans le 0 initial | `'33612345678'` |
-| `social.instagram` / `facebook` / `tiktok` | Adresses complètes des pages | `'https://www.instagram.com/…'` |
+| `social.instagram` | Adresse complète de la page | `'https://www.instagram.com/…'` |
 | `map.latitude` / `map.longitude` | Position du chalet (nombre décimal, **sans** guillemets) | `latitude: 45.39` |
 
 Pour trouver la position : sur <https://www.openstreetmap.org>, clic droit sur le chalet → « Afficher l'adresse » : les deux nombres affichés sont la latitude puis la longitude.
@@ -362,7 +362,7 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 | Adresse du site (domaine) — actuellement `https://a-fournir.example` | `src/config/site.ts` → `url` |
 | Email de contact | `src/config/site.ts` → `email` |
 | Numéro WhatsApp | `src/config/site.ts` → `whatsapp` |
-| Instagram, Facebook, TikTok | `src/config/site.ts` → `social` |
+| Instagram | `src/config/site.ts` → `social` |
 | Position GPS du chalet (carte) | `src/config/site.ts` → `map` |
 | Description des niveaux autres que le 3e et le 4e | `src/content/chalet.ts` → `knownLevels` |
 | Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06`, `exterieur-02` (et `jeux-01` si la salle de jeux est confirmée) | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |

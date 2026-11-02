@@ -40,14 +40,16 @@ export const figures = {
 
 // ---------------------------------------------------------------------------
 // Chambres
+// Noms fournis par le client (02/11/2026). En anglais, le nom propre reste
+// en français et seul « Chambre » est traduit (« Gentiane Room »).
 // ---------------------------------------------------------------------------
-export const bedrooms: { number: number; beds: Localized }[] = [
-  { number: 1, beds: { fr: 'Lit 180', en: '180 cm bed' } },
-  { number: 2, beds: { fr: 'Lit 180', en: '180 cm bed' } },
-  { number: 3, beds: { fr: 'Lit 180', en: '180 cm bed' } },
-  { number: 4, beds: { fr: 'Lit 180', en: '180 cm bed' } },
-  { number: 5, beds: { fr: '2 lits superposés', en: '2 bunk beds' } },
-  { number: 6, beds: { fr: '1 lit simple + 1 lit superposé', en: '1 single bed + 1 bunk bed' } },
+export const bedrooms: { number: number; name: Localized; beds: Localized }[] = [
+  { number: 1, name: { fr: 'Chambre Gentiane', en: 'Gentiane Room' }, beds: { fr: 'Lit 180', en: '180 cm bed' } },
+  { number: 2, name: { fr: 'Chambre Centaurée des montagnes', en: 'Centaurée des montagnes Room' }, beds: { fr: 'Lit 180', en: '180 cm bed' } },
+  { number: 3, name: { fr: 'Chambre L\'Ancolie', en: 'L\'Ancolie Room' }, beds: { fr: 'Lit 180', en: '180 cm bed' } },
+  { number: 4, name: { fr: 'Chambre Rose des Alpes', en: 'Rose des Alpes Room' }, beds: { fr: 'Lit 180', en: '180 cm bed' } },
+  { number: 5, name: { fr: 'Chambre Flocons', en: 'Flocons Room' }, beds: { fr: '2 lits superposés', en: '2 bunk beds' } },
+  { number: 6, name: { fr: 'Chambre Marmottes', en: 'Marmottes Room' }, beds: { fr: '1 lit simple + 1 lit superposé', en: '1 single bed + 1 bunk bed' } },
 ];
 
 // ---------------------------------------------------------------------------
@@ -232,8 +234,8 @@ export const slopesAccess = {
 // ---------------------------------------------------------------------------
 export const catering = {
   formulas: [
-    { id: 'half-catered', label: { fr: 'Half Catered — demi-pension', en: 'Half Catered — half board' } },
-    { id: 'full-catered', label: { fr: 'Full Catered — pension complète', en: 'Full Catered — full board' } },
+    { id: 'half-catered', label: { fr: 'Demi-pension', en: 'Half Catered' } },
+    { id: 'full-catered', label: { fr: 'Pension complète', en: 'Full Catered' } },
   ] satisfies { id: string; label: Localized }[],
   staff: [
     { id: 'chef', label: { fr: 'Chef privé', en: 'Private chef' } },

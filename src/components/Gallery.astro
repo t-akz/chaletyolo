@@ -72,6 +72,7 @@ const isLarge = (index: number) => index % 7 === 0;
             data-open
             data-full={photo.full}
             data-alt={photo.alt[lang]}
+            data-photo-filter={photo.filter}
             data-label={`${photoFolders[photo.folder][lang]} — ${photo.folder}/${photo.id}`}
             aria-label={format(page.lightbox.open, { alt: photo.alt[lang] })}
             class="block h-full w-full cursor-zoom-in overflow-hidden"
@@ -168,6 +169,8 @@ const isLarge = (index: number) => index % 7 === 0;
       if (full) {
         image.src = full;
         image.alt = button.dataset.alt ?? '';
+        // Même retouche que dans la mosaïque (voir « filter » dans src/content/photos.ts).
+        image.style.filter = button.dataset.photoFilter ?? '';
         image.classList.remove('hidden');
         placeholder.classList.add('hidden');
         placeholder.classList.remove('flex');

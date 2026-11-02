@@ -145,7 +145,7 @@ Le gris pierre `#9A9890` est réservé aux filets et séparateurs : **jamais pou
 | `--color-accent` | `#C9A96E` | Sur-titres, liens, filets, anneau de focus (or) |
 
 Contrastes vérifiés : texte/fond 18,2 · or/fond 9,4 · noir sur bouton or 9,4 · titres/fond 21.
-Thème sombre : le logo, les icônes et les éléments d'interface (champs de formulaire, accordéon, lightbox, images de remplacement, focus) doivent rester lisibles ; utiliser la **variante claire du logo** partout dans ce thème.
+Thème sombre : le logo, les icônes et les éléments d'interface (champs de formulaire, accordéon, lightbox, images de remplacement, focus) doivent rester lisibles ; utiliser la **variante claire du logo** partout dans ce thème (rouge essayé puis écarté par le client le 02/11/2026).
 
 ### 5.3c Token commun `--color-accent`
 Défini dans **les trois thèmes** pour les sur-titres, liens et filets. En A et C, sa valeur doit reproduire exactement le rendu actuel (aucun changement visuel sur A et C).
@@ -167,7 +167,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - `KeyFigures`, `FeatureSection` (photo + texte, alternance gauche/droite), `ServiceList`, `CTASection`, `Accordion`.
 - `Gallery` : mosaïque + **lightbox** (clic, clavier, Échap).
 - `WhatsAppButton` : flottant bas-droite, `https://wa.me/[WHATSAPP_NUMBER]` + message prérempli FR/EN.
-- `Footer` : fond `--color-accent-soft`, liens légaux, Instagram/Facebook/TikTok, email, « Méribel, 73550 ».
+- `Footer` : fond `--color-accent-soft`, liens légaux, Instagram (bloc « Nous suivre » ; Facebook et TikTok retirés par le client le 02/11/2026), email, « Méribel, 73550 ».
 - `ContactForm` : §7.
 
 ---
@@ -179,9 +179,9 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - **Accueil** : Hero (piscine ou extérieur neige, accroche « Méribel, à votre rythme. » / « Méribel, at your own pace. », sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → Chiffres clés (350 m² · 15 personnes · 6 chambres · 6 salles de bain) → Intro 2 lignes + lien → 4 équipements phares en `FeatureSection` (piscine intérieure chauffée · espace bien-être · home cinéma · salon cathédrale avec cheminée) → 4 services inclus (navette privée · ménage quotidien · conciergerie · linge et peignoirs) → aperçu Méribel → mosaïque 6–8 photos → CTA « Parlons de votre séjour » + WhatsApp.
 - **Le chalet** : Hero → chiffres + localisation (La Gittaz) → une `FeatureSection` par espace (piscine · bien-être · cinéma · yoga · salon/cuisine · salle de jeux **seulement si `confirmed: true`**) → 6 cartes chambres → visite par niveau (5 niveaux, ascenseur) → `Accordion` « Tous les équipements » → CTA.
 - **Services** : Hero → Gastronomie (formules Half / Full Catered + chef privé, majordome, chauffeur) → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte (Activités · Restauration · Conciergerie) → « Sur demande, auprès de notre conciergerie » + CTA.
-- **Méribel** : Hero → la station → activités d'hiver (icônes) → accès (voiture, train, aéroports) → carte chargée **au clic** (pas de cookie) → CTA.
+- **Méribel** : Hero → la station → activités d'hiver (icônes) → carte chargée **au clic** (pas de cookie) → CTA. (Section « Accès » retirée à la demande du client le 02/11/2026.)
 - **Galerie** : filtres (Tout · Séjour · Chambres · Bien-être · Loisirs · Extérieur · Méribel) + mosaïque + lightbox.
-- **Contact** : titre, 1 ligne d'intro, formulaire, bloc « Ou directement » (WhatsApp, email), accès résumé.
+- **Contact** : titre, 1 ligne d'intro, formulaire, bloc « Ou directement » (WhatsApp, email). (Bloc « Accès » retiré à la demande du client le 02/11/2026.)
 - **Légal** : gabarits avec `[À FOURNIR]` (raison sociale, adresse, SIRET, directeur de publication, hébergeur Netlify Inc., statistiques sans cookies, données du formulaire).
 
 ---
@@ -219,11 +219,11 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 
 ## 8. Données factuelles — source de vérité (ne rien ajouter)
 
-**Identité** : **Chalet Yolo** (pas « & Spa ») · La Gittaz, Méribel, 73550 Les Allues, Savoie · ensemble des Chalets Célénia · Domaine `[DOMAINE]` · Email `[EMAIL_CONTACT]` · WhatsApp `[WHATSAPP_NUMBER]` · Instagram/Facebook/TikTok `[URL]`
+**Identité** : **Chalet Yolo** (pas « & Spa ») · La Gittaz, Méribel, 73550 Les Allues, Savoie · ensemble des Chalets Célénia · Domaine `[DOMAINE]` · Email `[EMAIL_CONTACT]` · WhatsApp `[WHATSAPP_NUMBER]` · Instagram `[URL]`
 
 **Chiffres** : 350 m² · 15 personnes · 6 chambres dont 4 suites · 6 salles de bain · 5 niveaux avec ascenseur · arrivée 17h00, départ 10h00
 
-**Chambres** : 1 → lit 180 · 2 → lit 180 · 3 → lit 180 · 4 → lit 180 · 5 → 2 lits superposés · 6 → 1 lit simple + 1 lit superposé
+**Chambres** : 1 « Chambre Gentiane » → lit 180 · 2 « Chambre Centaurée des montagnes » → lit 180 · 3 « Chambre L'Ancolie » → lit 180 · 4 « Chambre Rose des Alpes » → lit 180 · 5 « Chambre Flocons » → 2 lits superposés · 6 « Chambre Marmottes » → 1 lit simple + 1 lit superposé (noms fournis par le client le 02/11/2026 ; en anglais, nom propre conservé + « Room », ex. « Gentiane Room »)
 
 **Niveaux connus** (le reste `[À FOURNIR]`) :
 - 4e : salon cathédrale avec cheminée, grande table, cuisine équipée (double four, frigo américain, lave-vaisselle, cave à vin, Nespresso).

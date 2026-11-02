@@ -34,8 +34,6 @@ export const site = {
   /** Liens vers les réseaux sociaux (URL complètes). */
   social: {
     instagram: TO_PROVIDE,
-    facebook: TO_PROVIDE,
-    tiktok: TO_PROVIDE,
   },
 
   /**
