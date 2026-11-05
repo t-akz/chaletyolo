@@ -1,0 +1,420 @@
+---
+/**
+ * Écran d'entrée de la page d'accueil (CLAUDE.md §5.8).
+ *
+ * Un voile noir posé AU-DESSUS de l'accueil : la page reste entièrement
+ * présente en dessous (Google la lit normalement). Le voile est placé à la fin
+ * du code HTML et reste caché tant que la classe « intro-active » n'est pas sur
+ * <html> (ajoutée avant l'affichage par IntroGateScript.astro, seulement si
+ * JavaScript est actif et si l'écran n'a pas encore été vu dans cet onglet).
+ *
+ * Contenu : logo (version claire), bouton « Enter », choix « Français · English »,
+ * flèche qui rebondit. Couleurs fixes, identiques dans les 3 thèmes :
+ * fond #000000, textes et traits #F2EEE8.
+ *
+ * Ouverture : clic sur « Enter », touches Entrée / Espace / flèche bas / Page bas,
+ * molette ou trackpad (haut ou bas), glissement du doigt de plus de 30 px.
+ * - Langue choisie = langue de la page → le rideau se lève (0,9 s).
+ * - Autre langue → on part vers l'autre accueil (/ ↔ /en/) en gardant les
+ *   paramètres d'adresse (ex. ?theme=b) ; l'écran ne s'y réaffiche pas.
+ * Après l'ouverture, l'« élan » du geste (trackpad, téléphone) est neutralisé
+ * pour que l'accueil commence tout en haut.
+ *
+ * Textes : src/content/{fr,en}/home.json (« introGate ») et common.json (noms des langues).
+ * Pour désactiver l'écran : retirez l'option « intro » dans src/views/HomeView.astro.
+ */
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { languages, type Lang } from '../i18n/languages';
+import { getContent, localizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const text = getContent(lang, 'home').introGate;
+const common = getContent(lang, 'common');
+---
+
+<div
+  class="intro-gate"
+  data-intro-gate
+  data-lang={lang}
+  data-home-fr={localizedPath('home', 'fr')}
+  data-home-en={localizedPath('home', 'en')}
+  role="dialog"
+  aria-modal="true"
+  aria-label={text.label}
+>
+  <div class="intro-gate__content">
+    <div class="intro-gate__fade intro-gate__logo" style="--intro-delay: 0.1s">
+      <Logo class="h-24 md:h-32" />
+    </div>
+
+    <div class="intro-gate__fade intro-gate__actions" style="--intro-delay: 0.5s">
+      <button type="button" class="intro-gate__enter" data-intro-enter lang="en">
+        {text.enter}
+      </button>
+
+      <div role="group" aria-label={text.languages} class="intro-gate__langs">
+        {
+          languages.map((code, index) => (
+            <>
+              {index > 0 && <span aria-hidden="true">·</span>}
+              <button type="button" data-intro-lang={code} lang={code} aria-pressed={code === lang ? 'true' : 'false'}>
+                {common.languageSwitcher[code].name}
+              </button>
+            </>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="intro-gate__fade intro-gate__arrow" style="--intro-delay: 0.6s" aria-hidden="true">
+    <span class="intro-gate__bounce"><Icon name="chevron-down" size={28} /></span>
+  </div>
+</div>
+
+<style is:global>
+  /* Caché par défaut : visible seulement si le script du <head> l'a demandé. */
+  .intro-gate {
+    display: none;
+  }
+
+  /* Pendant l'écran : la page dessous ne défile pas. */
+  html.intro-active {
+    overflow: hidden;
+  }
+
+  html.intro-active .intro-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background: #000000;
+    color: #f2eee8;
+    overscroll-behavior: contain;
+  }
+
+  .intro-gate__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(3rem, 8vh, 5rem);
+  }
+
+  .intro-gate__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Bouton « Enter » : contour fin, majuscules espacées, remplissage doux au survol. */
+  .intro-gate__enter {
+    padding: 1rem 3.25rem 1rem 3.6rem; /* +0,35rem à gauche : compense l'espacement après la dernière lettre */
+    border: 1px solid rgb(242 238 232 / 0.7);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: inherit;
+    background-color: rgb(242 238 232 / 0);
+    cursor: pointer;
+    transition:
+      background-color 0.6s ease,
+      border-color 0.6s ease;
+  }
+
+  .intro-gate__enter:hover {
+    background-color: rgb(242 238 232 / 0.1);
+    border-color: #f2eee8;
+  }
+
+  /* Sélecteur « Français · English » : discret, langue active soulignée finement. */
+  .intro-gate__langs {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+  }
+
+  .intro-gate__langs span {
+    opacity: 0.5;
+  }
+
+  .intro-gate__langs button {
+    padding: 0.25rem 0.125rem;
+    color: inherit;
+    opacity: 0.65;
+    cursor: pointer;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    text-decoration-color: transparent;
+    transition:
+      opacity 0.4s ease,
+      text-decoration-color 0.4s ease;
+  }
+
+  .intro-gate__langs button:hover,
+  .intro-gate__langs button[aria-pressed='true'] {
+    opacity: 1;
+  }
+
+  .intro-gate__langs button[aria-pressed='true'] {
+    text-decoration-color: currentColor;
+  }
+
+  .intro-gate :focus-visible {
+    outline: 1px solid #f2eee8;
+    outline-offset: 4px;
+  }
+
+  .intro-gate__arrow {
+    position: absolute;
+    bottom: max(2rem, env(safe-area-inset-bottom));
+    left: 50%;
+    translate: -50% 0;
+    opacity: 0.8;
+  }
+
+  /* Apparition : fondu + très léger glissement, décalé élément par élément. */
+  .intro-gate__fade {
+    animation: intro-gate-in 0.8s cubic-bezier(0.2, 0.6, 0.2, 1) var(--intro-delay, 0s) both;
+  }
+
+  @keyframes intro-gate-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+  }
+
+  /* Flèche : rebond lent, après l'apparition. */
+  .intro-gate__bounce {
+    display: block;
+    animation: intro-gate-bounce 2.4s ease-in-out 1.4s infinite;
+  }
+
+  @keyframes intro-gate-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(0.5rem);
+    }
+  }
+
+  /* Animations réduites : tout apparaît directement, flèche immobile. */
+  @media (prefers-reduced-motion: reduce) {
+    .intro-gate__fade,
+    .intro-gate__bounce {
+      animation-name: none;
+    }
+  }
+
+  /* Le contenu principal reçoit le focus après l'ouverture : pas de cadre autour de toute la page. */
+  #contenu:focus {
+    outline: none;
+  }
+</style>
+
+<script>
+  import { LANG_CHOICE_KEY, INTRO_FORCE_PARAM } from '../scripts/introStorage';
+
+  const gate = document.querySelector<HTMLElement>('[data-intro-gate]');
+  const root = document.documentElement;
+
+  if (gate && !root.classList.contains('intro-active')) {
+    // Écran déjà vu (ou JavaScript limité) : on retire simplement le voile du code.
+    gate.remove();
+  } else if (gate) {
+    type Lang = 'fr' | 'en';
+    const isLang = (value: unknown): value is Lang => value === 'fr' || value === 'en';
+    const pageLang = gate.dataset.lang as Lang;
+    const enterButton = gate.querySelector<HTMLButtonElement>('[data-intro-enter]')!;
+    const langButtons = Array.from(gate.querySelectorAll<HTMLButtonElement>('[data-intro-lang]'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- Langue présélectionnée : choix mémorisé, sinon langue du navigateur ---
+    const storedLang = (() => {
+      try {
+        return localStorage.getItem(LANG_CHOICE_KEY);
+      } catch {
+        return null;
+      }
+    })();
+    let chosen: Lang = isLang(storedLang)
+      ? storedLang
+      : (navigator.language || '').toLowerCase().startsWith('fr')
+        ? 'fr'
+        : 'en';
+
+    const showChoice = () => {
+      langButtons.forEach((button) =>
+        button.setAttribute('aria-pressed', String(button.dataset.introLang === chosen)),
+      );
+    };
+    showChoice();
+
+    langButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        if (isLang(button.dataset.introLang)) chosen = button.dataset.introLang;
+        showChoice();
+      });
+    });
+
+    // --- Page dessous inactive tant que l'écran est visible ---
+    const inertElements = Array.from(document.body.children).filter(
+      (element): element is HTMLElement =>
+        element instanceof HTMLElement &&
+        element !== gate &&
+        !['SCRIPT', 'ASTRO-DEV-TOOLBAR'].includes(element.tagName) &&
+        !element.inert,
+    );
+    inertElements.forEach((element) => (element.inert = true));
+    window.scrollTo(0, 0);
+    // Focus sur « Enter », sans cadre visible tant que le visiteur n'utilise pas le clavier.
+    enterButton.focus({ preventScroll: true, focusVisible: false } as FocusOptions);
+
+    // --- Blocage du défilement pendant l'écran, et ouverture par un geste ---
+    let opened = false;
+    let wheelTotal = 0;
+    let touchStartY: number | null = null;
+
+    const onWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      wheelTotal += Math.abs(event.deltaY);
+      if (wheelTotal > 12) open();
+    };
+    const onTouchStart = (event: TouchEvent) => {
+      touchStartY = event.touches[0]?.clientY ?? null;
+    };
+    const onTouchMove = (event: TouchEvent) => {
+      if (event.touches.length !== 1) return; // on laisse le zoom à deux doigts
+      event.preventDefault();
+      const y = event.touches[0]!.clientY;
+      if (touchStartY !== null && Math.abs(y - touchStartY) > 30) open();
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      const onButton = event.target instanceof HTMLButtonElement && gate.contains(event.target);
+      if (event.key === 'ArrowDown' || event.key === 'PageDown') {
+        event.preventDefault();
+        open();
+      } else if ((event.key === 'Enter' || event.key === ' ') && !onButton) {
+        // Sur un bouton, Entrée / Espace gardent leur rôle (valider « Enter » ou choisir une langue).
+        event.preventDefault();
+        open();
+      } else if (event.key === 'ArrowUp' || event.key === 'PageUp' || event.key === 'Home' || event.key === 'End') {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('keydown', onKeyDown);
+    enterButton.addEventListener('click', () => open());
+
+    const stopListening = () => {
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+
+    /**
+     * Neutralise l'« élan » du geste après l'ouverture : un trackpad ou un
+     * téléphone continue d'envoyer du défilement pendant près d'une seconde.
+     * Bloqué 0,8 s, prolongé tant que l'élan continue, au maximum 1,5 s.
+     */
+    const absorbMomentum = () => {
+      const start = performance.now();
+      let last = start;
+      const scrollKeys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'];
+      const absorb = (event: Event) => {
+        const now = performance.now();
+        const inWindow = now - start < 800 || (now - last < 150 && now - start < 1500);
+        if (!inWindow) return release();
+        if (event instanceof KeyboardEvent && !scrollKeys.includes(event.key)) return;
+        event.preventDefault();
+        last = now;
+      };
+      const release = () => {
+        window.removeEventListener('wheel', absorb);
+        window.removeEventListener('touchmove', absorb);
+        window.removeEventListener('keydown', absorb);
+      };
+      window.addEventListener('wheel', absorb, { passive: false });
+      window.addEventListener('touchmove', absorb, { passive: false });
+      window.addEventListener('keydown', absorb);
+      window.setTimeout(release, 1500);
+    };
+
+    /** Fin de l'écran : on retire le voile et on rend la page au visiteur. */
+    const finish = () => {
+      gate.remove();
+      root.classList.remove('intro-active');
+      inertElements.forEach((element) => (element.inert = false));
+      window.scrollTo(0, 0);
+      const main = document.getElementById('contenu');
+      if (main) {
+        if (!main.hasAttribute('tabindex')) main.setAttribute('tabindex', '-1');
+        main.focus({ preventScroll: true });
+      }
+    };
+
+    function open() {
+      if (opened) return;
+      opened = true;
+      stopListening();
+
+      try {
+        localStorage.setItem(LANG_CHOICE_KEY, chosen);
+      } catch {
+        // Mémoire indisponible : le choix ne sera simplement pas retenu.
+      }
+
+      // Autre langue : direction l'autre accueil, en gardant les paramètres (sauf « intro »).
+      if (chosen !== pageLang) {
+        const target = new URL(gate!.dataset[chosen === 'fr' ? 'homeFr' : 'homeEn'] ?? '/', window.location.origin);
+        const params = new URLSearchParams(window.location.search);
+        params.delete(INTRO_FORCE_PARAM);
+        target.search = params.toString();
+        window.location.assign(target.href);
+        return;
+      }
+
+      // Même langue : le rideau se lève (ou simple fondu si animations réduites).
+      absorbMomentum();
+      const animation = gate!.animate(
+        reduceMotion
+          ? [{ opacity: 1 }, { opacity: 0 }]
+          : [{ transform: 'translateY(0)' }, { transform: 'translateY(-100%)' }],
+        {
+          duration: reduceMotion ? 300 : 900,
+          easing: reduceMotion ? 'ease' : 'cubic-bezier(0.76, 0, 0.24, 1)',
+          fill: 'forwards',
+        },
+      );
+      animation.finished.then(finish, finish);
+    }
+
+    // Retour arrière vers cette page (cache du navigateur) après un changement
+    // de langue : l'écran a déjà été vu, on le retire sans animation.
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted && opened && gate.isConnected) finish();
+    });
+  }
+</script>

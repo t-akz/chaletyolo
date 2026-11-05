@@ -169,6 +169,23 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - `WhatsAppButton` : flottant bas-droite, `https://wa.me/[WHATSAPP_NUMBER]` + message prérempli FR/EN.
 - `Footer` : fond `--color-accent-soft`, liens légaux, Instagram (bloc « Nous suivre » ; Facebook et TikTok retirés par le client le 02/11/2026), email, « Méribel, 73550 ».
 - `ContactForm` : §7.
+- `IntroGate` : écran d'entrée de la page d'accueil, voir §5.8.
+
+### 5.7 Localisation du chalet
+- **Confidentialité** : on montre **uniquement le quartier de La Gittaz**, jamais l'emplacement exact du chalet (pas de point, d'adresse précise ni de coordonnées du chalet, nulle part dans le code ni dans les données structurées).
+- **Rendu actuel** : sur la page Méribel, section « La station », la phrase « Le chalet se trouve dans le fabuleux quartier La Gittaz. » ; « La Gittaz » est un lien vers `https://www.google.com/maps/search/?api=1&query=La+Gittaz%2C+M%C3%A9ribel` (nouvel onglet).
+- Une carte SVG générée depuis OpenStreetMap a été essayée puis **écartée par le client** (02/11/2026) : ne pas la recréer sans demande.
+
+### 5.8 Écran d'entrée (`IntroGate`)
+- **Où** : uniquement sur les pages d'accueil `/` et `/en/`. Jamais sur les autres pages (liens directs depuis Google, WhatsApp, etc.).
+- **Quand** : **une fois par session, toutes langues confondues** (clé `sessionStorage` commune). Forçable pour les tests avec `?intro=1`.
+- **Nature** : un **voile posé au-dessus de la page d'accueil**, qui reste entièrement rendue en dessous (référencement). Le voile n'apparaît que si JavaScript est actif (classe ajoutée par un script inline dans `<head>`, sans flash) ; sans JavaScript, on voit directement l'accueil.
+- **Contenu** : fond **noir `#000000` dans tous les thèmes**, variante claire du logo (le vrai logo, qui contient déjà « MERIBEL » : pas de second « MÉRIBEL », décision du client du 05/11/2026), bouton **« Enter »** (identique en FR et EN), sélecteur discret **Français · English**, petite flèche vers le bas qui rebondit doucement. Couleurs du texte et des traits : blanc cassé `#F2EEE8`. Style : épuré, luxueux, beaucoup d'espace.
+- **Ouverture** : clic sur « Enter », touches Entrée / Espace / flèche bas / Page bas, molette ou trackpad **vers le haut ou le bas**, glissement tactile vers le haut ou le bas. Transition « rideau qui se lève » (~0,9 s). Avec `prefers-reduced-motion` : simple fondu court, flèche immobile.
+- **Pas d'emballement** : pendant l'écran d'entrée, la page dessous ne défile pas ; après ouverture, l'élan du geste est neutralisé (~0,8 s) et l'accueil commence tout en haut.
+- **Langue** : présélection = choix mémorisé (`localStorage`) sinon langue du navigateur (`fr*` → Français, sinon English). Si la langue choisie diffère de la page actuelle, « Enter » mène à l'accueil équivalent (`/` ↔ `/en/`) **sans réafficher l'écran**. Le choix est mémorisé ; le sélecteur de langue de l'en-tête le met aussi à jour. **Aucune redirection automatique** nulle part, aucun cookie.
+- **Accessibilité** : focus sur « Enter » à l'affichage, page dessous inactive (`inert`) tant que l'écran est visible, focus rendu à la page après ouverture, libellés FR/EN dans `content/`.
+- Conserver les paramètres d'URL (ex. `?theme=b`) lors du changement de langue.
 
 ---
 
@@ -179,7 +196,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - **Accueil** : Hero (piscine ou extérieur neige, accroche « Méribel, à votre rythme. » / « Méribel, at your own pace. », sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → Chiffres clés (350 m² · 15 personnes · 6 chambres · 6 salles de bain) → Intro 2 lignes + lien → 4 équipements phares en `FeatureSection` (piscine intérieure chauffée · espace bien-être · home cinéma · salon cathédrale avec cheminée) → 4 services inclus (navette privée · ménage quotidien · conciergerie · linge et peignoirs) → aperçu Méribel → mosaïque 6–8 photos → CTA « Parlons de votre séjour » + WhatsApp.
 - **Le chalet** : Hero → chiffres + localisation (La Gittaz) → une `FeatureSection` par espace (piscine · bien-être · cinéma · yoga · salon/cuisine · salle de jeux **seulement si `confirmed: true`**) → 6 cartes chambres → visite par niveau (5 niveaux, ascenseur) → `Accordion` « Tous les équipements » → CTA.
 - **Services** : Hero → Gastronomie (formules Half / Full Catered + chef privé, majordome, chauffeur) → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte (Activités · Restauration · Conciergerie) → « Sur demande, auprès de notre conciergerie » + CTA.
-- **Méribel** : Hero → la station → activités d'hiver (icônes) → carte chargée **au clic** (pas de cookie) → CTA. (Section « Accès » retirée à la demande du client le 02/11/2026.)
+- **Méribel** : Hero → la station (+ phrase avec lien Google Maps vers le quartier de La Gittaz, voir §5.7) → activités d'hiver (icônes) → CTA. (La section « Accès » a été retirée volontairement : ne pas la recréer. Section « Localisation » / carte retirée à la demande du client le 02/11/2026.)
 - **Galerie** : filtres (Tout · Séjour · Chambres · Bien-être · Loisirs · Extérieur · Méribel) + mosaïque + lightbox.
 - **Contact** : titre, 1 ligne d'intro, formulaire, bloc « Ou directement » (WhatsApp, email). (Bloc « Accès » retiré à la demande du client le 02/11/2026.)
 - **Légal** : gabarits avec `[À FOURNIR]` (raison sociale, adresse, SIRET, directeur de publication, hébergeur Netlify Inc., statistiques sans cookies, données du formulaire).
@@ -273,7 +290,7 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 ## 10. Qualité
 
 - Lighthouse mobile ≥ 90 (performance, accessibilité, bonnes pratiques, SEO).
-- SEO : `title` + `meta description` uniques par page et langue, Open Graph, `hreflang` FR/EN + `x-default`, `sitemap.xml`, `robots.txt`, canoniques, JSON-LD `LodgingBusiness` (sans prix ni note inventés).
+- SEO : `title` + `meta description` uniques par page et langue, Open Graph, `hreflang` FR/EN + `x-default` **pointant vers la version anglaise**, `sitemap.xml`, `robots.txt`, canoniques, JSON-LD `LodgingBusiness` (sans prix ni note inventés).
 - Accessibilité : HTML sémantique, navigation clavier, focus visible, `lang` correct.
 - RGPD : **aucun cookie**.
 - Code simple, lisible, commenté en français : il sera maintenu par une seule personne avec l'aide de l'IA.

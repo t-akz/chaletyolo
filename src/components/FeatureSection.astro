@@ -53,6 +53,8 @@ const Heading = headingLevel === 2 ? 'h2' : 'h3';
       {eyebrow && <Eyebrow class="mb-5">{eyebrow}</Eyebrow>}
       <Heading class="text-h2">{title}</Heading>
       {text && <p class="mt-6 max-w-md">{text}</p>}
+      {/* Contenu complémentaire facultatif (ex. phrase avec lien), placé sous le texte. */}
+      <slot />
       {
         link && (
           <div class="mt-8">

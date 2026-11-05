@@ -1,0 +1,36 @@
+---
+/**
+ * Écran d'entrée — partie « <head> » (CLAUDE.md §5.8).
+ *
+ * Ce petit script s'exécute AVANT l'affichage de la page d'accueil. S'il faut
+ * montrer l'écran d'entrée, il ajoute la classe « intro-active » sur <html> :
+ * le voile noir est alors visible dès la première image, sans « flash » de
+ * l'accueil. Sans JavaScript, la classe n'est jamais ajoutée : on voit
+ * directement l'accueil.
+ *
+ * Règle : une fois par onglet (sessionStorage), toutes langues confondues.
+ * « ?intro=1 » force l'affichage pour les tests. L'écran est noté « vu » dès
+ * qu'il s'affiche : un rechargement ne le remontre donc pas.
+ * Si le navigateur refuse la mémoire de session, l'écran ne s'affiche pas
+ * (sinon il reviendrait à chaque rechargement).
+ *
+ * Utilisé uniquement par BaseLayout quand l'option « intro » est active
+ * (page d'accueil FR et EN).
+ */
+import { INTRO_FORCE_PARAM, INTRO_SEEN_KEY } from '../scripts/introStorage';
+---
+
+<script is:inline define:vars={{ seenKey: INTRO_SEEN_KEY, forceParam: INTRO_FORCE_PARAM }}>
+  try {
+    var forced = new URLSearchParams(window.location.search).get(forceParam) === '1';
+    if (forced || sessionStorage.getItem(seenKey) !== '1') {
+      sessionStorage.setItem(seenKey, '1');
+      document.documentElement.classList.add('intro-active');
+      // L'accueil doit démarrer tout en haut : on empêche le navigateur de
+      // restaurer l'ancienne position de défilement.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    }
+  } catch (e) {
+    // Mémoire de session indisponible : pas d'écran d'entrée.
+  }
+</script>

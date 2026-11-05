@@ -3,6 +3,7 @@
  * Page d'accueil (FR et EN) — structure du §6 de CLAUDE.md :
  * Hero → chiffres clés → intro → 4 équipements phares → 4 services inclus
  * → aperçu Méribel → mosaïque de photos → appel à l'action.
+ * Écran d'entrée (IntroGate, §5.8) par-dessus, une fois par session : option « intro » ci-dessous.
  * Textes : src/content/{fr,en}/home.json ; faits : src/content/chalet.ts.
  */
 import CTASection from '../components/CTASection.astro';
@@ -51,7 +52,7 @@ const mosaicPhotos = [
 ];
 ---
 
-<BaseLayout lang={lang} routeKey="home" title={page.meta.title} description={page.meta.description} photoId="accueil" lodging hero>
+<BaseLayout lang={lang} routeKey="home" title={page.meta.title} description={page.meta.description} photoId="accueil" lodging hero intro>
   <Hero
     lang={lang}
     photoId="accueil"

@@ -6,8 +6,9 @@
  * Uniquement des faits de src/content/chalet.ts et src/config/site.ts :
  * AUCUN prix ni AUCUNE note (§10 de CLAUDE.md). Google exige que ces données
  * reflètent ce qui est visible sur le site : n'ajoutez rien qui n'y figure pas.
- * Email, téléphone, coordonnées GPS et réseaux sociaux ne sont ajoutés que
- * s'ils sont renseignés.
+ * Email, téléphone et réseaux sociaux ne sont ajoutés que s'ils sont renseignés.
+ * Pas de coordonnées GPS : la position exacte du chalet n'est jamais publiée
+ * (CLAUDE.md §5.7, sécurité du bien).
  */
 import { isProvided, site } from '../config/site';
 import { catering, figures, identity, visibleFeatures } from '../content/chalet';
@@ -15,7 +16,6 @@ import type { Lang } from '../i18n/languages';
 import { localizedPath } from '../i18n/utils';
 
 export function lodgingBusinessJsonLd(lang: Lang, description: string, imageUrl?: string) {
-  const { latitude, longitude } = site.map;
   const socialLinks = Object.values(site.social).filter(isProvided);
 
   return {
@@ -41,9 +41,6 @@ export function lodgingBusinessJsonLd(lang: Lang, description: string, imageUrl?
       '@type': 'Place',
       name: `${identity.resort}, Les 3 Vallées`,
     },
-    ...(latitude !== null && longitude !== null
-      ? { geo: { '@type': 'GeoCoordinates', latitude, longitude } }
-      : {}),
     floorSize: { '@type': 'QuantitativeValue', value: figures.surfaceM2, unitCode: 'MTK' },
     occupancy: { '@type': 'QuantitativeValue', maxValue: figures.guests },
     numberOfRooms: figures.bedrooms,

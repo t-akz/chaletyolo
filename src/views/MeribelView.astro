@@ -1,7 +1,8 @@
 ---
 /**
  * Page « Méribel » (FR et EN) — structure du §6 de CLAUDE.md :
- * Hero → la station → activités d'hiver → carte (au clic) → appel à l'action.
+ * Hero → la station (+ lien Google Maps vers le quartier de La Gittaz) → activités d'hiver → appel à l'action.
+ * (Section « Localisation » retirée à la demande du client le 02/11/2026.)
  * (Section « Accès » retirée à la demande du client le 02/11/2026.)
  * Les activités d'hiver sont tirées uniquement des faits existants (chalet.ts),
  * en attendant une liste complète.
@@ -10,7 +11,6 @@
 import CTASection from '../components/CTASection.astro';
 import FeatureSection from '../components/FeatureSection.astro';
 import Hero from '../components/Hero.astro';
-import MapOnClick from '../components/MapOnClick.astro';
 import ServiceList from '../components/ServiceList.astro';
 import { amenities, meribel, slopesAccess } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -23,6 +23,12 @@ interface Props {
 
 const { lang } = Astro.props;
 const page = getContent(lang, 'meribel');
+const common = getContent(lang, 'common');
+
+// Lien vers le QUARTIER de La Gittaz sur Google Maps (jamais l'adresse du chalet, CLAUDE.md §5.7).
+const laGittazMapsUrl = 'https://www.google.com/maps/search/?api=1&query=La+Gittaz%2C+M%C3%A9ribel';
+// Phrase « … quartier {link}. » coupée autour du lien.
+const [locationBefore, locationAfter = ''] = page.resort.location.split('{link}');
 
 // Casier à skis : repris de la liste des équipements (rubrique « Ski et accès »).
 const skiLocker = amenities
@@ -49,11 +55,13 @@ const activities = [
     eyebrow={page.resort.eyebrow}
     title={page.resort.title}
     text={format(page.resort.text, { foundedYear: meribel.foundedYear, skiAreaKm: meribel.skiAreaKm })}
-  />
+  >
+    <p class="mt-4 max-w-md">
+      {locationBefore}<a href={laGittazMapsUrl} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">{page.resort.locationLink}<span class="sr-only"> {common.newTab}</span></a>{locationAfter}
+    </p>
+  </FeatureSection>
 
   <ServiceList title={page.activities.title} groups={[{ items: activities }]} background="alt" />
-
-  <MapOnClick lang={lang} />
 
   <CTASection lang={lang} title={page.cta.title} />
 </BaseLayout>

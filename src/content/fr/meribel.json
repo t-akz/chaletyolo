@@ -10,20 +10,14 @@
   "resort": {
     "eyebrow": "La station",
     "title": "Au cœur des 3 Vallées",
-    "text": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes · architecture savoyarde."
+    "text": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes · architecture savoyarde.",
+    "location": "Le chalet se trouve dans le fabuleux quartier {link}.",
+    "locationLink": "La Gittaz"
   },
   "activities": {
     "title": "Activités d'hiver",
     "ski": "Ski sur les 3 Vallées : {skiAreaKm} km de pistes",
     "toConfirm": "[À CONFIRMER]"
-  },
-  "map": {
-    "title": "Localisation",
-    "missing": "La carte s'affichera ici dès que la position du chalet sera renseignée :",
-    "button": "Afficher la carte",
-    "notice": "La carte est fournie par OpenStreetMap. Elle n'est chargée qu'après votre clic.",
-    "iframeTitle": "Carte de localisation du Chalet Yolo",
-    "openLink": "Ouvrir dans OpenStreetMap"
   },
   "cta": {
     "title": "Parlons de votre séjour"

@@ -4,7 +4,7 @@ Site vitrine bilingue (français / anglais) du **Chalet Yolo**, chalet privé à
 
 - Site **100 % statique** construit avec [Astro](https://astro.build) et Tailwind CSS.
 - Hébergé sur **Netlify**, formulaire de contact via **Netlify Forms**.
-- Aucun cookie, polices hébergées sur le site, carte chargée seulement au clic.
+- Aucun cookie, polices hébergées sur le site, pas de carte intégrée (simple lien vers Google Maps).
 
 Ce guide s'adresse à une personne **non développeuse**. Pour chaque modification, la démarche est toujours la même :
 **modifier un fichier → vérifier en local → publier.**
@@ -23,6 +23,7 @@ Ce guide s'adresse à une personne **non développeuse**. Pour chaque modificati
 8. [Statistiques de visite (Umami)](#8-statistiques-de-visite-umami)
 9. [Les trois thèmes de couleurs](#9-les-trois-thèmes-de-couleurs)
 10. [Liste de tout ce qui reste à fournir](#10-liste-de-tout-ce-qui-reste-à-fournir)
+11. [Écran d'entrée de la page d'accueil](#11-écran-dentrée-de-la-page-daccueil)
 
 ---
 
@@ -77,7 +78,7 @@ npm install
 | Un texte d'une page | `src/content/fr/<page>.json` **et** `src/content/en/<page>.json` |
 | Les textes communs (menu, pied de page, boutons, message WhatsApp) | `src/content/fr/common.json` et `src/content/en/common.json` |
 | Les faits sur le chalet (chiffres, chambres, équipements, services, accès) | `src/content/chalet.ts` |
-| Email, WhatsApp, réseaux sociaux, adresse du site, position sur la carte | `src/config/site.ts` |
+| Email, WhatsApp, réseaux sociaux, adresse du site | `src/config/site.ts` |
 | La liste des photos et leurs textes alternatifs | `src/content/photos.ts` |
 | Les fichiers photo | `src/assets/photos/<dossier>/` |
 | Les couleurs | `src/styles/tokens.css` |
@@ -166,7 +167,7 @@ Exemple : la photo `piscine-01` → `src/assets/photos/piscine/piscine-01.jpg`
 | `exterieur` | `exterieur-01`, `exterieur-02` | `exterieur-01` : Accueil ; les deux : Galerie |
 | `meribel` | `meribel-01`, `meribel-02` | `meribel-01` : Accueil, Méribel ; les deux : Galerie |
 | `salles-de-bain` | `sdb-01`, `sdb-02`, `sdb-03` | Galerie (filtre Chambres) |
-| `services` | `service-01` (local à skis), `service-02` (apéritif) | Galerie (filtre Séjour) |
+| `services` | `service-01` (local à skis) | Galerie (filtre Séjour). `service-02` (apéritif) a été retirée de la galerie ; son fichier reste dans le dossier. |
 | `jeux` | `jeux-01` | Le chalet, Galerie — uniquement si la salle de jeux est confirmée |
 
 > Le dossier `images/` à la racine du projet contient les **originaux** fournis par le client. Il n'est pas envoyé sur GitHub (voir `.gitignore`) : le site n'utilise que les copies de `src/assets/photos/`.
@@ -214,11 +215,9 @@ Tout ce qui manque s'affiche sur le site avec le repère visible **[À FOURNIR]*
 | `email` | Email de contact affiché | `'contact@chalet-yolo.com'` |
 | `whatsapp` | Numéro au format international, **chiffres uniquement**, sans `+`, sans espaces, sans le 0 initial | `'33612345678'` |
 | `social.instagram` | Adresse complète de la page | `'https://www.instagram.com/…'` |
-| `map.latitude` / `map.longitude` | Position du chalet (nombre décimal, **sans** guillemets) | `latitude: 45.39` |
+Une fois renseignés, ces éléments apparaissent automatiquement partout (pied de page, page Contact, bouton WhatsApp, données pour Google).
 
-Pour trouver la position : sur <https://www.openstreetmap.org>, clic droit sur le chalet → « Afficher l'adresse » : les deux nombres affichés sont la latitude puis la longitude.
-
-Une fois renseignés, ces éléments apparaissent automatiquement partout (pied de page, page Contact, bouton WhatsApp, carte de la page Méribel, données pour Google).
+> La position exacte du chalet n'est volontairement renseignée **nulle part** (sécurité du bien). La page Méribel propose seulement un lien Google Maps vers le **quartier** de La Gittaz (adresse du lien : `src/views/MeribelView.astro`, texte : `src/content/{fr,en}/meribel.json` → `resort.location`).
 
 ### Pages légales
 
@@ -363,9 +362,8 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 | Email de contact | `src/config/site.ts` → `email` |
 | Numéro WhatsApp | `src/config/site.ts` → `whatsapp` |
 | Instagram | `src/config/site.ts` → `social` |
-| Position GPS du chalet (carte) | `src/config/site.ts` → `map` |
 | Description des niveaux autres que le 3e et le 4e | `src/content/chalet.ts` → `knownLevels` |
-| Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06`, `exterieur-02` (et `jeux-01` si la salle de jeux est confirmée) | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
+| Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06` (et `jeux-01` si la salle de jeux est confirmée) | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
 | Mentions légales : date de mise à jour, raison sociale, forme juridique et capital, adresse du siège, SIRET, directeur de publication, contact, adresse de Netlify, crédits photos | `src/content/fr/legal.json` + `en/legal.json` |
 | Confidentialité : date de mise à jour, responsable du traitement, garanties du transfert hors UE, durée de conservation, statistiques activées ou non, email pour exercer ses droits | `src/content/fr/privacy.json` + `en/privacy.json` |
 | Identifiants Umami (si statistiques souhaitées) | Variables Netlify ([§ 8](#8-statistiques-de-visite-umami)) |
@@ -389,6 +387,25 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 | `contact.json` | `intro` |
 | `thanks.json` | `text` |
 | `common.json` | `whatsapp.message` (message prérempli envoyé sur WhatsApp) |
+
+---
+
+## 11. Écran d'entrée de la page d'accueil
+
+Sur `/` et `/en/` uniquement, un voile noir (logo, bouton « Enter », choix **Français · English**) s'affiche **une fois par onglet**, avant l'accueil. La page d'accueil complète reste dessous : Google la lit normalement, et sans JavaScript on voit directement l'accueil.
+
+| Pour… | Faire |
+|---|---|
+| Revoir l'écran (tests) | ajouter `?intro=1` à l'adresse, ex. <http://localhost:4321/?intro=1> ou `/?intro=1&theme=b` |
+| Le revoir « comme un visiteur » | ouvrir un nouvel onglet en navigation privée |
+| Changer ses textes | `src/content/fr/home.json` et `src/content/en/home.json`, bloc `introGate` (« Enter » est identique dans les deux langues) |
+| Le désactiver | dans `src/views/HomeView.astro`, retirer le mot `intro` de la ligne `<BaseLayout … hero intro>` |
+
+Fichiers : `src/components/IntroGate.astro` (l'écran), `src/components/IntroGateScript.astro` (le petit script qui l'affiche sans « flash »), `src/scripts/introStorage.ts` (noms des mémoires).
+
+**Mémoires du navigateur utilisées** (ce ne sont pas des cookies, rien n'est envoyé) :
+- `chalet-yolo-intro-vue` (mémoire de l'onglet, effacée à sa fermeture) : l'écran a déjà été vu ;
+- `chalet-yolo-langue` (mémoire durable) : langue choisie, sur l'écran d'entrée ou avec le sélecteur FR | EN de l'en-tête. Elle sert uniquement à présélectionner la langue sur l'écran d'entrée ; il n'y a **aucune redirection automatique**.
 
 ---
 

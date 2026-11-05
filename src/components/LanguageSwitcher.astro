@@ -3,6 +3,8 @@
  * Sélecteur de langue « FR | EN ».
  * Mène vers la page équivalente dans l'autre langue (table src/i18n/routes.ts).
  * Sans page équivalente connue, mène à l'accueil de l'autre langue.
+ * Au clic, la langue choisie est mémorisée (localStorage, pas de cookie) :
+ * l'écran d'entrée de l'accueil la présélectionnera (CLAUDE.md §5.8).
  */
 import { languages, type Lang } from '../i18n/languages';
 import type { RouteKey } from '../i18n/routes';
@@ -40,6 +42,7 @@ const common = getContent(lang, 'common');
               <a
                 href={localizedPath(routeKey ?? 'home', code)}
                 hreflang={code}
+                data-lang-choice={code}
                 lang={code}
                 aria-label={labels.name}
                 class="opacity-80 transition-opacity hover:opacity-100"
@@ -53,3 +56,17 @@ const common = getContent(lang, 'common');
     }
   </ul>
 </nav>
+
+<script>
+  import { LANG_CHOICE_KEY } from '../scripts/introStorage';
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-choice]').forEach((link) => {
+    link.addEventListener('click', () => {
+      try {
+        localStorage.setItem(LANG_CHOICE_KEY, link.dataset.langChoice ?? '');
+      } catch {
+        // Mémoire indisponible : le choix ne sera simplement pas retenu.
+      }
+    });
+  });
+</script>

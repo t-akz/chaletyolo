@@ -35,16 +35,6 @@ export const site = {
   social: {
     instagram: TO_PROVIDE,
   },
-
-  /**
-   * Position du chalet pour la carte OpenStreetMap (page Méribel).
-   * Format décimal, ex. latitude 45.39, longitude 6.56.
-   * [À FOURNIR] — tant que c'est « null », la carte affiche un message à la place.
-   */
-  map: {
-    latitude: null as number | null,
-    longitude: null as number | null,
-  },
 } as const;
 
 /**

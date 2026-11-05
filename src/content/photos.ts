@@ -106,7 +106,6 @@ const slots: PhotoSlot[] = [
   { id: 'sdb-02', folder: 'salles-de-bain', alt: { fr: 'Salle de bain en pierre grise avec double vasque', en: 'Grey stone bathroom with double basin' } },
   { id: 'sdb-03', folder: 'salles-de-bain', alt: { fr: 'Salle de bain avec baignoire et double vasque', en: 'Bathroom with bathtub and double basin' } },
   { id: 'exterieur-01', folder: 'exterieur', alt: { fr: 'Façade en bois et pierre du chalet sous la neige', en: 'Snow-covered wood and stone façade of the chalet' } },
-  { id: 'exterieur-02', folder: 'exterieur', alt: { fr: 'Vue montagne', en: 'Mountain view' } },
   { id: 'meribel-01', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' } },
   { id: 'meribel-02', folder: 'meribel', alt: { fr: 'Méribel', en: 'Méribel' } },
   // Neige très lumineuse : légèrement assombrie (90 %) et contrastée (+5 %).
@@ -115,7 +114,9 @@ const slots: PhotoSlot[] = [
 
   // Illustrations des services (galerie, filtre « Séjour »)
   { id: 'service-01', folder: 'services', alt: { fr: 'Local à skis avec chaussures, casques et vestes', en: 'Ski room with boots, helmets and jackets' } },
-  { id: 'service-02', folder: 'services', alt: { fr: 'Coupes de champagne et planche de charcuterie et fromages', en: 'Glasses of champagne with a charcuterie and cheese board' } },
+  // « service-02 » (apéritif) retirée de la galerie à la demande du client (05/11/2026) ; son fichier services/service-02.png reste dans le dossier.
+  // exterieur-02 prend sa place dans la galerie (dernière position).
+  { id: 'exterieur-02', folder: 'exterieur', alt: { fr: 'Entrée du chalet en bois et pierre sous la neige, avec une sculpture d’ours au-dessus de la porte', en: 'Snow-covered wood and stone entrance of the chalet, with a bear sculpture above the door' } },
 ];
 
 // Tous les fichiers image présents dans src/assets/photos/ (détectés automatiquement).

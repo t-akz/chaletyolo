@@ -10,20 +10,14 @@
   "resort": {
     "eyebrow": "The resort",
     "title": "At the heart of Les 3 Vallées",
-    "text": "Resort founded in {foundedYear} · {skiAreaKm} km of slopes · Savoyard architecture."
+    "text": "Resort founded in {foundedYear} · {skiAreaKm} km of slopes · Savoyard architecture.",
+    "location": "The chalet is located in the fabulous {link} neighbourhood.",
+    "locationLink": "La Gittaz"
   },
   "activities": {
     "title": "Winter activities",
     "ski": "Skiing in Les 3 Vallées: {skiAreaKm} km of slopes",
     "toConfirm": "[TO BE CONFIRMED]"
-  },
-  "map": {
-    "title": "Location",
-    "missing": "The map will appear here once the chalet's location has been provided:",
-    "button": "Show the map",
-    "notice": "The map is provided by OpenStreetMap. It only loads after you click.",
-    "iframeTitle": "Chalet Yolo location map",
-    "openLink": "Open in OpenStreetMap"
   },
   "cta": {
     "title": "Let's talk about your stay"

@@ -1,7 +1,8 @@
 ---
 /**
  * Gabarit commun à toutes les pages : <html lang>, <head> (SEO, favicon,
- * polices, styles, thème, statistiques), en-tête, pied de page et bouton WhatsApp.
+ * polices, styles, thème, statistiques), en-tête, pied de page et bouton WhatsApp,
+ * et, sur l'accueil seulement, l'écran d'entrée (option « intro »).
  */
 import '@fontsource/cormorant-garamond/400.css';
 import '@fontsource/cormorant-garamond/500.css';
@@ -10,6 +11,8 @@ import '../styles/global.css';
 
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import IntroGate from '../components/IntroGate.astro';
+import IntroGateScript from '../components/IntroGateScript.astro';
 import Seo from '../components/Seo.astro';
 import ThemeScript from '../components/ThemeScript.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
@@ -32,9 +35,11 @@ interface Props {
   photoId?: string;
   /** Ajoute les données structurées « LodgingBusiness » (page d'accueil). */
   lodging?: boolean;
+  /** Affiche l'écran d'entrée (IntroGate, CLAUDE.md §5.8) : page d'accueil FR et EN uniquement. */
+  intro?: boolean;
 }
 
-const { lang, routeKey, title, description, hero = false, noindex = false, photoId, lodging } = Astro.props;
+const { lang, routeKey, title, description, hero = false, noindex = false, photoId, lodging, intro = false } = Astro.props;
 const common = getContent(lang, 'common');
 
 // Statistiques Umami (sans cookies) : uniquement si les 2 variables du .env sont remplies.
@@ -51,6 +56,7 @@ const analytics = getAnalytics();
       document.documentElement.classList.add('js');
     </script>
     <ThemeScript />
+    {intro && <IntroGateScript />}
     <Seo
       lang={lang}
       routeKey={routeKey}
@@ -78,6 +84,8 @@ const analytics = getAnalytics();
     </main>
     <Footer lang={lang} />
     <WhatsAppButton lang={lang} />
+    {/* Écran d'entrée : placé en dernier dans le code, l'accueil reste lu en premier. */}
+    {intro && <IntroGate lang={lang} />}
     <script>
       import '../scripts/reveal';
     </script>
