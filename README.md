@@ -156,15 +156,15 @@ Exemple : la photo `piscine-01` → `src/assets/photos/piscine/piscine-01.jpg`
 
 | Dossier | Noms de fichiers attendus | Où elles apparaissent |
 |---|---|---|
-| `hero` | `accueil`, `le-chalet`, `services`, `meribel` | Photo plein écran en haut de chaque page (et image de partage sur les réseaux sociaux) |
+| `hero` | `accueil`, `le-chalet-01` (page Le chalet), `le-chalet` (plus utilisée), `services`, `meribel` | Photo plein écran en haut de chaque page (et image de partage sur les réseaux sociaux) |
 | `piscine` | `piscine-01`, `piscine-02`, `piscine-03` | `piscine-01` : Accueil (mosaïque), Le chalet ; `piscine-03` : Accueil (photo qui monte dans le hero) ; les trois : Galerie |
 | `bien-etre` | `bien-etre-01`, `bien-etre-02` | `bien-etre-01` : Accueil, Le chalet ; les deux : Galerie |
 | `cinema` | `cinema-01` | Accueil, Le chalet, Galerie |
 | `yoga` | `yoga-01` | Le chalet, Galerie |
-| `sejour` | `sejour-01` (salon cathédrale), `sejour-02` | `sejour-01` : Accueil, Le chalet ; les deux : Galerie |
+| `sejour` | `sejour-01` (salon cathédrale), `sejour-02` (feu de cheminée) | `sejour-01` : Accueil, Le chalet ; `sejour-02` : Accueil (carte « Le Chalet ») ; les deux : Galerie |
 | `cuisine` | `cuisine-01` | Accueil, Galerie |
 | `chambres` | `chambre-01` à `chambre-06` | Cartes des chambres (Le chalet), Galerie ; `chambre-01` aussi dans la mosaïque de l'accueil |
-| `exterieur` | `exterieur-01`, `exterieur-02` | `exterieur-01` : Accueil (mosaïque) — fichier de 896 px de large seulement, à remplacer par une version ≥ 2400 px ; les deux : Galerie |
+| `exterieur` | `exterieur-01`, `exterieur-02` (entrée avec l'ours) | `exterieur-01` : Accueil (mosaïque) — fichier de 896 px de large seulement, à remplacer par une version ≥ 2400 px ; les deux : Galerie |
 | `meribel` | `meribel-01`, `meribel-02` | `meribel-01` : Accueil, Méribel ; les deux : Galerie |
 | `salles-de-bain` | `sdb-01`, `sdb-02`, `sdb-03` | Galerie (filtre Chambres) |
 | `services` | `service-01` (local à skis) | Galerie (filtre Séjour). `service-02` (apéritif) a été retirée de la galerie ; son fichier reste dans le dossier. |
@@ -230,7 +230,7 @@ Une fois renseignés, ces éléments apparaissent automatiquement partout (pied 
 Le logo est en place : `src/assets/logo/logo-yolo.svg` (copie de l'original `images/logo_yolo.svg`, dont la couleur a été retirée).
 
 - Sa couleur s'adapte toute seule : **blanc** sur l'en-tête transparent (photo), **rouge `#b9121b`** sur fond clair. Ce rouge est réglé par la ligne `--color-logo` de `src/styles/tokens.css`.
-- Sa taille se règle dans `src/components/Header.astro` (classe `h-15`, en-tête) et `src/components/Footer.astro` (classe `h-20`, pied de page).
+- Sa taille se règle dans `src/components/Header.astro` (classe `h-15`, en-tête) et `src/components/Footer.astro` (classe `h-14`, pied de page).
 - **Changer de logo** : remplacez `src/assets/logo/logo-yolo.svg` par le nouveau fichier SVG, puis supprimez-y les couleurs (`fill="#…"`, bloc `<style>`) et ajoutez `fill="currentColor"` sur la première balise `<svg …>` — ou demandez-le à l'assistant IA.
 - Le **favicon** (`public/favicon.svg`) reprend la tête d'ourson du logo sur fond crème.
 

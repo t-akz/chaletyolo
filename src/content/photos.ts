@@ -84,6 +84,7 @@ const slots: PhotoSlot[] = [
   // « accueil » : photo du chalet retouchée le 06/11/2026 (tuyau gris effacé à droite de l'ours) ;
   // la version d'origine, identique sinon, est hero/le-chalet.jpg.
   { id: 'accueil', folder: 'hero', alt: { fr: 'Façade en bois et pierre du Chalet Yolo sous la neige, chalet de luxe à Méribel', en: 'Snow-covered wood and stone façade of Chalet Yolo, a luxury catered chalet in Méribel' } },
+  { id: 'le-chalet-01', folder: 'hero', alt: { fr: 'Salon cathédrale du Chalet Yolo avec cheminée, charpente en bois et baies vitrées sur la montagne', en: 'Cathedral-ceiling living room at Chalet Yolo with fireplace, timber beams and picture windows onto the mountains' } },
   { id: 'le-chalet', folder: 'hero', alt: { fr: 'Le Chalet Yolo sous la neige, à Méribel dans les 3 Vallées', en: 'Chalet Yolo under snow in Méribel, Les 3 Vallées' } },
   { id: 'services', folder: 'hero', alt: { fr: 'Table dressée pour le repas devant une baie vitrée avec vue sur la montagne', en: 'Table set for a meal by a large window with a mountain view' }, position: 'center 75%' },
   { id: 'meribel', folder: 'hero', alt: { fr: 'La station de Méribel enneigée, au cœur des 3 Vallées', en: 'Méribel ski resort under snow, in the heart of Les 3 Vallées' } },
@@ -97,7 +98,7 @@ const slots: PhotoSlot[] = [
   { id: 'cinema-01', folder: 'cinema', alt: { fr: 'Home cinéma avec grand écran et canapé d’angle', en: 'Home cinema with large screen and corner sofa' } },
   { id: 'yoga-01', folder: 'yoga', alt: { fr: 'Salle de yoga', en: 'Yoga room' } },
   { id: 'sejour-01', folder: 'sejour', alt: { fr: 'Salon cathédrale avec cheminée et poutres en bois', en: 'Cathedral-ceiling living room with fireplace and timber beams' } },
-  { id: 'sejour-02', folder: 'sejour', alt: { fr: 'Séjour', en: 'Living room' } },
+  { id: 'sejour-02', folder: 'sejour', alt: { fr: 'Séjour avec feu de cheminée, suspensions en verre et cuisine ouverte sous charpente en bois', en: 'Living room with a log fire, glass pendant lights and open kitchen under timber beams' } },
   { id: 'cuisine-01', folder: 'cuisine', alt: { fr: 'Cuisine équipée sous charpente en bois, avec îlot', en: 'Fitted kitchen with island under timber beams' } },
   { id: 'chambre-01', folder: 'chambres', alt: { fr: 'Chambre Gentiane', en: 'Gentiane Room' } },
   { id: 'chambre-02', folder: 'chambres', alt: { fr: 'Chambre Centaurée des montagnes', en: 'Centaurée des montagnes Room' } },

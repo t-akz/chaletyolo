@@ -2,8 +2,12 @@
 /**
  * Bouton WhatsApp flottant (bas droite), présent sur toutes les pages.
  * Ouvre une conversation avec un message prérempli dans la langue de la page.
+ * Au centre : le logo officiel WhatsApp en vectoriel (net à toute taille),
+ * src/assets/icons/whatsapp.svg (original fourni : images/WhatsApp.svg),
+ * à la demande du client du 06/11/2026.
  */
-import Icon from './Icon.astro';
+import { Image } from 'astro:assets';
+import whatsappLogo from '../assets/icons/whatsapp.svg';
 import type { Lang } from '../i18n/languages';
 import { getContent } from '../i18n/utils';
 import { whatsappUrl } from './whatsapp';
@@ -22,6 +26,7 @@ const common = getContent(lang, 'common');
   rel="noopener"
   class="fixed right-5 bottom-5 z-30 flex size-14 items-center justify-center rounded-full bg-primary text-on-primary shadow-[0_4px_20px_rgb(0_0_0/0.18)] transition-colors duration-300 hover:bg-primary-hover md:right-8 md:bottom-8"
 >
-  <Icon name="message-circle" size={26} />
+  {/* Logo décoratif (alt vide) : le libellé du lien est porté par le texte masqué ci-dessous. */}
+  <Image src={whatsappLogo} alt="" width={34} height={34} loading="lazy" />
   <span class="sr-only">{common.whatsapp.label} {common.newTab}</span>
 </a>
