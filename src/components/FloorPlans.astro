@@ -1,0 +1,50 @@
+---
+/**
+ * « Floor Plans » : plans du chalet, un par niveau (page Le chalet).
+ *
+ * Grille : 1 colonne sur mobile, 2 sur tablette, 3 sur ordinateur.
+ * Les plans sont affichés en entier (jamais rognés), sur fond blanc.
+ * Tant que le fichier d'un plan est absent, un aplat neutre avec son libellé
+ * s'affiche (fichiers attendus : src/assets/photos/plans/plan-niveau-1.jpg, etc.).
+ * Les plans n'apparaissent pas dans la Galerie.
+ *
+ * Utilisé par : src/views/ChaletView.astro. Textes : src/content/{fr,en}/chalet.json.
+ */
+import Photo from './Photo.astro';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  plans: { photoId: string; label: string }[];
+  /** Fond de la section : principal (crème) ou alterné. */
+  background?: 'bg' | 'alt';
+}
+
+const { lang, title, plans, background = 'alt' } = Astro.props;
+---
+
+<section class:list={['py-16 md:py-28', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
+  <div class="container-page">
+    <h2 class="mb-10 text-h2 md:mb-14" data-reveal>{title}</h2>
+    <ul class="grid gap-x-5 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+      {
+        plans.map((plan) => (
+          <li data-reveal>
+            <figure>
+              <div class="aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-white">
+                <Photo
+                  id={plan.photoId}
+                  lang={lang}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  class="object-contain!"
+                />
+              </div>
+              <figcaption class="mt-4 text-sm font-medium">{plan.label}</figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

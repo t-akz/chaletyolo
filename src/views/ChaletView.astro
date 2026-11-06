@@ -1,27 +1,18 @@
 ---
 /**
- * Page « Le chalet » (FR et EN) — structure du §6 de CLAUDE.md :
- * Hero → chiffres + localisation → une section par espace → 6 chambres
- * → visite par niveau → tous les équipements → appel à l'action.
+ * Page « Le chalet » (FR et EN) — refonte du 06/11/2026, 5 sections (CLAUDE.md §6) :
+ * Hero → intro (texte + chiffres clés) → colonnes d'espaces (accordéon de photos)
+ * → « Floor Plans » (plans par niveau) → carte (provisoire, à retravailler).
  * Textes : src/content/{fr,en}/chalet.json ; faits : src/content/chalet.ts.
+ *
+ * Composants retirés de cette page mais conservés pour plus tard :
+ * FeatureSection, RoomCards, LevelTour, Accordion (« Tous les équipements »), CTASection.
  */
-import Accordion from '../components/Accordion.astro';
-import CTASection from '../components/CTASection.astro';
-import FeatureSection from '../components/FeatureSection.astro';
+import FloorPlans from '../components/FloorPlans.astro';
 import Hero from '../components/Hero.astro';
-import Icon from '../components/Icon.astro';
 import KeyFigures from '../components/KeyFigures.astro';
-import LevelTour from '../components/LevelTour.astro';
-import RoomCards from '../components/RoomCards.astro';
-import {
-  amenities,
-  bedrooms,
-  figures,
-  identity,
-  isFeatureConfirmed,
-  knownLevels,
-  visibleFeatures,
-} from '../content/chalet';
+import SpaceColumns from '../components/SpaceColumns.astro';
+import { figures, isFeatureConfirmed, laGittazMapsUrl, visibleFeatures } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { format, getContent } from '../i18n/utils';
@@ -38,49 +29,45 @@ const features = visibleFeatures();
 const featureLabel = (id: string) => features.find((feature) => feature.id === id)?.label[lang] ?? '';
 const wellnessItems = ['jacuzzi', 'jacuzzi-bath', 'sauna', 'hammam'].map(featureLabel).filter(Boolean).join(' · ');
 
-// Espaces présentés, dans l'ordre. La salle de jeux n'apparaît que si elle est confirmée.
+// Colonnes d'espaces, dans l'ordre. La salle de jeux n'apparaît que si elle est confirmée.
 const spaces = [
-  { photoId: 'piscine-01', title: featureLabel('pool'), text: page.spaces.pool.text },
-  { photoId: 'bien-etre-01', eyebrow: wellnessItems, title: page.spaces.wellness.title, text: page.spaces.wellness.text },
-  { photoId: 'cinema-01', title: featureLabel('cinema'), text: page.spaces.cinema.text },
-  { photoId: 'yoga-01', title: featureLabel('yoga'), text: page.spaces.yoga.text },
+  { photoId: 'piscine-01', eyebrow: featureLabel('pool'), ...page.spaces.pool },
+  { photoId: 'bien-etre-01', eyebrow: wellnessItems, ...page.spaces.wellness },
+  { photoId: 'cinema-01', ...page.spaces.cinema },
+  { photoId: 'yoga-01', ...page.spaces.yoga },
+  { photoId: 'sejour-01', eyebrow: format(page.levels.level, { level: 4 }), ...page.spaces.living },
+  ...(isFeatureConfirmed('games-room') ? [{ photoId: 'jeux-01', ...page.spaces.games }] : []),
   {
-    photoId: 'sejour-01',
-    eyebrow: format(page.levels.level, { level: 4 }),
-    title: page.spaces.living.title,
-    text: page.spaces.living.text,
+    photoId: 'chambre-01',
+    eyebrow: format(page.rooms.summary, {
+      bedrooms: figures.bedrooms,
+      suites: figures.suites,
+      bathrooms: figures.bathrooms,
+    }),
+    ...page.spaces.rooms,
   },
-  ...(isFeatureConfirmed('games-room')
-    ? [{ photoId: 'jeux-01', title: featureLabel('games-room'), text: page.spaces.games.text }]
-    : []),
 ];
 
-const rooms = bedrooms.map((room) => ({
-  name: room.name[lang],
-  beds: room.beds[lang],
-  photoId: `chambre-0${room.number}`,
-}));
+// Plans : un par niveau (fichiers src/assets/photos/plans/plan-niveau-1 … 5).
+const plans = page.floorPlans.levels.map((label, index) => ({ photoId: `plan-niveau-${index + 1}`, label }));
 
-// Niveaux connus, du plus haut au plus bas ; les autres sont « [À FOURNIR] ».
-const levels = [...knownLevels]
-  .sort((a, b) => b.level - a.level)
-  .map((level) => ({
-    name: format(page.levels.level, { level: level.level }),
-    items: level.items.map((item) => item[lang]),
-  }));
-const allLevelsDescribed = knownLevels.length >= figures.levels;
+// Phrase « … quartier {link} … » coupée autour du lien vers La Gittaz.
+const [locationBefore, locationAfter = ''] = page.location.text.split('{link}');
 ---
 
 <BaseLayout lang={lang} routeKey="chalet" title={page.meta.title} description={page.meta.description} photoId="le-chalet-01" hero>
-  <Hero
-    lang={lang}
-    photoId="le-chalet-01"
-    title={page.hero.title}
-    subtitle={page.hero.subtitle}
-    height="large"
-  />
+  <!-- 1. Hero -->
+  <Hero lang={lang} photoId="le-chalet-01" title={page.hero.title} subtitle={page.hero.subtitle} height="large" />
 
+  <!-- 2. Intro : court texte + chiffres clés -->
+  <section class="bg-bg pt-16 pb-12 md:pt-28 md:pb-16">
+    <div class="container-page" data-reveal>
+      <h2 class="eyebrow mb-6 text-accent">{page.intro.title}</h2>
+      <p class="max-w-4xl text-h3 leading-snug font-thin">{page.intro.text}</p>
+    </div>
+  </section>
   <KeyFigures
+    flush
     items={[
       { value: figures.surfaceM2, label: common.figures.surface },
       { value: figures.guests, label: common.figures.guests },
@@ -89,65 +76,31 @@ const allLevelsDescribed = knownLevels.length >= figures.levels;
     ]}
   />
 
-  <section class="bg-bg pb-16 md:pb-24">
+  <!-- 3. Colonnes d'espaces (accordéon de photos) -->
+  <section class="bg-bg-alt py-16 md:py-28">
     <div class="container-page" data-reveal>
-      <h2 class="sr-only">{page.location.title}</h2>
-      <p class="flex items-start gap-3">
-        <Icon name="map-pin" size={22} class="mt-0.5 shrink-0 text-heading" />
-        <span>
-          {identity.hamlet}, {identity.resort} · {identity.postalCode} {identity.town}, {identity.region}
-          <br />
-          {page.location.complex}
-        </span>
-      </p>
+      <SpaceColumns lang={lang} label={page.spaces.label} items={spaces} />
     </div>
   </section>
 
-  {
-    spaces.map((space, index) => (
-      <FeatureSection
-        lang={lang}
-        photoId={space.photoId}
-        eyebrow={space.eyebrow}
-        title={space.title}
-        text={space.text}
-        reverse={index % 2 === 1}
-        background={index % 2 === 0 ? 'alt' : 'bg'}
-      />
-    ))
-  }
+  <!-- 4. Floor Plans -->
+  <FloorPlans lang={lang} title={page.floorPlans.title} plans={plans} background="bg" />
 
-  <RoomCards
-    lang={lang}
-    title={page.rooms.title}
-    summary={format(page.rooms.summary, {
-      bedrooms: figures.bedrooms,
-      suites: figures.suites,
-      bathrooms: figures.bathrooms,
-    })}
-    rooms={rooms}
-    background={spaces.length % 2 === 0 ? 'alt' : 'bg'}
-  />
-
-  <LevelTour
-    title={page.levels.title}
-    summary={format(page.levels.summary, { levels: figures.levels })}
-    levels={levels}
-    othersLabel={allLevelsDescribed ? undefined : page.levels.others}
-    background={spaces.length % 2 === 0 ? 'bg' : 'alt'}
-  />
-
-  <section class:list={['py-16 md:py-28', spaces.length % 2 === 0 ? 'bg-bg-alt' : 'bg-bg']}>
+  <!-- 5. Carte (provisoire, à retravailler) : uniquement le quartier de La Gittaz (CLAUDE.md §5.7) -->
+  <section class="bg-bg-alt py-16 md:py-28">
     <div class="container-page">
-      <h2 class="mb-10 text-h2 md:mb-14" data-reveal>{page.amenities.title}</h2>
-      <Accordion
-        items={amenities.map((group) => ({
-          title: group.title[lang],
-          content: group.items.map((item) => item[lang]),
-        }))}
-      />
+      <div data-reveal>
+        <h2 class="mb-6 text-h2">{page.location.title}</h2>
+        <p class="mb-10 max-w-2xl md:mb-14">
+          {locationBefore}<a href={laGittazMapsUrl} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">{page.location.link}<span class="sr-only"> {common.newTab}</span></a>{locationAfter}
+        </p>
+      </div>
+      <div
+        class="flex aspect-[4/3] items-center justify-center rounded-2xl bg-accent-soft md:aspect-[21/9]"
+        data-reveal
+      >
+        <span class="eyebrow">{page.location.mapPlaceholder}</span>
+      </div>
     </div>
   </section>
-
-  <CTASection lang={lang} title={page.cta.title} />
 </BaseLayout>

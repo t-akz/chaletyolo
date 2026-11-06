@@ -1,0 +1,299 @@
+---
+/**
+ * « Colonnes d'espaces » : accordéon de photos (page Le chalet).
+ *
+ * - Ordinateur (≥ 1024 px) : des colonnes-photos côte à côte, titre écrit à la
+ *   verticale. Celle que l'on survole (souris) ou que l'on choisit (clic,
+ *   clavier) s'élargit et affiche son texte ; les autres se resserrent.
+ *   Une colonne est toujours ouverte (la première au chargement).
+ * - Mobile et tablette : des bandes empilées ; un clic sur le titre ouvre la
+ *   bande vers le bas (photo + texte), un second clic la referme.
+ * - Une seule ouverte à la fois. Animations réduites : ouverture sans mouvement
+ *   (règle globale de src/styles/global.css).
+ * - Sans JavaScript : tout est affiché, l'un sous l'autre.
+ *
+ * Accessibilité : chaque titre est un bouton (aria-expanded / aria-controls).
+ * Utilisé par : src/views/ChaletView.astro. Textes : src/content/{fr,en}/chalet.json.
+ */
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  items: { photoId: string; title: string; eyebrow?: string; text: string }[];
+  /** Titre de la section, lu par les lecteurs d'écran. */
+  label: string;
+}
+
+const { lang, items, label } = Astro.props;
+// Identifiant unique, au cas où le composant serait utilisé deux fois sur une page.
+const uid = `espaces-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="space-columns" data-space-columns>
+  <h2 class="sr-only">{label}</h2>
+  <ul class="space-columns__list">
+    {
+      items.map((item, index) => (
+        <li class="space-col" data-open={index === 0 ? 'true' : 'false'}>
+          <h3 class="space-col__heading">
+            <button
+              type="button"
+              class="space-col__button"
+              id={`${uid}-titre-${index}`}
+              aria-expanded={index === 0 ? 'true' : 'false'}
+              aria-controls={`${uid}-panneau-${index}`}
+            >
+              <span class="space-col__title">{item.title}</span>
+              <Icon name="chevron-down" size={22} class="space-col__chevron" />
+            </button>
+          </h3>
+          <div class="space-col__body" id={`${uid}-panneau-${index}`} role="region" aria-labelledby={`${uid}-titre-${index}`}>
+            <div class="space-col__inner">
+              <div class="space-col__media">
+                <Photo id={item.photoId} lang={lang} sizes="(min-width: 1024px) 50vw, 100vw" />
+              </div>
+              <div class="space-col__text">
+                {item.eyebrow && <p class="eyebrow mb-3">{item.eyebrow}</p>}
+                <p>{item.text}</p>
+              </div>
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  /* ---------- Mobile et tablette (et sans JavaScript) : bandes empilées ---------- */
+  .space-columns__list {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .space-col {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .space-col__button {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem 0;
+    text-align: left;
+    color: var(--color-heading);
+    font-size: var(--text-h3);
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+
+  /* La flèche n'apparaît qu'avec JavaScript (sans lui, tout est déjà ouvert). */
+  .space-col :global(.space-col__chevron) {
+    display: none;
+    flex-shrink: 0;
+    transition: transform 0.4s ease;
+  }
+
+  :global(.js) .space-col :global(.space-col__chevron) {
+    display: block;
+  }
+
+  .space-col__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 1rem;
+  }
+
+  .space-col__text {
+    padding: 1.25rem 0 2rem;
+    max-width: 40rem;
+  }
+
+  /* Avec JavaScript : seules les bandes ouvertes montrent leur contenu
+     (ouverture en douceur grâce à la hauteur de grille 0 → 1). */
+  :global(.js) .space-col__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.6s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  :global(.js) .space-col__inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  :global(.js) .space-col[data-open='true'] .space-col__body {
+    grid-template-rows: 1fr;
+  }
+
+  :global(.js) .space-col[data-open='true'] :global(.space-col__chevron) {
+    transform: rotate(180deg);
+  }
+
+  /* ---------- Ordinateur (≥ 1024 px, avec JavaScript) : colonnes côte à côte ---------- */
+  @media (min-width: 1024px) {
+    :global(.js) .space-columns__list {
+      display: flex;
+      gap: 0.75rem;
+      height: clamp(34rem, 78svh, 48rem);
+      border-top: 0;
+    }
+
+    :global(.js) .space-col {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex: 1 1 0;
+      min-width: 0;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      border-bottom: 0;
+      border-radius: 1rem;
+      color: #fff;
+      transition: flex-grow 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+    }
+
+    :global(.js) .space-col[data-open='true'] {
+      flex-grow: 4;
+    }
+
+    /* Voile sombre en bas : lisibilité du texte blanc sur la photo. */
+    :global(.js) .space-col::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(to top, rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.15) 55%, rgb(0 0 0 / 0.05));
+      pointer-events: none;
+    }
+
+    /* La photo occupe toute la colonne, derrière le texte. */
+    :global(.js) .space-col__media {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      aspect-ratio: auto;
+      border-radius: 0;
+    }
+
+    :global(.js) .space-col__media :global(img) {
+      transition: transform 1.2s ease-out;
+    }
+
+    :global(.js) .space-col[data-open='true'] .space-col__media :global(img) {
+      transform: scale(1.03);
+    }
+
+    /* Le bouton couvre toute la colonne : un clic n'importe où l'ouvre. */
+    :global(.js) .space-col__button {
+      position: static;
+      padding: 0 1.75rem 1.75rem;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    :global(.js) .space-col__button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    :global(.js) .space-col :global(.space-col__chevron) {
+      display: none;
+    }
+
+    /* Colonne fermée : titre à la verticale (se lit de bas en haut). */
+    :global(.js) .space-col[data-open='false'] .space-col__button {
+      justify-content: center;
+      padding: 1.75rem 0;
+    }
+
+    :global(.js) .space-col[data-open='false'] .space-col__title {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* Le texte garde une largeur fixe : il ne se recompose pas pendant que la colonne s'élargit. */
+    :global(.js) .space-col__text {
+      width: clamp(18rem, 32vw, 26rem);
+      max-width: none;
+      padding: 0 1.75rem 2rem;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    :global(.js) .space-col[data-open='true'] .space-col__text {
+      opacity: 1;
+      transition: opacity 0.6s ease 0.35s;
+    }
+
+    /* Ici, la colonne fermée doit garder sa photo visible : seule la zone de texte se replie. */
+    :global(.js) .space-col__inner {
+      overflow: visible;
+    }
+
+    :global(.js) .space-col__body {
+      transition: grid-template-rows 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+    }
+
+    :global(.js) .space-col[data-open='false'] .space-col__text {
+      visibility: hidden;
+    }
+
+    /* Focus clavier visible sur toute la colonne. */
+    :global(.js) .space-col:has(.space-col__button:focus-visible) {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+    }
+
+    :global(.js) .space-col__button:focus-visible {
+      outline: none;
+    }
+  }
+</style>
+
+<script>
+  // Ouverture des colonnes / bandes : une seule ouverte à la fois.
+  const desktop = window.matchMedia('(min-width: 1024px)');
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  document.querySelectorAll<HTMLElement>('[data-space-columns]').forEach((root) => {
+    const columns = [...root.querySelectorAll<HTMLElement>('.space-col')];
+
+    const open = (target: HTMLElement | null) => {
+      columns.forEach((column) => {
+        const isOpen = column === target;
+        column.dataset.open = String(isOpen);
+        column.querySelector('.space-col__button')?.setAttribute('aria-expanded', String(isOpen));
+      });
+    };
+
+    columns.forEach((column) => {
+      const button = column.querySelector<HTMLButtonElement>('.space-col__button');
+
+      button?.addEventListener('click', () => {
+        const isOpen = column.dataset.open === 'true';
+        // Ordinateur : une colonne reste toujours ouverte. Mobile : un second clic referme.
+        if (isOpen && !desktop.matches) open(null);
+        else if (!isOpen) open(column);
+      });
+
+      // Ordinateur avec souris : le survol suffit.
+      column.addEventListener('mouseenter', () => {
+        if (desktop.matches && canHover.matches && column.dataset.open !== 'true') open(column);
+      });
+    });
+
+    // Passage mobile → ordinateur (rotation de tablette, redimensionnement) :
+    // en colonnes, il en faut toujours une ouverte.
+    desktop.addEventListener('change', () => {
+      if (desktop.matches && !columns.some((column) => column.dataset.open === 'true')) open(columns[0] ?? null);
+    });
+  });
+</script>

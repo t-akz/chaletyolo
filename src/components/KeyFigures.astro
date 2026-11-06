@@ -7,12 +7,14 @@ interface Props {
   items: { value: string | number; label: string }[];
   /** Fond de la section : principal (crème) ou alterné. */
   background?: 'bg' | 'alt';
+  /** Sans marge du haut : prolonge la section précédente (ex. intro de la page Le chalet). */
+  flush?: boolean;
 }
 
-const { items, background = 'bg' } = Astro.props;
+const { items, background = 'bg', flush = false } = Astro.props;
 ---
 
-<section class:list={['py-16 md:py-24', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
+<section class:list={[flush ? 'pb-16 md:pb-28' : 'py-16 md:py-24', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
   <dl class="container-page grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4" data-reveal>
     {
       items.map((item) => (

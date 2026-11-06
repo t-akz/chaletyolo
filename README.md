@@ -163,12 +163,13 @@ Exemple : la photo `piscine-01` → `src/assets/photos/piscine/piscine-01.jpg`
 | `yoga` | `yoga-01` | Le chalet, Galerie |
 | `sejour` | `sejour-01` (salon cathédrale), `sejour-02` (feu de cheminée) | `sejour-01` : Accueil, Le chalet ; `sejour-02` : Accueil (carte « Le Chalet ») ; les deux : Galerie |
 | `cuisine` | `cuisine-01` | Accueil, Galerie |
-| `chambres` | `chambre-01` à `chambre-06` | Cartes des chambres (Le chalet), Galerie ; `chambre-01` aussi dans la mosaïque de l'accueil |
+| `chambres` | `chambre-01` à `chambre-06` | Galerie ; `chambre-01` aussi dans la mosaïque de l'accueil et la colonne « Chambres & suites » (Le chalet) |
 | `exterieur` | `exterieur-01`, `exterieur-02` (entrée avec l'ours) | `exterieur-01` : Accueil (mosaïque) — fichier de 896 px de large seulement, à remplacer par une version ≥ 2400 px ; les deux : Galerie |
 | `meribel` | `meribel-01`, `meribel-02` | `meribel-01` : Accueil, Méribel ; les deux : Galerie |
 | `salles-de-bain` | `sdb-01`, `sdb-02`, `sdb-03` | Galerie (filtre Chambres) |
 | `services` | `service-01` (local à skis) | Galerie (filtre Séjour). `service-02` (apéritif) a été retirée de la galerie ; son fichier reste dans le dossier. |
 | `jeux` | `jeux-01` | Le chalet, Galerie — uniquement si la salle de jeux est confirmée |
+| `plans` | `plan-niveau-1` à `plan-niveau-5` (un plan par niveau) | Section « Floor Plans » de la page Le chalet uniquement (jamais dans la Galerie). Les plans sont affichés en entier sur fond blanc, sans être rognés : un format paysage d'environ 4:3 est idéal (PNG ou JPG, ≥ 1600 px de large) |
 
 > Le dossier `images/` à la racine du projet contient les **originaux** fournis par le client. Il n'est pas envoyé sur GitHub (voir `.gitignore`) : le site n'utilise que les copies de `src/assets/photos/`.
 
@@ -318,7 +319,7 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, la cou
 | Numéro WhatsApp | `src/config/site.ts` → `whatsapp` |
 | Instagram | `src/config/site.ts` → `social` |
 | Description des niveaux autres que le 3e et le 4e | `src/content/chalet.ts` → `knownLevels` |
-| Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06` (et `jeux-01` si la salle de jeux est confirmée) | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
+| Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06` (et `jeux-01` si la salle de jeux est confirmée) ; plans `plans/plan-niveau-1` à `plan-niveau-5` | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
 | Mentions légales : date de mise à jour, raison sociale, forme juridique et capital, adresse du siège, SIRET, directeur de publication, contact, adresse de Netlify, crédits photos | `src/content/fr/legal.json` + `en/legal.json` |
 | Confidentialité : date de mise à jour, responsable du traitement, garanties du transfert hors UE, durée de conservation, statistiques activées ou non, email pour exercer ses droits | `src/content/fr/privacy.json` + `en/privacy.json` |
 | Identifiants Umami (si statistiques souhaitées) | Variables Netlify ([§ 8](#8-statistiques-de-visite-umami)) |
@@ -336,7 +337,7 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, la cou
 | Fichier (`src/content/fr/` et `src/content/en/`) | Rubriques |
 |---|---|
 | `home.json` | `hero.title` (accroche), `intro.cards` (titres et sous-titres des 4 cartes-photos) |
-| `chalet.json` | `hero.title`, `spaces.pool.text`, `spaces.wellness.text`, `spaces.cinema.text`, `spaces.yoga.text`, `spaces.living.text`, `spaces.games.text` (affiché seulement si la salle de jeux est confirmée) |
+| `chalet.json` | `hero.title`, `intro.text`, les titres courts `spaces.*.title`, `spaces.pool.text`, `spaces.wellness.text`, `spaces.cinema.text`, `spaces.yoga.text`, `spaces.living.text`, `spaces.rooms.text`, `spaces.games.text` (affiché seulement si la salle de jeux est confirmée), `location.text` |
 | `services.json` | `hero.title` |
 | `meribel.json` | `hero.title` |
 | `contact.json` | `intro` |

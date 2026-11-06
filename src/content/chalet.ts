@@ -23,6 +23,12 @@ export const identity = {
   complex: 'Chalets Célénia',
 } as const;
 
+/**
+ * Lien Google Maps vers le QUARTIER de La Gittaz (jamais l'adresse du chalet, CLAUDE.md §5.7).
+ * Utilisé par les pages Le chalet (section Carte) et Méribel.
+ */
+export const laGittazMapsUrl = 'https://www.google.com/maps/search/?api=1&query=La+Gittaz%2C+M%C3%A9ribel';
+
 // ---------------------------------------------------------------------------
 // Chiffres clés
 // ---------------------------------------------------------------------------

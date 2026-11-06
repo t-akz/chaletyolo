@@ -12,7 +12,7 @@ import CTASection from '../components/CTASection.astro';
 import FeatureSection from '../components/FeatureSection.astro';
 import Hero from '../components/Hero.astro';
 import ServiceList from '../components/ServiceList.astro';
-import { amenities, meribel, slopesAccess } from '../content/chalet';
+import { amenities, laGittazMapsUrl, meribel, slopesAccess } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { format, getContent } from '../i18n/utils';
@@ -25,8 +25,7 @@ const { lang } = Astro.props;
 const page = getContent(lang, 'meribel');
 const common = getContent(lang, 'common');
 
-// Lien vers le QUARTIER de La Gittaz sur Google Maps (jamais l'adresse du chalet, CLAUDE.md §5.7).
-const laGittazMapsUrl = 'https://www.google.com/maps/search/?api=1&query=La+Gittaz%2C+M%C3%A9ribel';
+// Lien Google Maps vers le QUARTIER de La Gittaz : src/content/chalet.ts (CLAUDE.md §5.7).
 // Phrase « … quartier {link}. » coupée autour du lien.
 const [locationBefore, locationAfter = ''] = page.resort.location.split('{link}');
 

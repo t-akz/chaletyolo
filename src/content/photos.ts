@@ -33,6 +33,8 @@ export const photoFolders = {
   exterieur: { fr: 'Extérieur', en: 'Exterior' },
   meribel: { fr: 'Méribel', en: 'Méribel' },
   services: { fr: 'Services', en: 'Services' },
+  /** Plans du chalet (section « Floor Plans » de la page Le chalet) : jamais dans la galerie. */
+  plans: { fr: 'Plan', en: 'Floor plan' },
 } satisfies Record<string, Localized>;
 
 export type PhotoFolder = keyof typeof photoFolders;
@@ -40,7 +42,8 @@ export type PhotoFolder = keyof typeof photoFolders;
 /**
  * Catégories des filtres de la galerie, et dossiers qui les composent.
  * Les libellés des filtres sont dans src/content/{fr,en}/gallery.json.
- * Le dossier « hero » (photos plein écran des pages) n'apparaît pas dans la galerie.
+ * Les dossiers « hero » (photos plein écran des pages) et « plans » (plans du chalet)
+ * n'apparaissent pas dans la galerie.
  */
 export const galleryCategories = {
   sejour: ['sejour', 'cuisine', 'services'],
@@ -121,6 +124,12 @@ const slots: PhotoSlot[] = [
   // « service-02 » (apéritif) retirée de la galerie à la demande du client (05/11/2026) ; son fichier services/service-02.png reste dans le dossier.
   // exterieur-02 prend sa place dans la galerie (dernière position).
   { id: 'exterieur-02', folder: 'exterieur', alt: { fr: 'Entrée du chalet en bois et pierre sous la neige, avec une sculpture d’ours au-dessus de la porte', en: 'Snow-covered wood and stone entrance of the chalet, with a bear sculpture above the door' } },
+  // Plans du chalet, un par niveau (section « Floor Plans » de la page Le chalet).
+  { id: 'plan-niveau-1', folder: 'plans', alt: { fr: 'Plan du 1er niveau du chalet', en: 'Floor plan of level 1 of the chalet' } },
+  { id: 'plan-niveau-2', folder: 'plans', alt: { fr: 'Plan du 2e niveau du chalet', en: 'Floor plan of level 2 of the chalet' } },
+  { id: 'plan-niveau-3', folder: 'plans', alt: { fr: 'Plan du 3e niveau du chalet', en: 'Floor plan of level 3 of the chalet' } },
+  { id: 'plan-niveau-4', folder: 'plans', alt: { fr: 'Plan du 4e niveau du chalet', en: 'Floor plan of level 4 of the chalet' } },
+  { id: 'plan-niveau-5', folder: 'plans', alt: { fr: 'Plan du 5e niveau du chalet', en: 'Floor plan of level 5 of the chalet' } },
 ];
 
 // Tous les fichiers image présents dans src/assets/photos/ (détectés automatiquement).
