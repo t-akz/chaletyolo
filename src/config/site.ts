@@ -17,10 +17,13 @@ export const site = {
   name: 'Chalet Yolo',
 
   /**
-   * Adresse complète du site, sans barre oblique finale, ex. « https://www.chalet-yolo.com ».
-   * [À FOURNIR] — l'adresse ci-dessous est un remplacement provisoire (nécessaire au sitemap).
+   * Adresse complète du site, sans barre oblique finale.
+   * Domaine chalet-yolo.com (acheté le 06/11/2026, chez OVH) ; adresse principale avec « www »
+   * (la version sans www redirige vers www, réglage côté Netlify).
+   * Seul endroit où l'adresse est écrite : canoniques, hreflang, Open Graph, JSON-LD,
+   * sitemap et robots.txt la lisent ici.
    */
-  url: 'https://a-fournir.example',
+  url: 'https://www.chalet-yolo.com',
 
   /** Email de contact affiché sur le site. */
   email: TO_PROVIDE,

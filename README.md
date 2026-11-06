@@ -314,7 +314,6 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, la cou
 
 | Information | Fichier |
 |---|---|
-| Adresse du site (domaine) — actuellement `https://a-fournir.example` | `src/config/site.ts` → `url` |
 | Email de contact | `src/config/site.ts` → `email` |
 | Numéro WhatsApp | `src/config/site.ts` → `whatsapp` |
 | Instagram | `src/config/site.ts` → `social` |

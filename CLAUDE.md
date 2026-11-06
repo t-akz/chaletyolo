@@ -52,7 +52,7 @@ Les éléments entre crochets `[...]` sont des valeurs à fournir plus tard : **
 | Images | `astro:assets` (`<Image>` / `<Picture>`), AVIF + WebP, tailles responsive, lazy-loading (sauf hero) |
 | Polices | Auto-hébergées via `@fontsource` (pas de Google Fonts en CDN — RGPD) |
 | Icônes | Lucide (trait fin), pas d'émojis |
-| Hébergement | **Netlify** (`netlify.toml`) |
+| Hébergement | **Netlify** (`netlify.toml`). Domaine et emails chez OVH (DNS géré chez OVH, pointé vers Netlify). |
 | Formulaire | **Netlify Forms** |
 | Statistiques | Plausible ou Umami (sans cookies), injecté seulement si `PUBLIC_ANALYTICS_*` est défini dans `.env` |
 | SEO | `@astrojs/sitemap`, meta/OG, `hreflang`, JSON-LD |
@@ -212,7 +212,7 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 
 ## 8. Données factuelles — source de vérité (ne rien ajouter)
 
-**Identité** : **Chalet Yolo** (pas « & Spa ») · La Gittaz, Méribel, 73550 Les Allues, Savoie · ensemble des Chalets Célénia · Domaine `[DOMAINE]` · Email `[EMAIL_CONTACT]` · WhatsApp `[WHATSAPP_NUMBER]` · Instagram `[URL]`
+**Identité** : **Chalet Yolo** (pas « & Spa ») · La Gittaz, Méribel, 73550 Les Allues, Savoie · ensemble des Chalets Célénia · Domaine `chalet-yolo.com` (acheté le 06/11/2026), adresse principale `https://www.chalet-yolo.com` (la version sans www redirige vers www, réglage côté Netlify) · Email `[EMAIL_CONTACT]` · WhatsApp `[WHATSAPP_NUMBER]` · Instagram `[URL]`
 
 **Chiffres** : 350 m² · 15 personnes · 6 chambres dont 4 suites · 6 salles de bain · 5 niveaux avec ascenseur · arrivée 17h00, départ 10h00
 
