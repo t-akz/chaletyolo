@@ -2,21 +2,22 @@
 /**
  * Écran d'entrée de la page d'accueil (CLAUDE.md §5.8).
  *
- * Un voile noir posé AU-DESSUS de l'accueil : la page reste entièrement
+ * Un voile bordeaux posé AU-DESSUS de l'accueil : la page reste entièrement
  * présente en dessous (Google la lit normalement). Le voile est placé à la fin
  * du code HTML et reste caché tant que la classe « intro-active » n'est pas sur
  * <html> (ajoutée avant l'affichage par IntroGateScript.astro, seulement si
  * JavaScript est actif et si l'écran n'a pas encore été vu dans cet onglet).
  *
  * Contenu : logo (version claire), bouton « Enter », choix « Français · English »,
- * flèche qui rebondit. Couleurs fixes, identiques dans les 3 thèmes :
- * fond #000000, textes et traits #F2EEE8.
+ * flèche qui rebondit. Couleurs fixes, propres à cet écran :
+ * fond bordeaux #6e2a35 (en test depuis le 06/11/2026, auparavant noir #000000),
+ * textes et traits #F2EEE8.
  *
  * Ouverture : clic sur « Enter », touches Entrée / Espace / flèche bas / Page bas,
  * molette ou trackpad (haut ou bas), glissement du doigt de plus de 30 px.
  * - Langue choisie = langue de la page → le rideau se lève (0,9 s).
  * - Autre langue → on part vers l'autre accueil (/ ↔ /en/) en gardant les
- *   paramètres d'adresse (ex. ?theme=b) ; l'écran ne s'y réaffiche pas.
+ *   paramètres d'adresse (ex. ?utm_source=…) ; l'écran ne s'y réaffiche pas.
  * Après l'ouverture, l'« élan » du geste (trackpad, téléphone) est neutralisé
  * pour que l'accueil commence tout en haut.
  *
@@ -97,7 +98,7 @@ const common = getContent(lang, 'common');
     align-items: center;
     justify-content: center;
     padding: 2rem 1.5rem;
-    background: #000000;
+    background: #6e2a35; /* Bordeaux (couleur du bouton principal) — en test ; avant : #000000 */
     color: #f2eee8;
     overscroll-behavior: contain;
   }

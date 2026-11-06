@@ -81,6 +81,8 @@ export type PhotoSlot = {
 /** Liste des photos attendues. Ajoutez une ligne pour chaque nouvelle photo. */
 const slots: PhotoSlot[] = [
   // Photos plein écran (hero) de chaque page
+  // « accueil » : photo du chalet retouchée le 06/11/2026 (tuyau gris effacé à droite de l'ours) ;
+  // la version d'origine, identique sinon, est hero/le-chalet.jpg.
   { id: 'accueil', folder: 'hero', alt: { fr: 'Façade en bois et pierre du Chalet Yolo sous la neige, chalet de luxe à Méribel', en: 'Snow-covered wood and stone façade of Chalet Yolo, a luxury catered chalet in Méribel' } },
   { id: 'le-chalet', folder: 'hero', alt: { fr: 'Le Chalet Yolo sous la neige, à Méribel dans les 3 Vallées', en: 'Chalet Yolo under snow in Méribel, Les 3 Vallées' } },
   { id: 'services', folder: 'hero', alt: { fr: 'Table dressée pour le repas devant une baie vitrée avec vue sur la montagne', en: 'Table set for a meal by a large window with a mountain view' }, position: 'center 75%' },
@@ -89,6 +91,7 @@ const slots: PhotoSlot[] = [
   // Espaces du chalet
   { id: 'piscine-01', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée et salon de détente d’un chalet haut de gamme à Méribel', en: 'Heated indoor pool and lounge of a luxury chalet in Méribel' } },
   { id: 'piscine-02', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée sous une fenêtre en arc', en: 'Heated indoor pool beneath an arched window' } },
+  { id: 'piscine-03', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée aux carreaux émeraude, éclairée par des spots', en: 'Heated indoor pool with emerald tiles and soft spotlights' } },
   { id: 'bien-etre-01', folder: 'bien-etre', alt: { fr: 'Spa du chalet avec douche et sauna', en: 'Chalet spa with shower and sauna' } },
   { id: 'bien-etre-02', folder: 'bien-etre', alt: { fr: 'Hammam voûté de l’espace bien-être', en: 'Vaulted hammam in the spa' } },
   { id: 'cinema-01', folder: 'cinema', alt: { fr: 'Home cinéma avec grand écran et canapé d’angle', en: 'Home cinema with large screen and corner sofa' } },

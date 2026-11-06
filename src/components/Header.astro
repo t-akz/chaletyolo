@@ -2,7 +2,8 @@
 /**
  * En-tête du site.
  * - Pages avec photo plein écran (« transparent ») : en-tête transparent,
- *   texte blanc, puis fond crème + légère ombre dès que l'on fait défiler.
+ *   texte blanc, puis fond crème + légère ombre dès que l'on fait défiler
+ *   (sur l'accueil : seulement quand la scène du hero animé remonte, voir HeroReveal.astro).
  * - Autres pages : fond crème dès le départ.
  * - Mobile et tablette : bouton « Menu » qui ouvre un menu plein écran
  *   (fermeture : bouton, touche Échap ou clic sur un lien).
@@ -48,7 +49,7 @@ const menu = menuKeys.map((key) => ({
 
     <!-- Menu ordinateur -->
     <nav aria-label={common.nav.label} class="hidden lg:block">
-      <ul class="flex items-center gap-7 text-base font-medium xl:gap-10 xl:text-[1.0625rem]">
+      <ul class="flex items-center gap-7 text-[1.0625rem] font-medium xl:gap-10 xl:text-[1.1875rem]">
         {
           menu.map((item) => (
             <li>
@@ -109,7 +110,7 @@ const menu = menuKeys.map((key) => ({
                 href={item.href}
                 data-menu-close
                 aria-current={item.current ? 'page' : undefined}
-                class="font-serif text-[clamp(2rem,8vw,3rem)] leading-tight text-heading aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-8"
+                class="text-[clamp(2rem,8vw,3rem)] leading-tight font-light text-heading aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-8"
               >
                 {item.label}
               </a>
@@ -128,13 +129,19 @@ const menu = menuKeys.map((key) => ({
 
 <script>
   // En-tête : passe en fond crème après un léger défilement (pages avec photo plein écran).
+  // Si la page contient un bloc « data-header-transparent-until » (hero animé de
+  // l'accueil), l'en-tête reste transparent tant que ce bloc occupe l'écran, et
+  // devient crème dès que sa fin apparaît (la scène commence alors à remonter).
   const header = document.querySelector<HTMLElement>('[data-header]');
   if (header?.dataset.transparent === 'true') {
+    const until = document.querySelector<HTMLElement>('[data-header-transparent-until]');
     const update = () => {
-      header.dataset.solid = String(window.scrollY > 40);
+      const solid = until ? until.getBoundingClientRect().bottom <= window.innerHeight + 1 : window.scrollY > 40;
+      header.dataset.solid = String(solid);
     };
     update();
     window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
   }
 
   // Menu mobile : ouverture / fermeture.

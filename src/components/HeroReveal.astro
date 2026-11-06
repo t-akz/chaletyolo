@@ -1,0 +1,171 @@
+---
+/**
+ * Hero de la page d'accueil, à deux photos : « le rideau au défilement ».
+ *
+ * - Au chargement : la première photo (le chalet) en plein écran, avec le
+ *   titre et le bouton, comme le Hero des autres pages.
+ * - Quand on fait défiler : le hero reste en place pendant environ un écran ;
+ *   la seconde photo (la piscine) monte depuis le bas comme un rideau, pendant
+ *   que la première avance doucement (zoom lent). Le titre reste par-dessus.
+ *   L'animation suit le geste : en remontant, le chalet revient.
+ * - Quand la scène remonte pour laisser place à l'intro : le titre et le bouton
+ *   s'effacent (fondu + léger glissement vers le haut) et l'en-tête devient
+ *   crème (Header.astro) : aucun texte ne passe sous l'en-tête.
+ * - Animations réduites (préférence système) : simple fondu d'une photo à
+ *   l'autre, sans mouvement.
+ * - Sans JavaScript : hero classique avec la première photo seule.
+ *
+ * L'en-tête reste transparent tant que la scène est en place (attribut
+ * « data-header-transparent-until », lu par Header.astro).
+ * Utilisé par : src/views/HomeView.astro.
+ */
+import Button from './Button.astro';
+import Photo from './Photo.astro';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  /** Photo affichée au chargement (src/content/photos.ts). */
+  photoId: string;
+  /** Photo qui monte au défilement. */
+  revealPhotoId: string;
+  title: string;
+  /** Sur-titre placé dans le <h1>, au-dessus du titre (mot-clé de la page). */
+  subtitle?: string;
+  cta?: { href: string; label: string };
+}
+
+const { lang, photoId, revealPhotoId, title, subtitle, cta } = Astro.props;
+---
+
+<section class="hero-reveal relative" data-hero-reveal data-header-transparent-until>
+  <div class="hero-reveal__stage relative isolate flex h-svh items-end overflow-hidden text-white">
+    <div class="absolute inset-0 -z-10">
+      <div class="hero-reveal__base absolute inset-0">
+        <Photo id={photoId} lang={lang} priority />
+      </div>
+      <div class="hero-reveal__next absolute inset-0">
+        <Photo id={revealPhotoId} lang={lang} />
+      </div>
+      <!-- Voile sombre : assure la lisibilité du texte blanc sur les deux photos -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-black/30" aria-hidden="true"></div>
+    </div>
+
+    <!-- Titre et bouton : s'effacent quand la scène remonte (--exit), pour ne jamais passer sous l'en-tête -->
+    <div class="hero-reveal__content container-page pt-32 pb-16 md:pb-24">
+      <div class="max-w-4xl" data-reveal>
+        {
+          /* Le sur-titre (mot-clé de la page) fait partie du h1, avant le titre
+             éditorial : même rendu visuel, mais le mot-clé compte pour Google. */
+        }
+        <h1 class="text-white">
+          {subtitle && <span class="eyebrow mb-6 block">{subtitle}</span>}{' '}
+          <span class="block text-display">{title}</span>
+        </h1>
+        {
+          cta && (
+            <div class="mt-10">
+              <Button href={cta.href}>{cta.label}</Button>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Sans JavaScript (pas de classe « js » sur <html>) : seconde photo masquée,
+     hero classique d'un écran de haut. */
+  .hero-reveal__next {
+    display: none;
+  }
+
+  /* Avec JavaScript : la section mesure 2 écrans ; la scène (photos + titre)
+     reste collée en haut pendant que l'on fait défiler le premier.
+     --reveal va de 0 (chalet) à 1 (piscine), calculé par le script ci-dessous. */
+  :global(.js) .hero-reveal {
+    height: 200svh;
+  }
+
+  :global(.js) .hero-reveal__stage {
+    position: sticky;
+    top: 0;
+  }
+
+  :global(.js) .hero-reveal__next {
+    display: block;
+    clip-path: inset(calc((1 - var(--reveal, 0)) * 100%) 0 0 0);
+    will-change: clip-path;
+  }
+
+  /* Sortie : --exit va de 0 (scène en place) à 1 (texte effacé). */
+  :global(.js) .hero-reveal__content {
+    opacity: calc(1 - var(--exit, 0));
+    transform: translateY(calc(var(--exit, 0) * -2.5rem));
+  }
+
+  /* Texte entièrement effacé : retiré aussi pour le clavier et la souris. */
+  :global(.js) .hero-reveal[data-exited='true'] .hero-reveal__content {
+    visibility: hidden;
+  }
+
+  :global(.js) .hero-reveal__base {
+    transform: scale(calc(1 + 0.08 * var(--reveal, 0)));
+    transform-origin: 50% 30%;
+    will-change: transform;
+  }
+
+  /* Animations réduites : fondu enchaîné, aucun mouvement. */
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .hero-reveal__next {
+      clip-path: none;
+      opacity: var(--reveal, 0);
+    }
+
+    :global(.js) .hero-reveal__base,
+    :global(.js) .hero-reveal__content {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // Avancement du rideau selon le défilement (0 = chalet, 1 = piscine).
+  const hero = document.querySelector<HTMLElement>('[data-hero-reveal]');
+
+  if (hero) {
+    let pending = false;
+
+    const update = () => {
+      pending = false;
+      // Distance pendant laquelle la scène reste collée : hauteur de la section moins un écran.
+      const distance = hero.offsetHeight - window.innerHeight;
+      const scrolled = -hero.getBoundingClientRect().top;
+      const raw = distance > 0 ? Math.min(Math.max(scrolled / distance, 0), 1) : 0;
+      // Le rideau est entièrement levé à 85 % du parcours : la piscine reste
+      // un instant en plein écran avant que la page continue.
+      const progress = Math.min(raw / 0.85, 1);
+      // Départ et arrivée en douceur.
+      const eased = progress * progress * (3 - 2 * progress);
+      hero.style.setProperty('--reveal', eased.toFixed(4));
+
+      // Sortie : dès que la scène commence à remonter, le texte s'efface sur
+      // un tiers d'écran de défilement (bien avant d'atteindre l'en-tête).
+      const exit = Math.min(Math.max((scrolled - distance) / (window.innerHeight * 0.33), 0), 1);
+      hero.style.setProperty('--exit', exit.toFixed(4));
+      hero.dataset.exited = String(exit >= 1);
+    };
+
+    const requestUpdate = () => {
+      if (!pending) {
+        pending = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    update();
+  }
+</script>

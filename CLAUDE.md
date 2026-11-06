@@ -33,7 +33,7 @@ Les éléments entre crochets `[...]` sont des valeurs à fournir plus tard : **
   - `npm run build` (aucune erreur, aucun warning nouveau) ;
   - `npx astro check` (aucune erreur de types).
 - À la fin de chaque étape, donne-moi une **checklist de preview** courte et concrète :
-  - les **URL locales** à ouvrir (ex. `http://localhost:4321/`, `http://localhost:4321/en/`, `…?theme=b`, `…?theme=c`) ;
+  - les **URL locales** à ouvrir (ex. `http://localhost:4321/`, `http://localhost:4321/en/`) ;
   - ce que je dois regarder sur chaque page (ex. « l'en-tête devient crème au scroll », « la lightbox se ferme avec Échap ») ;
   - les largeurs à tester dans les DevTools : 390 px (mobile), 768 px (tablette), 1440 px (desktop).
 - J'enverrai mes retours (texte et/ou captures). Corrige, puis redonne une checklist ciblée sur les corrections.
@@ -88,7 +88,7 @@ src/
   content/fr/*.json       → textes FR par page
   content/en/*.json       → textes EN par page
   i18n/                   → utilitaires de langue + table des routes
-  styles/tokens.css       → tokens thèmes A, B et C
+  styles/tokens.css       → tokens du thème A (seul thème)
   components/             → composants (§5.6)
   layouts/BaseLayout.astro
   pages/                  → pages FR + pages/en/
@@ -106,9 +106,11 @@ src/
 - Textes courts : **2–3 lignes max** par bloc, **alignés à gauche** (jamais justifiés).
 - **Un seul style de bouton principal** (« Nous contacter »). Les autres actions = liens texte discrets (souligné fin + flèche).
 - Animations **lentes et discrètes** (fondu + léger glissement au scroll), `prefers-reduced-motion` respecté. **Pas de carrousel automatique.**
-- **Mobile-first**. Contrastes **WCAG AA** dans les trois thèmes.
+- **Mobile-first**. Contrastes **WCAG AA**.
 
-### 5.2 Thème A — « Chaleureux chic » (par défaut)
+### 5.2 Thème A — « Chaleureux chic » (seul thème du site)
+Les propositions B « Noir, blanc, or » et C « Alpin contemporain » ont été **retirées** : thème A retenu par le client le 06/11/2026. Ne pas les recréer sans demande.
+
 | Token | Valeur | Usage |
 |---|---|---|
 | `--color-bg` | `#F7F2EA` | Fond principal (crème) |
@@ -119,43 +121,16 @@ src/
 | `--color-primary` | `#6E2A35` | Bouton principal (bordeaux), texte blanc |
 | `--color-primary-hover` | bordeaux légèrement plus foncé | Survol |
 
-### 5.3 Thème C — « Alpin contemporain » (proposition alternative à présenter au client)
-| Token | Valeur | Usage |
-|---|---|---|
-| `--color-bg` | `#FAFAF8` | Fond principal (blanc neige) |
-| `--color-bg-alt` | `#EFEEEA` | Sections alternées (pierre très claire) |
-| `--color-accent-soft` | `#C8A882` | Footer, blocs d'accent (bois clair) |
-| `--color-heading` | `#2F4A3E` | Titres (vert sapin) |
-| `--color-text` | `#3B3F42` | Texte courant (ardoise) |
-| `--color-primary` | `#2F4A3E` (texte blanc) | Bouton principal (vert sapin) |
-| `--color-primary-hover` | vert sapin légèrement plus foncé | Survol |
-
-Le gris pierre `#9A9890` est réservé aux filets et séparateurs : **jamais pour du texte** (contraste insuffisant).
-
-### 5.3b Thème B — « Noir, blanc, or » (proposition sombre à présenter au client)
-| Token | Valeur | Usage |
-|---|---|---|
-| `--color-bg` | `#000000` | Fond principal (noir) |
-| `--color-bg-alt` | `#121212` | Sections alternées (gris très sombre) |
-| `--color-accent-soft` | `#1C1C1C` | Footer, blocs d'accent |
-| `--color-heading` | `#FFFFFF` | Titres (blanc) |
-| `--color-text` | `#F2EEE8` | Texte courant (blanc cassé — **jamais de blanc pur pour le texte courant**, halo sur fond noir) |
-| `--color-primary` | `#C9A96E` (texte `#000000`) | Bouton principal (or) |
-| `--color-primary-hover` | or légèrement plus clair | Survol |
-| `--color-accent` | `#C9A96E` | Sur-titres, liens, filets, anneau de focus (or) |
-
-Contrastes vérifiés : texte/fond 18,2 · or/fond 9,4 · noir sur bouton or 9,4 · titres/fond 21.
-Thème sombre : le logo, les icônes et les éléments d'interface (champs de formulaire, accordéon, lightbox, images de remplacement, focus) doivent rester lisibles ; utiliser la **variante claire du logo** partout dans ce thème (rouge essayé puis écarté par le client le 02/11/2026).
-
-### 5.3c Token commun `--color-accent`
-Défini dans **les trois thèmes** pour les sur-titres, liens et filets. En A et C, sa valeur doit reproduire exactement le rendu actuel (aucun changement visuel sur A et C).
-
-**Bascule** : `?theme=b` ou `?theme=c` → attribut `data-theme="b"` / `"c"` sur `<html>`, mémorisé en `sessionStorage`, `?theme=a` revient au défaut. Toute autre valeur est ignorée. Script inline dans `<head>` (pas de flash). Les thèmes B et C sont **isolés et faciles à supprimer** séparément (procédure dans le README). Seules les couleurs changent, pas la mise en page.
+### 5.3 Token `--color-accent`
+Utilisé pour les sur-titres, liens et filets. Sa valeur reproduit la couleur du texte courant (`--color-text`).
 
 ### 5.4 Typographie
-- Titres : **Cormorant Garamond** (400–500), grandes tailles.
-- Texte et interface : **Manrope**.
-- Sur-titres : Manrope, petites majuscules espacées (`letter-spacing` ≈ 0.2em, 12–13px).
+Police **unique : Raleway** (`@fontsource-variable/raleway`, auto-hébergée), choix du client du 06/11/2026 (Cormorant Garamond retiré ; Manrope gardé uniquement pour les sur-titres).
+- **Titres** (h1, h2, h3, chiffres clés, titres de l'accordéon) : **Bold** (700), taupe `--color-heading` (≥ 24 px).
+- **Titres des hero** (toutes les pages) : Bold, taille `text-display` ≈ 37 → 85 px — référence : hero de l'accueil.
+- **Sur-titres** (tout le site, hero compris) : **Manrope semi-gras (600), 16 px**, majuscules, `letter-spacing` 0.2em (utilitaire `eyebrow`, police `@fontsource-variable/manrope`). Modèle validé par le client : le sur-titre du hero de l'accueil — **ne pas le modifier**.
+- **Texte courant** : Regular (400). **Grands textes d'accroche** (≥ 24 px) : Thin (100). Jamais de Thin pour du texte courant (lisibilité).
+- **Interface** (menu, boutons, sélecteur de langue, champs) : graisses moyennes (500–600) pour la lisibilité ; menu ordinateur 17 → 19 px, liens du menu mobile en Light (300).
 - Échelle fluide (`clamp()`).
 
 ### 5.5 Logo
@@ -164,6 +139,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 ### 5.6 Composants
 - `Header` : transparent sur le hero, fond `--color-bg` + légère ombre au scroll. Logo, menu (Le chalet, Services, Méribel, Galerie, Contact), sélecteur **FR | EN**, bouton « Nous contacter ». Mobile : menu plein écran.
 - `Hero` : image plein écran (`100svh`), voile sombre léger, accroche + sous-titre + bouton. Option **vidéo de fond** (mp4 muet en boucle + image de repli) activable plus tard.
+- `HeroReveal` : hero de l'accueil à deux photos ; la scène reste en place pendant un écran de défilement et la seconde photo monte comme un rideau (fondu si animations réduites, photo seule sans JavaScript). L'en-tête reste transparent tant que la scène est en place ; quand elle remonte, il devient crème et le titre + bouton s'effacent (aucun texte sous l'en-tête).
 - `KeyFigures`, `FeatureSection` (photo + texte, alternance gauche/droite), `ServiceList`, `CTASection`, `Accordion`.
 - `Gallery` : mosaïque + **lightbox** (clic, clavier, Échap).
 - `WhatsAppButton` : flottant bas-droite, `https://wa.me/[WHATSAPP_NUMBER]` + message prérempli FR/EN.
@@ -180,12 +156,12 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - **Où** : uniquement sur les pages d'accueil `/` et `/en/`. Jamais sur les autres pages (liens directs depuis Google, WhatsApp, etc.).
 - **Quand** : **une fois par session, toutes langues confondues** (clé `sessionStorage` commune). Forçable pour les tests avec `?intro=1`.
 - **Nature** : un **voile posé au-dessus de la page d'accueil**, qui reste entièrement rendue en dessous (référencement). Le voile n'apparaît que si JavaScript est actif (classe ajoutée par un script inline dans `<head>`, sans flash) ; sans JavaScript, on voit directement l'accueil.
-- **Contenu** : fond **noir `#000000` dans tous les thèmes**, variante claire du logo (le vrai logo, qui contient déjà « MERIBEL » : pas de second « MÉRIBEL », décision du client du 05/11/2026), bouton **« Enter »** (identique en FR et EN), sélecteur discret **Français · English**, petite flèche vers le bas qui rebondit doucement. Couleurs du texte et des traits : blanc cassé `#F2EEE8`. Style : épuré, luxueux, beaucoup d'espace.
+- **Contenu** : fond **bordeaux `#6E2A35`** (en test depuis le 06/11/2026, auparavant noir `#000000` ; couleurs fixes, propres à cet écran), variante claire du logo (le vrai logo, qui contient déjà « MERIBEL » : pas de second « MÉRIBEL », décision du client du 05/11/2026), bouton **« Enter »** (identique en FR et EN), sélecteur discret **Français · English**, petite flèche vers le bas qui rebondit doucement. Couleurs du texte et des traits : blanc cassé `#F2EEE8`. Style : épuré, luxueux, beaucoup d'espace.
 - **Ouverture** : clic sur « Enter », touches Entrée / Espace / flèche bas / Page bas, molette ou trackpad **vers le haut ou le bas**, glissement tactile vers le haut ou le bas. Transition « rideau qui se lève » (~0,9 s). Avec `prefers-reduced-motion` : simple fondu court, flèche immobile.
 - **Pas d'emballement** : pendant l'écran d'entrée, la page dessous ne défile pas ; après ouverture, l'élan du geste est neutralisé (~0,8 s) et l'accueil commence tout en haut.
 - **Langue** : présélection = choix mémorisé (`localStorage`) sinon langue du navigateur (`fr*` → Français, sinon English). Si la langue choisie diffère de la page actuelle, « Enter » mène à l'accueil équivalent (`/` ↔ `/en/`) **sans réafficher l'écran**. Le choix est mémorisé ; le sélecteur de langue de l'en-tête le met aussi à jour. **Aucune redirection automatique** nulle part, aucun cookie.
 - **Accessibilité** : focus sur « Enter » à l'affichage, page dessous inactive (`inert`) tant que l'écran est visible, focus rendu à la page après ouverture, libellés FR/EN dans `content/`.
-- Conserver les paramètres d'URL (ex. `?theme=b`) lors du changement de langue.
+- Conserver les paramètres d'URL (ex. `?utm_source=…`) lors du changement de langue.
 
 ---
 
@@ -193,7 +169,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 
 **Ton** : sobre et factuel (titres, chiffres, descriptions) + **une seule accroche complice par page max** (jeu possible sur « Yolo »). **Vouvoiement** en français.
 
-- **Accueil** : Hero (piscine ou extérieur neige, accroche « Méribel, à votre rythme. » / « Méribel, at your own pace. », sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → Chiffres clés (350 m² · 15 personnes · 6 chambres · 6 salles de bain) → Intro 2 lignes + lien → 4 équipements phares en `FeatureSection` (piscine intérieure chauffée · espace bien-être · home cinéma · salon cathédrale avec cheminée) → 4 services inclus (navette privée · ménage quotidien · conciergerie · linge et peignoirs) → aperçu Méribel → mosaïque 6–8 photos → CTA « Parlons de votre séjour » + WhatsApp.
+- **Accueil** (refonte du 06/11/2026, 4 sections) : Hero animé « rideau au défilement » (photo du chalet `hero/accueil` — retouchée : tuyau gris effacé —, puis `piscine-03` qui monte au scroll ; accroche « Méribel, à votre rythme. » / « Méribel, at your own pace. », sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → 4 cartes-photos cliquables (`ImageLinkCards` : Le Chalet → `sejour-02` → Le chalet ; Services → `cuisine-01` → Services ; Méribel → `meribel-03` → Méribel ; Offre & Contact → `piscine-02` → Contact ; titre + court sous-titre factuel sur la photo) → mosaïque 8 photos + lien Galerie → CTA « Parlons de votre séjour » + WhatsApp. (Chiffres clés, équipements phares, services et aperçu Méribel retirés à la demande du client.)
 - **Le chalet** : Hero → chiffres + localisation (La Gittaz) → une `FeatureSection` par espace (piscine · bien-être · cinéma · yoga · salon/cuisine · salle de jeux **seulement si `confirmed: true`**) → 6 cartes chambres → visite par niveau (5 niveaux, ascenseur) → `Accordion` « Tous les équipements » → CTA.
 - **Services** : Hero → Gastronomie (formules Half / Full Catered + chef privé, majordome, chauffeur) → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte (Activités · Restauration · Conciergerie) → « Sur demande, auprès de notre conciergerie » + CTA.
 - **Méribel** : Hero → la station (+ phrase avec lien Google Maps vers le quartier de La Gittaz, voir §5.7) → activités d'hiver (icônes) → CTA. (La section « Accès » a été retirée volontairement : ne pas la recréer. Section « Localisation » / carte retirée à la demande du client le 02/11/2026.)

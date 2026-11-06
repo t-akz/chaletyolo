@@ -10,37 +10,28 @@
   },
   "hero": {
     "title": "Méribel, à votre rythme.",
-    "subtitle": "Chalet de luxe avec chef · Méribel"
+    "subtitle": "Chalet de luxe, Spa & piscine · Méribel"
   },
   "intro": {
-    "text": "Cinq niveaux, 350 m², un chef privé, un majordome et un chauffeur. Au Chalet Yolo, votre seule décision du jour : la piste ou le spa.",
-    "link": "Découvrir le chalet"
-  },
-  "features": {
-    "pool": {
-      "text": "De retour des pistes, l'eau chauffée vous attend. Une piscine intérieure et privative, pour quelques longueurs ou un long moment de rien."
-    },
-    "wellness": {
-      "title": "Espace bien-être et spa",
-      "text": "Sauna, hammam, jacuzzi : le rituel d'après-ski se vit sans quitter le chalet. Les jambes lourdes de la journée n'y résistent pas longtemps."
-    },
-    "cinema": {
-      "text": "Quand la nuit tombe sur la vallée, le home cinéma prend le relais. Un film en famille ou le match du soir, à l'abri du froid."
-    },
-    "livingRoom": {
-      "text": "Sous la charpente du salon cathédrale, le feu crépite et la grande table se dresse. C'est ici que les journées se racontent, autour des plats du chef."
-    },
-    "link": "Découvrir le chalet"
-  },
-  "services": {
-    "title": "Services inclus",
-    "link": "Voir tous les services"
-  },
-  "meribel": {
-    "eyebrow": "Méribel",
-    "title": "Au cœur des 3 Vallées",
-    "text": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes · architecture savoyarde.",
-    "link": "Découvrir Méribel"
+    "label": "Découvrir Chalet Yolo",
+    "cards": {
+      "chalet": {
+        "title": "Le Chalet",
+        "subtitle": "350 m², piscine et spa"
+      },
+      "services": {
+        "title": "Nos Services",
+        "subtitle": "Chef, majordome et chauffeur"
+      },
+      "meribel": {
+        "title": "Méribel",
+        "subtitle": "Au cœur des 3 Vallées"
+      },
+      "contact": {
+        "title": "Votre Séjour",
+        "subtitle": "Contact et réservartions"
+      }
+    }
   },
   "gallery": {
     "title": "Galerie",

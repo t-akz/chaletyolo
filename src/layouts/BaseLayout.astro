@@ -1,11 +1,11 @@
 ---
 /**
  * Gabarit commun à toutes les pages : <html lang>, <head> (SEO, favicon,
- * polices, styles, thème, statistiques), en-tête, pied de page et bouton WhatsApp,
+ * polices, styles, statistiques), en-tête, pied de page et bouton WhatsApp,
  * et, sur l'accueil seulement, l'écran d'entrée (option « intro »).
  */
-import '@fontsource/cormorant-garamond/400.css';
-import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource-variable/raleway';
+// Manrope : uniquement pour les sur-titres (utilitaire « eyebrow »).
 import '@fontsource-variable/manrope';
 import '../styles/global.css';
 
@@ -14,7 +14,6 @@ import Header from '../components/Header.astro';
 import IntroGate from '../components/IntroGate.astro';
 import IntroGateScript from '../components/IntroGateScript.astro';
 import Seo from '../components/Seo.astro';
-import ThemeScript from '../components/ThemeScript.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import { getAnalytics } from '../config/site';
 import type { Lang } from '../i18n/languages';
@@ -55,7 +54,6 @@ const analytics = getAnalytics();
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
-    <ThemeScript />
     {intro && <IntroGateScript />}
     <Seo
       lang={lang}

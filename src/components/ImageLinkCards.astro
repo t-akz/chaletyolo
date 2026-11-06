@@ -1,0 +1,64 @@
+---
+/**
+ * Grille de cartes-photos cliquables : chaque carte est une photo avec un
+ * titre et un sous-titre posés dessus, et mène vers une page.
+ *
+ * - Grand écran (≥ 1024 px) : 4 cartes côte à côte, format portrait.
+ * - Tablette : 2 par ligne. Mobile : l'une sous l'autre.
+ * - Survol : la photo s'agrandit lentement, une flèche apparaît à côté du titre
+ *   (rien ne bouge si l'utilisateur a choisi de réduire les animations).
+ * - Coins arrondis (« rounded-2xl », 16 px ; « isolate » évite que le zoom déborde
+ *   des coins sur Safari).
+ * - Toute la carte est un lien ; lecteurs d'écran : « titre — sous-titre ».
+ *
+ * Utilisé par : src/views/HomeView.astro (section sous le hero).
+ * Textes : src/content/{fr,en}/home.json ; photos : src/content/photos.ts.
+ */
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  items: { href: string; photoId: string; title: string; subtitle: string }[];
+}
+
+const { lang, items } = Astro.props;
+---
+
+<ul class="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
+  {
+    items.map((item) => (
+      <li data-reveal>
+        <a
+          href={item.href}
+          aria-label={`${item.title} — ${item.subtitle}`}
+          class="group relative isolate block aspect-[4/3] overflow-hidden rounded-2xl md:aspect-[4/5] lg:aspect-[3/4]"
+        >
+          <Photo
+            id={item.photoId}
+            lang={lang}
+            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
+            class="transition-transform duration-[1.2s] ease-out group-hover:scale-105 motion-reduce:group-hover:scale-100"
+          />
+          {/* Voile sombre en bas : lisibilité du texte blanc */}
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent"
+            aria-hidden="true"
+          />
+          <div class="absolute inset-x-0 bottom-0 p-6 text-white md:p-8">
+            <h2 class="flex items-center gap-3 text-h3 text-white">
+              {item.title}
+              <Icon
+                name="arrow-right"
+                size={22}
+                class="-translate-x-2 opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+              />
+            </h2>
+            <p class="mt-2 text-sm md:text-base">{item.subtitle}</p>
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ul>

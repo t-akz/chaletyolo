@@ -21,7 +21,7 @@ Ce guide s'adresse à une personne **non développeuse**. Pour chaque modificati
 6. [Formulaire de contact : recevoir les demandes par email](#6-formulaire-de-contact--recevoir-les-demandes-par-email)
 7. [Déployer sur Netlify](#7-déployer-sur-netlify)
 8. [Statistiques de visite (Umami)](#8-statistiques-de-visite-umami)
-9. [Les trois thèmes de couleurs](#9-les-trois-thèmes-de-couleurs)
+9. [Les couleurs du site](#9-les-couleurs-du-site)
 10. [Liste de tout ce qui reste à fournir](#10-liste-de-tout-ce-qui-reste-à-fournir)
 11. [Écran d'entrée de la page d'accueil](#11-écran-dentrée-de-la-page-daccueil)
 
@@ -157,14 +157,14 @@ Exemple : la photo `piscine-01` → `src/assets/photos/piscine/piscine-01.jpg`
 | Dossier | Noms de fichiers attendus | Où elles apparaissent |
 |---|---|---|
 | `hero` | `accueil`, `le-chalet`, `services`, `meribel` | Photo plein écran en haut de chaque page (et image de partage sur les réseaux sociaux) |
-| `piscine` | `piscine-01`, `piscine-02` | `piscine-01` : Accueil, Le chalet ; les deux : Galerie |
+| `piscine` | `piscine-01`, `piscine-02`, `piscine-03` | `piscine-01` : Accueil (mosaïque), Le chalet ; `piscine-03` : Accueil (photo qui monte dans le hero) ; les trois : Galerie |
 | `bien-etre` | `bien-etre-01`, `bien-etre-02` | `bien-etre-01` : Accueil, Le chalet ; les deux : Galerie |
 | `cinema` | `cinema-01` | Accueil, Le chalet, Galerie |
 | `yoga` | `yoga-01` | Le chalet, Galerie |
 | `sejour` | `sejour-01` (salon cathédrale), `sejour-02` | `sejour-01` : Accueil, Le chalet ; les deux : Galerie |
 | `cuisine` | `cuisine-01` | Accueil, Galerie |
 | `chambres` | `chambre-01` à `chambre-06` | Cartes des chambres (Le chalet), Galerie ; `chambre-01` aussi dans la mosaïque de l'accueil |
-| `exterieur` | `exterieur-01`, `exterieur-02` | `exterieur-01` : Accueil ; les deux : Galerie |
+| `exterieur` | `exterieur-01`, `exterieur-02` | `exterieur-01` : Accueil (mosaïque) — fichier de 896 px de large seulement, à remplacer par une version ≥ 2400 px ; les deux : Galerie |
 | `meribel` | `meribel-01`, `meribel-02` | `meribel-01` : Accueil, Méribel ; les deux : Galerie |
 | `salles-de-bain` | `sdb-01`, `sdb-02`, `sdb-03` | Galerie (filtre Chambres) |
 | `services` | `service-01` (local à skis) | Galerie (filtre Séjour). `service-02` (apéritif) a été retirée de la galerie ; son fichier reste dans le dossier. |
@@ -229,7 +229,7 @@ Une fois renseignés, ces éléments apparaissent automatiquement partout (pied 
 
 Le logo est en place : `src/assets/logo/logo-yolo.svg` (copie de l'original `images/logo_yolo.svg`, dont la couleur a été retirée).
 
-- Sa couleur s'adapte toute seule : **blanc** sur l'en-tête transparent (photo), **rouge `#b9121b`** sur fond clair (thèmes A et C), **blanc** partout dans le thème B. Ce rouge est réglé par la ligne `--color-logo` de `src/styles/tokens.css`.
+- Sa couleur s'adapte toute seule : **blanc** sur l'en-tête transparent (photo), **rouge `#b9121b`** sur fond clair. Ce rouge est réglé par la ligne `--color-logo` de `src/styles/tokens.css`.
 - Sa taille se règle dans `src/components/Header.astro` (classe `h-15`, en-tête) et `src/components/Footer.astro` (classe `h-20`, pied de page).
 - **Changer de logo** : remplacez `src/assets/logo/logo-yolo.svg` par le nouveau fichier SVG, puis supprimez-y les couleurs (`fill="#…"`, bloc `<style>`) et ajoutez `fill="currentColor"` sur la première balise `<svg …>` — ou demandez-le à l'assistant IA.
 - Le **favicon** (`public/favicon.svg`) reprend la tête d'ourson du logo sur fond crème.
@@ -296,57 +296,13 @@ Pour tester en local : copiez `.env.example` en `.env` et remplissez les deux li
 
 ---
 
-## 9. Les trois thèmes de couleurs
+## 9. Les couleurs du site
 
-Pour présenter plusieurs ambiances au client, le site a trois jeux de couleurs. **Seules les couleurs changent** : la mise en page, les polices et les textes sont identiques.
+Le site n'a qu'un seul jeu de couleurs : le thème **A « Chaleureux chic »** (crème, taupe, bordeaux). Les propositions B (« Noir, blanc, or ») et C (« Alpin contemporain ») ont été retirées après le choix du client (06/11/2026).
 
-| Thème | Nom | Adresse | Usage |
-|---|---|---|---|
-| **A** | « Chaleureux chic » — crème, taupe, bordeaux | normale, ou `?theme=a` | Thème par défaut, celui que voient les visiteurs |
-| **B** | « Noir, blanc, or » — fond noir, titres blancs, accents or | `?theme=b` | Proposition sombre à présenter au client |
-| **C** | « Alpin contemporain » — blanc neige, vert sapin, bois clair | `?theme=c` | Proposition claire alternative à présenter au client |
+Toutes les couleurs sont dans `src/styles/tokens.css`, dans le bloc `:root { … }`. Changer une valeur à cet endroit la change sur tout le site. Ne mettez jamais une couleur « en dur » dans un composant.
 
-### Voir un thème
-
-Ajoutez `?theme=b` ou `?theme=c` à la fin de n'importe quelle adresse du site, par exemple :
-
-- `http://localhost:4321/?theme=b`
-- `https://<votre-domaine>/en/?theme=c`
-
-Le choix est mémorisé **pour l'onglet en cours** (pas de cookie) : vous pouvez ensuite naviguer normalement.
-Pour revenir au thème par défaut : ajoutez `?theme=a` à l'adresse, ou fermez l'onglet.
-
-### Où sont les couleurs
-
-Toutes les couleurs sont dans `src/styles/tokens.css`, en trois blocs :
-
-- `:root { … }` → thème A (défaut) ;
-- bloc repéré `[THEME-C]`, de `THÈME C — « Alpin contemporain »` à `FIN THÈME C` ;
-- bloc repéré `[THEME-B]`, de `THÈME B — « Noir, blanc, or »` à `FIN THÈME B`. Il contient aussi les petits ajustements propres au fond noir (anneau de focus or, sélection de texte, filet sous l'en-tête, contour des images de remplacement).
-
-### Supprimer un thème une fois que le client a choisi
-
-Chaque thème alternatif se supprime **séparément**. Les endroits concernés portent le repère `[THEME-B]` ou `[THEME-C]`.
-
-**Supprimer uniquement le thème B (« Noir, blanc, or »)**
-
-1. `src/styles/tokens.css` : effacez tout le bloc qui commence par `THÈME B — « Noir, blanc, or »` et se termine par `FIN THÈME B`.
-2. `src/components/ThemeScript.astro` : dans la ligne `var themes = ['b', 'c'];`, retirez `'b'` → `var themes = ['c'];`.
-
-**Supprimer uniquement le thème C (« Alpin contemporain »)**
-
-1. `src/styles/tokens.css` : effacez tout le bloc qui commence par `THÈME C — « Alpin contemporain »` et se termine par `FIN THÈME C`.
-2. `src/components/ThemeScript.astro` : dans la ligne `var themes = ['b', 'c'];`, retirez `'c'` → `var themes = ['b'];`.
-
-**Supprimer les deux (on garde seulement le thème A)**
-
-1. `src/styles/tokens.css` : effacez les blocs B et C (voir ci-dessus).
-2. `src/components/ThemeScript.astro` : supprimez ce fichier.
-3. `src/layouts/BaseLayout.astro` : supprimez les deux lignes qui mentionnent `ThemeScript` (l'`import` en haut du fichier et la balise `<ThemeScript />` dans `<head>`).
-
-Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check` : aucune erreur ne doit apparaître.
-
-> **Si le client choisit B ou C comme thème par défaut** : recopiez les valeurs de son bloc dans le bloc `:root` du thème A (même fichier). Pour B, déplacez aussi ses « ajustements propres au fond sombre » en retirant le préfixe `:root[data-theme='b']`. Supprimez ensuite les thèmes alternatifs comme ci-dessus, et mettez à jour le §5 de `CLAUDE.md`.
+Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, la couleur des titres (`--color-heading`, taupe) n'est utilisée que pour des textes d'au moins 24 px.
 
 ---
 
@@ -380,7 +336,7 @@ Dans tous les cas, vérifiez ensuite avec `npm run build` puis `npx astro check`
 
 | Fichier (`src/content/fr/` et `src/content/en/`) | Rubriques |
 |---|---|
-| `home.json` | `hero.title` (accroche), `intro.text`, `features.pool.text`, `features.wellness.text`, `features.cinema.text`, `features.livingRoom.text` |
+| `home.json` | `hero.title` (accroche), `intro.cards` (titres et sous-titres des 4 cartes-photos) |
 | `chalet.json` | `hero.title`, `spaces.pool.text`, `spaces.wellness.text`, `spaces.cinema.text`, `spaces.yoga.text`, `spaces.living.text`, `spaces.games.text` (affiché seulement si la salle de jeux est confirmée) |
 | `services.json` | `hero.title` |
 | `meribel.json` | `hero.title` |
@@ -396,7 +352,7 @@ Sur `/` et `/en/` uniquement, un voile noir (logo, bouton « Enter », choix **F
 
 | Pour… | Faire |
 |---|---|
-| Revoir l'écran (tests) | ajouter `?intro=1` à l'adresse, ex. <http://localhost:4321/?intro=1> ou `/?intro=1&theme=b` |
+| Revoir l'écran (tests) | ajouter `?intro=1` à l'adresse, ex. <http://localhost:4321/?intro=1> ou <http://localhost:4321/en/?intro=1> |
 | Le revoir « comme un visiteur » | ouvrir un nouvel onglet en navigation privée |
 | Changer ses textes | `src/content/fr/home.json` et `src/content/en/home.json`, bloc `introGate` (« Enter » est identique dans les deux langues) |
 | Le désactiver | dans `src/views/HomeView.astro`, retirer le mot `intro` de la ligne `<BaseLayout … hero intro>` |

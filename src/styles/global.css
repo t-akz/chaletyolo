@@ -8,8 +8,8 @@
    Thème Tailwind
    On retire la palette de couleurs par défaut de Tailwind : seules les
    couleurs du design system (tokens.css) sont disponibles. « inline » fait
-   pointer chaque classe directement vers la variable CSS, ce qui permet au
-   thèmes B et C de changer toutes les couleurs d'un coup ; « reference » évite de
+   pointer chaque classe directement vers la variable CSS : changer une couleur
+   dans tokens.css la change partout ; « reference » évite de
    redéclarer les variables (elles sont déjà définies dans tokens.css).
    Classes obtenues : bg-bg, bg-bg-alt, bg-accent-soft, text-heading,
    text-text, bg-primary, bg-primary-hover, text-on-primary, border-border, text-accent, text-error…
@@ -34,19 +34,22 @@
 }
 
 @theme {
-  /* Polices auto-hébergées (@fontsource, importées dans BaseLayout) */
-  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Police unique du site : Raleway, auto-hébergée (@fontsource, importée dans BaseLayout).
+     Titres en Bold (700), textes en Regular (400), grands textes d'accroche
+     en Thin (100). Choix du client du 06/11/2026. */
+  --font-sans: 'Raleway Variable', 'Helvetica Neue', Arial, sans-serif;
+  /* Manrope : sur-titres uniquement (semi-gras, modèle = sur-titre du hero de l'accueil). */
+  --font-manrope: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Échelle typographique fluide : min → max selon la largeur d'écran */
-  --text-eyebrow: 0.75rem; /* 12 px — sur-titres */
+  --text-eyebrow: 1rem; /* 16 px — sur-titres (Manrope semi-gras) */
   --text-eyebrow--letter-spacing: 0.2em;
   --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem); /* 16 → 18 px */
   --text-lead: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem); /* 18 → 22 px */
   --text-h3: clamp(1.5rem, 1.3rem + 0.9vw, 2rem); /* 24 → 32 px */
   --text-h2: clamp(2rem, 1.5rem + 2.2vw, 3.25rem); /* 32 → 52 px */
   --text-h1: clamp(2.5rem, 1.6rem + 4vw, 5rem); /* 40 → 80 px */
-  --text-display: clamp(3rem, 1.8rem + 5.5vw, 6.5rem); /* 48 → 104 px — hero */
+  --text-display: clamp(2.3333rem, 1.3333rem + 4.3333vw, 5.3333rem); /* ≈ 37 → 85 px — titres des hero (réglée avec le client sur l'accueil, 06/11/2026) */
 }
 
 /* --------------------------------------------------------------------------
@@ -67,12 +70,12 @@
     line-height: 1.65;
   }
 
-  /* Titres : Cormorant Garamond, taupe (≥ 24 px uniquement, cf. contraste) */
+  /* Titres : Raleway Bold, taupe (≥ 24 px uniquement, cf. contraste) */
   h1,
   h2,
   h3 {
-    font-family: var(--font-serif);
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-weight: 700;
     line-height: 1.1;
     color: var(--color-heading);
     text-wrap: balance;
@@ -86,7 +89,6 @@
   }
   h3 {
     font-size: var(--text-h3);
-    font-weight: 500;
   }
 
   /* Texte toujours aligné à gauche, jamais justifié */
@@ -118,9 +120,10 @@
    Utilitaires du design system
    -------------------------------------------------------------------------- */
 
-/* Sur-titre : Manrope, petites majuscules espacées */
+/* Sur-titre : Manrope semi-gras 16 px, majuscules espacées
+   (modèle : sur-titre du hero de l'accueil, validé par le client). */
 @utility eyebrow {
-  font-family: var(--font-sans);
+  font-family: var(--font-manrope);
   font-size: var(--text-eyebrow);
   font-weight: 600;
   letter-spacing: 0.2em;
