@@ -26,7 +26,7 @@ const { title, summary, levels, othersLabel, background = 'bg' } = Astro.props;
       {
         summary && (
           <p class="mt-6 flex items-center gap-3">
-            <Icon name="layers" size={22} class="shrink-0 text-heading" />
+            <Icon name="layers" size={22} class="shrink-0 text-decor" />
             <span>{summary}</span>
           </p>
         )
@@ -41,7 +41,7 @@ const { title, summary, levels, othersLabel, background = 'bg' } = Astro.props;
             <ul class="space-y-2 sm:col-span-2">
               {level.items.map((item) => (
                 <li class="flex items-start gap-3">
-                  <span class="mt-[0.75em] h-px w-3 shrink-0 bg-heading" aria-hidden="true" />
+                  <span class="mt-[0.75em] h-px w-3 shrink-0 bg-decor" aria-hidden="true" />
                   <span>{item}</span>
                 </li>
               ))}

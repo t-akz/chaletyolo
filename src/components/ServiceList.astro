@@ -44,7 +44,7 @@ const isGrid = groups.length === 1 && !groups[0]?.title;
         <ul class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4" data-reveal>
           {groups[0]!.items.map((item) => (
             <li class="flex flex-col gap-4">
-              {item.icon && <Icon name={item.icon} size={32} class="text-heading" />}
+              {item.icon && <Icon name={item.icon} size={32} class="text-decor" />}
               <span class="font-medium">{item.label}</span>
             </li>
           ))}
@@ -58,9 +58,9 @@ const isGrid = groups.length === 1 && !groups[0]?.title;
                 {group.items.map((item) => (
                   <li class="flex items-start gap-3">
                     {item.icon ? (
-                      <Icon name={item.icon} size={20} class="mt-1 shrink-0 text-heading" />
+                      <Icon name={item.icon} size={20} class="mt-1 shrink-0 text-decor" />
                     ) : (
-                      <span class="mt-[0.7em] h-px w-3 shrink-0 bg-heading" aria-hidden="true" />
+                      <span class="mt-[0.7em] h-px w-3 shrink-0 bg-decor" aria-hidden="true" />
                     )}
                     <span>{item.label}</span>
                   </li>

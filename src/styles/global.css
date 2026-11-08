@@ -11,7 +11,7 @@
    pointer chaque classe directement vers la variable CSS : changer une couleur
    dans tokens.css la change partout ; « reference » évite de
    redéclarer les variables (elles sont déjà définies dans tokens.css).
-   Classes obtenues : bg-bg, bg-bg-alt, bg-accent-soft, text-heading,
+   Classes obtenues : bg-bg, bg-bg-alt, bg-accent-soft, text-heading, text-decor,
    text-text, bg-primary, bg-primary-hover, text-on-primary, border-border, text-accent, text-error…
    -------------------------------------------------------------------------- */
 @theme inline reference {
@@ -23,6 +23,7 @@
   --color-bg-alt: var(--color-bg-alt);
   --color-accent-soft: var(--color-accent-soft);
   --color-heading: var(--color-heading);
+  --color-decor: var(--color-decor);
   --color-text: var(--color-text);
   --color-primary: var(--color-primary);
   --color-primary-hover: var(--color-primary-hover);
@@ -70,7 +71,7 @@
     line-height: 1.65;
   }
 
-  /* Titres : Raleway Bold, taupe (≥ 24 px uniquement, cf. contraste) */
+  /* Titres : Raleway Bold, bordeaux (--color-heading) */
   h1,
   h2,
   h3 {

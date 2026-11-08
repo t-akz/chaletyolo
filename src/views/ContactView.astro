@@ -39,7 +39,7 @@ const page = getContent(lang, 'contact');
           <h2 class="border-b border-border pb-4 text-h3">{page.direct.title}</h2>
           <ul class="mt-6 space-y-4">
             <li class="flex items-center gap-3">
-              <Icon name="message-circle" size={22} class="shrink-0 text-heading" />
+              <Icon name="message-circle" size={22} class="shrink-0 text-decor" />
               <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">
                 {page.direct.whatsapp}
                 <span class="sr-only">{common.newTab}</span>
@@ -47,7 +47,7 @@ const page = getContent(lang, 'contact');
               {!isProvided(site.whatsapp) && <span>{TO_PROVIDE}</span>}
             </li>
             <li class="flex items-center gap-3">
-              <Icon name="mail" size={22} class="shrink-0 text-heading" />
+              <Icon name="mail" size={22} class="shrink-0 text-decor" />
               {
                 isProvided(site.email) ? (
                   <a href={`mailto:${site.email}`} class="text-accent underline underline-offset-4">

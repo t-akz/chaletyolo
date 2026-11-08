@@ -7,21 +7,13 @@
     "title": "You ski. We take care of the rest.",
     "subtitle": "Private Chef · Half or Full Board"
   },
-  "catering": {
-    "eyebrow": "Food & drink",
-    "title": "Private chef, half board or full board",
-    "formulas": "Packages",
-    "staff": "Your team"
-  },
-  "included": {
-    "eyebrow": "Included",
-    "title": "Included services",
-    "checkIn": "Check-in at {time}",
-    "checkOut": "Check-out at {time}"
-  },
-  "aLaCarte": {
-    "eyebrow": "À la carte",
-    "title": "À la carte services"
+  "offer": {
+    "title": "Services & Facilities",
+    "servicesTitle": "Services",
+    "facilitiesTitle": "Facilities",
+    "formulas": "Half Catered or Full Catered",
+    "linen": "Beds made up, linen, bathrobes and slippers",
+    "bedrooms": "{bedrooms} bedrooms including {suites} suites"
   },
   "cta": {
     "title": "Let's talk about your stay",

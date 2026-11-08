@@ -7,21 +7,13 @@
     "title": "Vous skiez. Nous nous occupons du reste.",
     "subtitle": "Chef privé · Majordome · Chauffeur · 24.7"
   },
-  "catering": {
-    "eyebrow": "Gastronomie",
-    "title": "Pension complète",
-    "formulas": "Formules",
-    "staff": "Votre équipe"
-  },
-  "included": {
-    "eyebrow": "Inclus",
-    "title": "Services inclus",
-    "checkIn": "Arrivée à {time}",
-    "checkOut": "Départ à {time}"
-  },
-  "aLaCarte": {
-    "eyebrow": "À la carte",
-    "title": "Services à la carte"
+  "offer": {
+    "title": "Prestations & Facilities",
+    "servicesTitle": "Prestations",
+    "facilitiesTitle": "Facilities",
+    "formulas": "Demi-pension ou pension complète",
+    "linen": "Lits préparés, linge, peignoirs et chaussons",
+    "bedrooms": "{bedrooms} chambres dont {suites} suites"
   },
   "cta": {
     "title": "Parlons de votre séjour",

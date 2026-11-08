@@ -116,7 +116,8 @@ Les propositions B « Noir, blanc, or » et C « Alpin contemporain » ont été
 | `--color-bg` | `#F7F2EA` | Fond principal (crème) |
 | `--color-bg-alt` | `#FFFDF9` | Sections alternées |
 | `--color-accent-soft` | `#D4B5A3` | Footer, blocs d'accent (nude) |
-| `--color-heading` | `#8B6A55` | Titres (taupe) — **uniquement ≥ 24px** (contraste) |
+| `--color-heading` | `var(--color-primary)` = `#6E2A35` | Titres (bordeaux, choix du client du 08/11/2026 ; auparavant taupe `#8B6A55`) |
+| `--color-decor` | `#8B6A55` | Taupe des éléments décoratifs : icônes, têtes d'ours, tirets de liste, liens du menu mobile (jamais pour du texte courant) |
 | `--color-text` | `#2B2B2B` | Texte courant |
 | `--color-primary` | `#6E2A35` | Bouton principal (bordeaux), texte blanc |
 | `--color-primary-hover` | bordeaux légèrement plus foncé | Survol |
@@ -126,7 +127,7 @@ Utilisé pour les sur-titres, liens et filets. Sa valeur reproduit la couleur du
 
 ### 5.4 Typographie
 Police **unique : Raleway** (`@fontsource-variable/raleway`, auto-hébergée), choix du client du 06/11/2026 (Cormorant Garamond retiré ; Manrope gardé uniquement pour les sur-titres).
-- **Titres** (h1, h2, h3, chiffres clés, titres de l'accordéon) : **Bold** (700), taupe `--color-heading` (≥ 24 px).
+- **Titres** (h1, h2, h3, chiffres clés, titres de l'accordéon) : **Bold** (700), bordeaux `--color-heading` (sauf sur photo : blanc).
 - **Titres des hero** (toutes les pages) : Bold, taille `text-display` ≈ 37 → 85 px — référence : hero de l'accueil.
 - **Sur-titres** (tout le site, hero compris) : **Manrope semi-gras (600), 16 px**, majuscules, `letter-spacing` 0.2em (utilitaire `eyebrow`, police `@fontsource-variable/manrope`). Modèle validé par le client : le sur-titre du hero de l'accueil — **ne pas le modifier**.
 - **Texte courant** : Regular (400). **Grands textes d'accroche** (≥ 24 px) : Thin (100). Jamais de Thin pour du texte courant (lisibilité).
@@ -141,6 +142,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - `Hero` : image plein écran (`100svh`), voile sombre léger, accroche + sous-titre + bouton. Option **vidéo de fond** (mp4 muet en boucle + image de repli) activable plus tard.
 - `HeroReveal` : hero de l'accueil à deux photos ; la scène reste en place pendant un écran de défilement et la seconde photo monte comme un rideau (fondu si animations réduites, photo seule sans JavaScript). L'en-tête reste transparent tant que la scène est en place ; quand elle remonte, il devient crème et le titre + bouton s'effacent (aucun texte sous l'en-tête).
 - `KeyFigures`, `FeatureSection` (photo + texte, alternance gauche/droite), `ServiceList`, `CTASection`, `Accordion`.
+- `ServiceTables` : page Services, deux cadres arrondis côte à côte (empilés sur mobile), titre en haut séparé par un filet, lignes **centrées** séparées par la tête d'ourson du logo (`assets/logo/ourson.svg`) (exception au §5.1 validée par le client le 08/11/2026).
 - `SpaceColumns` : accordéon de photos de la page Le chalet. Ordinateur (≥ 1024 px) : colonnes côte à côte, titre vertical ; celle survolée ou cliquée s'élargit et montre son texte (toujours une ouverte). Mobile/tablette : bandes empilées qui s'ouvrent vers le bas. Sans JavaScript : tout est affiché.
 - `FloorPlans` : grille des plans par niveau (affichés en entier sur fond blanc, jamais rognés ; hors galerie).
 - `Gallery` : mosaïque + **lightbox** (clic, clavier, Échap).
@@ -173,7 +175,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 
 - **Accueil** (refonte du 06/11/2026, 4 sections) : Hero animé « rideau au défilement » (photo du chalet `hero/accueil` — retouchée : tuyau gris effacé —, puis `piscine-03` qui monte au scroll ; accroche « Méribel, à votre rythme. » / « Méribel, at your own pace. », sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → 4 cartes-photos cliquables (`ImageLinkCards` : Le Chalet → `sejour-02` → Le chalet ; Services → `cuisine-01` → Services ; Méribel → `meribel-03` → Méribel ; Offre & Contact → `piscine-02` → Contact ; titre + court sous-titre factuel sur la photo) → mosaïque 8 photos + lien Galerie → CTA « Parlons de votre séjour » + WhatsApp. (Chiffres clés, équipements phares, services et aperçu Méribel retirés à la demande du client.)
 - **Le chalet** (refonte du 06/11/2026, 5 sections) : Hero (`le-chalet-01`) → intro (court texte + 4 chiffres clés) → colonnes d'espaces `SpaceColumns` (piscine · bien-être & spa · home cinéma · yoga · salon & cuisine · salle de jeux **seulement si `confirmed: true`** · chambres & suites ; photo + titre court + texte) → « Floor Plans » `FloorPlans` (un plan par niveau, `photos/plans/plan-niveau-1…5`, aplats tant que les fichiers manquent ; titre FR « Plans du chalet ») → Localisation **provisoire, à retravailler** (phrase + lien Google Maps vers le quartier de La Gittaz, §5.7, et cadre « Carte à venir »). (Cartes chambres, visite par niveau, « Tous les équipements » et CTA retirés à la demande du client ; composants conservés.)
-- **Services** : Hero → Gastronomie (formules Half / Full Catered + chef privé, majordome, chauffeur) → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte (Activités · Restauration · Conciergerie) → « Sur demande, auprès de notre conciergerie » + CTA.
+- **Services** (refonte du 08/11/2026, 3 sections) : Hero (inchangé) → « Prestations & Facilities » / « Services & Facilities » (`ServiceTables` : cadre « Prestations » = formules, chef privé, majordome, chauffeur, navette, conciergerie, ménage quotidien, linge, ménage de fin de séjour ; cadre « Facilities » = chambres + équipements phares confirmés) → CTA « Parlons de votre séjour ». (Sections Gastronomie, Inclus et À la carte retirées à la demande du client ; données conservées dans `chalet.ts`.)
 - **Méribel** : Hero → la station (+ phrase avec lien Google Maps vers le quartier de La Gittaz, voir §5.7) → activités d'hiver (icônes) → CTA. (La section « Accès » a été retirée volontairement : ne pas la recréer. Section « Localisation » / carte retirée à la demande du client le 02/11/2026.)
 - **Galerie** : filtres (Tout · Séjour · Chambres · Bien-être · Loisirs · Extérieur · Méribel) + mosaïque + lightbox.
 - **Contact** : titre, 1 ligne d'intro, formulaire, bloc « Ou directement » (WhatsApp, email). (Bloc « Accès » retiré à la demande du client le 02/11/2026.)

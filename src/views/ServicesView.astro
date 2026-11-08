@@ -1,15 +1,14 @@
 ---
 /**
- * Page « Services » (FR et EN) — structure du §6 de CLAUDE.md :
- * Hero → Gastronomie (formules Half / Full Catered, chef privé, majordome,
- * chauffeur) → Inclus (Arrivée · Pendant le séjour · Départ) → À la carte
- * (Activités · Restauration · Conciergerie) → « Sur demande… » + appel à l'action.
+ * Page « Services » (FR et EN) — refonte du 08/11/2026, 3 sections :
+ * Hero → « Prestations & Facilities » (deux cadres listés) → appel à l'action.
  * Textes : src/content/{fr,en}/services.json ; faits : src/content/chalet.ts.
+ * Les listes ne contiennent que des faits du §8 de CLAUDE.md (libellés de chalet.ts).
  */
 import CTASection from '../components/CTASection.astro';
 import Hero from '../components/Hero.astro';
-import ServiceList from '../components/ServiceList.astro';
-import { aLaCarte, catering, figures, included } from '../content/chalet';
+import ServiceTables from '../components/ServiceTables.astro';
+import { catering, figures, included, slopesAccess, visibleFeatures } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { format, getContent } from '../i18n/utils';
@@ -21,46 +20,44 @@ interface Props {
 const { lang } = Astro.props;
 const page = getContent(lang, 'services');
 
-// Heure au format de la langue : « 17h00 » en français, « 17:00 » en anglais.
-const time = (value: string) => (lang === 'fr' ? value.replace(':', 'h') : value);
+/**
+ * Reprend le libellé d'un service inclus de chalet.ts, retrouvé par son texte français.
+ * Si ce texte change dans chalet.ts, la compilation échoue ici (pour ne rien perdre en silence).
+ */
+function includedItem(groupId: (typeof included)[number]['id'], frLabel: string): string {
+  const item = included.find((group) => group.id === groupId)?.items.find((entry) => entry.fr === frLabel);
+  if (!item) throw new Error(`Service inclus introuvable dans chalet.ts : « ${frLabel} »`);
+  return item[lang];
+}
 
-// Horaires ajoutés en tête des groupes Arrivée et Départ.
-const schedule: Partial<Record<(typeof included)[number]['id'], string>> = {
-  arrival: format(page.included.checkIn, { time: time(figures.checkIn) }),
-  departure: format(page.included.checkOut, { time: time(figures.checkOut) }),
-};
-
-const includedGroups = included.map((group) => ({
-  title: group.title[lang],
-  items: [
-    ...(schedule[group.id] ? [{ label: schedule[group.id]! }] : []),
-    ...group.items.map((item) => ({ label: item[lang] })),
-  ],
-}));
-
-// Gastronomie : les deux formules, puis l'équipe mise à disposition.
-const cateringGroups = [
-  { title: page.catering.formulas, items: catering.formulas.map((formula) => ({ label: formula.label[lang] })) },
-  { title: page.catering.staff, items: catering.staff.map((member) => ({ label: member.label[lang] })) },
+// Cadre « Prestations » : formules, équipe, puis services inclus choisis par le client.
+const services = [
+  page.offer.formulas,
+  ...catering.staff.map((member) => member.label[lang]),
+  slopesAccess.shuttle[lang],
+  includedItem('stay', 'Conciergerie dédiée'),
+  includedItem('stay', 'Ménage quotidien des pièces de vie (6j/7)'),
+  page.offer.linen,
+  includedItem('departure', 'Ménage de fin de séjour inclus'),
 ];
 
-const aLaCarteGroups = aLaCarte.map((group) => ({
-  title: group.title[lang],
-  items: group.items.map((item) => ({ label: item[lang] })),
-}));
+// Cadre « Facilities » : chambres, puis les équipements phares confirmés
+// (la salle de jeux n'apparaît pas tant qu'elle n'est pas confirmée).
+const facilities = [
+  format(page.offer.bedrooms, { bedrooms: figures.bedrooms, suites: figures.suites }),
+  ...visibleFeatures().map((feature) => feature.label[lang]),
+];
 ---
 
 <BaseLayout lang={lang} routeKey="services" title={page.meta.title} description={page.meta.description} photoId="services" hero>
   <Hero lang={lang} photoId="services" title={page.hero.title} subtitle={page.hero.subtitle} height="large" />
 
-  <ServiceList eyebrow={page.catering.eyebrow} title={page.catering.title} groups={cateringGroups} />
-
-  <ServiceList eyebrow={page.included.eyebrow} title={page.included.title} groups={includedGroups} background="alt" />
-
-  <ServiceList
-    eyebrow={page.aLaCarte.eyebrow}
-    title={page.aLaCarte.title}
-    groups={aLaCarteGroups}
+  <ServiceTables
+    title={page.offer.title}
+    tables={[
+      { title: page.offer.servicesTitle, items: services },
+      { title: page.offer.facilitiesTitle, items: facilities },
+    ]}
   />
 
   <CTASection lang={lang} title={page.cta.title} text={page.cta.text} />

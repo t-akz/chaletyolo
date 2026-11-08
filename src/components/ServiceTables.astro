@@ -1,0 +1,45 @@
+---
+/**
+ * « Prestations & Facilities » (page Services) : un titre, puis deux cadres
+ * côte à côte (l'un sous l'autre sur mobile). Chaque cadre a son titre en haut,
+ * séparé par un filet, puis une liste centrée dont les lignes sont séparées
+ * par la tête d'ourson du logo (décorative, src/assets/logo/ourson.svg).
+ * Exception voulue par le client (08/11/2026) : texte centré dans ces cadres,
+ * alors que le reste du site est aligné à gauche (§5.1 de CLAUDE.md).
+ */
+import BearHead from '../assets/logo/ourson.svg';
+
+interface Props {
+  title: string;
+  tables: { title: string; items: string[] }[];
+}
+
+const { title, tables } = Astro.props;
+---
+
+<section class="bg-bg py-16 md:py-28">
+  <div class="container-page">
+    <h2 class="text-h2 mb-12 max-w-2xl md:mb-16" data-reveal>{title}</h2>
+
+    <div class="grid gap-8 md:grid-cols-2 md:gap-10 lg:gap-16">
+      {
+        tables.map((table) => (
+          <div class="rounded-2xl border border-border bg-bg-alt" data-reveal>
+            <h3 class="border-b border-border px-6 py-6 text-center md:py-8">{table.title}</h3>
+            <ul class="px-6 py-8 text-center md:px-10 md:py-10">
+              {table.items.map((item, index) => (
+                <li>
+                  {/* Tête d'ourson entre deux lignes (pas avant la première). */}
+                  {index > 0 && (
+                    <BearHead aria-hidden="true" focusable="false" class="mx-auto my-3 h-4 w-auto text-decor" />
+                  )}
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

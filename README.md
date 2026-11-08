@@ -303,7 +303,7 @@ Le site n'a qu'un seul jeu de couleurs : le thème **A « Chaleureux chic »** (
 
 Toutes les couleurs sont dans `src/styles/tokens.css`, dans le bloc `:root { … }`. Changer une valeur à cet endroit la change sur tout le site. Ne mettez jamais une couleur « en dur » dans un composant.
 
-Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, la couleur des titres (`--color-heading`, taupe) n'est utilisée que pour des textes d'au moins 24 px.
+Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, le taupe décoratif (`--color-decor`) n'est jamais utilisé pour du texte courant ; les titres sont en bordeaux (`--color-heading`).
 
 ---
 

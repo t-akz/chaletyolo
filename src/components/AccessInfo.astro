@@ -21,7 +21,7 @@ const { title, modes, background = 'bg' } = Astro.props;
       {
         modes.map((mode) => (
           <div data-reveal>
-            <Icon name={mode.icon} size={32} class="text-heading" />
+            <Icon name={mode.icon} size={32} class="text-decor" />
             <h3 class="mt-5 mb-5 border-b border-border pb-4">{mode.title}</h3>
             <ul class="space-y-2">
               {mode.lines.map((line) => (
