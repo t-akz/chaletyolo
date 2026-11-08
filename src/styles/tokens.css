@@ -15,7 +15,7 @@
   --color-bg-alt: #fffdf9; /* Sections alternées */
   --color-accent-soft: #d4b5a3; /* Footer, blocs d'accent (nude) */
   --color-heading: var(--color-primary); /* Titres (bordeaux, choix du client du 08/11/2026 ; auparavant taupe) */
-  --color-decor: #8b6a55; /* Icônes, têtes d'ours, tirets de liste, liens du menu mobile (taupe) — jamais pour du texte courant */
+  --color-decor: #8b6a55; /* Icônes, têtes d'ours, tirets de liste (taupe) — jamais pour du texte courant */
   --color-text: #2b2b2b; /* Texte courant */
   --color-primary: #6e2a35; /* Bouton principal (bordeaux) */
   --color-primary-hover: #5a2129; /* Survol : bordeaux légèrement plus foncé */

@@ -5,8 +5,10 @@
  *   texte blanc, puis fond crème + légère ombre dès que l'on fait défiler
  *   (sur l'accueil : seulement quand la scène du hero animé remonte, voir HeroReveal.astro).
  * - Autres pages : fond crème dès le départ.
- * - Mobile et tablette : bouton « Menu » qui ouvre un menu plein écran
- *   (fermeture : bouton, touche Échap ou clic sur un lien).
+ * - Sur toutes les largeurs (choix du client du 08/11/2026) : logo à gauche ; à droite,
+ *   le bouton « Nous contacter » puis, tout à droite, le bouton « Menu » (burger).
+ *   Le menu est toujours replié dans ce menu plein écran, qui contient aussi le
+ *   sélecteur FR | EN (en haut) ; fermeture : bouton, touche Échap ou clic sur un lien.
  */
 import Button from './Button.astro';
 import Icon from './Icon.astro';
@@ -42,49 +44,22 @@ const menu = menuKeys.map((key) => ({
   data-solid={transparent ? 'false' : 'true'}
   class="group fixed inset-x-0 top-0 z-40 text-white transition-[background-color,color,box-shadow] duration-500 data-[solid=true]:bg-bg data-[solid=true]:text-text data-[solid=true]:shadow-[0_1px_16px_rgb(0_0_0/0.07)]"
 >
-  <div class="container-page flex h-22 items-center justify-between gap-6">
+  <div class="container-page flex h-22 items-center justify-between gap-3">
     <a href={localizedPath('home', lang)} aria-label={common.header.homeLink}>
-      <Logo class="h-15 transition-colors duration-500 group-data-[solid=true]:text-logo" />
+      <Logo class="h-12 sm:h-15 transition-colors duration-500 group-data-[solid=true]:text-logo" />
     </a>
 
-    <!-- Menu ordinateur -->
-    <nav aria-label={common.nav.label} class="hidden lg:block">
-      <ul class="flex items-center gap-7 text-[1.0625rem] font-medium xl:gap-10 xl:text-[1.1875rem]">
-        {
-          menu.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                aria-current={item.current ? 'page' : undefined}
-                class="underline-offset-[6px] transition-opacity hover:underline hover:decoration-1 aria-[current=page]:underline aria-[current=page]:decoration-1"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-
-    <div class="hidden items-center gap-6 text-base lg:flex xl:gap-8">
-      <LanguageSwitcher lang={lang} routeKey={routeKey} />
+    <!-- À droite : bouton « Nous contacter », puis bouton du menu (burger) tout à droite -->
+    <div class="flex items-center gap-3 sm:gap-6">
       <Button href={localizedPath('contact', lang)} size="sm">{common.cta.contact}</Button>
+      <button type="button" data-menu-open aria-controls="menu-mobile" aria-expanded="false" class="-mr-2 p-2">
+        <Icon name="menu" size={28} />
+        <span class="sr-only">{common.header.openMenu}</span>
+      </button>
     </div>
-
-    <!-- Bouton du menu mobile -->
-    <button
-      type="button"
-      data-menu-open
-      aria-controls="menu-mobile"
-      aria-expanded="false"
-      class="-mr-2 p-2 lg:hidden"
-    >
-      <Icon name="menu" size={28} />
-      <span class="sr-only">{common.header.openMenu}</span>
-    </button>
   </div>
 
-  <!-- Menu mobile plein écran (élément <dialog> : gère Échap et le focus) -->
+  <!-- Menu plein écran, toutes largeurs (élément <dialog> : gère Échap et le focus) -->
   <dialog
     id="menu-mobile"
     data-mobile-menu
@@ -93,12 +68,16 @@ const menu = menuKeys.map((key) => ({
   >
     <div class="container-page flex h-22 shrink-0 items-center justify-between">
       <a href={localizedPath('home', lang)} aria-label={common.header.homeLink}>
-        <Logo class="h-15 text-logo" />
+        <Logo class="h-12 text-logo sm:h-15" />
       </a>
-      <button type="button" data-menu-close class="-mr-2 p-2">
-        <Icon name="x" size={28} />
-        <span class="sr-only">{common.header.closeMenu}</span>
-      </button>
+      <!-- En haut à droite : sélecteur FR | EN, puis bouton de fermeture -->
+      <div class="flex items-center gap-6">
+        <LanguageSwitcher lang={lang} routeKey={routeKey} class="text-[0.8125rem]!" />
+        <button type="button" data-menu-close class="-mr-2 p-2">
+          <Icon name="x" size={28} />
+          <span class="sr-only">{common.header.closeMenu}</span>
+        </button>
+      </div>
     </div>
 
     <nav aria-label={common.nav.label} class="container-page flex flex-1 flex-col justify-center">
@@ -110,7 +89,7 @@ const menu = menuKeys.map((key) => ({
                 href={item.href}
                 data-menu-close
                 aria-current={item.current ? 'page' : undefined}
-                class="text-[clamp(2rem,8vw,3rem)] leading-tight font-light text-decor aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-8"
+                class="text-[clamp(2rem,8vw,3rem)] leading-tight font-light text-heading uppercase aria-[current=page]:underline aria-[current=page]:decoration-1 aria-[current=page]:underline-offset-8"
               >
                 {item.label}
               </a>
@@ -120,8 +99,7 @@ const menu = menuKeys.map((key) => ({
       </ul>
     </nav>
 
-    <div class="container-page flex shrink-0 items-center justify-between gap-6 py-8">
-      <LanguageSwitcher lang={lang} routeKey={routeKey} />
+    <div class="container-page flex shrink-0 items-center py-8">
       <Button href={localizedPath('contact', lang)}>{common.cta.contact}</Button>
     </div>
   </dialog>
@@ -156,9 +134,5 @@ const menu = menuKeys.map((key) => ({
       element.addEventListener('click', () => dialog.close());
     });
     dialog.addEventListener('close', () => openButton.setAttribute('aria-expanded', 'false'));
-    // Si l'écran s'élargit (passage en mode ordinateur), on ferme le menu mobile.
-    window.matchMedia('(min-width: 64rem)').addEventListener('change', (event) => {
-      if (event.matches) dialog.close();
-    });
   }
 </script>

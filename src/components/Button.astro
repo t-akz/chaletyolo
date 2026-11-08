@@ -9,7 +9,7 @@ interface Props {
   href?: string;
   /** Type du bouton quand il n'y a pas de lien (« submit » pour envoyer un formulaire). */
   type?: 'button' | 'submit';
-  /** « sm » : version compacte (en-tête). */
+  /** « sm » : version compacte de l'en-tête (majuscules ; 13 px sur mobile, 15 px dès 640 px). */
   size?: 'md' | 'sm';
   class?: string;
   [key: `data-${string}`]: string | boolean | undefined;
@@ -18,7 +18,9 @@ interface Props {
 const { href, type = 'button', size = 'md', class: className, ...rest } = Astro.props;
 const classes = [
   'inline-flex items-center justify-center bg-primary font-semibold tracking-wide text-on-primary transition-colors duration-300 hover:bg-primary-hover',
-  size === 'md' ? 'px-8 py-4 text-sm' : 'px-6 py-3 text-sm',
+  size === 'md'
+    ? 'px-8 py-4 text-sm'
+    : 'px-4 py-2.5 text-[0.8125rem] uppercase sm:px-6 sm:py-3 sm:text-[0.9375rem]',
   className,
 ];
 ---

@@ -117,7 +117,7 @@ Les propositions B « Noir, blanc, or » et C « Alpin contemporain » ont été
 | `--color-bg-alt` | `#FFFDF9` | Sections alternées |
 | `--color-accent-soft` | `#D4B5A3` | Footer, blocs d'accent (nude) |
 | `--color-heading` | `var(--color-primary)` = `#6E2A35` | Titres (bordeaux, choix du client du 08/11/2026 ; auparavant taupe `#8B6A55`) |
-| `--color-decor` | `#8B6A55` | Taupe des éléments décoratifs : icônes, têtes d'ours, tirets de liste, liens du menu mobile (jamais pour du texte courant) |
+| `--color-decor` | `#8B6A55` | Taupe des éléments décoratifs : icônes, têtes d'ours, tirets de liste (jamais pour du texte courant) |
 | `--color-text` | `#2B2B2B` | Texte courant |
 | `--color-primary` | `#6E2A35` | Bouton principal (bordeaux), texte blanc |
 | `--color-primary-hover` | bordeaux légèrement plus foncé | Survol |
@@ -131,14 +131,15 @@ Police **unique : Raleway** (`@fontsource-variable/raleway`, auto-hébergée), c
 - **Titres des hero** (toutes les pages) : Bold, taille `text-display` ≈ 37 → 85 px — référence : hero de l'accueil.
 - **Sur-titres** (tout le site, hero compris) : **Manrope semi-gras (600), 16 px**, majuscules, `letter-spacing` 0.2em (utilitaire `eyebrow`, police `@fontsource-variable/manrope`). Modèle validé par le client : le sur-titre du hero de l'accueil — **ne pas le modifier**.
 - **Texte courant** : Regular (400). **Grands textes d'accroche** (≥ 24 px) : Thin (100). Jamais de Thin pour du texte courant (lisibilité).
-- **Interface** (menu, boutons, sélecteur de langue, champs) : graisses moyennes (500–600) pour la lisibilité ; menu ordinateur 17 → 19 px, liens du menu mobile en Light (300).
+- **Interface** (menu, boutons, sélecteur de langue, champs) : graisses moyennes (500–600) pour la lisibilité ; liens du menu plein écran en Light (300), en **majuscules** et en **bordeaux** (`--color-heading`).
+- **En-tête** (08/11/2026) : bouton « Nous contacter » en **majuscules** (13 px sur mobile, 15 px dès 640 px) ; sélecteur FR | EN 13 px, dans le menu plein écran.
 - Échelle fluide (`clamp()`).
 
 ### 5.5 Logo
 Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FICHIER]`. En attendant, texte « Chalet Yolo ». Prévoir une variante claire pour l'en-tête transparent.
 
 ### 5.6 Composants
-- `Header` : transparent sur le hero, fond `--color-bg` + légère ombre au scroll. Logo, menu (Le chalet, Services, Méribel, Galerie, Contact), sélecteur **FR | EN**, bouton « Nous contacter ». Mobile : menu plein écran.
+- `Header` : transparent sur le hero, fond `--color-bg` + légère ombre au scroll. **Sur toutes les largeurs** (choix du client du 08/11/2026) : logo à gauche ; à droite le bouton « Nous contacter » puis, tout à droite, le bouton menu (burger). Le menu (Le chalet, Services, Méribel, Galerie, Contact) est **toujours replié** dans un menu plein écran, avec le sélecteur **FR | EN** en haut (à côté du bouton de fermeture).
 - `Hero` : image plein écran (`100svh`), voile sombre léger, accroche + sous-titre + bouton. Option **vidéo de fond** (mp4 muet en boucle + image de repli) activable plus tard.
 - `HeroReveal` : hero de l'accueil à deux photos ; la scène reste en place pendant un écran de défilement et la seconde photo monte comme un rideau (fondu si animations réduites, photo seule sans JavaScript). L'en-tête reste transparent tant que la scène est en place ; quand elle remonte, il devient crème et le titre + bouton s'effacent (aucun texte sous l'en-tête).
 - `KeyFigures`, `FeatureSection` (photo + texte, alternance gauche/droite), `ServiceList`, `CTASection`, `Accordion`.
