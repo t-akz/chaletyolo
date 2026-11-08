@@ -1,7 +1,19 @@
 {
   "meta": {
-    "title": "Contact us — Chalet Yolo, Méribel",
-    "description": "Stay enquiry for Chalet Yolo, a private chalet in Méribel: dates, preferred package and number of guests."
+    "title": "Offer & Contact — Chalet Yolo, Méribel",
+    "description": "Weekly rates and stay enquiry for Chalet Yolo, a private chalet in Méribel: dates, preferred package and number of guests."
+  },
+  "pageTitle": "Offer & Contact",
+  "tabs": {
+    "label": "Offer and contact",
+    "offer": "Offer",
+    "contact": "Contact"
+  },
+  "offer": {
+    "title": "2026 – 2027 season",
+    "intro": "Weekly stays, Saturday to Saturday, half catered or full catered.",
+    "label": "Rates by month",
+    "perNight": "{price} / night"
   },
   "title": "Contact",
   "intro": "A few details about your stay, and our concierge will put together a proposal tailored to you.",

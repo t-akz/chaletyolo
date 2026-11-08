@@ -1,7 +1,19 @@
 {
   "meta": {
-    "title": "Contact — Chalet Yolo, Méribel",
-    "description": "Demande de séjour au Chalet Yolo, chalet privé à Méribel : dates, formule souhaitée et nombre de convives."
+    "title": "Offre & Contact — Chalet Yolo, Méribel",
+    "description": "Tarifs à la semaine et demande de séjour au Chalet Yolo, chalet privé à Méribel : dates, formule souhaitée et nombre de convives."
+  },
+  "pageTitle": "Offre & Contact",
+  "tabs": {
+    "label": "Offre et contact",
+    "offer": "Offre",
+    "contact": "Contact"
+  },
+  "offer": {
+    "title": "Saison 2026 – 2027",
+    "intro": "Location à la semaine, du samedi au samedi, en demi-pension ou en pension complète.",
+    "label": "Tarifs par mois",
+    "perNight": "{price} / nuit"
   },
   "title": "Contact",
   "intro": "Quelques détails sur votre séjour, et notre conciergerie compose une proposition à votre mesure.",

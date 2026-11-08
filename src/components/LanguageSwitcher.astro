@@ -62,6 +62,8 @@ const common = getContent(lang, 'common');
 
   document.querySelectorAll<HTMLAnchorElement>('[data-lang-choice]').forEach((link) => {
     link.addEventListener('click', () => {
+      // Garde l'onglet ouvert (ex. « #demande » sur la page Offre & Contact) dans l'autre langue.
+      if (location.hash && !link.hash) link.hash = location.hash;
       try {
         localStorage.setItem(LANG_CHOICE_KEY, link.dataset.langChoice ?? '');
       } catch {

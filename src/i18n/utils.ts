@@ -85,6 +85,14 @@ export function localizedPath(key: RouteKey, lang: Lang): string {
   return routes[key][lang];
 }
 
+/**
+ * Adresse de l'onglet « Contact » (formulaire) de la page Offre & Contact,
+ * ex. « /contact/#demande ». Utilisée par tous les boutons « Nous contacter ».
+ */
+export function contactFormPath(lang: Lang): string {
+  return `${routes.contact[lang]}#demande`;
+}
+
 /** Liste des versions d'une page dans chaque langue (pour hreflang et le sélecteur de langue). */
 export function getAlternates(key: RouteKey): { lang: Lang; path: string }[] {
   return languages.map((lang) => ({ lang, path: routes[key][lang] }));

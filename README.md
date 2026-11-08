@@ -220,6 +220,18 @@ Une fois renseignés, ces éléments apparaissent automatiquement partout (pied 
 
 > La position exacte du chalet n'est volontairement renseignée **nulle part** (sécurité du bien). La page Méribel propose seulement un lien Google Maps vers le **quartier** de La Gittaz (adresse du lien : `src/views/MeribelView.astro`, texte : `src/content/{fr,en}/meribel.json` → `resort.location`).
 
+### `src/content/tarifs.ts` — prix à la semaine (page Offre & Contact)
+
+Une ligne par semaine (du **samedi au samedi**), de novembre 2026 à avril 2027. Remplacez `null` par le **prix total de la semaine en euros**, sans espace ni symbole :
+
+```ts
+{ start: '2026-12-19', price: 18500 },
+```
+
+- Le prix par nuit (total ÷ 7, arrondi à l'euro) et la mise en forme (« 18 500 € » / « €18,500 ») sont calculés automatiquement.
+- Tant qu'une semaine vaut `null`, sa carte affiche **[À FOURNIR]**.
+- Nouvelle saison : ajoutez les samedis d'arrivée à la liste, dans l'ordre (les mois apparaissent tout seuls). Pensez à mettre à jour le titre `offer.title` de `src/content/{fr,en}/contact.json`.
+
 ### Pages légales
 
 `src/content/fr/legal.json`, `src/content/fr/privacy.json` et leurs versions anglaises : remplacez chaque `[À FOURNIR]` (raison sociale, SIRET, directeur de publication, adresse de Netlify, durée de conservation des données…).
@@ -323,6 +335,7 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, le tau
 | Mentions légales : date de mise à jour, raison sociale, forme juridique et capital, adresse du siège, SIRET, directeur de publication, contact, adresse de Netlify, crédits photos | `src/content/fr/legal.json` + `en/legal.json` |
 | Confidentialité : date de mise à jour, responsable du traitement, garanties du transfert hors UE, durée de conservation, statistiques activées ou non, email pour exercer ses droits | `src/content/fr/privacy.json` + `en/privacy.json` |
 | Identifiants Umami (si statistiques souhaitées) | Variables Netlify ([§ 8](#8-statistiques-de-visite-umami)) |
+| Prix de chaque semaine, novembre 2026 → avril 2027 ; le prix dépend-il de la formule (Half / Full Catered) ? | `src/content/tarifs.ts` ([§ 5](#5-renseigner-les-informations--à-fournir-)) |
 
 ### À confirmer
 
@@ -340,7 +353,7 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, le tau
 | `chalet.json` | `hero.title`, `intro.text`, les titres courts `spaces.*.title`, `spaces.pool.text`, `spaces.wellness.text`, `spaces.cinema.text`, `spaces.yoga.text`, `spaces.living.text`, `spaces.rooms.text`, `spaces.games.text` (affiché seulement si la salle de jeux est confirmée), `location.text` |
 | `services.json` | `hero.title` |
 | `meribel.json` | `hero.title` |
-| `contact.json` | `intro` |
+| `contact.json` | `intro`, `offer.title`, `offer.intro` |
 | `thanks.json` | `text` |
 | `common.json` | `whatsapp.message` (message prérempli envoyé sur WhatsApp) |
 

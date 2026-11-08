@@ -1,0 +1,250 @@
+---
+/**
+ * Onglets de page (page Offre & Contact).
+ *
+ * - En haut : les en-têtes d'onglets, qui servent aussi de switcher. Un trait
+ *   bordeaux glisse sous l'onglet choisi.
+ * - Contenu : fondu + léger glissement dans le sens du changement (l'onglet de
+ *   droite arrive par la droite, celui de gauche par la gauche). Animations
+ *   réduites : changement instantané (règle globale de src/styles/global.css).
+ * - Adresse : chaque panneau a un identifiant (ex. « demande ») ; « /contact/#demande »
+ *   ouvre directement cet onglet, y compris depuis un lien de la même page.
+ * - Clavier : flèches gauche/droite, Début/Fin (modèle « tabs » de l'accessibilité web).
+ * - Sans JavaScript : pas d'onglets, les panneaux s'affichent l'un sous l'autre.
+ *
+ * Usage : un emplacement (slot) nommé par onglet, avec le même nom que son « id ».
+ *   <PageTabs label="…" tabs={[{ id: 'offre', label: 'Offre' }, …]}>
+ *     <div slot="offre">…</div>
+ */
+interface Props {
+  /** Nom de la liste d'onglets, lu par les lecteurs d'écran. */
+  label: string;
+  /** Onglets dans l'ordre ; « id » sert d'ancre dans l'adresse (#id). */
+  tabs: { id: string; label: string }[];
+}
+
+const { label, tabs } = Astro.props;
+// Contenu de chaque onglet, rendu à l'avance (site statique).
+const panels = await Promise.all(tabs.map(async (tab) => ({ ...tab, html: await Astro.slots.render(tab.id) })));
+---
+
+<div class="page-tabs" data-page-tabs>
+  <div class="page-tabs__bar" role="tablist" aria-label={label}>
+    {
+      tabs.map((tab, index) => (
+        <button
+          type="button"
+          role="tab"
+          id={`onglet-${tab.id}`}
+          aria-controls={tab.id}
+          aria-selected={index === 0 ? 'true' : 'false'}
+          tabindex={index === 0 ? 0 : -1}
+          class="page-tabs__tab"
+        >
+          {tab.label}
+        </button>
+      ))
+    }
+    <span class="page-tabs__indicator" aria-hidden="true"></span>
+  </div>
+
+  {
+    panels.map((panel, index) => (
+      <div
+        class="page-tabs__panel"
+        id={panel.id}
+        role="tabpanel"
+        aria-labelledby={`onglet-${panel.id}`}
+        data-active={index === 0 ? 'true' : 'false'}
+        set:html={panel.html}
+      />
+    ))
+  }
+
+  <!-- Choix de l'onglet d'après l'adresse (#demande…) AVANT l'affichage : pas de saut visible. -->
+  <script is:inline>
+    (function () {
+      var root = document.currentScript.closest('[data-page-tabs]');
+      var hash = decodeURIComponent(location.hash.slice(1));
+      var target = hash && root.querySelector('.page-tabs__panel[id="' + hash.replace(/"/g, '') + '"]');
+      if (!target) return;
+      root.querySelectorAll('.page-tabs__panel').forEach(function (panel) {
+        panel.dataset.active = String(panel === target);
+      });
+      root.querySelectorAll('[role="tab"]').forEach(function (tab) {
+        var selected = tab.getAttribute('aria-controls') === target.id;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+    })();
+  </script>
+</div>
+
+<style>
+  /* Sans JavaScript : pas de barre d'onglets, tous les panneaux visibles. */
+  .page-tabs__bar {
+    display: none;
+  }
+
+  :global(.js) .page-tabs__bar {
+    position: relative;
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 768px) {
+    :global(.js) .page-tabs__bar {
+      margin-bottom: 4rem;
+    }
+  }
+
+  .page-tabs__tab {
+    padding: 1rem 0;
+    color: var(--color-text);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    cursor: pointer;
+    transition:
+      opacity 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .page-tabs__tab:hover {
+    opacity: 1;
+  }
+
+  .page-tabs__tab[aria-selected='true'] {
+    color: var(--color-heading);
+    opacity: 1;
+  }
+
+  /* Trait bordeaux sous l'onglet choisi : position et largeur réglées par le script. */
+  .page-tabs__indicator {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: var(--indicator-width, 0);
+    height: 2px;
+    background: var(--color-primary);
+    transform: translateX(var(--indicator-x, 0));
+    transition:
+      transform 0.4s cubic-bezier(0.2, 0.6, 0.2, 1),
+      width 0.4s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  /* Le panneau ne se cache pas sous l'en-tête fixe quand on arrive par #demande. */
+  .page-tabs__panel {
+    scroll-margin-top: 7rem;
+  }
+
+  /* Sans JavaScript : un espace entre les panneaux empilés. */
+  .page-tabs__panel + .page-tabs__panel {
+    margin-top: 6rem;
+  }
+
+  :global(.js) .page-tabs__panel + .page-tabs__panel {
+    margin-top: 0;
+  }
+
+  :global(.js) .page-tabs__panel[data-active='false'] {
+    display: none;
+  }
+
+  /* Arrivée d'un panneau : fondu + léger glissement (sens donné par le script). */
+  :global(.js) .page-tabs__panel[data-enter] {
+    animation: tab-enter 0.5s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+  }
+
+  :global(.js) .page-tabs__panel[data-enter='left'] {
+    --from: -2rem;
+  }
+
+  :global(.js) .page-tabs__panel[data-enter='right'] {
+    --from: 2rem;
+  }
+
+  @keyframes tab-enter {
+    from {
+      opacity: 0;
+      transform: translateX(var(--from, 0));
+    }
+  }
+</style>
+
+<script>
+  // Onglets : clic, clavier, adresse (#id) et trait qui glisse sous l'onglet choisi.
+  document.querySelectorAll<HTMLElement>('[data-page-tabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = tabs.map((tab) => root.querySelector<HTMLElement>(`#${tab.getAttribute('aria-controls')}`)!);
+    const indicator = root.querySelector<HTMLElement>('.page-tabs__indicator')!;
+    let current = Math.max(0, tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true'));
+
+    // Place le trait sous l'onglet choisi (sans animation au premier affichage).
+    const moveIndicator = (animate: boolean) => {
+      const tab = tabs[current]!;
+      if (!animate) indicator.style.transition = 'none';
+      indicator.style.setProperty('--indicator-x', `${tab.offsetLeft}px`);
+      indicator.style.setProperty('--indicator-width', `${tab.offsetWidth}px`);
+      if (!animate) requestAnimationFrame(() => indicator.style.removeProperty('transition'));
+    };
+
+    const select = (index: number, { focus = false, updateUrl = true } = {}) => {
+      if (index === current) return;
+      const direction = index > current ? 'right' : 'left';
+      current = index;
+
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+      });
+      panels.forEach((panel, i) => {
+        panel.dataset.active = String(i === index);
+        panel.removeAttribute('data-enter');
+      });
+      const panel = panels[index]!;
+      void panel.offsetWidth; // relance l'animation même si on revient sur le même panneau
+      panel.dataset.enter = direction;
+      moveIndicator(true);
+      if (focus) tabs[index]!.focus();
+
+      // Adresse : « #id » pour les onglets suivants, adresse nue pour le premier
+      // (sans ajouter d'entrée à l'historique du navigateur).
+      if (updateUrl) {
+        const hash = index === 0 ? '' : `#${panel.id}`;
+        history.replaceState(history.state, '', `${location.pathname}${location.search}${hash}`);
+      }
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => select(index));
+      tab.addEventListener('keydown', (event) => {
+        const last = tabs.length - 1;
+        const next =
+          event.key === 'ArrowRight' ? (current === last ? 0 : current + 1)
+          : event.key === 'ArrowLeft' ? (current === 0 ? last : current - 1)
+          : event.key === 'Home' ? 0
+          : event.key === 'End' ? last
+          : null;
+        if (next === null) return;
+        event.preventDefault();
+        select(next, { focus: true });
+      });
+    });
+
+    // Lien vers « #demande » depuis la même page (ex. bouton « Nous contacter » de l'en-tête).
+    window.addEventListener('hashchange', () => {
+      const index = panels.findIndex((panel) => `#${panel.id}` === decodeURIComponent(location.hash));
+      if (index !== -1) select(index, { updateUrl: false });
+    });
+
+    moveIndicator(false);
+    // Les polices peuvent changer la largeur des onglets : on recale le trait ensuite.
+    document.fonts?.ready.then(() => moveIndicator(false));
+    window.addEventListener('resize', () => moveIndicator(false));
+  });
+</script>

@@ -1,0 +1,367 @@
+---
+/**
+ * Accordéon des mois (onglet « Offre » de la page Offre & Contact).
+ * Un volet par mois ; dans chaque volet, une carte par semaine (samedi → samedi) :
+ * date d'arrivée et, en dessous, date de départ, prix total, et en petit le prix par nuit (total ÷ 7).
+ *
+ * - Ordinateur (≥ 1024 px) : volets côte à côte, nom du mois écrit à la verticale.
+ *   Celui que l'on survole (souris) ou que l'on choisit (clic, clavier) s'élargit
+ *   et montre ses cartes. Un volet est toujours ouvert : le mois en cours
+ *   (s'il fait partie de la saison), sinon le premier.
+ * - Mobile et tablette : bandes empilées qui s'ouvrent vers le bas ; un second
+ *   clic referme. Une seule ouverte à la fois.
+ * - Sans JavaScript : tout est affiché, l'un sous l'autre.
+ * Même fonctionnement que SpaceColumns.astro (page Le chalet), sans photos.
+ *
+ * Données : src/content/tarifs.ts. Textes : src/content/{fr,en}/contact.json.
+ */
+import BearHead from '../assets/logo/ourson.svg';
+import Icon from './Icon.astro';
+import { TO_PROVIDE } from '../config/site';
+import { currency, nightsPerWeek, type Week } from '../content/tarifs';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  weeks: Week[];
+  /** Nom de la liste des mois, lu par les lecteurs d'écran. */
+  label: string;
+  /** Mention sous le prix total, ex. « {price} / nuit ». */
+  perNight: string;
+}
+
+const { lang, weeks, label, perNight } = Astro.props;
+const locale = lang === 'fr' ? 'fr-FR' : 'en-GB';
+
+// Dates lues en temps universel : pas de décalage d'un jour selon le fuseau horaire.
+const toDate = (iso: string) => new Date(`${iso}T00:00:00Z`);
+const isoDay = (date: Date) => date.toISOString().slice(0, 10);
+const addDays = (date: Date, days: number) => new Date(date.getTime() + days * 86_400_000);
+
+const dayFormat = new Intl.DateTimeFormat(locale, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+const monthFormat = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const priceFormat = new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 });
+// « sam. 7 nov. » → « Sam. 7 nov. » (majuscule en début de date).
+const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
+// Regroupement des semaines par mois du samedi d'arrivée, dans l'ordre de la liste.
+const months: { key: string; title: string; weeks: { start: Date; end: Date; price: number | null }[] }[] = [];
+for (const week of weeks) {
+  const start = toDate(week.start);
+  const key = week.start.slice(0, 7); // « 2026-11 »
+  let month = months.find((entry) => entry.key === key);
+  if (!month) {
+    month = { key, title: capitalize(monthFormat.format(start)), weeks: [] };
+    months.push(month);
+  }
+  month.weeks.push({ start, end: addDays(start, 7), price: week.price });
+}
+
+// Identifiant unique, au cas où le composant serait utilisé deux fois sur une page.
+const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="week-acc" data-week-accordion style={`--months: ${months.length}`}>
+  <ul class="week-acc__list" aria-label={label}>
+    {
+      months.map((month, index) => (
+        <li class="week-col" data-month={month.key} data-open={index === 0 ? 'true' : 'false'}>
+          <h3 class="week-col__heading">
+            <button
+              type="button"
+              class="week-col__button"
+              id={`${uid}-titre-${index}`}
+              aria-expanded={index === 0 ? 'true' : 'false'}
+              aria-controls={`${uid}-panneau-${index}`}
+            >
+              <span class="week-col__title">{month.title}</span>
+              <Icon name="chevron-down" size={22} class="week-col__chevron" />
+            </button>
+          </h3>
+          <div class="week-col__body" id={`${uid}-panneau-${index}`} role="region" aria-labelledby={`${uid}-titre-${index}`}>
+            <div class="week-col__inner">
+              <ul class="week-col__cards">
+                {month.weeks.map((week) => (
+                  <li class="week-card">
+                    {/* Tête d'ourson du logo, décorative, dans le coin haut droit. */}
+                    <BearHead aria-hidden="true" focusable="false" class="week-card__bear" />
+                    <p class="week-card__dates">
+                      {/* Toujours sur deux lignes : arrivée, puis départ en dessous. */}
+                      <time datetime={isoDay(week.start)}>{capitalize(dayFormat.format(week.start))}</time>
+                      <span class="sr-only"> – </span>
+                      <time datetime={isoDay(week.end)}>{capitalize(dayFormat.format(week.end))}</time>
+                    </p>
+                    {week.price === null ? (
+                      <p class="week-card__price">{TO_PROVIDE}</p>
+                    ) : (
+                      <>
+                        <p class="week-card__price">{priceFormat.format(week.price)}</p>
+                        <p class="week-card__night">
+                          {perNight.replace('{price}', priceFormat.format(Math.round(week.price / nightsPerWeek)))}
+                        </p>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  /* ---------- Mobile et tablette (et sans JavaScript) : bandes empilées ---------- */
+  .week-acc__list {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .week-col {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .week-col__button {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem 0;
+    text-align: left;
+    color: var(--color-heading);
+    font-size: var(--text-h3);
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+
+  /* La flèche n'apparaît qu'avec JavaScript (sans lui, tout est déjà ouvert). */
+  .week-col :global(.week-col__chevron) {
+    display: none;
+    flex-shrink: 0;
+    transition: transform 0.4s ease;
+  }
+
+  :global(.js) .week-col :global(.week-col__chevron) {
+    display: block;
+  }
+
+  .week-col__cards {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.25rem 0 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .week-col__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Carte d'une semaine : dates, prix total, prix par nuit en petit. */
+  .week-card {
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-bg-alt);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .week-card :global(.week-card__bear) {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: auto;
+    height: 1rem;
+    color: var(--color-primary);
+  }
+
+  /* Les dates ne passent pas sous l'ourson. */
+  .week-card__dates {
+    padding-right: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+  }
+
+  .week-card__price {
+    margin-top: 0.75rem;
+    color: var(--color-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .week-card__night {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  /* Avec JavaScript : seules les bandes ouvertes montrent leurs cartes
+     (ouverture en douceur grâce à la hauteur de grille 0 → 1). */
+  :global(.js) .week-col__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.6s cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  :global(.js) .week-col__inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  :global(.js) .week-col[data-open='true'] .week-col__body {
+    grid-template-rows: 1fr;
+  }
+
+  :global(.js) .week-col[data-open='true'] :global(.week-col__chevron) {
+    transform: rotate(180deg);
+  }
+
+  /* ---------- Ordinateur (≥ 1024 px, avec JavaScript) : volets côte à côte ---------- */
+  @media (min-width: 1024px) {
+    /* « container-type » : les cartes peuvent se caler sur la largeur de toute la liste (unité cqw). */
+    :global(.js) .week-acc__list {
+      --gap: 0.75rem;
+      --grow: 7; /* un volet ouvert est 7 fois plus large qu'un volet fermé */
+      container-type: inline-size;
+      display: flex;
+      gap: var(--gap);
+      min-height: 32rem;
+      border-top: 0;
+    }
+
+    :global(.js) .week-col {
+      position: relative;
+      display: flex;
+      flex: 1 1 0;
+      min-width: 0;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      border-radius: 1rem;
+      background: var(--color-bg-alt);
+      transition: flex-grow 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+    }
+
+    :global(.js) .week-col[data-open='true'] {
+      flex-grow: var(--grow);
+    }
+
+    :global(.js) .week-col__button {
+      padding: 1.75rem 1.75rem 1.25rem;
+      white-space: nowrap;
+    }
+
+    :global(.js) .week-col :global(.week-col__chevron) {
+      display: none;
+    }
+
+    /* Volet fermé : le bouton couvre tout le volet (un clic n'importe où l'ouvre)
+       et le mois s'écrit à la verticale (se lit de bas en haut). */
+    :global(.js) .week-col[data-open='false'] .week-col__heading {
+      flex: 1;
+    }
+
+    :global(.js) .week-col[data-open='false'] .week-col__button {
+      height: 100%;
+      justify-content: center;
+      padding: 1.75rem 0;
+    }
+
+    :global(.js) .week-col[data-open='false'] .week-col__button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    :global(.js) .week-col[data-open='false'] .week-col__title {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* Volet ouvert : les cartes gardent une largeur fixe (pas de recomposition
+       pendant l'élargissement) et apparaissent en fondu une fois le volet ouvert. */
+    :global(.js) .week-col__body {
+      transition: none;
+    }
+
+    :global(.js) .week-col[data-open='false'] .week-col__body {
+      display: none;
+    }
+
+    /* Largeur = celle du volet une fois ouvert (calculée sur toute la liste) :
+       2 colonnes de cartes vers 1024 px, 3 sur grand écran. */
+    :global(.js) .week-col__cards {
+      width: calc((100cqw - (var(--months) - 1) * var(--gap)) * var(--grow) / (var(--months) - 1 + var(--grow)) - 2px);
+      grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+      padding: 0 1.75rem 1.75rem;
+    }
+
+    :global(.js) .week-col[data-open='true'] .week-col__cards {
+      animation: week-cards-in 0.6s ease 0.3s both;
+    }
+
+    /* Focus clavier visible sur tout le volet. */
+    :global(.js) .week-col:has(.week-col__button:focus-visible) {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+    }
+
+    :global(.js) .week-col__button:focus-visible {
+      outline: none;
+    }
+  }
+
+  @keyframes week-cards-in {
+    from {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // Ouverture des volets / bandes : une seule ouverte à la fois.
+  const desktop = window.matchMedia('(min-width: 1024px)');
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  document.querySelectorAll<HTMLElement>('[data-week-accordion]').forEach((root) => {
+    const columns = [...root.querySelectorAll<HTMLElement>('.week-col')];
+
+    const open = (target: HTMLElement | null) => {
+      columns.forEach((column) => {
+        const isOpen = column === target;
+        column.dataset.open = String(isOpen);
+        column.querySelector('.week-col__button')?.setAttribute('aria-expanded', String(isOpen));
+      });
+    };
+
+    // Au chargement : le mois en cours s'il fait partie de la saison, sinon le premier.
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    open(columns.find((column) => column.dataset.month === currentMonth) ?? columns[0] ?? null);
+
+    columns.forEach((column) => {
+      const button = column.querySelector<HTMLButtonElement>('.week-col__button');
+
+      button?.addEventListener('click', () => {
+        const isOpen = column.dataset.open === 'true';
+        // Ordinateur : un volet reste toujours ouvert. Mobile : un second clic referme.
+        if (isOpen && !desktop.matches) open(null);
+        else if (!isOpen) open(column);
+      });
+
+      // Ordinateur avec souris : le survol suffit.
+      column.addEventListener('mouseenter', () => {
+        if (desktop.matches && canHover.matches && column.dataset.open !== 'true') open(column);
+      });
+    });
+
+    // Passage mobile → ordinateur : en volets, il en faut toujours un ouvert.
+    desktop.addEventListener('change', () => {
+      if (desktop.matches && !columns.some((column) => column.dataset.open === 'true')) open(columns[0] ?? null);
+    });
+  });
+</script>

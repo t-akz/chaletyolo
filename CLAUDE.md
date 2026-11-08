@@ -85,6 +85,7 @@ Le sélecteur de langue renvoie vers **la page équivalente** (table de correspo
 src/
   config/site.ts          → nom, domaine, email, WhatsApp, réseaux, analytics (toutes les valeurs [À FOURNIR] ici)
   content/chalet.ts       → données factuelles du §8, typées, libellés FR/EN
+  content/tarifs.ts       → semaines (samedi → samedi) et prix de la page Offre & Contact (§8 « Tarifs »)
   content/fr/*.json       → textes FR par page
   content/en/*.json       → textes EN par page
   i18n/                   → utilitaires de langue + table des routes
@@ -150,6 +151,8 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - `WhatsAppButton` : flottant bas-droite, `https://wa.me/[WHATSAPP_NUMBER]` + message prérempli FR/EN.
 - `Footer` : fond `--color-accent-soft`, liens légaux, Instagram (bloc « Nous suivre » ; Facebook et TikTok retirés par le client le 02/11/2026), email, « Méribel, 73550 ».
 - `ContactForm` : §7.
+- `PageTabs` : onglets de page (Offre & Contact). Les en-têtes servent de switcher ; trait bordeaux qui glisse sous l'onglet choisi ; contenu en fondu + léger glissement dans le sens du changement (instantané si animations réduites) ; flèches du clavier ; `#id` dans l'adresse ouvre l'onglet (`/contact/#demande`). Sans JavaScript : panneaux l'un sous l'autre.
+- `WeekAccordion` : onglet Offre. Accordéon des mois (même fonctionnement que `SpaceColumns`, sans photos : volets côte à côte avec mois à la verticale sur ordinateur ≥ 1024 px, bandes empilées sur mobile/tablette ; ouvert au chargement : le mois en cours, sinon le premier). Une carte par semaine (petite tête d'ours bordeaux dans le coin haut droit) : date d'arrivée puis, **en dessous**, date de départ (samedi → samedi), prix total, et en petit le prix par nuit (total ÷ 7, arrondi). Prix manquant → `[À FOURNIR]`.
 - `IntroGate` : écran d'entrée de la page d'accueil, voir §5.8.
 
 ### 5.7 Localisation du chalet
@@ -179,7 +182,10 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - **Services** (refonte du 08/11/2026, 3 sections) : Hero (inchangé) → « Prestations & Facilities » / « Services & Facilities » (`ServiceTables` : cadre « Prestations » = formules, chef privé, majordome, chauffeur, navette, conciergerie, ménage quotidien, linge, ménage de fin de séjour ; cadre « Facilities » = chambres + équipements phares confirmés) → CTA « Parlons de votre séjour ». (Sections Gastronomie, Inclus et À la carte retirées à la demande du client ; données conservées dans `chalet.ts`.)
 - **Méribel** : Hero → la station (+ phrase avec lien Google Maps vers le quartier de La Gittaz, voir §5.7) → activités d'hiver (icônes) → CTA. (La section « Accès » a été retirée volontairement : ne pas la recréer. Section « Localisation » / carte retirée à la demande du client le 02/11/2026.)
 - **Galerie** : filtres (Tout · Séjour · Chambres · Bien-être · Loisirs · Extérieur · Méribel) + mosaïque + lightbox.
-- **Contact** : titre, 1 ligne d'intro, formulaire, bloc « Ou directement » (WhatsApp, email). (Bloc « Accès » retiré à la demande du client le 02/11/2026.)
+- **Offre & Contact** (route `contact`, refonte du 08/11/2026) : titre de page caché `<h1>` « Offre & Contact » + deux onglets `PageTabs` :
+  1. **Offre** (`#offre`, ouvert par défaut) : « Saison 2026 – 2027 » + 1 ligne d'intro, puis `WeekAccordion` (novembre 2026 → avril 2027 inclus).
+  2. **Contact** (`#demande`) : l'ancienne page Contact, inchangée : titre, 1 ligne d'intro, formulaire, bloc « Ou directement » (WhatsApp, email). (Bloc « Accès » retiré à la demande du client le 02/11/2026.)
+  Tous les boutons « Nous contacter » mènent à `#demande` (`contactFormPath()` de `src/i18n/utils.ts`) ; la carte « Offre & Contact » de l'accueil mène à l'onglet Offre.
 - **Légal** : gabarits avec `[À FOURNIR]` (raison sociale, adresse, SIRET, directeur de publication, hébergeur Netlify Inc., statistiques sans cookies, données du formulaire).
 
 ---
@@ -252,6 +258,8 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 - *Activités* : matériel de ski livré au chalet, forfaits, massages et soins au chalet, moniteur de ski.
 - *Restauration* : petit-déjeuner continental, plats traiteur, carte des vins et champagnes. (Le chef est désormais inclus : voir « Formules ».)
 - *Conciergerie* : transferts, voiturier en station, babysitting à domicile.
+
+**Tarifs** (page Offre & Contact, données dans `src/content/tarifs.ts`) : location à la semaine, **du samedi au samedi** (confirmé par le client le 08/11/2026). Saison affichée : novembre 2026 → avril 2027 inclus. Prix de chaque semaine `[À FOURNIR]` ; prix différent selon la formule ? `[À FOURNIR]`.
 
 **Méribel** : fondée en 1938, au cœur des 3 Vallées (600 km de pistes), architecture savoyarde.
 

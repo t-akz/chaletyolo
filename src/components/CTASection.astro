@@ -7,7 +7,7 @@ import Button from './Button.astro';
 import Eyebrow from './Eyebrow.astro';
 import TextLink from './TextLink.astro';
 import type { Lang } from '../i18n/languages';
-import { getContent, localizedPath } from '../i18n/utils';
+import { contactFormPath, getContent } from '../i18n/utils';
 import { whatsappUrl } from './whatsapp';
 
 interface Props {
@@ -29,7 +29,7 @@ const common = getContent(lang, 'common');
     <h2 class="text-h1">{title}</h2>
     {text && <p class="mt-6 max-w-xl">{text}</p>}
     <div class="mt-10 flex flex-wrap items-center gap-x-10 gap-y-6">
-      <Button href={localizedPath('contact', lang)}>{common.cta.contact}</Button>
+      <Button href={contactFormPath(lang)}>{common.cta.contact}</Button>
       {
         showWhatsapp && (
           <TextLink href={whatsappUrl(lang)} external>

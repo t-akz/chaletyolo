@@ -12,7 +12,7 @@ import PhotoMosaic from '../components/PhotoMosaic.astro';
 import ImageLinkCards from '../components/ImageLinkCards.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
-import { getContent, localizedPath } from '../i18n/utils';
+import { contactFormPath, getContent, localizedPath } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -51,7 +51,7 @@ const mosaicPhotos = [
     revealPhotoId="piscine-03"
     title={page.hero.title}
     subtitle={page.hero.subtitle}
-    cta={{ href: localizedPath('contact', lang), label: common.cta.contact }}
+    cta={{ href: contactFormPath(lang), label: common.cta.contact }}
   />
 
   <section class="bg-bg-alt py-16 md:py-28" aria-label={page.intro.label}>

@@ -1,14 +1,20 @@
 ---
 /**
- * Page « Contact » (FR et EN) — §6 de CLAUDE.md :
- * titre, une ligne d'intro, formulaire et bloc « Ou directement » (WhatsApp,
- * email). (Bloc « Accès » retiré à la demande du client le 02/11/2026.)
+ * Page « Offre & Contact » (FR et EN) — §6 de CLAUDE.md. Deux onglets (PageTabs) :
+ * 1. « Offre » (#offre) : saison, puis accordéon des mois avec une carte par
+ *    semaine (WeekAccordion ; données : src/content/tarifs.ts).
+ * 2. « Contact » (#demande) : l'ancienne page Contact, inchangée — titre, une
+ *    ligne d'intro, formulaire et bloc « Ou directement » (WhatsApp, email).
+ *    Les boutons « Nous contacter » du site mènent directement ici (contactFormPath).
  * Textes : src/content/{fr,en}/contact.json ; faits : src/content/chalet.ts.
  */
 import ContactForm from '../components/ContactForm.astro';
 import Icon from '../components/Icon.astro';
+import PageTabs from '../components/PageTabs.astro';
+import WeekAccordion from '../components/WeekAccordion.astro';
 import { whatsappUrl } from '../components/whatsapp';
 import { isProvided, site, TO_PROVIDE } from '../config/site';
+import { weeks } from '../content/tarifs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { getContent } from '../i18n/utils';
@@ -24,45 +30,68 @@ const page = getContent(lang, 'contact');
 
 <BaseLayout lang={lang} routeKey="contact" title={page.meta.title} description={page.meta.description}>
   <section class="container-page py-16 md:py-24">
-    <div class="max-w-2xl">
-      <h1>{page.title}</h1>
-      <p class="mt-6">{page.intro}</p>
-    </div>
+    <h1 class="sr-only">{page.pageTitle}</h1>
 
-    <div class="mt-12 grid gap-16 md:mt-16 lg:grid-cols-12">
-      <div class="lg:col-span-8">
-        <ContactForm lang={lang} />
+    <PageTabs
+      label={page.tabs.label}
+      tabs={[
+        { id: 'offre', label: page.tabs.offer },
+        { id: 'demande', label: page.tabs.contact },
+      ]}
+    >
+      <!-- Onglet 1 : l'offre -->
+      <div slot="offre">
+        <!-- Titre sans largeur maximale : sur une seule ligne dès qu'il y a la place (tablette, ordinateur). -->
+        <h2 class="text-h1">{page.offer.title}</h2>
+        <p class="mt-6 max-w-2xl">{page.offer.intro}</p>
+        <div class="mt-12 md:mt-16">
+          <WeekAccordion lang={lang} weeks={weeks} label={page.offer.label} perNight={page.offer.perNight} />
+        </div>
       </div>
 
-      <aside class="space-y-12 lg:col-span-4">
-        <div>
-          <h2 class="border-b border-border pb-4 text-h3">{page.direct.title}</h2>
-          <ul class="mt-6 space-y-4">
-            <li class="flex items-center gap-3">
-              <Icon name="message-circle" size={22} class="shrink-0 text-decor" />
-              <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">
-                {page.direct.whatsapp}
-                <span class="sr-only">{common.newTab}</span>
-              </a>
-              {!isProvided(site.whatsapp) && <span>{TO_PROVIDE}</span>}
-            </li>
-            <li class="flex items-center gap-3">
-              <Icon name="mail" size={22} class="shrink-0 text-decor" />
-              {
-                isProvided(site.email) ? (
-                  <a href={`mailto:${site.email}`} class="text-accent underline underline-offset-4">
-                    {site.email}
-                  </a>
-                ) : (
-                  <span>
-                    {page.direct.email} {TO_PROVIDE}
-                  </span>
-                )
-              }
-            </li>
-          </ul>
+      <!-- Onglet 2 : le contact (contenu de l'ancienne page, inchangé) -->
+      <div slot="demande">
+        <div class="max-w-2xl">
+          <h2 class="text-h1">{page.title}</h2>
+          <p class="mt-6">{page.intro}</p>
         </div>
-      </aside>
-    </div>
+
+        <div class="mt-12 grid gap-16 md:mt-16 lg:grid-cols-12">
+          <div class="lg:col-span-8">
+            <ContactForm lang={lang} />
+          </div>
+
+          <aside class="space-y-12 lg:col-span-4">
+            <div>
+              <h3 class="border-b border-border pb-4 text-h3">{page.direct.title}</h3>
+              <ul class="mt-6 space-y-4">
+                <li class="flex items-center gap-3">
+                  <Icon name="message-circle" size={22} class="shrink-0 text-decor" />
+                  <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">
+                    {page.direct.whatsapp}
+                    <span class="sr-only">{common.newTab}</span>
+                  </a>
+                  {!isProvided(site.whatsapp) && <span>{TO_PROVIDE}</span>}
+                </li>
+                <li class="flex items-center gap-3">
+                  <Icon name="mail" size={22} class="shrink-0 text-decor" />
+                  {
+                    isProvided(site.email) ? (
+                      <a href={`mailto:${site.email}`} class="text-accent underline underline-offset-4">
+                        {site.email}
+                      </a>
+                    ) : (
+                      <span>
+                        {page.direct.email} {TO_PROVIDE}
+                      </span>
+                    )
+                  }
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </PageTabs>
   </section>
 </BaseLayout>
