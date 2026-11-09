@@ -1,0 +1,435 @@
+---
+/**
+ * Panneau d'administration des tarifs — /admin/ (français uniquement, non référencé).
+ *
+ * L'équipe y gère les cartes de l'onglet « Offre » (page Offre & Contact) :
+ * mois (ajout / retrait), et pour chaque semaine : prix total, « réservée »,
+ * mention spéciale FR + EN. « Enregistrer et publier » envoie tout à la
+ * fonction Netlify /api/admin/tarifs, qui vérifie, enregistre (Netlify Blobs)
+ * et republie le site en ligne (≈ 1 à 2 minutes).
+ *
+ * - Connexion : mot de passe partagé → jeton de 8 h gardé le temps de l'onglet
+ *   (sessionStorage), AUCUN cookie. Voir netlify/lib/admin-auth.ts.
+ * - Ne fonctionne que chez Netlify (deploy preview ou site en ligne) :
+ *   en local (npm run dev), les fonctions n'existent pas.
+ * - Les données sont vérifiées avant l'envoi avec les mêmes règles que le site
+ *   (parseSeason, src/content/tarifs.ts), puis à nouveau côté serveur.
+ * Textes : src/content/fr/admin.json.
+ */
+import '@fontsource-variable/raleway';
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+
+import Button from '../components/Button.astro';
+import t from '../content/fr/admin.json';
+import { badgeMaxLength } from '../content/tarifs';
+import { format } from '../i18n/utils';
+
+const inputClass =
+  'block w-full border border-text/60 bg-bg-alt px-3 py-2 text-text focus-visible:border-accent aria-[invalid=true]:border-error';
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{t.meta.title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="min-h-svh bg-bg text-text">
+    <noscript><p class="container-page py-10">{t.noscript}</p></noscript>
+
+    <main class="container-page py-10 pb-40 md:py-14" data-admin data-texts={JSON.stringify(t)}>
+      <!-- ===== Connexion ===== -->
+      <section data-view="login" hidden class="mx-auto max-w-md pt-[10svh]">
+        <h1 class="text-h2">{t.login.title}</h1>
+        <p class="mt-4">{t.login.intro}</p>
+        <form data-login-form class="mt-10 grid gap-6">
+          <label class="grid gap-2 text-sm font-medium">
+            {t.login.password}
+            <input type="password" name="password" required autocomplete="current-password" class={inputClass} />
+          </label>
+          <p data-login-message role="alert" class="text-sm text-error empty:hidden"></p>
+          <div><Button type="submit" data-login-submit>{t.login.submit}</Button></div>
+        </form>
+      </section>
+
+      <!-- ===== Chargement ===== -->
+      <p data-view="loading" hidden role="status">{t.loading}</p>
+
+      <!-- ===== Éditeur ===== -->
+      <section data-view="editor" hidden>
+        <div class="flex flex-wrap items-start justify-between gap-6">
+          <div>
+            <h1 class="text-h2">{t.header.title}</h1>
+            <p data-context class="mt-3 font-medium"></p>
+            <p data-source class="mt-1 text-sm"></p>
+          </div>
+          <button type="button" data-logout class="text-sm font-medium text-accent underline decoration-1 underline-offset-[6px]">
+            {t.header.logout}
+          </button>
+        </div>
+
+        <p class="mt-6 max-w-3xl text-sm">{format(t.help, { max: badgeMaxLength })}</p>
+
+        <!-- Les mois sont construits par le script ci-dessous. -->
+        <div data-months class="mt-10 grid gap-10"></div>
+
+        <!-- Ajouter un mois -->
+        <form data-add-month class="mt-12 rounded-2xl border border-border bg-bg-alt p-6">
+          <h2 class="text-h3">{t.months.addTitle}</h2>
+          <p class="mt-2 text-sm">{t.months.addHint}</p>
+          <div class="mt-5 flex flex-wrap items-end gap-4">
+            <label class="grid gap-2 text-sm font-medium">
+              {t.months.addLabel}
+              <input type="month" name="month" class={inputClass} />
+            </label>
+            <button
+              type="submit"
+              class="border border-primary px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-on-primary"
+            >
+              {t.months.addButton}
+            </button>
+          </div>
+          <p data-add-message role="alert" class="mt-3 text-sm text-error empty:hidden"></p>
+        </form>
+      </section>
+    </main>
+
+    <!-- Barre d'enregistrement, toujours visible en bas de l'écran -->
+    <div data-save-bar hidden class="fixed inset-x-0 bottom-0 z-10 border-t border-border bg-bg/95 backdrop-blur">
+      <div class="container-page flex flex-wrap items-center justify-between gap-4 py-4">
+        <p data-save-message role="status" class="max-w-3xl text-sm"></p>
+        <Button type="button" data-save>{t.save.button}</Button>
+      </div>
+    </div>
+
+    <script>
+      import {
+        badgeMaxLength,
+        newMonth,
+        nightsPerWeek,
+        parseSeason,
+        weekEnd,
+        type Season,
+        type Week,
+      } from '../content/tarifs';
+      import type texts from '../content/fr/admin.json';
+
+      type Texts = typeof texts;
+      type Session = { token: string; expiresAt: number };
+
+      const root = document.querySelector<HTMLElement>('[data-admin]')!;
+      const t = JSON.parse(root.dataset.texts ?? '{}') as Texts;
+      const fill = (text: string, values: Record<string, string | number>) =>
+        text.replace(/\{(\w+)\}/g, (match, key: string) => (key in values ? String(values[key]) : match));
+
+      // ---------- Éléments de la page ----------
+      const views = [...document.querySelectorAll<HTMLElement>('[data-view]')];
+      const loginForm = document.querySelector<HTMLFormElement>('[data-login-form]')!;
+      const loginMessage = document.querySelector<HTMLElement>('[data-login-message]')!;
+      const loginSubmit = document.querySelector<HTMLButtonElement>('[data-login-submit]')!;
+      const monthsBox = document.querySelector<HTMLElement>('[data-months]')!;
+      const addForm = document.querySelector<HTMLFormElement>('[data-add-month]')!;
+      const addMessage = document.querySelector<HTMLElement>('[data-add-message]')!;
+      const saveBar = document.querySelector<HTMLElement>('[data-save-bar]')!;
+      const saveButton = document.querySelector<HTMLButtonElement>('[data-save]')!;
+      const saveMessage = document.querySelector<HTMLElement>('[data-save-message]')!;
+
+      const show = (name: 'login' | 'loading' | 'editor') => {
+        views.forEach((view) => (view.hidden = view.dataset.view !== name));
+        saveBar.hidden = name !== 'editor';
+      };
+
+      // ---------- Session (jeton gardé le temps de l'onglet, pas de cookie) ----------
+      const SESSION_KEY = 'chalet-yolo-admin';
+      const getSession = (): Session | null => {
+        try {
+          const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) ?? 'null') as Session | null;
+          return session && session.expiresAt > Date.now() ? session : null;
+        } catch {
+          return null;
+        }
+      };
+      const setSession = (session: Session | null) => {
+        if (session) sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        else sessionStorage.removeItem(SESSION_KEY);
+      };
+
+      /** Appel aux fonctions Netlify ; « status 0 » = serveur injoignable. */
+      async function api(method: string, path: string, body?: unknown): Promise<{ status: number; data: any }> {
+        try {
+          const response = await fetch(path, {
+            method,
+            headers: {
+              'content-type': 'application/json',
+              ...(getSession() ? { authorization: `Bearer ${getSession()!.token}` } : {}),
+            },
+            body: body === undefined ? undefined : JSON.stringify(body),
+          });
+          let data: any = {};
+          try {
+            data = await response.json();
+          } catch {
+            data = {};
+          }
+          return { status: response.status, data };
+        } catch {
+          return { status: 0, data: { error: t.networkError } };
+        }
+      }
+
+      // ---------- État de l'éditeur ----------
+      let season: Season | null = null;
+      let production = false;
+      let dirty = false;
+
+      const setDirty = (value: boolean, message?: string) => {
+        dirty = value;
+        saveMessage.textContent = message ?? (value ? t.save.dirty : t.save.clean);
+      };
+      window.addEventListener('beforeunload', (event) => {
+        if (dirty) event.preventDefault();
+      });
+
+      // ---------- Mise en forme ----------
+      const dayFormat = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+      const monthFormat = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+      const euros = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+      const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+      const utc = (iso: string) => new Date(`${iso}T00:00:00Z`);
+      const dayLabel = (iso: string) => capitalize(dayFormat.format(utc(iso)));
+      const monthLabel = (month: string) => capitalize(monthFormat.format(utc(`${month}-01`)));
+      const perNight = (price: number | null) =>
+        price !== null && Number.isInteger(price) && price > 0 ? euros.format(Math.round(price / nightsPerWeek)) : t.perNightEmpty;
+
+      /** Petit utilitaire : crée un élément HTML (le texte est toujours inséré tel quel, jamais interprété). */
+      function el<K extends keyof HTMLElementTagNameMap>(
+        tag: K,
+        props: Partial<Record<string, string>> = {},
+        children: (Node | string)[] = [],
+      ): HTMLElementTagNameMap[K] {
+        const element = document.createElement(tag);
+        for (const [name, value] of Object.entries(props)) if (value !== undefined) element.setAttribute(name, value);
+        element.append(...children);
+        return element;
+      }
+
+      const inputClass =
+        'block w-full border border-text/60 bg-bg-alt px-3 py-2 text-text focus-visible:border-accent';
+      // Grille des colonnes sur ordinateur (une ligne par semaine) ; empilé sur mobile.
+      const rowClass = 'grid gap-3 py-4 md:grid-cols-[1.3fr_1fr_0.7fr_0.6fr_1.2fr_1.2fr] md:items-center md:gap-4 md:py-3';
+      const columnLabel = 'text-xs font-medium md:sr-only';
+
+      // ---------- Construction d'une ligne « semaine » ----------
+      function weekRow(week: Week, id: string): HTMLElement {
+        const dates = `${dayLabel(week.start)} → ${dayLabel(weekEnd(week.start))}`;
+        const datesId = `${id}-dates`;
+        const field = (label: string, input: HTMLElement) =>
+          el('label', { class: 'grid gap-1' }, [el('span', { class: columnLabel }, [label]), input]);
+
+        // Prix total (vide = « [À FOURNIR] »).
+        const price = el('input', {
+          type: 'number',
+          min: '1',
+          step: '1',
+          inputmode: 'numeric',
+          class: inputClass,
+          'aria-describedby': datesId,
+        });
+        price.value = week.price === null ? '' : String(week.price);
+        const night = el('span', { class: 'text-sm', 'aria-live': 'polite' }, [perNight(week.price)]);
+        price.addEventListener('input', () => {
+          week.price = price.value === '' ? null : Number(price.value);
+          night.textContent = perNight(week.price);
+          setDirty(true);
+        });
+
+        // Réservée.
+        const booked = el('input', { type: 'checkbox', class: 'size-5 accent-primary', 'aria-describedby': datesId });
+        booked.checked = week.booked;
+
+        // Mentions FR / EN.
+        const badgeInput = (lang: 'fr' | 'en') => {
+          const input = el('input', { type: 'text', maxlength: String(badgeMaxLength), class: inputClass, 'aria-describedby': datesId });
+          input.value = week.badge?.[lang] ?? '';
+          input.addEventListener('input', () => {
+            week.badge = { fr: week.badge?.fr ?? '', en: week.badge?.en ?? '', [lang]: input.value };
+            setDirty(true);
+          });
+          return input;
+        };
+
+        const row = el('div', { class: rowClass, 'data-booked': week.booked ? 'true' : undefined }, [
+          el('p', { id: datesId, class: 'font-medium' }, [dates]),
+          field(t.columns.price, price),
+          el('div', { class: 'grid gap-1' }, [el('span', { class: columnLabel }, [t.columns.perNight]), night]),
+          el('label', { class: 'flex items-center gap-2 md:justify-center' }, [booked, el('span', { class: 'text-sm md:sr-only' }, [t.columns.booked])]),
+          field(t.columns.badgeFr, badgeInput('fr')),
+          field(t.columns.badgeEn, badgeInput('en')),
+        ]);
+        // Ligne grisée quand la semaine est réservée (comme sur le site).
+        const paint = () => row.classList.toggle('opacity-60', booked.checked);
+        booked.addEventListener('change', () => {
+          week.booked = booked.checked;
+          paint();
+          setDirty(true);
+        });
+        paint();
+        return row;
+      }
+
+      // ---------- Construction de la liste des mois ----------
+      function render() {
+        monthsBox.replaceChildren();
+        if (!season || season.months.length === 0) {
+          monthsBox.append(el('p', {}, [t.months.empty]));
+          return;
+        }
+        season.months.forEach((month, monthIndex) => {
+          const title = monthLabel(month.month);
+          const remove = el('button', {
+            type: 'button',
+            class: 'text-sm font-medium text-error underline decoration-1 underline-offset-[6px]',
+          }, [t.months.remove]);
+          remove.addEventListener('click', () => {
+            if (!window.confirm(fill(t.months.removeConfirm, { month: title }))) return;
+            season!.months.splice(monthIndex, 1);
+            render();
+            setDirty(true);
+          });
+
+          // En-têtes de colonnes (ordinateur uniquement ; sur mobile, chaque champ a son libellé).
+          const head = el('div', { class: `${rowClass} hidden border-b border-border text-xs font-semibold uppercase tracking-wider md:grid`, 'aria-hidden': 'true' },
+            [t.columns.week, t.columns.price, t.columns.perNight, t.columns.booked, t.columns.badgeFr, t.columns.badgeEn].map((label, i) =>
+              el('span', { class: i === 3 ? 'md:text-center' : '' }, [label]),
+            ),
+          );
+
+          const rows = month.weeks.map((week, weekIndex) => weekRow(week, `m${monthIndex}-s${weekIndex}`));
+          monthsBox.append(
+            el('section', { class: 'rounded-2xl border border-border bg-bg-alt p-5 md:p-6' }, [
+              el('div', { class: 'flex flex-wrap items-baseline justify-between gap-4' }, [
+                el('h2', { class: 'text-h3' }, [title]),
+                el('div', { class: 'flex items-baseline gap-6' }, [
+                  el('span', { class: 'text-sm' }, [fill(t.months.weeks, { count: month.weeks.length })]),
+                  remove,
+                ]),
+              ]),
+              el('div', { class: 'mt-4 divide-y divide-border' }, [head, ...rows]),
+            ]),
+          );
+        });
+      }
+
+      // ---------- Ajouter un mois ----------
+      addForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!season) return;
+        const value = (addForm.elements.namedItem('month') as HTMLInputElement).value; // « 2027-05 »
+        addMessage.textContent = '';
+        if (!/^\d{4}-\d{2}$/.test(value)) {
+          addMessage.textContent = t.months.addMissing;
+          return;
+        }
+        if (season.months.some((month) => month.month === value)) {
+          addMessage.textContent = fill(t.months.exists, { month: monthLabel(value) });
+          return;
+        }
+        season.months.push(newMonth(value));
+        season.months.sort((a, b) => a.month.localeCompare(b.month));
+        addForm.reset();
+        render();
+        setDirty(true);
+      });
+
+      // ---------- Chargement ----------
+      async function load() {
+        show('loading');
+        const { status, data } = await api('GET', '/api/admin/tarifs');
+        if (status === 401) return askLogin(t.login.expired);
+        if (status !== 200) {
+          show('login');
+          loginMessage.textContent = fill(t.loadError, { message: data.error ?? status });
+          return;
+        }
+        season = data.season as Season;
+        production = Boolean(data.production);
+        document.querySelector('[data-context]')!.textContent = production ? t.header.production : t.header.preview;
+        document.querySelector('[data-source]')!.textContent = data.source === 'admin' ? t.header.sourceAdmin : t.header.sourceSeed;
+        render();
+        setDirty(false);
+        show('editor');
+      }
+
+      // ---------- Connexion / déconnexion ----------
+      function askLogin(message = '') {
+        setSession(null);
+        loginMessage.textContent = message;
+        show('login');
+        loginForm.querySelector('input')?.focus();
+      }
+
+      loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        loginMessage.textContent = '';
+        loginSubmit.disabled = true;
+        loginSubmit.textContent = t.login.pending;
+        const password = (loginForm.elements.namedItem('password') as HTMLInputElement).value;
+        const { status, data } = await api('POST', '/api/admin/login', { password });
+        loginSubmit.disabled = false;
+        loginSubmit.textContent = t.login.submit;
+        if (status !== 200) {
+          loginMessage.textContent = status === 0 ? t.login.network : (data.error ?? t.login.network);
+          return;
+        }
+        setSession(data as Session);
+        loginForm.reset();
+        // Session expirée pendant le travail : on retrouve ses modifications.
+        if (season && dirty) {
+          show('editor');
+          setDirty(true);
+        } else load();
+      });
+
+      document.querySelector('[data-logout]')!.addEventListener('click', () => {
+        if (dirty && !window.confirm(t.save.leave)) return;
+        season = null;
+        setDirty(false);
+        askLogin();
+      });
+
+      // ---------- Enregistrer et publier ----------
+      saveButton.addEventListener('click', async () => {
+        if (!season) return;
+        // Vérification avant l'envoi (mêmes règles que le serveur et le site).
+        let clean: Season;
+        try {
+          clean = parseSeason(season);
+        } catch (error) {
+          setDirty(true, fill(t.save.error, { message: (error as Error).message.replace(/^Tarifs invalides : /, '') }));
+          return;
+        }
+        saveButton.disabled = true;
+        saveMessage.textContent = t.save.pending;
+        const { status, data } = await api('PUT', '/api/admin/tarifs', clean);
+        saveButton.disabled = false;
+        if (status === 401) return askLogin(t.login.expired);
+        if (status !== 200) {
+          setDirty(true, fill(t.save.error, { message: String(data.error ?? status).replace(/^Tarifs invalides : /, '') }));
+          return;
+        }
+        season = clean;
+        render();
+        document.querySelector('[data-source]')!.textContent = t.header.sourceAdmin;
+        setDirty(false, !data.production ? t.save.preview : data.published ? t.save.published : t.save.notPublished);
+      });
+
+      // ---------- Démarrage ----------
+      if (getSession()) load();
+      else askLogin();
+    </script>
+  </body>
+</html>

@@ -24,8 +24,8 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      // Pages non référencées : remerciements après l'envoi du formulaire.
-      filter: (page) => ![routes.thanks.fr, routes.thanks.en].some((path) => page.endsWith(path)),
+      // Pages non référencées : remerciements après l'envoi du formulaire, admin des tarifs.
+      filter: (page) => ![routes.thanks.fr, routes.thanks.en, '/admin/'].some((path) => page.endsWith(path)),
       i18n: {
         defaultLocale: 'fr',
         locales: { fr: 'fr', en: 'en' },

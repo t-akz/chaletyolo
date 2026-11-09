@@ -24,6 +24,13 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
 
+# Admin des tarifs : jamais indexée, jamais mise en cache.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
 # Fichiers générés par Astro (CSS, JS, images optimisées) : leur nom change à
 # chaque modification, on peut donc les mettre en cache pendant un an.
 [[headers]]

@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "Admin des tarifs — Chalet Yolo"
+  },
+  "noscript": "Cette page a besoin de JavaScript : activez-le dans votre navigateur.",
+  "login": {
+    "title": "Admin des tarifs",
+    "intro": "Accès réservé à l'équipe du Chalet Yolo.",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "pending": "Connexion…",
+    "expired": "Votre session a expiré : reconnectez-vous, vos modifications sont conservées.",
+    "network": "Connexion impossible. Vérifiez votre accès à Internet et réessayez."
+  },
+  "header": {
+    "title": "Tarifs de l'onglet Offre",
+    "logout": "Se déconnecter",
+    "production": "Site en ligne : ce que vous publiez sera visible par tous.",
+    "preview": "Aperçu de test : vos enregistrements sont gardés à part et ne modifient pas le site en ligne.",
+    "sourceSeed": "Rien n'a encore été enregistré : ce sont les données de départ.",
+    "sourceAdmin": "Ce sont les dernières données enregistrées."
+  },
+  "help": "Prix : total de la semaine en euros, chiffres seuls (ex. 18500) ; laissé vide, la carte affiche « [À FOURNIR] ». Semaine réservée : la carte est grisée, sans prix ni lien « Réserver ». Mention : facultative, {max} caractères maximum, en français ET en anglais.",
+  "columns": {
+    "week": "Semaine",
+    "price": "Prix total (€)",
+    "perNight": "Par nuit",
+    "booked": "Réservée",
+    "badgeFr": "Mention (FR)",
+    "badgeEn": "Mention (EN)"
+  },
+  "perNightEmpty": "—",
+  "months": {
+    "empty": "Aucun mois : ajoutez-en un ci-dessous.",
+    "weeks": "{count} semaines",
+    "remove": "Retirer ce mois",
+    "removeConfirm": "Retirer {month} et toutes ses semaines ? Il disparaîtra du site à la prochaine publication.",
+    "addTitle": "Ajouter un mois",
+    "addLabel": "Mois",
+    "addButton": "Ajouter",
+    "addHint": "Toutes ses semaines (du samedi au samedi) sont créées automatiquement.",
+    "addMissing": "Choisissez un mois.",
+    "exists": "{month} est déjà dans la liste."
+  },
+  "save": {
+    "button": "Enregistrer et publier",
+    "pending": "Enregistrement…",
+    "dirty": "Modifications non enregistrées.",
+    "clean": "Tout est enregistré.",
+    "published": "Enregistré. Le site en ligne sera à jour d'ici 1 à 2 minutes.",
+    "notPublished": "Enregistré, mais la mise à jour du site en ligne n'a pas pu être lancée. Prévenez le développeur (réglage BUILD_HOOK_URL).",
+    "preview": "Enregistré dans le stockage de test. Le site en ligne n'est pas modifié. Pour voir le résultat sur cet aperçu, relancez son déploiement dans Netlify.",
+    "error": "Enregistrement impossible : {message}",
+    "leave": "Des modifications ne sont pas enregistrées."
+  },
+  "loading": "Chargement des tarifs…",
+  "loadError": "Impossible de charger les tarifs : {message}",
+  "networkError": "le serveur ne répond pas."
+}
