@@ -18,35 +18,40 @@
  * « /contact/?arrivee=…&depart=…#demande ». Les semaines déjà commencées n'ont pas
  * de lien (masqué au chargement : le formulaire refuse une date passée).
  *
- * Données : src/content/tarifs.ts. Textes : src/content/{fr,en}/contact.json.
+ * Semaine réservée : carte grisée, mention « Réservée », sans prix ni lien « Réserver ».
+ * Mention spéciale (promo, exclu web…) : petite étiquette au-dessus des dates
+ * (pas sur une semaine réservée).
+ *
+ * Données : src/content/tarifs.ts (gérées depuis l'admin). Textes : src/content/{fr,en}/contact.json.
  */
 import BearHead from '../assets/logo/ourson.svg';
 import Icon from './Icon.astro';
 import TextLink from './TextLink.astro';
 import { TO_PROVIDE } from '../config/site';
-import { currency, nightsPerWeek, type Week } from '../content/tarifs';
+import { currency, nightsPerWeek, weekEnd, type Month } from '../content/tarifs';
 import type { Lang } from '../i18n/languages';
 
 interface Props {
   lang: Lang;
-  weeks: Week[];
+  /** Mois de la saison, chacun avec ses semaines (src/content/tarifs.ts). */
+  months: Month[];
   /** Nom de la liste des mois, lu par les lecteurs d'écran. */
   label: string;
   /** Mention sous le prix total, ex. « {price} / nuit ». */
   perNight: string;
   /** Libellé du lien de réservation, ex. « Réserver ». */
   bookLabel: string;
+  /** Mention d'une semaine réservée, ex. « Réservée ». */
+  bookedLabel: string;
   /** Adresse de la page qui contient le formulaire, ex. « /contact/ ». */
   bookPath: string;
 }
 
-const { lang, weeks, label, perNight, bookLabel, bookPath } = Astro.props;
+const { lang, months: season, label, perNight, bookLabel, bookedLabel, bookPath } = Astro.props;
 const locale = lang === 'fr' ? 'fr-FR' : 'en-GB';
 
 // Dates lues en temps universel : pas de décalage d'un jour selon le fuseau horaire.
 const toDate = (iso: string) => new Date(`${iso}T00:00:00Z`);
-const isoDay = (date: Date) => date.toISOString().slice(0, 10);
-const addDays = (date: Date, days: number) => new Date(date.getTime() + days * 86_400_000);
 
 const dayFormat = new Intl.DateTimeFormat(locale, { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
 const monthFormat = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric', timeZone: 'UTC' });
@@ -54,18 +59,20 @@ const priceFormat = new Intl.NumberFormat(locale, { style: 'currency', currency,
 // « sam. 7 nov. » → « Sam. 7 nov. » (majuscule en début de date).
 const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
-// Regroupement des semaines par mois du samedi d'arrivée, dans l'ordre de la liste.
-const months: { key: string; title: string; weeks: { start: Date; end: Date; price: number | null }[] }[] = [];
-for (const week of weeks) {
-  const start = toDate(week.start);
-  const key = week.start.slice(0, 7); // « 2026-11 »
-  let month = months.find((entry) => entry.key === key);
-  if (!month) {
-    month = { key, title: capitalize(monthFormat.format(start)), weeks: [] };
-    months.push(month);
-  }
-  month.weeks.push({ start, end: addDays(start, 7), price: week.price });
-}
+// Mois prêts à afficher : titre (« Novembre 2026 ») et dates des semaines mises en forme.
+const months = season.map(({ month, weeks }) => ({
+  key: month,
+  title: capitalize(monthFormat.format(toDate(`${month}-01`))),
+  weeks: weeks.map((week) => {
+    const end = weekEnd(week.start);
+    return {
+      ...week,
+      end,
+      startLabel: capitalize(dayFormat.format(toDate(week.start))),
+      endLabel: capitalize(dayFormat.format(toDate(end))),
+    };
+  }),
+}));
 
 // Identifiant unique, au cas où le composant serait utilisé deux fois sur une page.
 const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
@@ -92,34 +99,42 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
             <div class="week-col__inner">
               <ul class="week-col__cards">
                 {month.weeks.map((week) => (
-                  <li class="week-card" data-week-start={isoDay(week.start)}>
+                  <li class="week-card" data-booked={week.booked ? 'true' : undefined}>
                     {/* Tête d'ourson du logo, décorative, dans le coin haut droit. */}
                     <BearHead aria-hidden="true" focusable="false" class="week-card__bear" />
+                    {/* Mention spéciale (promo, exclu web…), sauf sur une semaine réservée. */}
+                    {week.badge && !week.booked && <p class="week-card__badge">{week.badge[lang]}</p>}
                     <p class="week-card__dates">
                       {/* Toujours sur deux lignes : arrivée, puis départ en dessous. */}
-                      <time datetime={isoDay(week.start)}>{capitalize(dayFormat.format(week.start))}</time>
+                      <time datetime={week.start}>{week.startLabel}</time>
                       <span class="sr-only"> – </span>
-                      <time datetime={isoDay(week.end)}>{capitalize(dayFormat.format(week.end))}</time>
+                      <time datetime={week.end}>{week.endLabel}</time>
                     </p>
-                    {week.price === null ? (
-                      <p class="week-card__price">{TO_PROVIDE}</p>
+                    {week.booked ? (
+                      <p class="week-card__status">{bookedLabel}</p>
                     ) : (
                       <>
-                        <p class="week-card__price">{priceFormat.format(week.price)}</p>
-                        <p class="week-card__night">
-                          {perNight.replace('{price}', priceFormat.format(Math.round(week.price / nightsPerWeek)))}
+                        {week.price === null ? (
+                          <p class="week-card__price">{TO_PROVIDE}</p>
+                        ) : (
+                          <>
+                            <p class="week-card__price">{priceFormat.format(week.price)}</p>
+                            <p class="week-card__night">
+                              {perNight.replace('{price}', priceFormat.format(Math.round(week.price / nightsPerWeek)))}
+                            </p>
+                          </>
+                        )}
+                        <p class="week-card__book" data-book data-arrivee={week.start} data-depart={week.end}>
+                          <TextLink href={`${bookPath}?arrivee=${week.start}&depart=${week.end}#demande`}>
+                            {bookLabel}
+                            <span class="sr-only">
+                              {' '}
+                              {week.startLabel} – {week.endLabel}
+                            </span>
+                          </TextLink>
                         </p>
                       </>
                     )}
-                    <p class="week-card__book" data-book data-arrivee={isoDay(week.start)} data-depart={isoDay(week.end)}>
-                      <TextLink href={`${bookPath}?arrivee=${isoDay(week.start)}&depart=${isoDay(week.end)}#demande`}>
-                        {bookLabel}
-                        <span class="sr-only">
-                          {' '}
-                          {capitalize(dayFormat.format(week.start))} – {capitalize(dayFormat.format(week.end))}
-                        </span>
-                      </TextLink>
-                    </p>
                   </li>
                 ))}
               </ul>
@@ -218,6 +233,44 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
   .week-card__night {
     margin-top: 0.25rem;
     font-size: 0.875rem;
+  }
+
+  /* Mention spéciale : petite étiquette bordeaux au-dessus des dates. */
+  .week-card__badge {
+    align-self: flex-start;
+    margin-bottom: 0.75rem;
+    margin-right: 1.75rem; /* ne passe pas sous l'ourson */
+    border: 1px solid var(--color-primary);
+    border-radius: 999px;
+    padding: 0.125rem 0.625rem;
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Semaine réservée : carte grisée (fond plus terne, dates et ourson atténués). */
+  .week-card[data-booked] {
+    background: color-mix(in srgb, var(--color-text) 6%, var(--color-bg));
+  }
+
+  .week-card[data-booked] .week-card__dates {
+    opacity: 0.55;
+  }
+
+  .week-card[data-booked] :global(.week-card__bear) {
+    color: var(--color-text);
+    opacity: 0.3;
+  }
+
+  /* « Réservée » : reste parfaitement lisible (contraste plein). */
+  .week-card__status {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   /* Lien « Réserver » toujours en bas de la carte (cartes de même hauteur alignées). */

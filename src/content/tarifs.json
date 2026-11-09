@@ -1,0 +1,184 @@
+{
+  "months": [
+    {
+      "month": "2026-11",
+      "weeks": [
+        {
+          "start": "2026-11-07",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2026-11-14",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2026-11-21",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2026-11-28",
+          "price": null,
+          "booked": false,
+          "badge": null
+        }
+      ]
+    },
+    {
+      "month": "2026-12",
+      "weeks": [
+        {
+          "start": "2026-12-05",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2026-12-12",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2026-12-19",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2026-12-26",
+          "price": null,
+          "booked": false,
+          "badge": null
+        }
+      ]
+    },
+    {
+      "month": "2027-01",
+      "weeks": [
+        {
+          "start": "2027-01-02",
+          "price": null,
+          "booked": true,
+          "badge": null
+        },
+        {
+          "start": "2027-01-09",
+          "price": 185000,
+          "booked": false,
+          "badge": { "fr": "Promo", "en": "Special offer" }
+        },
+        {
+          "start": "2027-01-16",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-01-23",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-01-30",
+          "price": null,
+          "booked": false,
+          "badge": null
+        }
+      ]
+    },
+    {
+      "month": "2027-02",
+      "weeks": [
+        {
+          "start": "2027-02-06",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-02-13",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-02-20",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-02-27",
+          "price": null,
+          "booked": false,
+          "badge": null
+        }
+      ]
+    },
+    {
+      "month": "2027-03",
+      "weeks": [
+        {
+          "start": "2027-03-06",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-03-13",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-03-20",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-03-27",
+          "price": null,
+          "booked": false,
+          "badge": null
+        }
+      ]
+    },
+    {
+      "month": "2027-04",
+      "weeks": [
+        {
+          "start": "2027-04-03",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-04-10",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-04-17",
+          "price": null,
+          "booked": false,
+          "badge": null
+        },
+        {
+          "start": "2027-04-24",
+          "price": null,
+          "booked": false,
+          "badge": null
+        }
+      ]
+    }
+  ]
+}

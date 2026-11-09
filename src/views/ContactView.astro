@@ -2,7 +2,7 @@
 /**
  * Page « Offre & Contact » (FR et EN) — §6 de CLAUDE.md. Deux onglets (PageTabs) :
  * 1. « Offre » (#offre) : saison, puis accordéon des mois avec une carte par
- *    semaine (WeekAccordion ; données : src/content/tarifs.ts).
+ *    semaine (WeekAccordion ; données : src/content/tarifs.ts, gérées depuis l'admin).
  * 2. « Contact » (#demande) : l'ancienne page Contact, inchangée — titre, une
  *    ligne d'intro, formulaire et bloc « Ou directement » (WhatsApp, email).
  *    Les boutons « Nous contacter » du site mènent directement ici (contactFormPath).
@@ -14,7 +14,7 @@ import PageTabs from '../components/PageTabs.astro';
 import WeekAccordion from '../components/WeekAccordion.astro';
 import { whatsappUrl } from '../components/whatsapp';
 import { isProvided, site, TO_PROVIDE } from '../config/site';
-import { weeks } from '../content/tarifs';
+import { loadSeason } from '../content/tarifs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { getContent, localizedPath } from '../i18n/utils';
@@ -26,6 +26,8 @@ interface Props {
 const { lang } = Astro.props;
 const common = getContent(lang, 'common');
 const page = getContent(lang, 'contact');
+// Tarifs de la saison (données de l'admin si elles existent, sinon src/content/tarifs.json).
+const season = await loadSeason();
 ---
 
 <BaseLayout lang={lang} routeKey="contact" title={page.meta.title} description={page.meta.description}>
@@ -47,10 +49,11 @@ const page = getContent(lang, 'contact');
         <div class="mt-12 md:mt-16">
           <WeekAccordion
             lang={lang}
-            weeks={weeks}
+            months={season.months}
             label={page.offer.label}
             perNight={page.offer.perNight}
             bookLabel={page.offer.book}
+            bookedLabel={page.offer.booked}
             bookPath={localizedPath('contact', lang)}
           />
         </div>

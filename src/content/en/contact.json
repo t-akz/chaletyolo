@@ -14,7 +14,8 @@
     "intro": "Weekly stays, Saturday to Saturday, half catered or full catered.",
     "label": "Rates by month",
     "perNight": "{price} / night",
-    "book": "Book"
+    "book": "Book",
+    "booked": "Booked"
   },
   "title": "Contact",
   "intro": "A few details about your stay, and our concierge will put together a proposal tailored to you.",

@@ -85,7 +85,8 @@ Le sélecteur de langue renvoie vers **la page équivalente** (table de correspo
 src/
   config/site.ts          → nom, domaine, email, WhatsApp, réseaux, analytics (toutes les valeurs [À FOURNIR] ici)
   content/chalet.ts       → données factuelles du §8, typées, libellés FR/EN
-  content/tarifs.ts       → semaines (samedi → samedi) et prix de la page Offre & Contact (§8 « Tarifs »)
+  content/tarifs.ts       → types, vérification (parseSeason) et chargement des tarifs de la page Offre & Contact (§8 « Tarifs »)
+  content/tarifs.json     → données de départ des tarifs (mois → semaines : prix, réservée, mention) ; ensuite gérées par l'admin
   content/fr/*.json       → textes FR par page
   content/en/*.json       → textes EN par page
   i18n/                   → utilitaires de langue + table des routes
@@ -152,7 +153,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - `Footer` : fond `--color-accent-soft`, liens légaux, Instagram (bloc « Nous suivre » ; Facebook et TikTok retirés par le client le 02/11/2026), email, « Méribel, 73550 ».
 - `ContactForm` : §7.
 - `PageTabs` : onglets de page (Offre & Contact). Les en-têtes servent de switcher ; trait bordeaux qui glisse sous l'onglet choisi ; contenu en fondu + léger glissement dans le sens du changement (instantané si animations réduites) ; flèches du clavier ; `#id` dans l'adresse ouvre l'onglet (`/contact/#demande`). Sans JavaScript : panneaux l'un sous l'autre.
-- `WeekAccordion` : onglet Offre. Accordéon des mois (même fonctionnement que `SpaceColumns`, sans photos : volets côte à côte avec mois à la verticale sur ordinateur ≥ 1024 px, bandes empilées sur mobile/tablette ; ouvert au chargement : le mois en cours, sinon le premier). Une carte par semaine (petite tête d'ours bordeaux dans le coin haut droit) : date d'arrivée puis, **en dessous**, date de départ (samedi → samedi), prix total, et en petit le prix par nuit (total ÷ 7, arrondi), puis lien discret « Réserver » / « Book » (ouvre l'onglet Contact avec les dates pré-remplies ; absent pour les semaines déjà commencées ; sans JavaScript : `?arrivee=…&depart=…#demande`). Prix manquant → `[À FOURNIR]`.
+- `WeekAccordion` : onglet Offre. Accordéon des mois (même fonctionnement que `SpaceColumns`, sans photos : volets côte à côte avec mois à la verticale sur ordinateur ≥ 1024 px, bandes empilées sur mobile/tablette ; ouvert au chargement : le mois en cours, sinon le premier). Une carte par semaine (petite tête d'ours bordeaux dans le coin haut droit) : date d'arrivée puis, **en dessous**, date de départ (samedi → samedi), prix total, et en petit le prix par nuit (total ÷ 7, arrondi), puis lien discret « Réserver » / « Book » (ouvre l'onglet Contact avec les dates pré-remplies ; absent pour les semaines déjà commencées ; sans JavaScript : `?arrivee=…&depart=…#demande`). Prix manquant → `[À FOURNIR]`. Semaine réservée (`booked`) : carte grisée, « Réservée » / « Booked », **sans prix** ni lien ni mention (choix du client du 09/11/2026). Mention spéciale (`badge`, FR + EN, 25 caractères max) : petite étiquette bordeaux au-dessus des dates.
 - `IntroGate` : écran d'entrée de la page d'accueil, voir §5.8.
 
 ### 5.7 Localisation du chalet

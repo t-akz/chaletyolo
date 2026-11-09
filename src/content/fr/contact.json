@@ -14,7 +14,8 @@
     "intro": "Location à la semaine, du samedi au samedi, en demi-pension ou en pension complète.",
     "label": "Tarifs par mois",
     "perNight": "{price} / nuit",
-    "book": "Réserver"
+    "book": "Réserver",
+    "booked": "Réservée"
   },
   "title": "Contact",
   "intro": "Quelques détails sur votre séjour, et notre conciergerie compose une proposition à votre mesure.",

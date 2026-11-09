@@ -222,17 +222,20 @@ Une fois renseignés, ces éléments apparaissent automatiquement partout (pied 
 
 > La position exacte du chalet n'est volontairement renseignée **nulle part** (sécurité du bien). La page Méribel propose seulement un lien Google Maps vers le **quartier** de La Gittaz (adresse du lien : `src/views/MeribelView.astro`, texte : `src/content/{fr,en}/meribel.json` → `resort.location`).
 
-### `src/content/tarifs.ts` — prix à la semaine (page Offre & Contact)
+### Tarifs à la semaine (page Offre & Contact)
 
-Une ligne par semaine (du **samedi au samedi**), de novembre 2026 à avril 2027. Remplacez `null` par le **prix total de la semaine en euros**, sans espace ni symbole :
+Les mois, semaines (du **samedi au samedi**), prix, semaines réservées et mentions spéciales seront gérés depuis le **panneau d'administration** `/admin/` (en cours de construction, mode d'emploi à venir).
 
-```ts
-{ start: '2026-12-19', price: 18500 },
+En attendant, les données de départ sont dans `src/content/tarifs.json` : un bloc par mois (`"month": "2027-01"`), et pour chaque semaine :
+
+```json
+{ "start": "2027-01-02", "price": 18500, "booked": false, "badge": { "fr": "Promo", "en": "Special offer" } }
 ```
 
-- Le prix par nuit (total ÷ 7, arrondi à l'euro) et la mise en forme (« 18 500 € » / « €18,500 ») sont calculés automatiquement.
-- Tant qu'une semaine vaut `null`, sa carte affiche **[À FOURNIR]**.
-- Nouvelle saison : ajoutez les samedis d'arrivée à la liste, dans l'ordre (les mois apparaissent tout seuls). Pensez à mettre à jour le titre `offer.title` de `src/content/{fr,en}/contact.json`.
+- `price` : prix **total** de la semaine en euros, nombre entier, ou `null` → la carte affiche **[À FOURNIR]**. Le prix par nuit (÷ 7) est calculé automatiquement.
+- `booked: true` : semaine réservée → carte grisée, « Réservée », sans prix ni lien « Réserver ».
+- `badge` : mention spéciale (25 caractères max, FR **et** EN), ou `null`.
+- Les données sont vérifiées à chaque construction du site (`src/content/tarifs.ts`) : un samedi erroné, un prix à virgule ou une mention sans traduction arrêtent la construction avec un message clair.
 
 ### Pages légales
 
