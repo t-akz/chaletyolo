@@ -38,12 +38,6 @@
       "text": "Six chambres, dont quatre suites, pour accueillir jusqu'à 15 personnes."
     }
   },
-  "rooms": {
-    "summary": "{bedrooms} chambres dont {suites} suites · {bathrooms} salles de bain"
-  },
-  "levels": {
-    "level": "{level}e niveau"
-  },
   "floorPlans": {
     "title": "Plans du chalet",
     "levels": [

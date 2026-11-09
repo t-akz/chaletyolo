@@ -38,12 +38,6 @@
       "text": "Six bedrooms, including four suites, for up to 15 guests."
     }
   },
-  "rooms": {
-    "summary": "{bedrooms} bedrooms including {suites} suites · {bathrooms} bathrooms"
-  },
-  "levels": {
-    "level": "Level {level}"
-  },
   "floorPlans": {
     "title": "Floor Plans",
     "levels": [

@@ -78,7 +78,7 @@ npm install
 |---|---|
 | Un texte d'une page | `src/content/fr/<page>.json` **et** `src/content/en/<page>.json` |
 | Les textes communs (menu, pied de page, boutons, message WhatsApp) | `src/content/fr/common.json` et `src/content/en/common.json` |
-| Les faits sur le chalet (chiffres, chambres, équipements, services, accès) | `src/content/chalet.ts` |
+| Les faits sur le chalet (chiffres, chambres, équipements phares, formules) | `src/content/chalet.ts` |
 | Email, WhatsApp, réseaux sociaux, adresse du site | `src/config/site.ts` |
 | La liste des photos et leurs textes alternatifs | `src/content/photos.ts` |
 | Les fichiers photo | `src/assets/photos/<dossier>/` |
@@ -132,9 +132,11 @@ Correspondance fichiers de textes ↔ pages :
 - Les repères entre accolades, comme `{skiAreaKm}` ou `{time}`, sont remplacés automatiquement par un chiffre venant de `chalet.ts` : laissez-les tels quels.
 - Les accroches et textes de présentation ont été rédigés par Claude (novembre 2026) : faites-les relire par le client. Un texte encore provisoire commence par `TODO-COPY:` : remplacez la ligne entière (préfixe compris).
 
-**Modifier un fait** (nombre de chambres, liste des équipements, services inclus…) : tout est dans `src/content/chalet.ts`, avec le libellé français (`fr:`) et anglais (`en:`) côte à côte. Exemple : `{ fr: 'Sauna', en: 'Sauna' }`.
+**Modifier un fait** (nombre de chambres, équipements phares, formules…) : dans `src/content/chalet.ts`, avec le libellé français (`fr:`) et anglais (`en:`) côte à côte. Exemple : `{ fr: 'Sauna', en: 'Sauna' }`. Ces faits alimentent les chiffres clés, la galerie et les données lues par Google.
 
-**La salle de jeux** est masquée partout tant que sa ligne dans `chalet.ts` contient `confirmed: false`. Le jour où elle est confirmée, passez à `confirmed: true` : elle apparaît automatiquement sur la page Le chalet, dans la galerie (catégorie Loisirs) et dans les données pour Google. Pensez alors à relire son texte dans `chalet.json` (rubrique `games`) : il reste volontairement général.
+**Les deux tableaux de la page Services** (« Prestations » et « Facilities ») : toutes leurs lignes sont dans `src/content/fr/services.json` (et `en/services.json`) → `offer.services` et `offer.facilities`, une ligne par élément, dans l'ordre d'affichage. Ajoutez, retirez ou réordonnez librement (pensez à la virgule entre deux lignes, pas après la dernière). Attention : ces listes sont indépendantes de `chalet.ts`. Si vous ajoutez un **équipement** au tableau « Facilities », ajoutez-le aussi dans `chalet.ts` (équipements phares) pour que Google le voie, et inversement.
+
+**La salle de jeux** est masquée partout tant que sa ligne dans `chalet.ts` contient `confirmed: false`. Le jour où elle est confirmée, passez à `confirmed: true` : elle apparaît automatiquement dans la galerie (catégorie Loisirs) et dans les données pour Google ; ajoutez alors aussi sa ligne dans le tableau « Facilities » (`services.json` → `offer.facilities`). (Sa colonne dans l'accordéon de la page Le chalet a été retirée le 09/11/2026 : il faudrait la recréer.)
 
 ---
 
@@ -330,7 +332,6 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, le tau
 |---|---|
 | Numéro WhatsApp | `src/config/site.ts` → `whatsapp` |
 | Instagram | `src/config/site.ts` → `social` |
-| Description des niveaux autres que le 3e et le 4e | `src/content/chalet.ts` → `knownLevels` |
 | Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06` (et `jeux-01` si la salle de jeux est confirmée) | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
 | Mentions légales : date de mise à jour, raison sociale, forme juridique et capital, adresse du siège, SIRET, directeur de publication, contact, adresse de Netlify, crédits photos | `src/content/fr/legal.json` + `en/legal.json` |
 | Confidentialité : date de mise à jour, responsable du traitement, garanties du transfert hors UE, durée de conservation, statistiques activées ou non, email pour exercer ses droits | `src/content/fr/privacy.json` + `en/privacy.json` |
@@ -341,7 +342,6 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, le tau
 
 | Information | Fichier |
 |---|---|
-| Télécabine de l'Olympe accessible à pied (affiché avec « [À CONFIRMER] ») | `src/content/chalet.ts` → `olympeGondola.toConfirm` (passer à `false` une fois confirmé) |
 | Salle de jeux (masquée) | `src/content/chalet.ts` → `confirmed: false` |
 
 ### Textes rédigés par Claude (à faire relire par le client, en FR **et** en EN)

@@ -1,7 +1,7 @@
 /**
  * Utilitaires de langue : textes de chaque page et adresses FR/EN.
  */
-import { languages, defaultLang, type Lang } from './languages';
+import { languages, type Lang } from './languages';
 import { routes, type RouteKey } from './routes';
 
 // Textes par page. Pour ajouter une page : importez ses deux fichiers JSON
@@ -72,12 +72,6 @@ const content: Record<Lang, Content> = {
 /** Renvoie les textes d'une page dans la langue demandée. */
 export function getContent<K extends keyof Content>(lang: Lang, page: K): Content[K] {
   return content[lang][page];
-}
-
-/** Déduit la langue à partir de l'adresse de la page (« /en/… » → anglais). */
-export function getLangFromUrl(url: URL): Lang {
-  const [, first] = url.pathname.split('/');
-  return (languages as readonly string[]).includes(first ?? '') ? (first as Lang) : defaultLang;
 }
 
 /** Adresse relative d'une page dans une langue, ex. localizedPath('chalet', 'en') → « /en/the-chalet/ ». */

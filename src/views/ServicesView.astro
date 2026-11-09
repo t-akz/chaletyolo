@@ -2,16 +2,17 @@
 /**
  * Page « Services » (FR et EN) — refonte du 08/11/2026, 3 sections :
  * Hero → « Prestations & Facilities » (deux cadres listés) → appel à l'action.
- * Textes : src/content/{fr,en}/services.json ; faits : src/content/chalet.ts.
- * Les listes ne contiennent que des faits du §8 de CLAUDE.md (libellés de chalet.ts).
+ * Textes : src/content/{fr,en}/services.json. Les lignes des deux cadres sont
+ * écrites telles quelles dans offer.services et offer.facilities (regroupées
+ * le 09/11/2026) : ajouter, retirer ou réordonner une ligne se fait là.
+ * Elles ne doivent contenir que des faits du §8 de CLAUDE.md.
  */
 import CTASection from '../components/CTASection.astro';
 import Hero from '../components/Hero.astro';
 import ServiceTables from '../components/ServiceTables.astro';
-import { catering, figures, included, slopesAccess, visibleFeatures } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
-import { format, getContent } from '../i18n/utils';
+import { getContent } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -19,34 +20,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const page = getContent(lang, 'services');
-
-/**
- * Reprend le libellé d'un service inclus de chalet.ts, retrouvé par son texte français.
- * Si ce texte change dans chalet.ts, la compilation échoue ici (pour ne rien perdre en silence).
- */
-function includedItem(groupId: (typeof included)[number]['id'], frLabel: string): string {
-  const item = included.find((group) => group.id === groupId)?.items.find((entry) => entry.fr === frLabel);
-  if (!item) throw new Error(`Service inclus introuvable dans chalet.ts : « ${frLabel} »`);
-  return item[lang];
-}
-
-// Cadre « Prestations » : formules, équipe, puis services inclus choisis par le client.
-const services = [
-  page.offer.formulas,
-  ...catering.staff.map((member) => member.label[lang]),
-  slopesAccess.shuttle[lang],
-  includedItem('stay', 'Conciergerie dédiée'),
-  includedItem('stay', 'Ménage quotidien des pièces de vie (6j/7)'),
-  page.offer.linen,
-  includedItem('departure', 'Ménage de fin de séjour inclus'),
-];
-
-// Cadre « Facilities » : chambres, puis les équipements phares confirmés
-// (la salle de jeux n'apparaît pas tant qu'elle n'est pas confirmée).
-const facilities = [
-  format(page.offer.bedrooms, { bedrooms: figures.bedrooms, suites: figures.suites }),
-  ...visibleFeatures().map((feature) => feature.label[lang]),
-];
 ---
 
 <BaseLayout lang={lang} routeKey="services" title={page.meta.title} description={page.meta.description} photoId="services" hero>
@@ -55,8 +28,8 @@ const facilities = [
   <ServiceTables
     title={page.offer.title}
     tables={[
-      { title: page.offer.servicesTitle, items: services },
-      { title: page.offer.facilitiesTitle, items: facilities },
+      { title: page.offer.servicesTitle, items: page.offer.services },
+      { title: page.offer.facilitiesTitle, items: page.offer.facilities },
     ]}
   />
 

@@ -11,9 +11,29 @@
     "title": "Prestations & Facilities",
     "servicesTitle": "Prestations",
     "facilitiesTitle": "Facilities",
-    "formulas": "Demi-pension ou pension complète",
-    "linen": "Lits préparés, linge, peignoirs et chaussons",
-    "bedrooms": "{bedrooms} chambres dont {suites} suites"
+    "services": [
+      "Pension complète",
+      "Chef privé",
+      "Majordome",
+      "Chauffeur",
+      "Navette privée incluse matin et soir vers les remontées",
+      "Conciergerie dédiée",
+      "Ménage quotidien des pièces de vie (7j/7)",
+      "Lits préparés, linge, peignoirs et chaussons",
+      "Ménage de fin de séjour inclus"
+    ],
+    "facilities": [
+      "6 chambres dont 4 suites",
+      "Piscine intérieure chauffée",
+      "Jacuzzi",
+      "Sauna",
+      "Hammam",
+      "Salle de yoga",
+      "Home cinéma",
+      "Salon cathédrale avec cheminée",
+      "Ascenseur",
+      "Vue montagne"
+    ]
   },
   "cta": {
     "title": "Parlons de votre séjour",

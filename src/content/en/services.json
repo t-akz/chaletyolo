@@ -11,9 +11,30 @@
     "title": "Services & Facilities",
     "servicesTitle": "Services",
     "facilitiesTitle": "Facilities",
-    "formulas": "Half Catered or Full Catered",
-    "linen": "Beds made up, linen, bathrobes and slippers",
-    "bedrooms": "{bedrooms} bedrooms including {suites} suites"
+    "services": [
+      "Half Catered or Full Catered",
+      "Private chef",
+      "Butler",
+      "Chauffeur",
+      "Private shuttle included morning and evening to the ski lifts",
+      "Dedicated concierge",
+      "Daily cleaning of living areas (7 days a week)",
+      "Beds made up, linen, bathrobes and slippers",
+      "End-of-stay cleaning included"
+    ],
+    "facilities": [
+      "6 bedrooms including 4 suites",
+      "Heated private indoor pool",
+      "Jacuzzi",
+      "Jacuzzi bath",
+      "Sauna",
+      "Hammam",
+      "Yoga room",
+      "Home cinema",
+      "Cathedral-ceiling living room with fireplace",
+      "Lift",
+      "Mountain view"
+    ]
   },
   "cta": {
     "title": "Let's talk about your stay",
