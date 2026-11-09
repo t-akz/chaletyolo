@@ -24,6 +24,7 @@ Ce guide s'adresse à une personne **non développeuse**. Pour chaque modificati
 9. [Les couleurs du site](#9-les-couleurs-du-site)
 10. [Liste de tout ce qui reste à fournir](#10-liste-de-tout-ce-qui-reste-à-fournir)
 11. [Écran d'entrée de la page d'accueil](#11-écran-dentrée-de-la-page-daccueil)
+12. [Admin des tarifs (page Offre & Contact)](#12-admin-des-tarifs-page-offre--contact)
 
 ---
 
@@ -84,6 +85,8 @@ npm install
 | Les couleurs | `src/styles/tokens.css` |
 | Le logo / le favicon (icône de l'onglet) | `src/assets/logo/logo-yolo.svg` / `public/favicon.svg` |
 | Les adresses des pages | `src/i18n/routes.ts` (+ renommer le fichier dans `src/pages/`) |
+| Les tarifs (prix, semaines réservées, mentions, mois) | **Admin `/admin/`** sur le site en ligne ([§ 12](#12-admin-des-tarifs-page-offre--contact)) — plus dans le code |
+| Les textes de l'admin (français uniquement) | `src/content/fr/admin.json` |
 
 Correspondance fichiers de textes ↔ pages :
 
@@ -94,7 +97,8 @@ Correspondance fichiers de textes ↔ pages :
 | `services.json` | Services |
 | `meribel.json` | Méribel |
 | `gallery.json` | Galerie |
-| `contact.json` | Contact (dont tous les libellés et messages d'erreur du formulaire) |
+| `contact.json` | Offre & Contact (onglets, cartes de l'offre, et tous les libellés et messages d'erreur du formulaire) |
+| `admin.json` | Admin des tarifs — **français uniquement** (pas de version `en/`) |
 | `thanks.json` | Merci |
 | `legal.json` | Mentions légales |
 | `privacy.json` | Confidentialité |
@@ -224,18 +228,7 @@ Une fois renseignés, ces éléments apparaissent automatiquement partout (pied 
 
 ### Tarifs à la semaine (page Offre & Contact)
 
-Les mois, semaines (du **samedi au samedi**), prix, semaines réservées et mentions spéciales seront gérés depuis le **panneau d'administration** `/admin/` (en cours de construction, mode d'emploi à venir).
-
-En attendant, les données de départ sont dans `src/content/tarifs.json` : un bloc par mois (`"month": "2027-01"`), et pour chaque semaine :
-
-```json
-{ "start": "2027-01-02", "price": 18500, "booked": false, "badge": { "fr": "Promo", "en": "Special offer" } }
-```
-
-- `price` : prix **total** de la semaine en euros, nombre entier, ou `null` → la carte affiche **[À FOURNIR]**. Le prix par nuit (÷ 7) est calculé automatiquement.
-- `booked: true` : semaine réservée → carte grisée, « Réservée », sans prix ni lien « Réserver ».
-- `badge` : mention spéciale (25 caractères max, FR **et** EN), ou `null`.
-- Les données sont vérifiées à chaque construction du site (`src/content/tarifs.ts`) : un samedi erroné, un prix à virgule ou une mention sans traduction arrêtent la construction avec un message clair.
+Les prix, semaines réservées, mentions spéciales et mois se gèrent depuis l'**admin** `/admin/` du site en ligne, sans toucher au code : voir [§ 12](#12-admin-des-tarifs-page-offre--contact).
 
 ### Pages légales
 
@@ -290,7 +283,8 @@ Le fichier `netlify.toml` contient déjà tous les réglages (commande de constr
 2. Sur <https://app.netlify.com> : **Add new site → Import an existing project → GitHub**, choisissez le dépôt.
 3. Netlify lit `netlify.toml` : laissez les réglages proposés (Build command `npm run build`, Publish directory `dist`) et lancez le déploiement.
 4. Activez le formulaire ([§ 6](#6-formulaire-de-contact--recevoir-les-demandes-par-email)).
-5. **Nom de domaine** : Domain management → Add a domain, puis suivez les instructions. Ensuite, mettez cette adresse dans `url` de `src/config/site.ts` (sitemap, partage sur les réseaux et Google en dépendent) et republiez.
+5. Mettez en place l'admin des tarifs ([§ 12](#12-admin-des-tarifs-page-offre--contact), « Mise en place »).
+6. **Nom de domaine** : Domain management → Add a domain, puis suivez les instructions. Ensuite, mettez cette adresse dans `url` de `src/config/site.ts` (sitemap, partage sur les réseaux et Google en dépendent) et republiez.
 
 ### Mises à jour suivantes
 
@@ -340,7 +334,7 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, le tau
 | Mentions légales : date de mise à jour, raison sociale, forme juridique et capital, adresse du siège, SIRET, directeur de publication, contact, adresse de Netlify, crédits photos | `src/content/fr/legal.json` + `en/legal.json` |
 | Confidentialité : date de mise à jour, responsable du traitement, garanties du transfert hors UE, durée de conservation, statistiques activées ou non, email pour exercer ses droits | `src/content/fr/privacy.json` + `en/privacy.json` |
 | Identifiants Umami (si statistiques souhaitées) | Variables Netlify ([§ 8](#8-statistiques-de-visite-umami)) |
-| Prix de chaque semaine, novembre 2026 → avril 2027 ; le prix dépend-il de la formule (Half / Full Catered) ? | `src/content/tarifs.ts` ([§ 5](#5-renseigner-les-informations--à-fournir-)) |
+| Prix de chaque semaine, novembre 2026 → avril 2027 ; le prix dépend-il de la formule (Half / Full Catered) ? | Admin `/admin/` ([§ 12](#12-admin-des-tarifs-page-offre--contact)) |
 
 ### À confirmer
 
@@ -382,6 +376,80 @@ Fichiers : `src/components/IntroGate.astro` (l'écran), `src/components/IntroGat
 
 ---
 
+## 12. Admin des tarifs (page Offre & Contact)
+
+L'équipe gère elle-même les cartes de l'onglet **Offre** depuis la page **`/admin/`** du site (ex. `https://www.chalet-yolo.com/admin/`) : aucune modification de code, aucun compte GitHub.
+
+### Ce que l'on peut faire
+
+- **Mois** : « Ajouter un mois » (toutes ses semaines, du samedi au samedi, sont créées automatiquement) ou « Retirer ce mois » (avec confirmation).
+- **Pour chaque semaine** :
+  - **prix total** en euros, chiffres seuls (ex. `18500`) ; le prix par nuit (÷ 7) se calcule tout seul ; laissé vide → la carte affiche « [À FOURNIR] » ;
+  - **Réservée** : la carte devient grise, affiche « Réservée » / « Booked », sans prix ni lien « Réserver » ;
+  - **mention spéciale** facultative (« Promo », « Exclu web »…) : 25 caractères maximum, **en français ET en anglais**.
+- **Enregistrer et publier** : les données sont vérifiées, enregistrées, et le site en ligne est **à jour 1 à 2 minutes plus tard** (Netlify reconstruit le site).
+
+> La page d'admin n'est pas référencée par Google et n'est liée nulle part sur le site. Seules les personnes qui ont le mot de passe peuvent y entrer.
+
+### Comment ça marche (en bref)
+
+```
+/admin/ (navigateur) ──► fonctions Netlify (/api/admin/…) ──► stockage Netlify Blobs
+                                    │
+                                    └──► « build hook » : Netlify reconstruit le site avec les nouveaux tarifs
+```
+
+- Fonctions : `netlify/functions/admin-login.mts` (connexion) et `admin-tarifs.mts` (lecture, enregistrement, publication) ; connexion et jeton : `netlify/lib/admin-auth.ts`.
+- Stockage : `src/content/tarifs-store.ts`. Règles de vérification (communes au site, à l'admin et au serveur) : `src/content/tarifs.ts`.
+- Les **pages publiques restent 100 % statiques** : les tarifs sont lus au moment de la construction du site.
+- `src/content/tarifs.json` ne sert que de **données de départ** (en local, et tant que l'admin n'a jamais été utilisé). **Après le premier enregistrement, modifier ce fichier n'a plus d'effet sur le site en ligne** : tout passe par l'admin. Les tarifs ne sont donc pas dans GitHub : pas besoin de `git pull` après une modification de l'équipe.
+
+### Mise en place (une seule fois)
+
+Dans Netlify, ouvrez le site puis **Site configuration → Environment variables → Add a variable** :
+
+| Variable | Valeur | Remarques |
+|---|---|---|
+| `ADMIN_PASSWORD` | Le mot de passe de l'équipe, **12 caractères minimum** | À transmettre uniquement aux personnes concernées. |
+| `ADMIN_SECRET` | Une clé aléatoire de **32 caractères minimum** | Générez-la dans un terminal : `openssl rand -base64 48`. Personne n'a besoin de la connaître. |
+| `BUILD_HOOK_URL` | L'adresse du « build hook » (ci-dessous) | Permet à l'admin de republier le site. |
+
+**Créer le build hook** : **Site configuration → Build & deploy → Continuous deployment → Build hooks → Add build hook**, nom « Admin des tarifs », branche `main`. Copiez l'adresse obtenue (`https://api.netlify.com/build_hooks/…`) dans `BUILD_HOOK_URL`.
+
+Puis **redéployez** le site (**Deploys → Trigger deploy → Deploy site**) pour que les variables soient prises en compte.
+
+> **Si le déploiement échoue** avec le message « Tarifs : impossible de lire les données de l’admin (Netlify Blobs) pendant la construction » : créez un jeton personnel (**avatar → User settings → Applications → Personal access tokens → New access token**) et ajoutez-le dans la variable `NETLIFY_BLOBS_TOKEN`, puis redéployez. Ce jeton donne accès à votre compte Netlify : ne le partagez jamais. (Le site s'arrête volontairement plutôt que de publier d'anciens prix.)
+
+### Tester sans risque (deploy preview)
+
+Sur un **deploy preview** (adresse de test d'une branche ou d'une pull request), l'admin enregistre dans un **stockage de test séparé** (« tarifs-apercu ») et **ne republie pas** le site en ligne. Le bandeau de l'admin indique « Aperçu de test ». Pour voir l'effet sur les cartes de l'aperçu, relancez son déploiement (**Deploys → le deploy preview → Retry deploy**).
+
+Les variables `ADMIN_PASSWORD` et `ADMIN_SECRET` doivent aussi s'appliquer aux deploy previews (c'est le cas par défaut : « All deploy contexts »).
+
+> En local (`npm run dev`), l'admin affiche l'écran de connexion mais **ne peut pas fonctionner** (« Connexion impossible… ») : les fonctions et le stockage n'existent que chez Netlify.
+
+### Sécurité
+
+- **Changer le mot de passe** : modifiez `ADMIN_PASSWORD` puis redéployez.
+- **Déconnecter tout le monde immédiatement** (ex. mot de passe divulgué) : modifiez `ADMIN_SECRET` puis redéployez.
+- Une connexion dure **8 heures** et ne survit pas à la fermeture de l'onglet. **Aucun cookie** n'est utilisé.
+- Après un mauvais mot de passe, la réponse est volontairement ralentie (1,5 s).
+- Toutes les données sont revérifiées côté serveur : un prix incohérent ou une date qui n'est pas un samedi sont refusés.
+
+### En cas de problème
+
+| Message de l'admin | Que faire |
+|---|---|
+| « Admin non configurée : ADMIN_PASSWORD… » | Renseignez `ADMIN_PASSWORD` et `ADMIN_SECRET` (longueurs minimales), puis redéployez. |
+| « Mot de passe incorrect. » | Vérifiez le mot de passe (majuscules, espaces). |
+| « Connexion impossible… » | Pas d'accès Internet, ou page ouverte en local (`npm run dev`). |
+| « Votre session a expiré » | Reconnectez-vous : les modifications en cours sont conservées. |
+| « Enregistré, mais la mise à jour du site en ligne n'a pas pu être lancée » | Vérifiez `BUILD_HOOK_URL` (build hook supprimé ?). Les données sont bien enregistrées : un redéploiement manuel les publiera. |
+| « Le stockage Netlify ne répond pas » | Réessayez quelques minutes plus tard ; si cela persiste, consultez les journaux des fonctions (**Logs → Functions**). |
+| « Enregistrement impossible : … » | Le message indique la semaine et le problème (prix à virgule, mention sans traduction…) : corrigez puis réenregistrez. |
+
+---
+
 ## Annexe — vérifications avant publication
 
 - [ ] `npm run build` → « Complete! » sans erreur
@@ -389,4 +457,5 @@ Fichiers : `src/components/IntroGate.astro` (l'écran), `src/components/IntroGat
 - [ ] Plus aucun `TODO-COPY` ni `[À FOURNIR]` visible sur les pages, et textes relus par le client
 - [ ] `url` de `src/config/site.ts` = le vrai domaine
 - [ ] Formulaire testé sur le site publié (réception de l'email)
+- [ ] Admin des tarifs : variables Netlify en place, connexion testée, une publication réussie ([§ 12](#12-admin-des-tarifs-page-offre--contact))
 - [ ] Lighthouse (Chrome → DevTools → Lighthouse, mode Mobile) sur `npm run preview` : ≥ 90 dans les 4 catégories

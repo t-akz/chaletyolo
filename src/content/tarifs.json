@@ -64,14 +64,14 @@
         {
           "start": "2027-01-02",
           "price": null,
-          "booked": true,
+          "booked": false,
           "badge": null
         },
         {
           "start": "2027-01-09",
-          "price": 185000,
+          "price": null,
           "booked": false,
-          "badge": { "fr": "Promo", "en": "Special offer" }
+          "badge": null
         },
         {
           "start": "2027-01-16",

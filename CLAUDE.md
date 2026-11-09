@@ -38,6 +38,7 @@ Les éléments entre crochets `[...]` sont des valeurs à fournir plus tard : **
   - les largeurs à tester dans les DevTools : 390 px (mobile), 768 px (tablette), 1440 px (desktop).
 - J'enverrai mes retours (texte et/ou captures). Corrige, puis redonne une checklist ciblée sur les corrections.
 - Netlify Forms **ne fonctionne pas en local** : en local on vérifie uniquement l'affichage et la validation des champs. L'envoi réel se teste sur le deploy preview Netlify.
+- L'**admin des tarifs** (`/admin/`) ne fonctionne pas non plus en local (fonctions et stockage Netlify) : il se teste sur un deploy preview (stockage de test séparé « tarifs-apercu », sans republication) puis en production. Procédure : README §12.
 
 ---
 
@@ -57,8 +58,9 @@ Les éléments entre crochets `[...]` sont des valeurs à fournir plus tard : **
 | Statistiques | Plausible ou Umami (sans cookies), injecté seulement si `PUBLIC_ANALYTICS_*` est défini dans `.env` |
 | SEO | `@astrojs/sitemap`, meta/OG, `hreflang`, JSON-LD |
 | JavaScript | Strict minimum (vanilla / scripts Astro). Pas de React/Vue/Svelte |
+| Admin des tarifs | **Seule exception au « 100 % statique »** (accord du client du 09/11/2026) : page `/admin/` (non indexée) + Netlify Functions (`netlify/functions/`) + stockage **Netlify Blobs** (`@netlify/blobs`). Mot de passe partagé `ADMIN_PASSWORD`, jeton signé `ADMIN_SECRET` (8 h, `sessionStorage`, aucun cookie), republication via `BUILD_HOOK_URL`. Les pages publiques restent statiques (tarifs lus au build). |
 
-Pas de base de données, pas de CMS, pas de dépendance superflue.
+Pas de base de données, pas de CMS, pas de dépendance superflue (le stockage Blobs de l'admin des tarifs est la seule exception).
 
 ---
 
@@ -87,6 +89,8 @@ src/
   content/chalet.ts       → données factuelles du §8, typées, libellés FR/EN
   content/tarifs.ts       → types, vérification (parseSeason) et chargement des tarifs de la page Offre & Contact (§8 « Tarifs »)
   content/tarifs.json     → données de départ des tarifs (mois → semaines : prix, réservée, mention) ; ensuite gérées par l'admin
+  content/tarifs-store.ts → lecture/écriture des tarifs dans Netlify Blobs (serveur et build uniquement)
+  content/fr/admin.json   → textes de l'admin (français uniquement)
   content/fr/*.json       → textes FR par page
   content/en/*.json       → textes EN par page
   i18n/                   → utilitaires de langue + table des routes
@@ -96,6 +100,11 @@ src/
   pages/                  → pages FR + pages/en/
   assets/logo/
   assets/photos/{hero,sejour,cuisine,chambres,piscine,bien-etre,cinema,yoga,jeux,exterieur,meribel}/
+  pages/admin.astro       → admin des tarifs (hors i18n, hors sitemap, noindex)
+netlify/
+  functions/admin-login.mts   → connexion (POST /api/admin/login)
+  functions/admin-tarifs.mts  → lecture / enregistrement / republication (GET, PUT /api/admin/tarifs)
+  lib/admin-auth.ts           → mot de passe, jeton de session
 ```
 **Aucun texte affiché en dur dans les composants** : tout passe par `content/`.
 
@@ -260,7 +269,7 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 - *Restauration* : petit-déjeuner continental, plats traiteur, carte des vins et champagnes. (Le chef est désormais inclus : voir « Formules ».)
 - *Conciergerie* : transferts, voiturier en station, babysitting à domicile.
 
-**Tarifs** (page Offre & Contact, données dans `src/content/tarifs.ts`) : location à la semaine, **du samedi au samedi** (confirmé par le client le 08/11/2026). Saison affichée : novembre 2026 → avril 2027 inclus. Prix de chaque semaine `[À FOURNIR]` ; prix différent selon la formule ? `[À FOURNIR]`.
+**Tarifs** (page Offre & Contact) : location à la semaine, **du samedi au samedi** (confirmé par le client le 08/11/2026). Saison affichée : novembre 2026 → avril 2027 inclus. Prix de chaque semaine `[À FOURNIR]` ; prix différent selon la formule ? `[À FOURNIR]`. **Source** : prix, semaines réservées, mentions et mois sont saisis par l'équipe du client dans l'admin `/admin/` (Netlify Blobs) ; `src/content/tarifs.json` n'est que la donnée de départ (local, et tant que l'admin n'a rien enregistré) — n'y mettre aucune valeur de test. Règles de vérification : `src/content/tarifs.ts`.
 
 **Méribel** : fondée en 1938, au cœur des 3 Vallées (600 km de pistes), architecture savoyarde.
 
@@ -282,5 +291,5 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 - Lighthouse mobile ≥ 90 (performance, accessibilité, bonnes pratiques, SEO).
 - SEO : `title` + `meta description` uniques par page et langue, Open Graph, `hreflang` FR/EN + `x-default` **pointant vers la version anglaise**, `sitemap.xml`, `robots.txt`, canoniques, JSON-LD `LodgingBusiness` (sans prix ni note inventés).
 - Accessibilité : HTML sémantique, navigation clavier, focus visible, `lang` correct.
-- RGPD : **aucun cookie**.
+- RGPD : **aucun cookie** (l'admin des tarifs garde sa session en `sessionStorage`, pas de cookie).
 - Code simple, lisible, commenté en français : il sera maintenu par une seule personne avec l'aide de l'IA.
