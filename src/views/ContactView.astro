@@ -17,7 +17,7 @@ import { isProvided, site, TO_PROVIDE } from '../config/site';
 import { weeks } from '../content/tarifs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
-import { getContent } from '../i18n/utils';
+import { getContent, localizedPath } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -45,7 +45,14 @@ const page = getContent(lang, 'contact');
         <h2 class="text-h1">{page.offer.title}</h2>
         <p class="mt-6 max-w-2xl">{page.offer.intro}</p>
         <div class="mt-12 md:mt-16">
-          <WeekAccordion lang={lang} weeks={weeks} label={page.offer.label} perNight={page.offer.perNight} />
+          <WeekAccordion
+            lang={lang}
+            weeks={weeks}
+            label={page.offer.label}
+            perNight={page.offer.perNight}
+            bookLabel={page.offer.book}
+            bookPath={localizedPath('contact', lang)}
+          />
         </div>
       </div>
 

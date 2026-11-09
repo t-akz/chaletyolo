@@ -152,7 +152,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - `Footer` : fond `--color-accent-soft`, liens légaux, Instagram (bloc « Nous suivre » ; Facebook et TikTok retirés par le client le 02/11/2026), email, « Méribel, 73550 ».
 - `ContactForm` : §7.
 - `PageTabs` : onglets de page (Offre & Contact). Les en-têtes servent de switcher ; trait bordeaux qui glisse sous l'onglet choisi ; contenu en fondu + léger glissement dans le sens du changement (instantané si animations réduites) ; flèches du clavier ; `#id` dans l'adresse ouvre l'onglet (`/contact/#demande`). Sans JavaScript : panneaux l'un sous l'autre.
-- `WeekAccordion` : onglet Offre. Accordéon des mois (même fonctionnement que `SpaceColumns`, sans photos : volets côte à côte avec mois à la verticale sur ordinateur ≥ 1024 px, bandes empilées sur mobile/tablette ; ouvert au chargement : le mois en cours, sinon le premier). Une carte par semaine (petite tête d'ours bordeaux dans le coin haut droit) : date d'arrivée puis, **en dessous**, date de départ (samedi → samedi), prix total, et en petit le prix par nuit (total ÷ 7, arrondi). Prix manquant → `[À FOURNIR]`.
+- `WeekAccordion` : onglet Offre. Accordéon des mois (même fonctionnement que `SpaceColumns`, sans photos : volets côte à côte avec mois à la verticale sur ordinateur ≥ 1024 px, bandes empilées sur mobile/tablette ; ouvert au chargement : le mois en cours, sinon le premier). Une carte par semaine (petite tête d'ours bordeaux dans le coin haut droit) : date d'arrivée puis, **en dessous**, date de départ (samedi → samedi), prix total, et en petit le prix par nuit (total ÷ 7, arrondi), puis lien discret « Réserver » / « Book » (ouvre l'onglet Contact avec les dates pré-remplies ; absent pour les semaines déjà commencées ; sans JavaScript : `?arrivee=…&depart=…#demande`). Prix manquant → `[À FOURNIR]`.
 - `IntroGate` : écran d'entrée de la page d'accueil, voir §5.8.
 
 ### 5.7 Localisation du chalet
@@ -180,7 +180,7 @@ Logo existant (ourson + « Chalet Yolo / MERIBEL ») : `src/assets/logo/[LOGO_FI
 - **Accueil** (refonte du 06/11/2026, 4 sections) : Hero animé « rideau au défilement » (photo du chalet `hero/accueil` — retouchée : tuyau gris effacé —, puis `piscine-03` qui monte au scroll ; accroche « Méribel, à votre rythme. » / « Méribel, at your own pace. », sur-titre-mot-clé dans le `<h1>` « Chalet de luxe avec chef · Méribel » / « Luxury Catered Chalet · Méribel », bouton) → 4 cartes-photos cliquables (`ImageLinkCards` : Le Chalet → `sejour-02` → Le chalet ; Services → `cuisine-01` → Services ; Méribel → `meribel-03` → Méribel ; Offre & Contact → `piscine-02` → Contact ; titre + court sous-titre factuel sur la photo) → mosaïque 8 photos + lien Galerie → CTA « Parlons de votre séjour » + WhatsApp. (Chiffres clés, équipements phares, services et aperçu Méribel retirés à la demande du client.)
 - **Le chalet** (refonte du 06/11/2026, 5 sections) : Hero (`le-chalet-01`) → intro (court texte + 4 chiffres clés) → colonnes d'espaces `SpaceColumns` (piscine · bien-être & spa · home cinéma · yoga · salon & cuisine · salle de jeux **seulement si `confirmed: true`** · chambres & suites ; photo + titre court + texte) → « Floor Plans » `FloorPlans` (un plan par niveau, `photos/plans/plan-niveau-1…5`, aplats tant que les fichiers manquent ; titre FR « Plans du chalet ») → Localisation **provisoire, à retravailler** (phrase + lien Google Maps vers le quartier de La Gittaz, §5.7, et cadre « Carte à venir »). (Cartes chambres, visite par niveau, « Tous les équipements » et CTA retirés à la demande du client ; composants conservés.)
 - **Services** (refonte du 08/11/2026, 3 sections) : Hero (inchangé) → « Prestations & Facilities » / « Services & Facilities » (`ServiceTables` : cadre « Prestations » = formules, chef privé, majordome, chauffeur, navette, conciergerie, ménage quotidien, linge, ménage de fin de séjour ; cadre « Facilities » = chambres + équipements phares confirmés) → CTA « Parlons de votre séjour ». (Sections Gastronomie, Inclus et À la carte retirées à la demande du client ; données conservées dans `chalet.ts`.)
-- **Méribel** : Hero → la station (+ phrase avec lien Google Maps vers le quartier de La Gittaz, voir §5.7) → activités d'hiver (icônes) → CTA. (La section « Accès » a été retirée volontairement : ne pas la recréer. Section « Localisation » / carte retirée à la demande du client le 02/11/2026.)
+- **Méribel** : Hero → la station (+ phrase avec lien Google Maps vers le quartier de La Gittaz, voir §5.7) → CTA. (Section « Activités d'hiver » retirée à la demande du client le 09/11/2026. La section « Accès » a été retirée volontairement : ne pas la recréer. Section « Localisation » / carte retirée à la demande du client le 02/11/2026.)
 - **Galerie** : filtres (Tout · Séjour · Chambres · Bien-être · Loisirs · Extérieur · Méribel) + mosaïque + lightbox.
 - **Offre & Contact** (route `contact`, refonte du 08/11/2026) : titre de page caché `<h1>` « Offre & Contact » + deux onglets `PageTabs` :
   1. **Offre** (`#offre`, ouvert par défaut) : « Saison 2026 – 2027 » + 1 ligne d'intro, puis `WeekAccordion` (novembre 2026 → avril 2027 inclus).
@@ -201,7 +201,6 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 | Date d'arrivée | date | **oui** |
 | Date de départ | date | **oui** (> arrivée) |
 | Dates flexibles | case | non |
-| Formule souhaitée | choix unique en boutons : Full Catered · Half Catered · Sur-mesure / À définir | **oui** |
 | Adultes / Enfants (« Nombre de convives ») | nombre | non |
 
 **Étape 2 — Le contact**
@@ -215,6 +214,7 @@ Formulaire en **2 étapes** (une seule visible à la fois avec JavaScript ; les 
 | Consentement RGPD | case + lien confidentialité | **oui** |
 
 - Un seul formulaire `demande-sejour` en FR et EN, champ caché `langue`.
+- **Formule** : plus demandée au visiteur (retirée à la demande du client le 09/11/2026) ; envoyée d'office via le champ caché `formule` = `full-catered`.
 - Anti-spam `netlify-honeypot`. Validation navigateur, messages d'erreur dans la bonne langue, à côté du champ.
 - Redirection vers `/merci` ou `/en/thank-you`.
 - Adresse de réception configurée dans le tableau de bord Netlify (procédure dans le README).

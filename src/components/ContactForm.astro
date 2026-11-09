@@ -1,7 +1,9 @@
 ---
 /**
  * Formulaire de demande de séjour en 2 étapes (Netlify Forms) — §7 de CLAUDE.md.
- *   Étape 1 « Le séjour » : dates, formule souhaitée, nombre de convives.
+ *   Étape 1 « Le séjour » : dates, nombre de convives. La formule n'est plus demandée
+ *   (retirée à la demande du client le 09/11/2026) : elle est envoyée d'office en
+ *   « full-catered » (champ caché « formule »).
  *   Étape 2 « Le contact » : nom et prénom, rôle, canal de réponse,
  *   téléphone ou email selon le canal choisi, consentement.
  *
@@ -17,6 +19,10 @@
  * validation du navigateur. Avec JavaScript : une étape à la fois, messages
  * d'erreur dans la langue de la page sous chaque champ, départ après l'arrivée,
  * pas de date passée, et seul le champ utile (téléphone ou email) est affiché.
+ *
+ * Dates pré-remplies (bouton « Réserver » des cartes de l'onglet Offre) :
+ * - à l'ouverture de la page, depuis l'adresse : ?arrivee=AAAA-MM-JJ&depart=AAAA-MM-JJ ;
+ * - sur la même page, via l'événement « contact-form:prefill » (detail : { arrivee, depart }).
  */
 import Button from './Button.astro';
 import ChoiceGroup from './ChoiceGroup.astro';
@@ -59,6 +65,8 @@ const stepTitleClass = 'mt-3 scroll-mt-28 text-h3 focus:outline-none';
   <!-- Champs techniques pour Netlify -->
   <input type="hidden" name="form-name" value="demande-sejour" />
   <input type="hidden" name="langue" value={lang} />
+  <!-- Formule par défaut (le choix a été retiré du formulaire le 09/11/2026) -->
+  <input type="hidden" name="formule" value="full-catered" />
   <p class="hidden">
     <label>
       {f.honeypot}
@@ -109,14 +117,6 @@ const stepTitleClass = 'mt-3 scroll-mt-28 text-h3 focus:outline-none';
         <span>{f.flexible}</span>
       </label>
     </fieldset>
-
-    <ChoiceGroup
-      name="formule"
-      legend={f.formulaLegend}
-      options={f.formulas}
-      required
-      class="md:col-span-2"
-    />
 
     <fieldset class="grid gap-6 md:col-span-2 md:grid-cols-2 md:gap-x-6">
       <legend class="mb-4 text-sm font-medium">{f.guestsLegend}</legend>
@@ -394,6 +394,25 @@ const stepTitleClass = 'mt-3 scroll-mt-28 text-h3 focus:outline-none';
     form.querySelector('[data-next]')!.addEventListener('click', goToNextStep);
     form.querySelector('[data-back]')!.addEventListener('click', () => showStep(0));
     showStep(0, false);
+
+    // --- Dates pré-remplies (cartes « Réserver » de l'onglet Offre) ---
+    const isIsoDate = (value: unknown): value is string => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
+    const prefill = (arrivee: unknown, depart: unknown, moveFocus: boolean) => {
+      if (!isIsoDate(arrivee) || !isIsoDate(depart)) return;
+      arrival.value = arrivee;
+      departure.value = depart;
+      departure.min = nextDay(arrivee);
+      // Retour à l'étape 1 (où sont les dates) et vérification immédiate.
+      showStep(0, moveFocus);
+      validate(arrival);
+      validate(departure);
+    };
+    const params = new URLSearchParams(location.search);
+    prefill(params.get('arrivee'), params.get('depart'), false);
+    document.addEventListener('contact-form:prefill', (event) => {
+      const detail = (event as CustomEvent<{ arrivee?: string; depart?: string }>).detail ?? {};
+      prefill(detail.arrivee, detail.depart, true);
+    });
 
     form.addEventListener('submit', (event) => {
       // « Entrée » pendant l'étape 1 : on passe à l'étape 2 au lieu d'envoyer.

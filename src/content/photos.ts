@@ -79,6 +79,11 @@ export type PhotoSlot = {
    * plutôt le bas de la photo. « 0% » = haut, « 50% » = centre (défaut), « 100% » = bas.
    */
   position?: string;
+  /**
+   * « false » : la photo reste utilisable sur les pages, mais n'apparaît pas
+   * dans la Galerie. Par défaut, toute photo déclarée y figure.
+   */
+  inGallery?: false;
 };
 
 /** Liste des photos attendues. Ajoutez une ligne pour chaque nouvelle photo. */
@@ -95,11 +100,14 @@ const slots: PhotoSlot[] = [
   // Espaces du chalet
   { id: 'piscine-01', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée et salon de détente d’un chalet haut de gamme à Méribel', en: 'Heated indoor pool and lounge of a luxury chalet in Méribel' } },
   { id: 'piscine-02', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée sous une fenêtre en arc', en: 'Heated indoor pool beneath an arched window' } },
-  { id: 'piscine-03', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée aux carreaux émeraude, éclairée par des spots', en: 'Heated indoor pool with emerald tiles and soft spotlights' } },
+  // Hors galerie à la demande du client (09/11/2026) ; reste la photo qui monte dans le hero de l'accueil.
+  { id: 'piscine-03', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée aux carreaux émeraude, éclairée par des spots', en: 'Heated indoor pool with emerald tiles and soft spotlights' }, inGallery: false },
+  { id: 'piscine-04', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée aux carreaux émeraude, avec échelle en inox et tableaux colorés', en: 'Heated indoor pool with emerald tiles, a steel ladder and colourful artworks' } },
   { id: 'bien-etre-01', folder: 'bien-etre', alt: { fr: 'Spa du chalet avec douche et sauna', en: 'Chalet spa with shower and sauna' } },
   { id: 'bien-etre-02', folder: 'bien-etre', alt: { fr: 'Hammam voûté de l’espace bien-être', en: 'Vaulted hammam in the spa' } },
   { id: 'cinema-01', folder: 'cinema', alt: { fr: 'Home cinéma avec grand écran et canapé d’angle', en: 'Home cinema with large screen and corner sofa' } },
   { id: 'yoga-01', folder: 'yoga', alt: { fr: 'Salle de yoga', en: 'Yoga room' } },
+  { id: 'yoga-02', folder: 'yoga', alt: { fr: 'Salle de yoga avec grand miroir, ballons et tapis de yoga', en: 'Yoga room with a large mirror, exercise balls and yoga mats' } },
   { id: 'sejour-01', folder: 'sejour', alt: { fr: 'Salon cathédrale avec cheminée et poutres en bois', en: 'Cathedral-ceiling living room with fireplace and timber beams' } },
   { id: 'sejour-02', folder: 'sejour', alt: { fr: 'Séjour avec feu de cheminée, suspensions en verre et cuisine ouverte sous charpente en bois', en: 'Living room with a log fire, glass pendant lights and open kitchen under timber beams' } },
   { id: 'cuisine-01', folder: 'cuisine', alt: { fr: 'Cuisine équipée sous charpente en bois, avec îlot', en: 'Fitted kitchen with island under timber beams' } },
@@ -164,9 +172,13 @@ export function getVisiblePhotos(): ResolvedPhoto[] {
   return slots.map((slot) => getPhoto(slot.id)).filter((photo) => !photo.hidden);
 }
 
-/** Photos de la galerie : toutes les photos affichables, sauf les photos plein écran (hero). */
+/**
+ * Photos de la galerie : toutes les photos affichables, sauf les photos plein écran (hero)
+ * et celles marquées « inGallery: false ».
+ */
 export function getGalleryPhotos(): (ResolvedPhoto & { category: GalleryCategory })[] {
   return getVisiblePhotos().flatMap((photo) => {
+    if (photo.inGallery === false) return [];
     const category = categoryOf(photo.folder);
     return category ? [{ ...photo, category }] : [];
   });

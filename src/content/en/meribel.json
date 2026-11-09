@@ -14,11 +14,6 @@
     "location": "The chalet is located in the fabulous {link} neighbourhood.",
     "locationLink": "La Gittaz"
   },
-  "activities": {
-    "title": "Winter activities",
-    "ski": "Skiing in Les 3 Vallées: {skiAreaKm} km of slopes",
-    "toConfirm": "[TO BE CONFIRMED]"
-  },
   "cta": {
     "title": "Let's talk about your stay"
   }

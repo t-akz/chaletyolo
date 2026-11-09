@@ -157,15 +157,15 @@ Exemple : la photo `piscine-01` → `src/assets/photos/piscine/piscine-01.jpg`
 | Dossier | Noms de fichiers attendus | Où elles apparaissent |
 |---|---|---|
 | `hero` | `accueil`, `le-chalet-01` (page Le chalet), `le-chalet` (plus utilisée), `services`, `meribel` | Photo plein écran en haut de chaque page (et image de partage sur les réseaux sociaux) |
-| `piscine` | `piscine-01`, `piscine-02`, `piscine-03` | `piscine-01` : Accueil (mosaïque), Le chalet ; `piscine-03` : Accueil (photo qui monte dans le hero) ; les trois : Galerie |
+| `piscine` | `piscine-01` à `piscine-04` | `piscine-01` : Le chalet ; `piscine-02` : Accueil (carte Offre & Contact) ; `piscine-03` : Accueil (photo qui monte dans le hero) ; `piscine-04` : Accueil (mosaïque) — fichier de 1447 px de large, à remplacer par une version ≥ 2400 px si elle sert un jour en plein écran ; Galerie : toutes sauf `piscine-03` |
 | `bien-etre` | `bien-etre-01`, `bien-etre-02` | `bien-etre-01` : Accueil, Le chalet ; les deux : Galerie |
 | `cinema` | `cinema-01` | Accueil, Le chalet, Galerie |
-| `yoga` | `yoga-01` | Le chalet, Galerie |
+| `yoga` | `yoga-01`, `yoga-02` | `yoga-01` : Le chalet ; `yoga-02` : Accueil (mosaïque) ; les deux : Galerie |
 | `sejour` | `sejour-01` (salon cathédrale), `sejour-02` (feu de cheminée) | `sejour-01` : Accueil, Le chalet ; `sejour-02` : Accueil (carte « Le Chalet ») ; les deux : Galerie |
 | `cuisine` | `cuisine-01` | Accueil, Galerie |
 | `chambres` | `chambre-01` à `chambre-06` | Galerie ; `chambre-01` aussi dans la mosaïque de l'accueil et la colonne « Chambres & suites » (Le chalet) |
 | `exterieur` | `exterieur-01`, `exterieur-02` (entrée avec l'ours) | `exterieur-01` : Accueil (mosaïque) — fichier de 896 px de large seulement, à remplacer par une version ≥ 2400 px ; les deux : Galerie |
-| `meribel` | `meribel-01`, `meribel-02` | `meribel-01` : Accueil, Méribel ; les deux : Galerie |
+| `meribel` | `meribel-01` à `meribel-03` | `meribel-03` : Accueil (carte Méribel), Méribel ; les trois : Galerie |
 | `salles-de-bain` | `sdb-01`, `sdb-02`, `sdb-03` | Galerie (filtre Chambres) |
 | `services` | `service-01` (local à skis) | Galerie (filtre Séjour). `service-02` (apéritif) a été retirée de la galerie ; son fichier reste dans le dossier. |
 | `jeux` | `jeux-01` | Le chalet, Galerie — uniquement si la salle de jeux est confirmée |
@@ -199,6 +199,8 @@ Remplacez le fichier par un autre **portant le même nom**. Si la nouvelle photo
    | Méribel | `meribel` |
 
 > Quand les vraies photos sont en place, relisez les textes alternatifs (`alt`) de `photos.ts` : ils sont aujourd'hui génériques (« Piscine intérieure chauffée ») et gagnent à décrire précisément chaque image.
+
+**Retirer une photo de la Galerie** sans la supprimer du site : ajoutez `inGallery: false` à sa ligne dans `src/content/photos.ts` (ex. `piscine-03`).
 
 La **mosaïque de l'accueil** (8 photos) est définie dans `src/views/HomeView.astro`, liste `mosaicPhotos` : remplacez un nom par un autre pour changer de photo.
 
@@ -267,7 +269,7 @@ Le formulaire s'appelle **`demande-sejour`** (le même pour le français et l'an
 ### Tester l'envoi
 
 Sur le site publié : remplissez le formulaire, envoyez → vous devez arriver sur la page **Merci**, et la demande apparaît dans **Forms → demande-sejour** (puis dans votre boîte email).
-Vérifiez à cette occasion que la **formule**, le **rôle**, le **canal de réponse** et le **téléphone ou l'email** apparaissent bien dans la demande reçue.
+Vérifiez à cette occasion que la **formule** (toujours `full-catered`, champ caché), le **rôle**, le **canal de réponse** et le **téléphone ou l'email** apparaissent bien dans la demande reçue.
 
 ### Anti-spam
 
@@ -343,7 +345,6 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, le tau
 |---|---|
 | Télécabine de l'Olympe accessible à pied (affiché avec « [À CONFIRMER] ») | `src/content/chalet.ts` → `olympeGondola.toConfirm` (passer à `false` une fois confirmé) |
 | Salle de jeux (masquée) | `src/content/chalet.ts` → `confirmed: false` |
-| Liste complète des activités d'hiver (la page Méribel n'affiche pour l'instant que des faits existants : ski, navette, télécabine, casier à skis) | `src/views/MeribelView.astro` + `src/content/chalet.ts` |
 
 ### Textes rédigés par Claude (à faire relire par le client, en FR **et** en EN)
 

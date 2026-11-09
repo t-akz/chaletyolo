@@ -13,7 +13,8 @@
     "title": "Saison 2026 – 2027",
     "intro": "Location à la semaine, du samedi au samedi, en demi-pension ou en pension complète.",
     "label": "Tarifs par mois",
-    "perNight": "{price} / nuit"
+    "perNight": "{price} / nuit",
+    "book": "Réserver"
   },
   "title": "Contact",
   "intro": "Quelques détails sur votre séjour, et notre conciergerie compose une proposition à votre mesure.",
@@ -30,12 +31,6 @@
     "arrival": "Date d'arrivée",
     "departure": "Date de départ",
     "flexible": "Mes dates sont flexibles",
-    "formulaLegend": "Formule souhaitée",
-    "formulas": {
-      "full-catered": "Full Catered",
-      "half-catered": "Half Catered",
-      "sur-mesure": "Sur-mesure / À définir"
-    },
     "guestsLegend": "Nombre de convives",
     "adults": "Adultes",
     "children": "Enfants",

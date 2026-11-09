@@ -13,10 +13,16 @@
  * - Sans JavaScript : tout est affiché, l'un sous l'autre.
  * Même fonctionnement que SpaceColumns.astro (page Le chalet), sans photos.
  *
+ * Lien « Réserver » en bas de chaque carte : ouvre l'onglet Contact avec les dates
+ * déjà remplies dans le formulaire. Sans JavaScript : lien vers
+ * « /contact/?arrivee=…&depart=…#demande ». Les semaines déjà commencées n'ont pas
+ * de lien (masqué au chargement : le formulaire refuse une date passée).
+ *
  * Données : src/content/tarifs.ts. Textes : src/content/{fr,en}/contact.json.
  */
 import BearHead from '../assets/logo/ourson.svg';
 import Icon from './Icon.astro';
+import TextLink from './TextLink.astro';
 import { TO_PROVIDE } from '../config/site';
 import { currency, nightsPerWeek, type Week } from '../content/tarifs';
 import type { Lang } from '../i18n/languages';
@@ -28,9 +34,13 @@ interface Props {
   label: string;
   /** Mention sous le prix total, ex. « {price} / nuit ». */
   perNight: string;
+  /** Libellé du lien de réservation, ex. « Réserver ». */
+  bookLabel: string;
+  /** Adresse de la page qui contient le formulaire, ex. « /contact/ ». */
+  bookPath: string;
 }
 
-const { lang, weeks, label, perNight } = Astro.props;
+const { lang, weeks, label, perNight, bookLabel, bookPath } = Astro.props;
 const locale = lang === 'fr' ? 'fr-FR' : 'en-GB';
 
 // Dates lues en temps universel : pas de décalage d'un jour selon le fuseau horaire.
@@ -82,7 +92,7 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
             <div class="week-col__inner">
               <ul class="week-col__cards">
                 {month.weeks.map((week) => (
-                  <li class="week-card">
+                  <li class="week-card" data-week-start={isoDay(week.start)}>
                     {/* Tête d'ourson du logo, décorative, dans le coin haut droit. */}
                     <BearHead aria-hidden="true" focusable="false" class="week-card__bear" />
                     <p class="week-card__dates">
@@ -101,6 +111,15 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
                         </p>
                       </>
                     )}
+                    <p class="week-card__book" data-book data-arrivee={isoDay(week.start)} data-depart={isoDay(week.end)}>
+                      <TextLink href={`${bookPath}?arrivee=${isoDay(week.start)}&depart=${isoDay(week.end)}#demande`}>
+                        {bookLabel}
+                        <span class="sr-only">
+                          {' '}
+                          {capitalize(dayFormat.format(week.start))} – {capitalize(dayFormat.format(week.end))}
+                        </span>
+                      </TextLink>
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -163,6 +182,8 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
   /* Carte d'une semaine : dates, prix total, prix par nuit en petit. */
   .week-card {
     position: relative;
+    display: flex;
+    flex-direction: column;
     border: 1px solid var(--color-border);
     border-radius: 1rem;
     background: var(--color-bg-alt);
@@ -197,6 +218,12 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
   .week-card__night {
     margin-top: 0.25rem;
     font-size: 0.875rem;
+  }
+
+  /* Lien « Réserver » toujours en bas de la carte (cartes de même hauteur alignées). */
+  .week-card__book {
+    margin-top: auto;
+    padding-top: 1.25rem;
   }
 
   /* Avec JavaScript : seules les bandes ouvertes montrent leurs cartes
@@ -356,6 +383,28 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
       // Ordinateur avec souris : le survol suffit.
       column.addEventListener('mouseenter', () => {
         if (desktop.matches && canHover.matches && column.dataset.open !== 'true') open(column);
+      });
+    });
+
+    // Lien « Réserver » : masqué pour les semaines déjà commencées (date passée refusée par le formulaire).
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    root.querySelectorAll<HTMLElement>('[data-book]').forEach((book) => {
+      if ((book.dataset.arrivee ?? '') < today) {
+        book.hidden = true;
+        return;
+      }
+      // Même page : ouvre l'onglet Contact (#demande) puis remplit les dates, sans recharger.
+      book.querySelector('a')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        const detail = { arrivee: book.dataset.arrivee, depart: book.dataset.depart };
+        const prefill = () => document.dispatchEvent(new CustomEvent('contact-form:prefill', { detail }));
+        if (location.hash === '#demande') prefill();
+        else {
+          // Les onglets (PageTabs) réagissent d'abord au changement d'adresse, puis on remplit.
+          window.addEventListener('hashchange', prefill, { once: true });
+          location.hash = 'demande';
+        }
       });
     });
 

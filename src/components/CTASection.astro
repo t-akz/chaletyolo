@@ -24,7 +24,9 @@ const common = getContent(lang, 'common');
 ---
 
 <section class="bg-bg-alt py-20 md:py-32">
-  <div class="container-page max-w-4xl" data-reveal>
+  <!-- Pleine largeur de page : le titre est aligné à gauche comme les autres sections
+       et tient sur une ligne dès qu'il y a la place (plus de colonne étroite centrée). -->
+  <div class="container-page" data-reveal>
     {eyebrow && <Eyebrow class="mb-5">{eyebrow}</Eyebrow>}
     <h2 class="text-h1">{title}</h2>
     {text && <p class="mt-6 max-w-xl">{text}</p>}

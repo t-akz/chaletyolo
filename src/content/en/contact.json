@@ -13,7 +13,8 @@
     "title": "2026 – 2027 season",
     "intro": "Weekly stays, Saturday to Saturday, half catered or full catered.",
     "label": "Rates by month",
-    "perNight": "{price} / night"
+    "perNight": "{price} / night",
+    "book": "Book"
   },
   "title": "Contact",
   "intro": "A few details about your stay, and our concierge will put together a proposal tailored to you.",
@@ -30,12 +31,6 @@
     "arrival": "Arrival date",
     "departure": "Departure date",
     "flexible": "My dates are flexible",
-    "formulaLegend": "Preferred package",
-    "formulas": {
-      "full-catered": "Full Catered",
-      "half-catered": "Half Catered",
-      "sur-mesure": "Bespoke / To be defined"
-    },
     "guestsLegend": "Number of guests",
     "adults": "Adults",
     "children": "Children",

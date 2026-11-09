@@ -1,18 +1,16 @@
 ---
 /**
  * Page « Méribel » (FR et EN) — structure du §6 de CLAUDE.md :
- * Hero → la station (+ lien Google Maps vers le quartier de La Gittaz) → activités d'hiver → appel à l'action.
+ * Hero → la station (+ lien Google Maps vers le quartier de La Gittaz) → appel à l'action.
  * (Section « Localisation » retirée à la demande du client le 02/11/2026.)
  * (Section « Accès » retirée à la demande du client le 02/11/2026.)
- * Les activités d'hiver sont tirées uniquement des faits existants (chalet.ts),
- * en attendant une liste complète.
+ * (Section « Activités d'hiver » retirée à la demande du client le 09/11/2026.)
  * Textes : src/content/{fr,en}/meribel.json ; faits : src/content/chalet.ts.
  */
 import CTASection from '../components/CTASection.astro';
 import FeatureSection from '../components/FeatureSection.astro';
 import Hero from '../components/Hero.astro';
-import ServiceList from '../components/ServiceList.astro';
-import { amenities, laGittazMapsUrl, meribel, slopesAccess } from '../content/chalet';
+import { laGittazMapsUrl, meribel } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { format, getContent } from '../i18n/utils';
@@ -28,21 +26,6 @@ const common = getContent(lang, 'common');
 // Lien Google Maps vers le QUARTIER de La Gittaz : src/content/chalet.ts (CLAUDE.md §5.7).
 // Phrase « … quartier {link}. » coupée autour du lien.
 const [locationBefore, locationAfter = ''] = page.resort.location.split('{link}');
-
-// Casier à skis : repris de la liste des équipements (rubrique « Ski et accès »).
-const skiLocker = amenities
-  .find((group) => group.id === 'ski')
-  ?.items.find((item) => item.fr === 'Casier à skis')?.[lang];
-
-const activities = [
-  { label: format(page.activities.ski, { skiAreaKm: meribel.skiAreaKm }), icon: 'mountain-snow' as const },
-  { label: slopesAccess.shuttle[lang], icon: 'van' as const },
-  {
-    label: `${slopesAccess.olympeGondola.label[lang]}${slopesAccess.olympeGondola.toConfirm ? ` ${page.activities.toConfirm}` : ''}`,
-    icon: 'cable-car' as const,
-  },
-  ...(skiLocker ? [{ label: skiLocker, icon: 'lock' as const }] : []),
-];
 ---
 
 <BaseLayout lang={lang} routeKey="meribel" title={page.meta.title} description={page.meta.description} photoId="meribel" hero>
@@ -59,8 +42,6 @@ const activities = [
       {locationBefore}<a href={laGittazMapsUrl} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">{page.resort.locationLink}<span class="sr-only"> {common.newTab}</span></a>{locationAfter}
     </p>
   </FeatureSection>
-
-  <ServiceList title={page.activities.title} groups={[{ items: activities }]} background="alt" />
 
   <CTASection lang={lang} title={page.cta.title} />
 </BaseLayout>
