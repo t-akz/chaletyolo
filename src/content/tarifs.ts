@@ -14,10 +14,10 @@
  * - « booked » = semaine réservée → carte grisée, « Réservée », sans prix ni lien « Réserver » ;
  * - « badge » = mention spéciale facultative (ex. « Promo »), en français ET en anglais.
  *
- * Ce fichier ne dépend pas d'Astro : il est aussi utilisé par les fonctions
- * Netlify (netlify/functions/) et par le script de la page d'admin.
+ * Ce fichier ne dépend ni d'Astro ni de Netlify : il est utilisé par la construction
+ * du site, par les fonctions Netlify (netlify/functions/) et par le script de la
+ * page d'admin (navigateur). Le stockage, lui, est dans tarifs-store.ts (serveur).
  */
-import seed from './tarifs.json';
 
 export type Badge = { fr: string; en: string };
 
@@ -151,13 +151,4 @@ export function weekEnd(start: string): string {
   const date = toUtcDate(start);
   date.setUTCDate(date.getUTCDate() + 7);
   return date.toISOString().slice(0, 10);
-}
-
-/**
- * Données de la saison pour la construction du site.
- * Étape 1 : données de départ (src/content/tarifs.json).
- * Étape 2 (à venir) : données enregistrées par l'admin chez Netlify, si elles existent.
- */
-export async function loadSeason(): Promise<Season> {
-  return parseSeason(seed);
 }

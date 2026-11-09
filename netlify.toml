@@ -8,6 +8,13 @@
 [build.environment]
   NODE_VERSION = "24"
 
+# Fonctions serveur de l'admin des tarifs (/api/admin/…), voir README « Admin des tarifs ».
+# Elles utilisent le stockage Netlify Blobs et les variables ADMIN_PASSWORD,
+# ADMIN_SECRET et BUILD_HOOK_URL (réglages du site Netlify, jamais dans le code).
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # En-têtes de sécurité appliqués à toutes les pages
 [[headers]]
   for = "/*"
