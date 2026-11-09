@@ -137,7 +137,6 @@ const slots: PhotoSlot[] = [
   { id: 'plan-niveau-2', folder: 'plans', alt: { fr: 'Plan du 2e niveau du chalet', en: 'Floor plan of level 2 of the chalet' } },
   { id: 'plan-niveau-3', folder: 'plans', alt: { fr: 'Plan du 3e niveau du chalet', en: 'Floor plan of level 3 of the chalet' } },
   { id: 'plan-niveau-4', folder: 'plans', alt: { fr: 'Plan du 4e niveau du chalet', en: 'Floor plan of level 4 of the chalet' } },
-  { id: 'plan-niveau-5', folder: 'plans', alt: { fr: 'Plan du 5e niveau du chalet', en: 'Floor plan of level 5 of the chalet' } },
 ];
 
 // Tous les fichiers image présents dans src/assets/photos/ (détectés automatiquement).

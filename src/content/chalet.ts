@@ -38,7 +38,7 @@ export const figures = {
   bedrooms: 6,
   suites: 4,
   bathrooms: 6,
-  levels: 5,
+  levels: 4,
   elevator: true,
   checkIn: '17:00',
   checkOut: '10:00',

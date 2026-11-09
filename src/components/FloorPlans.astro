@@ -2,15 +2,24 @@
 /**
  * « Floor Plans » : plans du chalet, un par niveau (page Le chalet).
  *
- * Grille : 1 colonne sur mobile, 2 sur tablette, 3 sur ordinateur.
+ * Grille : 1 colonne sur mobile, 2 sur tablette, 4 sur une seule ligne sur ordinateur (4 niveaux).
+ * Effet « galerie » : tous les cadres ont le même format (5:4), chaque plan y est
+ * centré en entier, quelle que soit son orientation (portrait / paysage) ; les
+ * titres sont donc tous alignés. Le plan agrandi au clic garde son format réel.
  * Les plans sont affichés en entier (jamais rognés), sur fond blanc.
  * Tant que le fichier d'un plan est absent, un aplat neutre avec son libellé
  * s'affiche (fichiers attendus : src/assets/photos/plans/plan-niveau-1.jpg, etc.).
  * Les plans n'apparaissent pas dans la Galerie.
  *
+ * Niveaux dont le dessin est livré (src/data/plans.ts + public/plans/niveau-X.svg) :
+ * carte PlanCard (étiquettes des pièces en police Caveat, agrandissement au clic).
+ * Les autres niveaux gardent la photo / l'aplat provisoire ci-dessous.
+ *
  * Utilisé par : src/views/ChaletView.astro. Textes : src/content/{fr,en}/chalet.json.
  */
 import Photo from './Photo.astro';
+import PlanCard from './PlanCard.astro';
+import { plans as drawings } from '../data/plans';
 import type { Lang } from '../i18n/languages';
 
 interface Props {
@@ -22,29 +31,82 @@ interface Props {
 }
 
 const { lang, title, plans, background = 'alt' } = Astro.props;
+
+/** Dessin livré pour ce plan ? « plan-niveau-3 » → clé « niveau-3 » de src/data/plans.ts. */
+const drawingKey = (photoId: string) => photoId.replace(/^plan-/, '');
 ---
 
 <section class:list={['py-16 md:py-28', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
   <div class="container-page">
     <h2 class="mb-10 text-h2 md:mb-14" data-reveal>{title}</h2>
-    <ul class="grid gap-x-5 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+    <ul class="floor-plans grid gap-x-5 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
       {
-        plans.map((plan) => (
-          <li data-reveal>
-            <figure>
-              <div class="aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-white">
-                <Photo
-                  id={plan.photoId}
-                  lang={lang}
-                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                  class="object-contain!"
-                />
-              </div>
-              <figcaption class="mt-4 text-sm font-medium">{plan.label}</figcaption>
-            </figure>
-          </li>
-        ))
+        plans.map((plan) => {
+          const key = drawingKey(plan.photoId);
+          const drawing = drawings[key];
+          return drawing ? (
+            <li data-reveal>
+              <PlanCard plan={drawing} image={`/plans/${key}.svg`} lang={lang} />
+            </li>
+          ) : (
+            <li data-reveal>
+              <figure class="plan-placeholder">
+                <div class="plan-placeholder-frame">
+                  <Photo
+                    id={plan.photoId}
+                    lang={lang}
+                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
+                    class="object-contain!"
+                  />
+                </div>
+                <figcaption class="plan-placeholder-title">{plan.label}</figcaption>
+              </figure>
+            </li>
+          );
+        })
       }
     </ul>
   </div>
 </section>
+
+<style>
+  /* Cadres de même format pour tous les plans (vignettes uniquement, pas la vue agrandie). */
+  .floor-plans {
+    --plan-thumb-ratio: 5 / 4;
+  }
+  .floor-plans :global(.plan-card .plan-frame) {
+    position: relative;
+    aspect-ratio: var(--plan-thumb-ratio);
+  }
+  /* Le plan occupe l'intérieur du cadre (marge 0,75rem du composant), entier et centré, sans rognage. */
+  .floor-plans :global(.plan-card .plan-frame svg) {
+    position: absolute;
+    inset: 0.75rem;
+    width: calc(100% - 1.5rem);
+    height: calc(100% - 1.5rem);
+  }
+
+  /* Niveau sans dessin : même cadre et même titre que les cartes PlanCard. */
+  .plan-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+  }
+  .plan-placeholder-frame {
+    aspect-ratio: var(--plan-thumb-ratio);
+    overflow: hidden;
+    padding: 0.75rem;
+    background: #ffffff;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+  }
+  .plan-placeholder-title {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1;
+    color: #2b2b2b;
+    text-align: center;
+  }
+</style>

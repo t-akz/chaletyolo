@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 30 1330 1500" width="1330" height="1500">
+  <rect x="40" y="30" width="1330" height="1500" fill="#ffffff"/>
+  <!-- Murs et cloisons : trait unique -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="3.5" stroke-linejoin="miter" stroke-linecap="square">
+    <!-- contour extérieur -->
+    <path d="M1331 455 V93 H99 V1485 H1331 V555"/>
+    <!-- dortoir / salle de bain -->
+    <path d="M497 93 V180 L548 435 L556 440 V448"/>
+    <path d="M556 548 V575"/>
+    <!-- salle de bain / couloir (porte coulissante 590-690) -->
+    <path d="M556 440 H590 M690 440 H810 V93"/>
+    <!-- ascenseur -->
+    <path d="M1034 93 V407"/>
+    <path d="M810 372 H860 M985 372 H1034"/>
+    <!-- mur couloir / niveau bas -->
+    <path d="M99 575 H640 M745 575 H1120 M1240 575 H1331"/>
+    <!-- home cinéma / hammam -->
+    <path d="M765 575 V1094"/>
+    <!-- hammam -->
+    <path d="M765 945 H1074 V820 M1074 727 V575"/>
+    <!-- toilettes -->
+    <path d="M1020 945 V963 M1020 1053 V1094"/>
+    <!-- douche sensorielle -->
+    <path d="M1178 1094 V893 H1246"/>
+    <!-- mur niveau bas / espace fitness -->
+    <path d="M99 1094 H1048 M1160 1094 H1331"/>
+    <!-- sauna -->
+    <path d="M870 1485 V1222 H1053 M1158 1222 H1331"/>
+  </g>
+  <!-- Portes -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.5">
+    <path d="M556 548 H456"/><path d="M456 548 A100 100 0 0 1 556 448"/>
+    <path d="M745 575 V680"/><path d="M745 680 A105 105 0 0 1 640 575"/>
+    <path d="M1074 820 H1167"/><path d="M1167 820 A93 93 0 0 0 1074 727"/>
+    <path d="M1240 575 V690"/><path d="M1240 690 A115 115 0 0 1 1125 575"/>
+    <path d="M1331 893 V808"/><path d="M1331 808 A85 85 0 0 0 1246 893"/>
+    <path d="M1020 1053 H1110"/><path d="M1110 1053 A90 90 0 0 0 1020 963"/>
+    <path d="M1158 1222 V1117"/><path d="M1158 1117 A105 105 0 0 0 1053 1222"/>
+    <path d="M1331 555 L1258 488"/><path d="M1258 488 A99 99 0 0 1 1331 456"/>
+  </g>
+  <!-- Escalier -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.5">
+    <path d="M1182 250 L1034 140 M1182 250 L1110 93 M1182 250 L1182 93 M1182 250 L1255 93 M1182 250 L1331 140 M1182 250 L1034 210 M1182 250 L1331 210"/>
+    <path d="M1034 290 H1331 M1034 330 H1331 M1034 368 H1331 M1034 407 H1331"/>
+  </g>
+</svg>

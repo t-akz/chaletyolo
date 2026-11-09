@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="330 0 1690 1600" width="1690" height="1600">
+  <rect x="330" y="0" width="1690" height="1600" fill="#ffffff"/>
+  <!-- Murs : trait unique -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="3.5" stroke-linejoin="miter" stroke-linecap="square">
+    <!-- contour extérieur -->
+    <path d="M912 392 H420 V1580 H1200 V1395 H1258 M1480 1395 H1975 V125 H1248 V392 H1057"/>
+    <!-- ascenseur -->
+    <path d="M1290 125 V505 H1360 M1520 505 H1572 V125"/>
+    <!-- cheminée -->
+    <rect x="1048" y="923" width="134" height="312"/>
+  </g>
+  <!-- Portes -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.5">
+    <!-- porte cuisine / terrasse -->
+    <path d="M912 392 V537"/><path d="M912 537 A145 145 0 0 0 1057 392"/>
+    <!-- portes-fenêtres salon -->
+    <path d="M1258 1395 V1284"/><path d="M1258 1284 A111 111 0 0 1 1369 1395"/>
+    <path d="M1480 1395 V1284"/><path d="M1480 1284 A111 111 0 0 0 1369 1395"/>
+  </g>
+  <!-- Escalier -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.5">
+    <path d="M1590 200 H1920 V600 M1590 200 V600"/>
+    <path d="M1755 385 L1590 270 M1755 385 L1680 200 M1755 385 L1755 200 M1755 385 L1835 200 M1755 385 L1920 270 M1755 385 L1590 350 M1755 385 L1920 350"/>
+    <path d="M1590 440 H1920 M1590 480 H1920 M1590 520 H1920 M1590 560 H1920 M1590 600 H1920"/>
+  </g>
+  <!-- Terrasse (pointillé) -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.5" stroke-dasharray="12 9">
+    <path d="M420 392 H385 V12 H1325 V125"/>
+  </g>
+</svg>

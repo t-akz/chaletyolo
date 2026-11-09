@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Chalet ultra luxe aux 3 Vallées, Méribel — Chalet Yolo",
-    "description": "350 m² sur cinq niveaux avec ascenseur : six chambres dont quatre suites, piscine intérieure chauffée, spa, home cinéma et salle de yoga à Méribel."
+    "description": "350 m² sur quatre niveaux avec ascenseur : six chambres dont quatre suites, piscine intérieure chauffée, spa, home cinéma et salle de yoga à Méribel."
   },
   "hero": {
     "title": "350 m² de bois, de pierre et de bien-être.",
@@ -9,7 +9,7 @@
   },
   "intro": {
     "title": "Le chalet",
-    "text": "Au cœur du quartier de La Gittaz, au sein de l'ensemble des Chalets Célénia, Chalet Yolo déploie 350 m² sur cinq niveaux desservis par ascenseur. Piscine, spa, home cinéma et salle de yoga : tout est réuni sous un même toit."
+    "text": "Au cœur du quartier de La Gittaz, au sein de l'ensemble des Chalets Célénia, Chalet Yolo déploie 350 m² sur quatre niveaux desservis par ascenseur. Piscine, spa, home cinéma et salle de yoga : tout est réuni sous un même toit."
   },
   "spaces": {
     "label": "Les espaces du chalet",
@@ -54,8 +54,7 @@
       "1er niveau",
       "2e niveau",
       "3e niveau",
-      "4e niveau",
-      "5e niveau"
+      "4e niveau"
     ]
   },
   "location": {

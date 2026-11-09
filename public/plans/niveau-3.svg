@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 0 2240 1330" width="2240" height="1330">
+  <rect x="30" y="0" width="2240" height="1330" fill="#ffffff"/>
+  <!-- Murs et cloisons : trait unique -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="3.5" stroke-linejoin="miter" stroke-linecap="square">
+    <!-- contour extérieur -->
+    <path d="M1640 505 V17 H68 V932 H180 M385 932 H820 M1010 932 H1455 L1640 785 V718"/>
+    <!-- salle de bain 1 (ouverture sur chambre 1) -->
+    <path d="M68 305 H315 M415 305 H425"/>
+    <!-- WC A -->
+    <path d="M425 17 V240 H440 M525 240 H540"/>
+    <!-- WC B -->
+    <path d="M540 17 V250 H590 M680 250 H708"/>
+    <!-- chambre 1 / couloir -->
+    <path d="M430 240 V345 M430 440 H520 V932"/>
+    <!-- ascenseur -->
+    <path d="M708 17 V265 H760 M860 265 H912 V17"/>
+    <!-- escalier -->
+    <path d="M1185 17 V340"/>
+    <!-- couloir / salle de bain 2 / chambre 2 -->
+    <path d="M520 460 H990 M1078 460 H1185"/>
+    <path d="M775 460 V590 M775 700 V932"/>
+    <!-- chambre 2 / chambre 3 -->
+    <path d="M1185 455 V932"/>
+    <!-- WC C + salle de bain 3 -->
+    <path d="M1300 17 V325 M1185 320 H1205 M1290 320 H1300"/>
+    <path d="M1300 325 H1355 M1555 325 H1640"/>
+  </g>
+  <!-- Portes -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.5">
+    <!-- WC A -->
+    <path d="M440 240 V325"/><path d="M440 325 A85 85 0 0 0 525 240"/>
+    <!-- chambre 1 -->
+    <path d="M430 440 H525"/><path d="M525 440 A95 95 0 0 0 430 345"/>
+    <!-- chambre 2 -->
+    <path d="M1078 460 V548"/><path d="M1078 548 A88 88 0 0 1 990 460"/>
+    <!-- porte de la suite (chambre 3) -->
+    <path d="M1185 455 H1290"/><path d="M1290 455 A105 105 0 0 0 1185 350"/>
+    <!-- WC C -->
+    <path d="M1290 320 V235"/><path d="M1290 235 A85 85 0 0 0 1205 320"/>
+    <!-- portes-fenêtres chambre 1 -->
+    <path d="M180 932 V830"/><path d="M180 830 A102 102 0 0 1 282 932"/>
+    <path d="M385 932 V830"/><path d="M385 830 A103 103 0 0 0 282 932"/>
+    <!-- portes-fenêtres chambre 2 -->
+    <path d="M820 932 V837"/><path d="M820 837 A95 95 0 0 1 915 932"/>
+    <path d="M1010 932 V837"/><path d="M1010 837 A95 95 0 0 0 915 932"/>
+    <!-- portes-fenêtres chambre 3 -->
+    <path d="M1640 505 H1545"/><path d="M1545 505 A106 106 0 0 0 1640 611"/>
+    <path d="M1640 718 H1545"/><path d="M1545 718 A107 107 0 0 1 1640 611"/>
+  </g>
+  <!-- Escalier -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.5">
+    <path d="M1048 160 L912 60 M1048 160 L975 17 M1048 160 L1048 17 M1048 160 L1120 17 M1048 160 L1185 60 M1048 160 L912 130 M1048 160 L1185 130"/>
+    <path d="M912 205 H1185 M912 250 H1185 M912 295 H1185 M912 340 H1185"/>
+  </g>
+  <!-- Extérieurs (pointillé) -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.5" stroke-dasharray="12 9">
+    <path d="M60 940 V1090 H535 V940"/>
+    <path d="M655 940 V1090 H1190 V940"/>
+    <path d="M1640 50 H1970 V300 L2245 685 L2115 775 L2165 850 L1542 1304 L1300 975 V932"/>
+  </g>
+</svg>

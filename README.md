@@ -173,7 +173,7 @@ Exemple : la photo `piscine-01` → `src/assets/photos/piscine/piscine-01.jpg`
 | `salles-de-bain` | `sdb-01`, `sdb-02`, `sdb-03` | Galerie (filtre Chambres) |
 | `services` | `service-01` (local à skis) | Galerie (filtre Séjour). `service-02` (apéritif) a été retirée de la galerie ; son fichier reste dans le dossier. |
 | `jeux` | `jeux-01` | Le chalet, Galerie — uniquement si la salle de jeux est confirmée |
-| `plans` | `plan-niveau-1` à `plan-niveau-5` (un plan par niveau) | Section « Floor Plans » de la page Le chalet uniquement (jamais dans la Galerie). Les plans sont affichés en entier sur fond blanc, sans être rognés : un format paysage d'environ 4:3 est idéal (PNG ou JPG, ≥ 1600 px de large) |
+| `plans` | `plan-niveau-2` seulement (les niveaux 1, 3 et 4 sont des dessins SVG : `public/plans/niveau-X.svg` + étiquettes dans `src/data/plans.ts`) | Section « Floor Plans » de la page Le chalet uniquement (jamais dans la Galerie). Les plans sont affichés en entier sur fond blanc, sans être rognés : un format paysage d'environ 4:3 est idéal (PNG ou JPG, ≥ 1600 px de large) |
 
 > Le dossier `images/` à la racine du projet contient les **originaux** fournis par le client. Il n'est pas envoyé sur GitHub (voir `.gitignore`) : le site n'utilise que les copies de `src/assets/photos/`.
 
@@ -330,7 +330,7 @@ Pensez à garder des contrastes suffisants (norme WCAG AA) : par exemple, le tau
 | Numéro WhatsApp | `src/config/site.ts` → `whatsapp` |
 | Instagram | `src/config/site.ts` → `social` |
 | Description des niveaux autres que le 3e et le 4e | `src/content/chalet.ts` → `knownLevels` |
-| Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06` (et `jeux-01` si la salle de jeux est confirmée) ; plans `plans/plan-niveau-1` à `plan-niveau-5` | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
+| Photos manquantes : en-tête Services (`hero/services`), `yoga-01`, `chambre-04`, `chambre-06` (et `jeux-01` si la salle de jeux est confirmée) ; plan du niveau 2 (dessin `public/plans/niveau-2.svg` + entrée `niveau-2` dans `src/data/plans.ts`) | `src/assets/photos/…` ([§ 4](#4-ajouter-ou-remplacer-une-photo)) |
 | Mentions légales : date de mise à jour, raison sociale, forme juridique et capital, adresse du siège, SIRET, directeur de publication, contact, adresse de Netlify, crédits photos | `src/content/fr/legal.json` + `en/legal.json` |
 | Confidentialité : date de mise à jour, responsable du traitement, garanties du transfert hors UE, durée de conservation, statistiques activées ou non, email pour exercer ses droits | `src/content/fr/privacy.json` + `en/privacy.json` |
 | Identifiants Umami (si statistiques souhaitées) | Variables Netlify ([§ 8](#8-statistiques-de-visite-umami)) |

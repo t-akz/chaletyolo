@@ -1,0 +1,218 @@
+---
+/**
+ * PlanCard — carte d'un plan du chalet + affichage en grand au clic.
+ *
+ * Usage :
+ *   ---
+ *   import PlanCard from '../components/PlanCard.astro';
+ *   import { plans } from '../data/plans';
+ *   import niveau1 from '../assets/plans/niveau-1.svg';  // idem niveau-3.svg, niveau-4.svg
+ *   ---
+ *   <PlanCard plan={plans['niveau-1']} image={niveau1} lang="fr" />
+ *
+ * Prérequis : npm install @fontsource/caveat
+ */
+import '@fontsource/caveat/700.css';
+import type { ImageMetadata } from 'astro';
+import type { Lang, Plan } from '../data/plans';
+
+interface Props {
+  plan: Plan;
+  image: ImageMetadata | string;
+  lang: Lang;
+}
+
+const { plan, image, lang } = Astro.props;
+const src = typeof image === 'string' ? image : image.src;
+const title = plan.title[lang];
+const closeLabel = lang === 'fr' ? 'Fermer' : 'Close';
+const openLabel = lang === 'fr' ? `Agrandir le plan : ${title}` : `Enlarge floor plan: ${title}`;
+const roomList = plan.labels.map((l) => l[lang]).join(', ');
+const altText = `${lang === 'fr' ? 'Plan' : 'Floor plan'} ${title} : ${roomList}`;
+
+// Coupe un texte en deux lignes, à l'espace le plus proche du milieu.
+const splitInTwo = (text: string): string[] => {
+  const spaces = [...text.matchAll(/ /g)].map((m) => m.index ?? 0);
+  if (!spaces.length) return [text];
+  const mid = text.length / 2;
+  const cut = spaces.reduce((a, b) => (Math.abs(b - mid) < Math.abs(a - mid) ? b : a));
+  return [text.slice(0, cut), text.slice(cut + 1)];
+};
+
+const labels = plan.labels.map((l) => {
+  const size = l.size ?? 52;
+  const text = l[lang];
+  const lines = l.wrap ? splitInTwo(text) : [text];
+  const y0 = l.y - ((lines.length - 1) * size) / 2;
+  const transform = l.rotate ? `rotate(-90 ${l.x} ${l.y})` : undefined;
+  return { x: l.x, size, transform, lines: lines.map((t, i) => ({ t, y: y0 + i * size })) };
+});
+---
+
+<div class="plan" data-plan>
+  <button type="button" class="plan-card" data-plan-open aria-label={openLabel}>
+    <span class="plan-frame">
+      <svg viewBox={`0 0 ${plan.width} ${plan.height}`} role="img" aria-label={altText}>
+        <image href={src} width={plan.width} height={plan.height} />
+        <g class="plan-labels">
+          {labels.map((l) => l.lines.map((ln) => (
+            <text x={l.x} y={ln.y} font-size={l.size} transform={l.transform}>{ln.t}</text>
+          )))}
+        </g>
+      </svg>
+    </span>
+    <span class="plan-title">{title}</span>
+  </button>
+
+  <dialog class="plan-lightbox" data-plan-dialog aria-label={title}>
+    <div class="plan-lightbox-inner" data-plan-backdrop>
+      <figure class="plan-lightbox-figure" style={`--plan-ratio: ${plan.width / plan.height}`}>
+        <span class="plan-frame">
+          <svg viewBox={`0 0 ${plan.width} ${plan.height}`} role="img" aria-label={altText}>
+            <image href={src} width={plan.width} height={plan.height} />
+            <g class="plan-labels">
+              {labels.map((l) => l.lines.map((ln) => (
+                <text x={l.x} y={ln.y} font-size={l.size} transform={l.transform}>{ln.t}</text>
+              )))}
+            </g>
+          </svg>
+        </span>
+        <figcaption class="plan-title">{title}</figcaption>
+      </figure>
+      <button type="button" class="plan-close" data-plan-close aria-label={closeLabel}>✕</button>
+    </div>
+  </dialog>
+</div>
+
+<style>
+  .plan {
+    --plan-font: 'Caveat', cursive;
+    --plan-ink: #2b2b2b;
+    --plan-border: #3a3a3a;
+    --plan-bg: #ffffff;
+    --plan-radius: 6px;
+    --plan-backdrop: rgba(20, 20, 20, 0.88);
+  }
+
+  /* Carte */
+  .plan-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--plan-ink);
+    cursor: zoom-in;
+    text-align: center;
+  }
+  .plan-frame {
+    display: block;
+    background: var(--plan-bg);
+    border: 1px solid var(--plan-border);
+    border-radius: var(--plan-radius);
+    padding: 0.75rem;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .plan-card:hover .plan-frame,
+  .plan-card:focus-visible .plan-frame {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+  }
+  .plan-card:focus-visible { outline: none; }
+  .plan-card:focus-visible .plan-frame { outline: 2px solid var(--plan-border); outline-offset: 3px; }
+  .plan svg { display: block; width: 100%; height: auto; }
+
+  .plan-labels {
+    font-family: var(--plan-font);
+    font-weight: 700;
+    fill: var(--plan-ink);
+    text-anchor: middle;
+    dominant-baseline: middle;
+    stroke: var(--plan-bg);
+    stroke-width: 10px;
+    stroke-linejoin: round;
+    paint-order: stroke;
+  }
+
+  .plan-title {
+    font-family: var(--plan-font);
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--plan-ink);
+  }
+
+  /* Vue agrandie */
+  .plan-lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .plan-lightbox::backdrop { background: var(--plan-backdrop); }
+  .plan-lightbox[open] { animation: plan-fade 0.2s ease; }
+  .plan-lightbox-inner {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 3.5rem 1rem 1rem;
+    box-sizing: border-box;
+  }
+  .plan-lightbox-figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+  }
+  .plan-lightbox-figure .plan-frame { padding: 1rem; }
+  .plan-lightbox-figure svg {
+    width: min(calc(100vw - 4rem), calc((100dvh - 10rem) * var(--plan-ratio)));
+    height: auto;
+  }
+  .plan-lightbox-figure .plan-title { color: #ffffff; font-size: 2.25rem; }
+  .plan-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    background: transparent;
+    color: #ffffff;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+  .plan-close:hover,
+  .plan-close:focus-visible { background: rgba(255, 255, 255, 0.15); }
+
+  :global(html:has(.plan-lightbox[open])) { overflow: hidden; }
+
+  @keyframes plan-fade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .plan-frame, .plan-lightbox[open] { transition: none; animation: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-plan]').forEach((root) => {
+    const dialog = root.querySelector<HTMLDialogElement>('[data-plan-dialog]');
+    if (!dialog) return;
+    root.querySelector('[data-plan-open]')?.addEventListener('click', () => dialog.showModal());
+    root.querySelector('[data-plan-close]')?.addEventListener('click', () => dialog.close());
+    // Clic en dehors du plan = fermeture (Échap est géré nativement par <dialog>)
+    dialog.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t === dialog || t.hasAttribute('data-plan-backdrop')) dialog.close();
+    });
+  });
+</script>
