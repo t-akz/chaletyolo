@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="25 40 860 1540" width="860" height="1540">
+  <rect x="25" y="40" width="860" height="1540" fill="#ffffff"/>
+  <!-- Murs et cloisons : trait unique -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="3" stroke-linejoin="miter" stroke-linecap="square">
+    <!-- contour extérieur (porte d'entrée 726-792 à gauche) -->
+    <path d="M246 726 V81 H844 V1232 L400 1552 L55 1050 L246 925 V792"/>
+    <!-- chambre double / salle de bain du haut -->
+    <path d="M507 81 V225 H515 M555 225 H844"/>
+    <!-- mur entre chambres, cloison couloir -->
+    <path d="M246 375 H563"/>
+    <path d="M563 225 V240 M563 300 V557 M563 625 V640"/>
+    <!-- dortoir / entrée -->
+    <path d="M246 640 H563"/>
+    <path d="M540 640 V710 M540 780 V813"/>
+    <!-- couloir / salle de bain du milieu / toilettes -->
+    <path d="M650 225 V305 M650 385 V425 M650 480 V490"/>
+    <path d="M650 413 H844"/>
+    <path d="M650 490 H844"/>
+    <!-- ascenseur -->
+    <path d="M680 490 V530 M680 600 V636 H844"/>
+    <!-- mur au-dessus du spa (porte 565-632) -->
+    <path d="M246 813 H565 M632 813 H844"/>
+    <!-- douche sensorielle -->
+    <path d="M742 1108 V951 H844"/>
+    <!-- murets piscine -->
+    <path d="M195 1262 L405 1112"/>
+    <path d="M675 1130 H844"/>
+  </g>
+  <!-- Portes -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.2">
+    <!-- entrée (extérieur) -->
+    <path d="M246 792 H312"/><path d="M312 792 A66 66 0 0 0 246 726"/>
+    <!-- salle de bain du haut (depuis la chambre double) -->
+    <path d="M515 225 V185"/><path d="M515 185 A40 40 0 0 1 555 225"/>
+    <!-- chambre double -->
+    <path d="M563 240 H503"/><path d="M503 240 A60 60 0 0 0 563 300"/>
+    <!-- dortoir -->
+    <path d="M563 625 H495"/><path d="M495 625 A68 68 0 0 1 563 557"/>
+    <!-- entrée / couloir -->
+    <path d="M540 780 H470"/><path d="M470 780 A70 70 0 0 1 540 710"/>
+    <!-- salle de bain du milieu -->
+    <path d="M650 385 H730"/><path d="M730 385 A80 80 0 0 0 650 305"/>
+    <!-- toilettes -->
+    <path d="M650 480 H705"/><path d="M705 480 A55 55 0 0 0 650 425"/>
+    <!-- spa / piscine -->
+    <path d="M632 813 V880"/><path d="M632 880 A67 67 0 0 1 565 813"/>
+    <!-- douche sensorielle -->
+    <path d="M742 1050 H800"/><path d="M800 1050 A58 58 0 0 1 742 1108"/>
+  </g>
+  <!-- Escalier -->
+  <g fill="none" stroke="#2b2b2b" stroke-width="2.2">
+    <path d="M685 636 V715 M705 636 V715 M725 636 V715 M745 636 V715 M765 636 V715 M785 636 V715"/>
+    <path d="M785 715 H844 M785 715 L844 676 M785 715 L844 760 M785 715 L812 813 M785 715 L765 813"/>
+  </g>
+</svg>

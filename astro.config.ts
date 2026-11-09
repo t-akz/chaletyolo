@@ -35,5 +35,9 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    // La bibliothèque de carte (MapLibre, ~1,1 Mo non compressé) dépasse le seuil
+    // d'alerte de 500 Ko. Elle n'est chargée qu'à l'approche de la carte de la page
+    // Le chalet (src/components/ChaletMap.astro) : seuil relevé pour elle seule.
+    build: { chunkSizeWarningLimit: 1200 },
   },
 });

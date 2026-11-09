@@ -4,12 +4,12 @@
     "description": "350 m² sur quatre niveaux avec ascenseur : six chambres dont quatre suites, piscine intérieure chauffée, spa, home cinéma et salle de yoga à Méribel."
   },
   "hero": {
-    "title": "350 m² de bois, de pierre et de bien-être.",
+    "title": "Chez vous, à Méribel.",
     "subtitle": "Chalet de luxe · Spa & piscine"
   },
   "intro": {
     "title": "Le chalet",
-    "text": "Au cœur du quartier de La Gittaz, au sein de l'ensemble des Chalets Célénia, Chalet Yolo déploie 350 m² sur quatre niveaux desservis par ascenseur. Piscine, spa, home cinéma et salle de yoga : tout est réuni sous un même toit."
+    "text": "Le Chalet Yolo est une adresse d’exception à La Gittaz, quartier calme de Méribel, au cœur des 3 Vallées. Ce chalet contemporain accueille jusqu’à 15 personnes dans six chambres, avec piscine intérieure, jacuzzi, sauna, hammam, salle de yoga et home cinéma.\nLe séjour est entièrement pris en charge par un chef privé, un majordome et un chauffeur."
   },
   "spaces": {
     "label": "Les espaces du chalet",
@@ -18,28 +18,24 @@
       "text": "Chauffée et entièrement privative, la piscine intérieure accueille les longueurs du matin comme la détente du soir, après une journée sur les 600 km de pistes des 3 Vallées."
     },
     "wellness": {
-      "title": "Bien-être & spa",
+      "title": "Bien-être & Spa",
       "text": "Sauna, hammam, jacuzzi et bain jacuzzi : un spa complet, rien que pour vous. Le cadre idéal pour un massage au chalet, à réserver à la carte."
     },
     "cinema": {
-      "title": "Home cinéma",
-      "text": "Une salle de cinéma privée pour le dernier film, un classique de montagne ou les souvenirs de la journée."
+      "title": "Home Cinéma",
+      "text": "Une salle de cinéma pour le dernier film, un classique de montagne ou les souvenirs de la journée."
     },
     "yoga": {
       "title": "Yoga",
       "text": "S'étirer avant la première montée du matin, relâcher les tensions après la dernière piste : une salle dédiée au yoga, au calme, sans quitter le chalet."
     },
     "living": {
-      "title": "Salon & cuisine",
-      "text": "Au 4e niveau, le salon cathédrale réunit cheminée, grande table et cuisine équipée : double four, cave à vin, Nespresso. Le terrain de jeu du chef, et le cœur du chalet."
-    },
-    "games": {
-      "title": "Salle de jeux",
-      "text": "Une salle de jeux pour prolonger les soirées, entre amis ou en famille."
+      "title": "Salon & Cuisine",
+      "text": "Au 4e niveau, le salon cathédrale réunit cheminée, grande table et cuisine équipée. Le terrain de jeu du chef, et le cœur du chalet."
     },
     "rooms": {
-      "title": "Chambres & suites",
-      "text": "Gentiane, Centaurée des montagnes, L'Ancolie, Rose des Alpes, Flocons et Marmottes : six chambres, dont quatre suites, pour accueillir jusqu'à 15 personnes."
+      "title": "Chambres & Suites",
+      "text": "Six chambres, dont quatre suites, pour accueillir jusqu'à 15 personnes."
     }
   },
   "rooms": {
@@ -59,8 +55,16 @@
   },
   "location": {
     "title": "Localisation",
-    "text": "Le chalet se trouve dans le quartier {link}, à Méribel, au sein de l'ensemble des Chalets Célénia.",
-    "link": "La Gittaz",
-    "mapPlaceholder": "Carte à venir"
+    "text": "Le chalet se trouve dans le quartier La Gittaz, à Méribel. Il est à 4 min du centre-ville et à 5 min des pistes.",
+    "map": {
+      "label": "Carte interactive : emplacement du Chalet Yolo à La Gittaz, Méribel",
+      "marker": "Chalet Yolo",
+      "zoomIn": "Zoomer",
+      "zoomOut": "Dézoomer",
+      "attribution": "Afficher les sources de la carte",
+      "helpWindows": "Utilisez Ctrl + molette pour zoomer",
+      "helpMac": "Utilisez ⌘ + molette pour zoomer",
+      "helpMobile": "Utilisez deux doigts pour déplacer la carte"
+    }
   }
 }

@@ -1,0 +1,132 @@
+---
+/**
+ * Carte interactive de la section « Localisation » (page Le chalet).
+ *
+ * - Repère : tête d'ours du logo (blanche dans un rond bordeaux) sur l'emplacement
+ *   exact du chalet (src/content/chalet.ts → chaletLocation, CLAUDE.md §5.7).
+ * - Navigation : boutons + / −, glisser pour se déplacer ; molette avec Ctrl / ⌘ ;
+ *   deux doigts sur mobile (un message l'explique au besoin).
+ * - Chargement différé : MapLibre n'est téléchargé que lorsque la carte approche
+ *   de l'écran (src/scripts/chaletMap.ts).
+ * - Sans JavaScript, ou si le navigateur ne sait pas afficher la carte (WebGL
+ *   absent) : le cadre est masqué, la phrase de localisation reste.
+ *
+ * Textes : src/content/{fr,en}/chalet.json → location.map.
+ * Utilisé par : src/views/ChaletView.astro.
+ */
+import BearHead from '../assets/logo/ourson.svg';
+import { chaletLocation } from '../content/chalet';
+import type { Lang } from '../i18n/languages';
+import { getContent } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const labels = getContent(lang, 'chalet').location.map;
+
+// Libellés de l'interface MapLibre (noms de clés imposés par la bibliothèque).
+const locale = {
+  'Map.Title': labels.label,
+  'Marker.Title': labels.marker,
+  'NavigationControl.ZoomIn': labels.zoomIn,
+  'NavigationControl.ZoomOut': labels.zoomOut,
+  'AttributionControl.ToggleAttribution': labels.attribution,
+  'CooperativeGesturesHandler.WindowsHelpText': labels.helpWindows,
+  'CooperativeGesturesHandler.MacHelpText': labels.helpMac,
+  'CooperativeGesturesHandler.MobileHelpText': labels.helpMobile,
+};
+---
+
+<div
+  class="chalet-map aspect-[4/3] overflow-hidden rounded-2xl bg-accent-soft md:aspect-[21/9]"
+  role="region"
+  aria-label={labels.label}
+  data-chalet-map
+  data-lat={chaletLocation.lat}
+  data-lng={chaletLocation.lng}
+  data-locale={JSON.stringify(locale)}
+>
+  <!-- Modèle du repère, cloné par le script -->
+  <template data-chalet-map-marker>
+    <span class="chalet-map-marker" role="img" aria-label={labels.marker}>
+      <BearHead aria-hidden="true" />
+    </span>
+  </template>
+</div>
+
+<style>
+  /* Sans JavaScript : pas de carte possible, on masque le cadre. */
+  .chalet-map {
+    display: none;
+  }
+
+  :global(.js) .chalet-map {
+    display: block;
+  }
+
+  .chalet-map[data-failed] {
+    display: none !important;
+  }
+
+  /* Repère : tête d'ours blanche dans un rond bordeaux. */
+  :global(.chalet-map-marker) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    background: var(--color-primary);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+  }
+
+  :global(.chalet-map-marker svg) {
+    width: 1.75rem;
+    height: auto;
+  }
+
+  /* Police du site pour les contrôles et le message d'aide. */
+  .chalet-map :global(.maplibregl-map) {
+    font-family: inherit;
+  }
+</style>
+
+<script>
+  // Charge la carte quand elle approche de l'écran (300 px avant).
+  const container = document.querySelector<HTMLElement>('[data-chalet-map]');
+
+  if (container) {
+    const load = async () => {
+      const template = container.querySelector<HTMLTemplateElement>('[data-chalet-map-marker]');
+      const marker = template?.content.firstElementChild?.cloneNode(true);
+      try {
+        const { mountChaletMap } = await import('../scripts/chaletMap');
+        mountChaletMap(container, {
+          lat: Number(container.dataset.lat),
+          lng: Number(container.dataset.lng),
+          locale: JSON.parse(container.dataset.locale ?? '{}'),
+          marker: marker instanceof HTMLElement ? marker : document.createElement('span'),
+        });
+      } catch (error) {
+        // Navigateur sans WebGL, réseau coupé… : on retire le cadre plutôt qu'un bloc vide.
+        console.warn('Carte indisponible', error);
+        container.setAttribute('data-failed', '');
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          void load();
+        }
+      },
+      { rootMargin: '300px' },
+    );
+    observer.observe(container);
+  }
+</script>

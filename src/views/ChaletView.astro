@@ -2,20 +2,21 @@
 /**
  * Page « Le chalet » (FR et EN) — refonte du 06/11/2026, 5 sections (CLAUDE.md §6) :
  * Hero → intro (texte + chiffres clés) → colonnes d'espaces (accordéon de photos)
- * → « Floor Plans » (plans par niveau) → carte (provisoire, à retravailler).
+ * → « Floor Plans » (plans par niveau) → localisation (phrase + carte interactive).
  * Textes : src/content/{fr,en}/chalet.json ; faits : src/content/chalet.ts.
  *
  * Composants retirés de cette page mais conservés pour plus tard :
  * FeatureSection, RoomCards, LevelTour, Accordion (« Tous les équipements »), CTASection.
  */
+import ChaletMap from '../components/ChaletMap.astro';
 import FloorPlans from '../components/FloorPlans.astro';
 import Hero from '../components/Hero.astro';
 import KeyFigures from '../components/KeyFigures.astro';
 import SpaceColumns from '../components/SpaceColumns.astro';
-import { figures, isFeatureConfirmed, laGittazMapsUrl, visibleFeatures } from '../content/chalet';
+import { figures } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
-import { format, getContent } from '../i18n/utils';
+import { getContent } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -25,34 +26,19 @@ const { lang } = Astro.props;
 const common = getContent(lang, 'common');
 const page = getContent(lang, 'chalet');
 
-const features = visibleFeatures();
-const featureLabel = (id: string) => features.find((feature) => feature.id === id)?.label[lang] ?? '';
-const wellnessItems = ['jacuzzi', 'jacuzzi-bath', 'sauna', 'hammam'].map(featureLabel).filter(Boolean).join(' · ');
-
-// Colonnes d'espaces, dans l'ordre. La salle de jeux n'apparaît que si elle est confirmée.
+// Colonnes d'espaces, dans l'ordre (salle de jeux retirée des textes par le client le 09/11/2026).
+// Sans sous-titres (retirés à la demande du client le 09/11/2026) : photo + titre + texte.
 const spaces = [
-  { photoId: 'piscine-01', eyebrow: featureLabel('pool'), ...page.spaces.pool },
-  { photoId: 'bien-etre-01', eyebrow: wellnessItems, ...page.spaces.wellness },
+  { photoId: 'piscine-01', ...page.spaces.pool },
+  { photoId: 'bien-etre-01', ...page.spaces.wellness },
   { photoId: 'cinema-01', ...page.spaces.cinema },
   { photoId: 'yoga-01', ...page.spaces.yoga },
-  { photoId: 'sejour-01', eyebrow: format(page.levels.level, { level: 4 }), ...page.spaces.living },
-  ...(isFeatureConfirmed('games-room') ? [{ photoId: 'jeux-01', ...page.spaces.games }] : []),
-  {
-    photoId: 'chambre-01',
-    eyebrow: format(page.rooms.summary, {
-      bedrooms: figures.bedrooms,
-      suites: figures.suites,
-      bathrooms: figures.bathrooms,
-    }),
-    ...page.spaces.rooms,
-  },
+  { photoId: 'sejour-01', ...page.spaces.living },
+  { photoId: 'chambre-01', ...page.spaces.rooms },
 ];
 
 // Plans : un par niveau (fichiers src/assets/photos/plans/plan-niveau-1 … 4).
 const plans = page.floorPlans.levels.map((label, index) => ({ photoId: `plan-niveau-${index + 1}`, label }));
-
-// Phrase « … quartier {link} … » coupée autour du lien vers La Gittaz.
-const [locationBefore, locationAfter = ''] = page.location.text.split('{link}');
 ---
 
 <BaseLayout lang={lang} routeKey="chalet" title={page.meta.title} description={page.meta.description} photoId="le-chalet-01" hero>
@@ -63,7 +49,8 @@ const [locationBefore, locationAfter = ''] = page.location.text.split('{link}');
   <section class="bg-bg pt-16 pb-12 md:pt-28 md:pb-16">
     <div class="container-page" data-reveal>
       <h2 class="eyebrow mb-6 text-accent">{page.intro.title}</h2>
-      <p class="max-w-4xl text-h3 leading-snug font-thin">{page.intro.text}</p>
+      <!-- whitespace-pre-line : un « \n » dans le texte (chalet.json) crée un retour à la ligne -->
+      <p class="text-h3 leading-snug font-thin whitespace-pre-line">{page.intro.text}</p>
     </div>
   </section>
   <KeyFigures
@@ -86,20 +73,17 @@ const [locationBefore, locationAfter = ''] = page.location.text.split('{link}');
   <!-- 4. Floor Plans -->
   <FloorPlans lang={lang} title={page.floorPlans.title} plans={plans} background="bg" />
 
-  <!-- 5. Carte (provisoire, à retravailler) : uniquement le quartier de La Gittaz (CLAUDE.md §5.7) -->
+  <!-- 5. Localisation : phrase + carte interactive avec l'emplacement exact du chalet (CLAUDE.md §5.7) -->
   <section class="bg-bg-alt py-16 md:py-28">
     <div class="container-page">
       <div data-reveal>
         <h2 class="mb-6 text-h2">{page.location.title}</h2>
-        <p class="mb-10 max-w-2xl md:mb-14">
-          {locationBefore}<a href={laGittazMapsUrl} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">{page.location.link}<span class="sr-only"> {common.newTab}</span></a>{locationAfter}
+        <p class="mb-10 md:mb-14">
+          {page.location.text}
         </p>
       </div>
-      <div
-        class="flex aspect-[4/3] items-center justify-center rounded-2xl bg-accent-soft md:aspect-[21/9]"
-        data-reveal
-      >
-        <span class="eyebrow">{page.location.mapPlaceholder}</span>
+      <div data-reveal>
+        <ChaletMap lang={lang} />
       </div>
     </div>
   </section>

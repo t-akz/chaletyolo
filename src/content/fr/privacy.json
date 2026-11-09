@@ -38,7 +38,7 @@
       "title": "Cookies",
       "paragraphs": [
         "Ce site ne dépose aucun cookie.",
-        "La carte de la page Méribel, fournie par OpenStreetMap, n'est chargée que si vous cliquez sur « Afficher la carte »."
+        "La carte de la page Le chalet est fournie par OpenFreeMap (données OpenStreetMap) et les pistes de ski par OpenSnowMap : lorsqu'elle s'affiche, votre navigateur contacte leurs serveurs, qui reçoivent votre adresse IP. Aucun cookie n'est déposé."
       ]
     },
     {

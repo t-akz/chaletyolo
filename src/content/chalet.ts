@@ -24,8 +24,15 @@ export const identity = {
 } as const;
 
 /**
- * Lien Google Maps vers le QUARTIER de La Gittaz (jamais l'adresse du chalet, CLAUDE.md §5.7).
- * Utilisé par les pages Le chalet (section Carte) et Méribel.
+ * Emplacement exact du chalet (fourni par le client le 09/11/2026, qui a levé la
+ * règle de confidentialité pour la carte : CLAUDE.md §5.7).
+ * Utilisé uniquement par la carte de la page Le chalet (src/components/ChaletMap.astro).
+ */
+export const chaletLocation = { lat: 45.411467764162786, lng: 6.561211140074287 } as const;
+
+/**
+ * Lien Google Maps vers le QUARTIER de La Gittaz (CLAUDE.md §5.7).
+ * Utilisé par la page Méribel.
  */
 export const laGittazMapsUrl = 'https://www.google.com/maps/search/?api=1&query=La+Gittaz%2C+M%C3%A9ribel';
 

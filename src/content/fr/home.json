@@ -9,7 +9,7 @@
     "languages": "Langue du site"
   },
   "hero": {
-    "title": "Méribel, à votre rythme.",
+    "title": "La montagne autrement",
     "subtitle": "Chalet de luxe, Spa & piscine · Méribel"
   },
   "intro": {
@@ -17,11 +17,11 @@
     "cards": {
       "chalet": {
         "title": "Le Chalet",
-        "subtitle": "350 m², piscine et spa"
+        "subtitle": "Piscine, Spa & Yoga Room"
       },
       "services": {
         "title": "Nos Services",
-        "subtitle": "Chef, majordome et chauffeur"
+        "subtitle": "Chef, Majordome & Chauffeur"
       },
       "meribel": {
         "title": "Méribel",
@@ -29,7 +29,7 @@
       },
       "contact": {
         "title": "Nos Offres",
-        "subtitle": "Contact et réservartions"
+        "subtitle": "Contact & Réservartions"
       }
     }
   },

@@ -53,7 +53,9 @@ const { lang, photoId, revealPhotoId, title, subtitle, cta } = Astro.props;
 
     <!-- Titre et bouton : s'effacent quand la scène remonte (--exit), pour ne jamais passer sous l'en-tête -->
     <div class="hero-reveal__content container-page pt-32 pb-16 md:pb-24">
-      <div class="max-w-4xl" data-reveal>
+      <!-- Pas de largeur max propre (choix du client du 09/11/2026) : le titre
+           occupe toute la largeur de la page et tient sur une ligne dès qu'il y a la place. -->
+      <div data-reveal>
         {
           /* Le sur-titre (mot-clé de la page) fait partie du h1, avant le titre
              éditorial : même rendu visuel, mais le mot-clé compte pour Google. */

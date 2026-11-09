@@ -9,7 +9,7 @@
     "languages": "Site language"
   },
   "hero": {
-    "title": "Méribel, at your own pace.",
+    "title": "Indulge the mountains",
     "subtitle": "Luxury Chalet, Spa & Pool · Méribel"
   },
   "intro": {
@@ -17,19 +17,19 @@
     "cards": {
       "chalet": {
         "title": "The Chalet",
-        "subtitle": "350 m², pool and spa"
+        "subtitle": "Pool, Spa & Yoga Room"
       },
       "services": {
-        "title": "Services",
-        "subtitle": "Private chef, butler and chauffeur"
+        "title": "Our Services",
+        "subtitle": "Chef, Butler & Chauffeur"
       },
       "meribel": {
         "title": "Méribel",
         "subtitle": "In the heart of Les 3 Vallées"
       },
       "contact": {
-        "title": "Offer & Contact",
-        "subtitle": "Half & Full Catered packages"
+        "title": "Our Offers",
+        "subtitle": "Contact & Bookings"
       }
     }
   },

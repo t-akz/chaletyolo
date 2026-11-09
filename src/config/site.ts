@@ -25,8 +25,8 @@ export const site = {
    */
   url: 'https://www.chalet-yolo.com',
 
-  /** Email de contact affiché sur le site. */
-  email: TO_PROVIDE,
+  /** Email de contact affiché sur le site (fourni par le client le 09/11/2026). */
+  email: 'info@chalet-yolo.com',
 
   /**
    * Numéro WhatsApp au format international, chiffres uniquement,
