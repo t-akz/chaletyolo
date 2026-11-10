@@ -30,7 +30,7 @@ export function lodgingBusinessJsonLd(lang: Lang, description: string, imageUrl?
     ...(socialLinks.length > 0 ? { sameAs: socialLinks } : {}),
     address: {
       '@type': 'PostalAddress',
-      streetAddress: identity.hamlet,
+      // Pas de rue ni de hameau : mention de La Gittaz retirée à la demande du client (10/11/2026).
       addressLocality: identity.town,
       postalCode: identity.postalCode,
       addressRegion: identity.region,

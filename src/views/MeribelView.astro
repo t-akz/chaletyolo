@@ -1,7 +1,7 @@
 ---
 /**
  * Page « Méribel » (FR et EN) — structure du §6 de CLAUDE.md :
- * Hero → la station (+ lien Google Maps vers le quartier de La Gittaz) → appel à l'action.
+ * Hero → la station (+ phrase « proche du Raffort », sans lien) → appel à l'action.
  * (Section « Localisation » retirée à la demande du client le 02/11/2026.)
  * (Section « Accès » retirée à la demande du client le 02/11/2026.)
  * (Section « Activités d'hiver » retirée à la demande du client le 09/11/2026.)
@@ -10,7 +10,7 @@
 import CTASection from '../components/CTASection.astro';
 import FeatureSection from '../components/FeatureSection.astro';
 import Hero from '../components/Hero.astro';
-import { laGittazMapsUrl, meribel } from '../content/chalet';
+import { meribel } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { format, getContent } from '../i18n/utils';
@@ -21,11 +21,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const page = getContent(lang, 'meribel');
-const common = getContent(lang, 'common');
-
-// Lien Google Maps vers le QUARTIER de La Gittaz : src/content/chalet.ts (CLAUDE.md §5.7).
-// Phrase « … quartier {link}. » coupée autour du lien.
-const [locationBefore, locationAfter = ''] = page.resort.location.split('{link}');
 ---
 
 <BaseLayout lang={lang} routeKey="meribel" title={page.meta.title} description={page.meta.description} photoId="meribel" hero>
@@ -38,9 +33,8 @@ const [locationBefore, locationAfter = ''] = page.resort.location.split('{link}'
     title={page.resort.title}
     text={format(page.resort.text, { foundedYear: meribel.foundedYear, skiAreaKm: meribel.skiAreaKm })}
   >
-    <p class="mt-4 max-w-md">
-      {locationBefore}<a href={laGittazMapsUrl} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">{page.resort.locationLink}<span class="sr-only"> {common.newTab}</span></a>{locationAfter}
-    </p>
+    {/* Lien Google Maps vers La Gittaz retiré à la demande du client (10/11/2026). */}
+    <p class="mt-4 max-w-md">{page.resort.location}</p>
   </FeatureSection>
 
   <CTASection lang={lang} title={page.cta.title} />

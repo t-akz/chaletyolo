@@ -4,6 +4,10 @@
  *
  * - Repère : tête d'ours du logo (blanche dans un rond bordeaux) sur l'emplacement
  *   exact du chalet (src/content/chalet.ts → chaletLocation, CLAUDE.md §5.7).
+ * - 3 repères autour (triangle taupe + nom en majuscules) : positions dans
+ *   src/content/chalet.ts → mapLandmarks, noms dans chalet.json → location.map.landmarks.
+ * - Trait pointillé du chalet vers chaque repère, avec une pastille de durée
+ *   (chalet.json → location.map.durations ; trait et placement dans src/scripts/chaletMap.ts).
  * - Navigation : boutons + / −, glisser pour se déplacer ; molette avec Ctrl / ⌘ ;
  *   deux doigts sur mobile (un message l'explique au besoin).
  * - Chargement différé : MapLibre n'est téléchargé que lorsque la carte approche
@@ -15,7 +19,7 @@
  * Utilisé par : src/views/ChaletView.astro.
  */
 import BearHead from '../assets/logo/ourson.svg';
-import { chaletLocation } from '../content/chalet';
+import { chaletLocation, mapLandmarks } from '../content/chalet';
 import type { Lang } from '../i18n/languages';
 import { getContent } from '../i18n/utils';
 
@@ -37,6 +41,25 @@ const locale = {
   'CooperativeGesturesHandler.MacHelpText': labels.helpMac,
   'CooperativeGesturesHandler.MobileHelpText': labels.helpMobile,
 };
+
+/**
+ * Position de la pastille de durée sur son trait (voir chaletMap.ts) :
+ * « middle » (par défaut) = au milieu du trait ; « left » = à gauche du triangle du repère
+ * tant que le trait est court à l'écran, puis au milieu du trait quand on zoome.
+ * Olympe en « left » : au-dessus du repère, elle cachait le nom « Le Raffort » du fond
+ * de carte (demande du client du 10/11/2026).
+ */
+const DURATION_PLACEMENT: Partial<Record<(typeof mapLandmarks)[number]['id'], 'middle' | 'left'>> = {
+  olympe: 'left',
+};
+
+// Repères autour du chalet, avec leur nom dans la langue de la page.
+const landmarks = mapLandmarks.map((landmark) => ({
+  ...landmark,
+  name: labels.landmarks[landmark.id],
+  duration: labels.durations[landmark.id],
+  durationPlacement: DURATION_PLACEMENT[landmark.id] ?? 'middle',
+}));
 ---
 
 <div
@@ -54,6 +77,24 @@ const locale = {
       <BearHead aria-hidden="true" />
     </span>
   </template>
+
+  <!-- Modèles des repères autour du chalet, clonés par le script -->
+  {
+    landmarks.map((landmark) => (
+      <template
+        data-chalet-map-landmark
+        data-lat={landmark.lat}
+        data-lng={landmark.lng}
+        data-duration-placement={landmark.durationPlacement}
+      >
+        <span class="chalet-map-landmark">
+          <span class="chalet-map-landmark__triangle" aria-hidden="true" />
+          <span class="chalet-map-landmark__name">{landmark.name}</span>
+        </span>
+        <span class="chalet-map-duration">{landmark.duration}</span>
+      </template>
+    ))
+  }
 </div>
 
 <style>
@@ -89,6 +130,52 @@ const locale = {
     height: auto;
   }
 
+  /* Repères autour du chalet : petit triangle taupe, nom en majuscules dessous. */
+  :global(.chalet-map-landmark) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    pointer-events: none;
+  }
+
+  :global(.chalet-map-landmark__triangle) {
+    width: 0.875rem;
+    height: 0.75rem;
+    background: var(--color-decor);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+
+  :global(.chalet-map-landmark__name) {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    color: var(--color-text);
+    /* Contour clair pour rester lisible sur le fond de carte. */
+    text-shadow:
+      0 0 2px #ffffff,
+      0 0 4px #ffffff,
+      0 0 6px #ffffff;
+  }
+
+  /* Pastille de durée posée sur le trait pointillé (chalet → repère). */
+  :global(.chalet-map-duration) {
+    padding: 0.0625rem 0.4375rem;
+    border-radius: 9999px;
+    background: var(--color-bg);
+    border: 1px solid rgb(139 106 85 / 0.35);
+    color: var(--color-text);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
   /* Police du site pour les contrôles et le message d'aide. */
   .chalet-map :global(.maplibregl-map) {
     font-family: inherit;
@@ -103,6 +190,23 @@ const locale = {
     const load = async () => {
       const template = container.querySelector<HTMLTemplateElement>('[data-chalet-map-marker]');
       const marker = template?.content.firstElementChild?.cloneNode(true);
+      const landmarks = [...container.querySelectorAll<HTMLTemplateElement>('[data-chalet-map-landmark]')].flatMap(
+        (landmarkTemplate) => {
+          const element = landmarkTemplate.content.querySelector('.chalet-map-landmark')?.cloneNode(true);
+          const duration = landmarkTemplate.content.querySelector('.chalet-map-duration')?.cloneNode(true);
+          if (!(element instanceof HTMLElement)) return [];
+          return [
+            {
+              lat: Number(landmarkTemplate.dataset.lat),
+              lng: Number(landmarkTemplate.dataset.lng),
+              element,
+              ...(duration instanceof HTMLElement ? { duration } : {}),
+              durationPlacement:
+                landmarkTemplate.dataset.durationPlacement === 'left' ? ('left' as const) : ('middle' as const),
+            },
+          ];
+        },
+      );
       try {
         const { mountChaletMap } = await import('../scripts/chaletMap');
         mountChaletMap(container, {
@@ -110,6 +214,7 @@ const locale = {
           lng: Number(container.dataset.lng),
           locale: JSON.parse(container.dataset.locale ?? '{}'),
           marker: marker instanceof HTMLElement ? marker : document.createElement('span'),
+          landmarks,
         });
       } catch (error) {
         // Navigateur sans WebGL, réseau coupé… : on retire le cadre plutôt qu'un bloc vide.

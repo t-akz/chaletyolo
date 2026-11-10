@@ -9,7 +9,7 @@
   },
   "intro": {
     "title": "Le chalet",
-    "text": "Le Chalet Yolo est une adresse d’exception à La Gittaz, quartier calme de Méribel, au cœur des 3 Vallées. Ce chalet contemporain accueille jusqu’à 15 personnes dans six chambres, avec piscine intérieure, jacuzzi, sauna, hammam, salle de yoga et home cinéma.\nLe séjour est entièrement pris en charge par un chef privé, un majordome et un chauffeur."
+    "text": "Le Chalet Yolo est une adresse d’exception proche du Raffort, à Méribel, au cœur des 3 Vallées. Ce chalet contemporain accueille jusqu’à 15 personnes dans six chambres, avec piscine intérieure, jacuzzi, sauna, hammam, salle de yoga et home cinéma.\nLe séjour est entièrement pris en charge par un chef privé, un majordome et un chauffeur."
   },
   "spaces": {
     "label": "Les espaces du chalet",
@@ -49,16 +49,26 @@
   },
   "location": {
     "title": "Localisation",
-    "text": "Le chalet se trouve dans le quartier La Gittaz, à Méribel. Il est à 4 min du centre-ville et à 5 min des pistes.",
+    "text": "Le chalet se trouve proche du Raffort, à Méribel. Il est à 4 min du centre-ville et à 5 min des pistes.",
     "map": {
-      "label": "Carte interactive : emplacement du Chalet Yolo à La Gittaz, Méribel",
+      "label": "Carte interactive : emplacement du Chalet Yolo, proche du Raffort, à Méribel",
       "marker": "Chalet Yolo",
       "zoomIn": "Zoomer",
       "zoomOut": "Dézoomer",
       "attribution": "Afficher les sources de la carte",
       "helpWindows": "Utilisez Ctrl + molette pour zoomer",
       "helpMac": "Utilisez ⌘ + molette pour zoomer",
-      "helpMobile": "Utilisez deux doigts pour déplacer la carte"
+      "helpMobile": "Utilisez deux doigts pour déplacer la carte",
+      "landmarks": {
+        "meribelVillage": "Méribel Village",
+        "olympe": "Olympe Ski Lift",
+        "chaudanne": "La Chaudanne Ski Lift"
+      },
+      "durations": {
+        "meribelVillage": "4 min",
+        "olympe": "2 min",
+        "chaudanne": "7 min"
+      }
     }
   }
 }

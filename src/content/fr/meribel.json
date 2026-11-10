@@ -11,8 +11,7 @@
     "eyebrow": "La station",
     "title": "Au cœur des 3 Vallées",
     "text": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes · architecture savoyarde.",
-    "location": "Le chalet se trouve dans le fabuleux quartier {link}.",
-    "locationLink": "La Gittaz"
+    "location": "Le chalet se trouve proche du Raffort."
   },
   "cta": {
     "title": "Parlons de votre séjour"

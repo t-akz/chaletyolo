@@ -226,9 +226,9 @@ Tout ce qui manque s'affiche sur le site avec le repère visible **[À FOURNIR]*
 | `social.instagram` | Adresse complète de la page | `'https://www.instagram.com/…'` |
 Une fois renseignés, ces éléments apparaissent automatiquement partout (pied de page, page Contact, bouton WhatsApp, données pour Google).
 
-> **Position du chalet sur la carte** (page Le chalet) : coordonnées dans `src/content/chalet.ts` → `chaletLocation` (`lat` = latitude, `lng` = longitude). Pour déplacer la tête d'ours : dans Google Maps, clic droit sur l'endroit voulu, cliquez sur les deux nombres affichés (ils sont copiés), puis remplacez les deux valeurs. Le niveau de zoom de départ (`zoom: 13.5`) se règle dans `src/scripts/chaletMap.ts`. Les textes de la carte (libellés pour l'accessibilité, messages d'aide) sont dans `src/content/{fr,en}/chalet.json` → `location.map`.
+> **Position du chalet sur la carte** (page Le chalet) : coordonnées dans `src/content/chalet.ts` → `chaletLocation` (`lat` = latitude, `lng` = longitude). Pour déplacer la tête d'ours : dans Google Maps, clic droit sur l'endroit voulu, cliquez sur les deux nombres affichés (ils sont copiés), puis remplacez les deux valeurs. Les 3 repères autour du chalet (Méribel Village, Olympe Ski Lift, La Chaudanne Ski Lift) : positions dans `src/content/chalet.ts` → `mapLandmarks` (même procédure pour les déplacer), noms dans `src/content/{fr,en}/chalet.json` → `location.map.landmarks`. Au chargement, la carte se cadre automatiquement pour montrer le chalet et les 3 repères (marges : `FIT_PADDING` dans `src/scripts/chaletMap.ts`). Les autres textes de la carte (libellés pour l'accessibilité, messages d'aide) sont dans `src/content/{fr,en}/chalet.json` → `location.map`.
 >
-> En dehors de cette carte, la position exacte n'est indiquée nulle part (pas d'adresse précise). La page Méribel propose un lien Google Maps vers le **quartier** de La Gittaz (adresse du lien : `src/views/MeribelView.astro`, texte : `src/content/{fr,en}/meribel.json` → `resort.location`).
+> En dehors de cette carte, la position exacte n'est indiquée nulle part (pas d'adresse précise). La page Méribel indique seulement que le chalet se trouve « proche du Raffort », sans lien (texte : `src/content/{fr,en}/meribel.json` → `resort.location`).
 
 ### Tarifs à la semaine (page Offre & Contact)
 

@@ -5,19 +5,19 @@
       "weeks": [
         {
           "start": "2026-11-07",
-          "price": null,
+          "price": 23000,
           "booked": false,
-          "badge": null
+          "badge": { "fr": "Promo", "en": "Special offer" }
         },
         {
           "start": "2026-11-14",
           "price": null,
-          "booked": false,
+          "booked": true,
           "badge": null
         },
         {
           "start": "2026-11-21",
-          "price": null,
+          "price": 340000,
           "booked": false,
           "badge": null
         },

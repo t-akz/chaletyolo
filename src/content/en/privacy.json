@@ -38,7 +38,7 @@
       "title": "Cookies",
       "paragraphs": [
         "This website does not set any cookies.",
-        "The map on the Chalet page is provided by OpenFreeMap (OpenStreetMap data) and the ski runs by OpenSnowMap: when it is displayed, your browser contacts their servers, which receive your IP address. No cookies are set."
+        "The map on the Chalet page is provided by OpenFreeMap (OpenStreetMap data): when it is displayed, your browser contacts its servers, which receive your IP address. No cookies are set."
       ]
     },
     {

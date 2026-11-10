@@ -13,7 +13,6 @@ import type { Localized } from '../i18n/languages';
 // ---------------------------------------------------------------------------
 export const identity = {
   name: 'Chalet Yolo',
-  hamlet: 'La Gittaz',
   resort: 'Méribel',
   postalCode: '73550',
   town: 'Les Allues',
@@ -31,10 +30,14 @@ export const identity = {
 export const chaletLocation = { lat: 45.411467764162786, lng: 6.561211140074287 } as const;
 
 /**
- * Lien Google Maps vers le QUARTIER de La Gittaz (CLAUDE.md §5.7).
- * Utilisé par la page Méribel.
+ * Repères affichés autour du chalet sur la même carte (fournis par le client le 10/11/2026 ; Méribel Village déplacé le même jour).
+ * « id » = clé du nom dans src/content/{fr,en}/chalet.json → location.map.landmarks.
  */
-export const laGittazMapsUrl = 'https://www.google.com/maps/search/?api=1&query=La+Gittaz%2C+M%C3%A9ribel';
+export const mapLandmarks = [
+  { id: 'meribelVillage', lat: 45.4165892174434, lng: 6.564810190447449 },
+  { id: 'olympe', lat: 45.40814718699374, lng: 6.561047556284676 },
+  { id: 'chaudanne', lat: 45.39116010866575, lng: 6.567440749622259 },
+] as const;
 
 // ---------------------------------------------------------------------------
 // Chiffres clés
