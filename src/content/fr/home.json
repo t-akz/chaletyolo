@@ -10,7 +10,17 @@
   },
   "hero": {
     "title": "La montagne autrement",
-    "subtitle": "Chalet de luxe, Spa & piscine · Méribel"
+    "subtitle": "Chalet de luxe, Spa & piscine · Méribel",
+    "carousel": {
+      "label": "Photos du chalet",
+      "roledescription": "carrousel",
+      "slide": "Photo {n} sur {total}",
+      "goTo": "Afficher la photo {n}",
+      "previous": "Photo précédente",
+      "next": "Photo suivante",
+      "pause": "Mettre en pause le défilement des photos",
+      "play": "Reprendre le défilement des photos"
+    }
   },
   "intro": {
     "label": "Découvrir Chalet Yolo",

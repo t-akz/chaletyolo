@@ -3,7 +3,8 @@
  * En-tête du site.
  * - Pages avec photo plein écran (« transparent ») : en-tête transparent,
  *   texte blanc, puis fond crème + légère ombre dès que l'on fait défiler
- *   (sur l'accueil : seulement quand la scène du hero animé remonte, voir HeroReveal.astro).
+ *   (si la page contient un bloc « data-header-transparent-until » : seulement quand sa fin
+ *   apparaît. Plus utilisé depuis le carrousel de l'accueil du 12/11/2026, gardé pour HeroReveal.astro).
  * - Autres pages : fond crème dès le départ.
  * - Sur toutes les largeurs (choix du client du 08/11/2026) : logo à gauche ; à droite,
  *   le bouton « Nous contacter » puis, tout à droite, le bouton « Menu » (burger).
@@ -108,8 +109,8 @@ const menu = menuKeys.map((key) => ({
 
 <script>
   // En-tête : passe en fond crème après un léger défilement (pages avec photo plein écran).
-  // Si la page contient un bloc « data-header-transparent-until » (hero animé de
-  // l'accueil), l'en-tête reste transparent tant que ce bloc occupe l'écran, et
+  // Si la page contient un bloc « data-header-transparent-until » (ancien hero animé
+  // de l'accueil, HeroReveal.astro, plus utilisé depuis le 12/11/2026), l'en-tête reste transparent tant que ce bloc occupe l'écran, et
   // devient crème dès que sa fin apparaît (la scène commence alors à remonter).
   const header = document.querySelector<HTMLElement>('[data-header]');
   if (header?.dataset.transparent === 'true') {

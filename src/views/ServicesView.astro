@@ -1,7 +1,8 @@
 ---
 /**
- * Page « Services » (FR et EN) — refonte du 08/11/2026, 3 sections :
- * Hero → « Prestations & Facilities » (deux cadres listés) → appel à l'action.
+ * Page « Services » (FR et EN) — refonte du 08/11/2026, 4 sections :
+ * Hero → « Prestations & Facilities » (deux cadres listés) → « Meet the team »
+ * (ajoutée le 12/11/2026) → appel à l'action.
  * Textes : src/content/{fr,en}/services.json. Les lignes des deux cadres sont
  * écrites telles quelles dans offer.services et offer.facilities (regroupées
  * le 09/11/2026) : ajouter, retirer ou réordonner une ligne se fait là.
@@ -10,6 +11,7 @@
 import CTASection from '../components/CTASection.astro';
 import Hero from '../components/Hero.astro';
 import ServiceTables from '../components/ServiceTables.astro';
+import TeamSection from '../components/TeamSection.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { getContent } from '../i18n/utils';
@@ -20,6 +22,13 @@ interface Props {
 
 const { lang } = Astro.props;
 const page = getContent(lang, 'services');
+
+// Équipe (« Meet the team ») : portraits dans src/assets/photos/equipe/ (src/content/photos.ts).
+const team = page.team.members;
+const teamMembers = [
+  { ...team.majordome, photoId: 'majordome' },
+  { ...team.chef, photoId: 'chef' },
+];
 ---
 
 <BaseLayout lang={lang} routeKey="services" title={page.meta.title} description={page.meta.description} photoId="services" hero>
@@ -32,6 +41,8 @@ const page = getContent(lang, 'services');
       { title: page.offer.facilitiesTitle, items: page.offer.facilities },
     ]}
   />
+
+  <TeamSection lang={lang} title={page.team.title} intro={page.team.intro} members={teamMembers} />
 
   <CTASection lang={lang} title={page.cta.title} text={page.cta.text} />
 </BaseLayout>

@@ -13,6 +13,8 @@ import CircleAlert from '@lucide/astro/icons/circle-alert';
 import Mail from '@lucide/astro/icons/mail';
 import Menu from '@lucide/astro/icons/menu';
 import MessageCircle from '@lucide/astro/icons/message-circle';
+import Pause from '@lucide/astro/icons/pause';
+import Play from '@lucide/astro/icons/play';
 import Van from '@lucide/astro/icons/van';
 import X from '@lucide/astro/icons/x';
 
@@ -26,6 +28,8 @@ export const icons = {
   mail: Mail,
   menu: Menu,
   'message-circle': MessageCircle,
+  pause: Pause,
+  play: Play,
   van: Van,
   x: X,
 };

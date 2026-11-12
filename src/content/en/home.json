@@ -10,7 +10,17 @@
   },
   "hero": {
     "title": "Indulge the mountains",
-    "subtitle": "Luxury Chalet, Spa & Pool · Méribel"
+    "subtitle": "Luxury Chalet, Spa & Pool · Méribel",
+    "carousel": {
+      "label": "Chalet photos",
+      "roledescription": "carousel",
+      "slide": "Photo {n} of {total}",
+      "goTo": "Show photo {n}",
+      "previous": "Previous photo",
+      "next": "Next photo",
+      "pause": "Pause the slideshow",
+      "play": "Play the slideshow"
+    }
   },
   "intro": {
     "label": "Discover Chalet Yolo",

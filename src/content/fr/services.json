@@ -35,6 +35,22 @@
       "Vue montagne"
     ]
   },
+  "team": {
+    "title": "Meet the team",
+    "intro": "TODO-COPY: une ligne d'introduction sur l'équipe.",
+    "members": {
+      "majordome": {
+        "name": "Lina Gerard",
+        "role": "Chalet Manager",
+        "text": "[À FOURNIR]"
+      },
+      "chef": {
+        "name": "Ricardo Tort Albelda",
+        "role": "Chef privé",
+        "text": "[À FOURNIR]"
+      }
+    }
+  },
   "cta": {
     "title": "Parlons de votre séjour",
     "text": "Sur demande, auprès de notre conciergerie."

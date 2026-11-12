@@ -43,7 +43,8 @@ export const mapLandmarks = [
 // Chiffres clés
 // ---------------------------------------------------------------------------
 export const figures = {
-  surfaceM2: 350,
+  /** Corrigé par le client le 10/11/2026 (auparavant 350). */
+  surfaceM2: 330,
   guests: 15,
   bedrooms: 6,
   suites: 4,

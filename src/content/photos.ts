@@ -33,6 +33,8 @@ export const photoFolders = {
   exterieur: { fr: 'Extérieur', en: 'Exterior' },
   meribel: { fr: 'Méribel', en: 'Méribel' },
   services: { fr: 'Services', en: 'Services' },
+  /** Portraits de l'équipe (section « Meet the team » de la page Services) : jamais dans la galerie. */
+  equipe: { fr: 'Équipe', en: 'Team' },
   /** Plans du chalet (section « Floor Plans » de la page Le chalet) : jamais dans la galerie. */
   plans: { fr: 'Plan', en: 'Floor plan' },
 } satisfies Record<string, Localized>;
@@ -42,14 +44,15 @@ export type PhotoFolder = keyof typeof photoFolders;
 /**
  * Catégories des filtres de la galerie, et dossiers qui les composent.
  * Les libellés des filtres sont dans src/content/{fr,en}/gallery.json.
- * Les dossiers « hero » (photos plein écran des pages) et « plans » (plans du chalet)
- * n'apparaissent pas dans la galerie.
+ * Les dossiers « hero » (photos plein écran des pages), « plans » (plans du chalet)
+ * et « equipe » (portraits de l'équipe) n'apparaissent pas dans la galerie.
  */
 export const galleryCategories = {
-  sejour: ['sejour', 'cuisine', 'services'],
+  sejour: ['sejour', 'cuisine'],
   chambres: ['chambres', 'salles-de-bain'],
   'bien-etre': ['piscine', 'bien-etre'],
-  loisirs: ['cinema', 'yoga', 'jeux'],
+  // « services » (local à skis, chauffeur) : rangé dans Loisirs à la demande du client (12/11/2026).
+  loisirs: ['cinema', 'yoga', 'jeux', 'services'],
   exterieur: ['exterieur'],
   meribel: ['meribel'],
 } as const satisfies Record<string, readonly PhotoFolder[]>;
@@ -129,6 +132,11 @@ const slots: PhotoSlot[] = [
 
   // Illustrations des services (galerie, filtre « Séjour »)
   { id: 'service-01', folder: 'services', alt: { fr: 'Local à skis avec chaussures, casques et vestes', en: 'Ski room with boots, helmets and jackets' } },
+  { id: 'chauffeur-01', folder: 'services', alt: { fr: 'Le chauffeur du Chalet Yolo aide une cliente en tenue de ski à descendre du van privé aux couleurs du chalet, devant un chalet enneigé', en: 'The Chalet Yolo chauffeur helps a guest in ski gear out of the chalet’s private van, in front of a snow-covered chalet' } },
+  // Portraits de l'équipe (page Services, « Meet the team ») : fichiers attendus
+  // src/assets/photos/equipe/majordome.jpeg et chef.jpeg (fournis le 12/11/2026).
+  { id: 'majordome', folder: 'equipe', alt: { fr: 'Portrait de la majordome du Chalet Yolo', en: 'Portrait of the Chalet Yolo butler' }, inGallery: false },
+  { id: 'chef', folder: 'equipe', alt: { fr: 'Portrait du chef privé du Chalet Yolo', en: 'Portrait of the Chalet Yolo private chef' }, inGallery: false },
   // « service-02 » (apéritif) retirée de la galerie à la demande du client (05/11/2026) ; son fichier services/service-02.png reste dans le dossier.
   // exterieur-02 prend sa place dans la galerie (dernière position).
   { id: 'exterieur-02', folder: 'exterieur', alt: { fr: 'Entrée du chalet en bois et pierre sous la neige, avec une sculpture d’ours au-dessus de la porte', en: 'Snow-covered wood and stone entrance of the chalet, with a bear sculpture above the door' } },

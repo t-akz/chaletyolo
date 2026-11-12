@@ -45,14 +45,15 @@ const isLarge = (index: number) => index % 7 === 0;
 
 <div data-gallery>
   <!-- Filtres -->
-  <div role="group" aria-label={page.filters.label} class="js-only mb-10 flex flex-wrap gap-x-6 gap-y-3 md:mb-14">
+  <div role="group" aria-label={page.filters.label} class="js-only mb-10 flex flex-wrap gap-x-6 gap-y-3 md:mb-14 md:gap-x-8">
     {
+      /* Taille des filtres agrandie le 12/11/2026 (demande du client) : 16 px sur mobile, 18 px dès 768 px (avant : 14 px). */
       ['all', ...categories].map((category) => (
         <button
           type="button"
           data-filter={category}
           aria-pressed={category === 'all' ? 'true' : 'false'}
-          class="text-accent border-b border-transparent pb-1 text-sm font-medium transition-colors aria-pressed:border-current"
+          class="text-accent border-b border-transparent pb-1 text-base font-medium transition-colors aria-pressed:border-current md:text-lg"
         >
           {page.filters[category as keyof typeof page.filters]}
         </button>

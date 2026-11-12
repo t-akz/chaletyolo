@@ -1,0 +1,430 @@
+---
+/**
+ * Hero de la page d'accueil : carrousel de photos plein écran (12/11/2026,
+ * remplace le « rideau au défilement » de HeroReveal).
+ *
+ * - Les photos se succèdent toutes seules (fondu enchaîné lent), avec le titre,
+ *   le sur-titre et le bouton toujours posés par-dessus.
+ * - Commandes discrètes en bas, centrées (12/11/2026, auparavant à droite) : pause / lecture, photo précédente,
+ *   un trait par photo (le trait de la photo affichée se remplit pendant
+ *   qu'elle est visible), photo suivante. Glissement du doigt sur mobile,
+ *   flèches gauche / droite du clavier quand une commande a le focus.
+ * - Le défilement automatique s'arrête de lui-même quand la souris ou le
+ *   focus clavier sont sur les commandes, quand le hero n'est plus à l'écran,
+ *   quand l'onglet est caché et tant que l'écran d'entrée (IntroGate) est
+ *   affiché ; il reprend ensuite. Le bouton pause l'arrête jusqu'à un nouveau clic.
+ * - Animations réduites (préférence système) : pas de défilement automatique
+ *   au départ (bouton lecture pour le lancer) et changement de photo immédiat.
+ * - Sans JavaScript : hero classique avec la première photo seule.
+ *
+ * Exception au §5.1 (« pas de carrousel automatique ») demandée par le client le 12/11/2026.
+ * Utilisé par : src/views/HomeView.astro. Textes : src/content/{fr,en}/home.json → hero.carousel.
+ */
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import Photo from './Photo.astro';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  /** Photos du carrousel, dans l'ordre (src/content/photos.ts). La première est chargée en priorité. */
+  photoIds: string[];
+  title: string;
+  /** Sur-titre placé dans le <h1>, au-dessus du titre (mot-clé de la page). */
+  subtitle?: string;
+  cta?: { href: string; label: string };
+  /** Libellés des commandes (lecteurs d'écran). « {n} » et « {total} » sont remplacés. */
+  labels: {
+    label: string;
+    roledescription: string;
+    slide: string;
+    goTo: string;
+    previous: string;
+    next: string;
+    pause: string;
+    play: string;
+  };
+}
+
+const { lang, photoIds, title, subtitle, cta, labels } = Astro.props;
+const total = photoIds.length;
+const fill = (text: string, n: number) => text.replace('{n}', String(n)).replace('{total}', String(total));
+---
+
+<section class="hero-carousel relative isolate flex h-svh items-end overflow-hidden text-white" data-hero-carousel>
+  <!-- Carrousel : photos + commandes -->
+  <div class="absolute inset-0" role="region" aria-roledescription={labels.roledescription} aria-label={labels.label}>
+    <div class="absolute inset-0" data-slides aria-live="off">
+      {
+        photoIds.map((id, index) => (
+          <div
+            class="hero-carousel__slide absolute inset-0"
+            role="group"
+            aria-label={fill(labels.slide, index + 1)}
+            data-slide
+            data-active={index === 0 ? 'true' : 'false'}
+            aria-hidden={index === 0 ? undefined : 'true'}
+          >
+            <Photo id={id} lang={lang} priority={index === 0} />
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Voile sombre : assure la lisibilité du texte blanc sur toutes les photos -->
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-black/30" aria-hidden="true"></div>
+
+    <!-- Commandes (affichées seulement avec JavaScript) -->
+    <div class="hero-carousel__controls pointer-events-none absolute inset-x-0 bottom-0 z-20">
+      <div class="container-page flex justify-center pb-5 md:pb-10">
+        <div class="pointer-events-auto flex items-center" data-controls>
+          <button type="button" class="hero-carousel__button" data-toggle aria-label={labels.pause} data-label-pause={labels.pause} data-label-play={labels.play}>
+            <span data-icon-pause><Icon name="pause" size={18} /></span>
+            <span data-icon-play hidden><Icon name="play" size={18} /></span>
+          </button>
+          <button type="button" class="hero-carousel__button" data-prev aria-label={labels.previous}>
+            <Icon name="chevron-left" size={22} />
+          </button>
+          <div class="flex items-center">
+            {
+              photoIds.map((_, index) => (
+                <button
+                  type="button"
+                  class="hero-carousel__dot"
+                  data-dot
+                  aria-label={fill(labels.goTo, index + 1)}
+                  aria-current={index === 0 ? 'true' : undefined}
+                >
+                  <span class="hero-carousel__line" aria-hidden="true">
+                    <span class="hero-carousel__fill" />
+                  </span>
+                </button>
+              ))
+            }
+          </div>
+          <button type="button" class="hero-carousel__button" data-next aria-label={labels.next}>
+            <Icon name="chevron-right" size={22} />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Titre et bouton : fixes, au-dessus des photos -->
+  <div class="relative z-10 container-page pt-32 pb-24 md:pb-32">
+    <!-- Pas de largeur max propre (choix du client du 09/11/2026) : le titre
+         occupe toute la largeur de la page et tient sur une ligne dès qu'il y a la place. -->
+    <div data-reveal>
+      {
+        /* Le sur-titre (mot-clé de la page) fait partie du h1, avant le titre
+           éditorial : même rendu visuel, mais le mot-clé compte pour Google. */
+      }
+      <h1 class="text-white">
+        {subtitle && <span class="eyebrow mb-6 block">{subtitle}</span>}{' '}
+        <span class="block text-display">{title}</span>
+      </h1>
+      {
+        cta && (
+          <div class="mt-10">
+            <Button href={cta.href}>{cta.label}</Button>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Durée d'affichage de chaque photo : à garder identique à INTERVAL dans le script. */
+  .hero-carousel {
+    --slide-duration: 4s;
+  }
+
+  /* Sans JavaScript : première photo seule, pas de commandes. */
+  .hero-carousel__slide:not(:first-child),
+  .hero-carousel__controls {
+    display: none;
+  }
+
+  /* Avec JavaScript : photos superposées, seule la photo active est visible (fondu lent). */
+  :global(.js) .hero-carousel__slide:not(:first-child) {
+    display: block;
+  }
+
+  :global(.js) .hero-carousel__controls {
+    display: block;
+  }
+
+  :global(.js) .hero-carousel__slide {
+    opacity: 0;
+    transition: opacity 1.4s ease-in-out;
+  }
+
+  :global(.js) .hero-carousel__slide[data-active='true'] {
+    opacity: 1;
+  }
+
+  /* Boutons pause / précédent / suivant : icônes blanches, sans fond. */
+  .hero-carousel__button {
+    display: inline-flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+
+  .hero-carousel__button:hover {
+    opacity: 1;
+  }
+
+  /* Un trait par photo (zone cliquable plus grande que le trait). */
+  .hero-carousel__dot {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.5rem;
+    align-items: center;
+    padding-inline: 0.25rem;
+  }
+
+  .hero-carousel__line {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 2px;
+    overflow: hidden;
+    background: rgb(255 255 255 / 0.4);
+    transition: background-color 0.3s;
+  }
+
+  .hero-carousel__dot:hover .hero-carousel__line {
+    background: rgb(255 255 255 / 0.7);
+  }
+
+  /* Remplissage du trait de la photo affichée. */
+  .hero-carousel__fill {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* Photo affichée, défilement arrêté : trait plein. */
+  .hero-carousel__dot[aria-current='true'] .hero-carousel__fill {
+    transform: scaleX(1);
+  }
+
+  /* Défilement en cours : le trait se remplit pendant la durée d'affichage. */
+  [data-hero-carousel][data-playing='true'] .hero-carousel__dot[aria-current='true'] .hero-carousel__fill {
+    animation: hero-carousel-fill var(--slide-duration) linear both;
+  }
+
+  /* Défilement suspendu (souris sur les commandes, hero hors écran…) : le trait se fige. */
+  [data-hero-carousel][data-held='true'] .hero-carousel__dot[aria-current='true'] .hero-carousel__fill {
+    animation-play-state: paused;
+  }
+
+  @keyframes hero-carousel-fill {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Animations réduites : changement de photo immédiat, trait plein sans animation. */
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .hero-carousel__slide {
+      transition: none;
+    }
+
+    [data-hero-carousel][data-playing='true'] .hero-carousel__dot[aria-current='true'] .hero-carousel__fill {
+      animation: none;
+      transform: scaleX(1);
+    }
+  }
+</style>
+
+<script>
+  // Durée d'affichage de chaque photo (ms) : à garder identique à --slide-duration ci-dessus.
+  const INTERVAL = 4000;
+
+  const hero = document.querySelector<HTMLElement>('[data-hero-carousel]');
+
+  if (hero) {
+    const slides = Array.from(hero.querySelectorAll<HTMLElement>('[data-slide]'));
+    const dots = Array.from(hero.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+    const slidesBox = hero.querySelector<HTMLElement>('[data-slides]');
+    const controls = hero.querySelector<HTMLElement>('[data-controls]');
+    const toggle = hero.querySelector<HTMLButtonElement>('[data-toggle]');
+    const iconPause = hero.querySelector<HTMLElement>('[data-icon-pause]');
+    const iconPlay = hero.querySelector<HTMLElement>('[data-icon-play]');
+    const root = document.documentElement;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let current = 0;
+    // Arrêt volontaire (bouton pause). Animations réduites : arrêté au départ.
+    let userPaused = reducedMotion;
+    // Raisons d'une suspension momentanée.
+    let pointerOnControls = false;
+    let focusOnControls = false;
+    let inView = true;
+
+    // Minuterie : temps restant avant la photo suivante (conservé pendant une suspension).
+    let timer: number | undefined;
+    let remaining = INTERVAL;
+    let startedAt = 0;
+    let running = false;
+
+    const isHeld = () =>
+      pointerOnControls || focusOnControls || !inView || document.hidden || root.classList.contains('intro-active');
+
+    // Relance l'animation de remplissage du trait (après un changement de photo ou une reprise).
+    const restartFill = () => {
+      const fillEl = dots[current]?.querySelector<HTMLElement>('.hero-carousel__fill');
+      if (fillEl) {
+        fillEl.style.animation = 'none';
+        void fillEl.offsetWidth;
+        fillEl.style.animation = '';
+      }
+    };
+
+    const stopTimer = () => {
+      if (running) {
+        remaining = Math.max(remaining - (performance.now() - startedAt), 0);
+        window.clearTimeout(timer);
+        running = false;
+      }
+    };
+
+    const startTimer = () => {
+      if (running) return;
+      running = true;
+      startedAt = performance.now();
+      timer = window.setTimeout(() => {
+        running = false;
+        show(current + 1);
+      }, remaining);
+    };
+
+    // Met à jour l'état (lecture / pause / suspension) et la minuterie.
+    const sync = () => {
+      const playing = !userPaused;
+      const held = isHeld();
+      hero.dataset.playing = String(playing);
+      hero.dataset.held = String(playing && held);
+      // Lecteurs d'écran : annonce des photos seulement quand elles ne défilent pas seules.
+      slidesBox?.setAttribute('aria-live', playing ? 'off' : 'polite');
+      if (toggle && iconPause && iconPlay) {
+        toggle.setAttribute('aria-label', (playing ? toggle.dataset.labelPause : toggle.dataset.labelPlay) ?? '');
+        iconPause.hidden = !playing;
+        iconPlay.hidden = playing;
+      }
+      if (playing && !held) startTimer();
+      else stopTimer();
+    };
+
+    // Affiche la photo « index » (en boucle) et repart pour une durée complète.
+    function show(index: number) {
+      stopTimer();
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        const active = i === current;
+        slide.dataset.active = String(active);
+        if (active) slide.removeAttribute('aria-hidden');
+        else slide.setAttribute('aria-hidden', 'true');
+      });
+      dots.forEach((dot, i) => {
+        if (i === current) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+      remaining = INTERVAL;
+      restartFill();
+      sync();
+    }
+
+    // Commandes
+    hero.querySelector('[data-prev]')?.addEventListener('click', () => show(current - 1));
+    hero.querySelector('[data-next]')?.addEventListener('click', () => show(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+    toggle?.addEventListener('click', () => {
+      userPaused = !userPaused;
+      if (!userPaused) {
+        // Reprise : la photo affichée repart pour une durée complète.
+        remaining = INTERVAL;
+        restartFill();
+      }
+      sync();
+    });
+
+    // Clavier : flèches gauche / droite quand une commande a le focus.
+    controls?.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        show(current - 1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        show(current + 1);
+      }
+    });
+
+    // Suspension pendant que la souris ou le focus sont sur les commandes.
+    controls?.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') {
+        pointerOnControls = true;
+        sync();
+      }
+    });
+    controls?.addEventListener('pointerleave', () => {
+      pointerOnControls = false;
+      sync();
+    });
+    controls?.addEventListener('focusin', () => {
+      focusOnControls = true;
+      sync();
+    });
+    controls?.addEventListener('focusout', (event) => {
+      if (!controls.contains(event.relatedTarget as Node | null)) {
+        focusOnControls = false;
+        sync();
+      }
+    });
+
+    // Glissement du doigt (mobile) : vers la gauche = photo suivante.
+    let touchX = 0;
+    let touchY = 0;
+    hero.addEventListener(
+      'touchstart',
+      (event) => {
+        touchX = event.touches[0].clientX;
+        touchY = event.touches[0].clientY;
+      },
+      { passive: true },
+    );
+    hero.addEventListener(
+      'touchend',
+      (event) => {
+        const dx = event.changedTouches[0].clientX - touchX;
+        const dy = event.changedTouches[0].clientY - touchY;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) show(current + (dx < 0 ? 1 : -1));
+      },
+      { passive: true },
+    );
+
+    // Suspension quand le hero sort de l'écran, quand l'onglet est caché
+    // ou tant que l'écran d'entrée est affiché.
+    new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
+    }).observe(hero);
+    document.addEventListener('visibilitychange', sync);
+    new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['class'] });
+
+    restartFill();
+    sync();
+  }
+</script>

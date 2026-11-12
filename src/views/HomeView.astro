@@ -1,13 +1,13 @@
 ---
 /**
  * Page d'accueil (FR et EN) — structure du §6 de CLAUDE.md (refonte du 06/11/2026) :
- * Hero animé (chalet « accueil » → piscine au défilement) → 4 cartes-photos (Le Chalet, Services, Méribel,
+ * Hero en carrousel (4 photos, défilement automatique, 12/11/2026) → 4 cartes-photos (Le Chalet, Services, Méribel,
  * Offre & Contact) → mosaïque de photos → appel à l'action.
  * Écran d'entrée (IntroGate, §5.8) par-dessus, une fois par session : option « intro » ci-dessous.
  * Textes : src/content/{fr,en}/home.json.
  */
 import CTASection from '../components/CTASection.astro';
-import HeroReveal from '../components/HeroReveal.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 import PhotoMosaic from '../components/PhotoMosaic.astro';
 import ImageLinkCards from '../components/ImageLinkCards.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -21,6 +21,10 @@ interface Props {
 const { lang } = Astro.props;
 const common = getContent(lang, 'common');
 const page = getContent(lang, 'home');
+
+// Photos du carrousel du hero, dans l'ordre d'affichage (choix du client du 12/11/2026).
+// « accueil » = photo du chalet retouchée (hero/le-chalet.jpg sans le tuyau gris).
+const heroPhotos = ['accueil', 'piscine-04', 'cinema-01', 'service-01'];
 
 // Section sous le hero : 4 cartes-photos cliquables vers les pages principales.
 const cards = page.intro.cards;
@@ -45,13 +49,13 @@ const mosaicPhotos = [
 ---
 
 <BaseLayout lang={lang} routeKey="home" title={page.meta.title} description={page.meta.description} photoId="accueil" lodging hero intro>
-  <HeroReveal
+  <HeroCarousel
     lang={lang}
-    photoId="accueil"
-    revealPhotoId="piscine-03"
+    photoIds={heroPhotos}
     title={page.hero.title}
     subtitle={page.hero.subtitle}
     cta={{ href: contactFormPath(lang), label: common.cta.contact }}
+    labels={page.hero.carousel}
   />
 
   <section class="bg-bg-alt py-16 md:py-28" aria-label={page.intro.label}>
