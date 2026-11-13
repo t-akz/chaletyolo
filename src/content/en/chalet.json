@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Ultra-Luxury Chalet in Méribel, 3 Valleys — Chalet Yolo",
+    "title": "Luxury Chalet in Méribel, 3 Valleys — Chalet Yolo",
     "description": "330 m² over four levels with a lift: six bedrooms including four suites, heated indoor pool, spa, home cinema and yoga room in Méribel, Les 3 Vallées."
   },
   "hero": {
@@ -9,7 +9,7 @@
   },
   "intro": {
     "title": "The chalet",
-    "text": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, hot tub, sauna, hammam, yoga room and home cinema.\nYour stay is fully taken care of by a chef, a chalet manager and a chauffeur."
+    "text": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, jacuzzi, sauna, hammam, yoga room and home cinema.\nYour stay is fully taken care of by a chef, a chalet manager and a chauffeur."
   },
   "spaces": {
     "label": "The chalet's spaces",
@@ -20,7 +20,7 @@
     },
     "wellness": {
       "title": "Spa & Wellness",
-      "text": "Sauna, hammam, Jacuzzi and Jacuzzi bath: a complete spa, all to yourselves. The perfect setting for an in-chalet massage, bookable à la carte."
+      "text": "Sauna, hammam, Jacuzzi : a complete spa, all to yourselves. The perfect setting for an in-chalet massage, bookable à la carte."
     },
     "cinema": {
       "title": "Home Cinema",

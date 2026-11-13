@@ -51,7 +51,7 @@ export function lodgingBusinessJsonLd(lang: Lang, description: string, imageUrl?
     // « Animaux acceptés » figure dans la liste des équipements (§8).
     petsAllowed: true,
     // Équipements phares confirmés (la salle de jeux n'y figure pas),
-    // puis formules et personnel (chef privé, majordome, chauffeur).
+    // puis formule (pension complète) et personnel (chef privé, chalet manager, chauffeur).
     amenityFeature: [
       ...visibleFeatures().map((feature) => feature.label[lang]),
       ...catering.formulas.map((formula) => formula.label[lang]),

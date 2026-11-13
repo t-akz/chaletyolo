@@ -7,6 +7,9 @@
  * l'adresse d'un fichier mp4 placé dans public/ (ex. « /video/hero.mp4 »).
  * La photo reste affichée en repli (et si l'utilisateur limite les animations).
  *
+ * Retour à la ligne forcé : un « \n » dans le titre (fichier de textes) crée un retour à la ligne
+ * (ex. page Services en anglais, demande du client du 13/11/2026).
+ *
  * Titre sur une seule ligne (optionnel, « singleLine ») : le titre ne passe jamais
  * à la ligne ; sa taille diminue si la largeur manque (voir plus bas).
  */
@@ -86,7 +89,7 @@ const titleFontSize = singleLine
       <h1 class="text-white">
         {subtitle && <span class="eyebrow mb-6 block">{subtitle}</span>}{' '}
         <span
-          class:list={['block text-display', singleLine && 'whitespace-nowrap']}
+          class:list={['block text-display', singleLine ? 'whitespace-nowrap' : 'whitespace-pre-line']}
           style={titleFontSize ? `font-size: ${titleFontSize}` : undefined}>{title}</span
         >
       </h1>

@@ -11,7 +11,7 @@
   },
   "offer": {
     "title": "Saison 2026 – 2027",
-    "intro": "Location à la semaine, du samedi au samedi, en demi-pension ou en pension complète.",
+    "intro": "Location à la semaine, du samedi au samedi, en pension complète.",
     "label": "Tarifs par mois",
     "perNight": "{price} / nuit",
     "nights": "{count} nuits",

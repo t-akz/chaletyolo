@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Luxury Catered Chalet in Méribel, 3 Valleys — Chalet Yolo",
-    "description": "Chalet Yolo, a luxury catered chalet in Méribel with private chef and butler, heated indoor pool and spa. Six bedrooms for 15 guests in Les 3 Vallées."
+    "description": "Chalet Yolo, a luxury catered chalet in Méribel with private chef and chalet manager, heated indoor pool and spa. Six bedrooms for 15 guests in Les 3 Vallées."
   },
   "introGate": {
     "label": "Welcome to Chalet Yolo",
@@ -9,8 +9,8 @@
     "languages": "Site language"
   },
   "hero": {
-    "title": "The gentle side of winter. The luxury of service.",
-    "subtitle": "Private Catered Chalet, Spa & Pool · Méribel",
+    "title": "The softness of winter. The luxury of service.",
+    "subtitle": "Catered Luxury Chalet, Spa & Pool · Méribel",
     "carousel": {
       "label": "Chalet photos",
       "roledescription": "carousel",
@@ -35,7 +35,7 @@
       },
       "services": {
         "title": "Fully Pampered",
-        "subtitle": "Chef, Butler & Chauffeur"
+        "subtitle": "Chef, Chalet Manager & Chauffeur"
       },
       "meribel": {
         "title": "Méribel Les 3 Vallées",

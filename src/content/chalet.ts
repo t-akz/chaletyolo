@@ -108,18 +108,18 @@ export function hiddenPhotoFolders(): string[] {
 }
 
 // ---------------------------------------------------------------------------
-// Formules de location (confirmé par le client le 30/10/2026)
-// Location proposée exclusivement en Half Catered ou Full Catered,
-// avec chef privé, majordome et chauffeur.
+// Formule de location : pension complète (Full Catered) uniquement, avec chef privé,
+// chalet manager et chauffeur (confirmé par le client le 13/11/2026 ; auparavant
+// demi-pension ou pension complète, avec majordome).
+// Les identifiants internes « majordome » (équipe, photo) sont gardés tels quels.
 // ---------------------------------------------------------------------------
 export const catering = {
   formulas: [
-    { id: 'half-catered', label: { fr: 'Demi-pension', en: 'Half Catered' } },
     { id: 'full-catered', label: { fr: 'Pension complète', en: 'Full Catered' } },
   ] satisfies { id: string; label: Localized }[],
   staff: [
     { id: 'chef', label: { fr: 'Chef privé', en: 'Private chef' } },
-    { id: 'butler', label: { fr: 'Majordome', en: 'Butler' } },
+    { id: 'chalet-manager', label: { fr: 'Chalet Manager', en: 'Chalet Manager' } },
     { id: 'chauffeur', label: { fr: 'Chauffeur', en: 'Chauffeur' } },
   ] satisfies { id: string; label: Localized }[],
 };

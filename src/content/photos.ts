@@ -141,7 +141,7 @@ const slots: PhotoSlot[] = [
   { id: 'chauffeur-01', folder: 'services', alt: { fr: 'Le chauffeur du Chalet Yolo aide une cliente en tenue de ski à descendre du van privé aux couleurs du chalet, devant un chalet enneigé', en: 'The Chalet Yolo chauffeur helps a guest in ski gear out of the chalet’s private van, in front of a snow-covered chalet' } },
   // Portraits de l'équipe (page Services, « Meet the team ») : fichiers attendus
   // src/assets/photos/equipe/majordome.jpeg et chef.jpeg (fournis le 12/11/2026).
-  { id: 'majordome', folder: 'equipe', alt: { fr: 'Portrait de la majordome du Chalet Yolo', en: 'Portrait of the Chalet Yolo butler' }, inGallery: false },
+  { id: 'majordome', folder: 'equipe', alt: { fr: 'Portrait de la chalet manager du Chalet Yolo', en: 'Portrait of the Chalet Yolo chalet manager' }, inGallery: false },
   { id: 'chef', folder: 'equipe', alt: { fr: 'Portrait du chef privé du Chalet Yolo', en: 'Portrait of the Chalet Yolo private chef' }, inGallery: false },
   // « service-02 » (apéritif) retirée de la galerie à la demande du client (05/11/2026) ; son fichier services/service-02.png reste dans le dossier.
   // exterieur-02 prend sa place dans la galerie (dernière position).

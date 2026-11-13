@@ -174,8 +174,8 @@
         "en": "Luxury Catered Chalet in Méribel, 3 Valleys — Chalet Yolo"
       },
       "description": {
-        "fr": "Chalet Yolo, location de chalet de luxe à Méribel avec chef privé et majordome : piscine intérieure chauffée, spa et 6 chambres pour 15 personnes.",
-        "en": "Chalet Yolo, a luxury catered chalet in Méribel with private chef and butler, heated indoor pool and spa. Six bedrooms for 15 guests in Les 3 Vallées."
+        "fr": "Chalet Yolo, location de chalet de luxe à Méribel avec chef privé et chalet manager : piscine intérieure chauffée, spa et 6 chambres pour 15 personnes.",
+        "en": "Chalet Yolo, a luxury catered chalet in Méribel with private chef and chalet manager, heated indoor pool and spa. Six bedrooms for 15 guests in Les 3 Vallées."
       }
     },
     "introGate": {
@@ -197,11 +197,11 @@
       "_emplacement": "Grande photo d’ouverture (photo du chalet puis piscine qui monte au défilement). subtitle = petit sur-titre en majuscules AU-DESSUS ; title = grande accroche.",
       "title": {
         "fr": "La douceur de l'hiver. Le luxe du service.",
-        "en": "The gentle side of winter. The luxury of service."
+        "en": "The softness of winter. The luxury of service."
       },
       "subtitle": {
         "fr": "Chalet privé avec chef, Spa & piscine · Méribel",
-        "en": "Private Catered Chalet, Spa & Pool · Méribel"
+        "en": "Catered Luxury Chalet, Spa & Pool · Méribel"
       },
       "carousel": {
         "_emplacement": "Invisibles : libellés du carrousel du hero lus par les lecteurs d’écran (boutons pause, précédente, suivante…). {n} et {total} à garder.",
@@ -275,8 +275,8 @@
             "en": "Fully Pampered"
           },
           "subtitle": {
-            "fr": "Chef, Majordome & Chauffeur",
-            "en": "Chef, Butler & Chauffeur"
+            "fr": "Chef, Chalet Manager & Chauffeur",
+            "en": "Chef, Chalet Manager & Chauffeur"
           }
         },
         "meribel": {
@@ -327,8 +327,8 @@
     "meta": {
       "_emplacement": "Titre de l’onglet du navigateur + description Google (non visibles sur la page).",
       "title": {
-        "fr": "Chalet ultra luxe aux 3 Vallées, Méribel — Chalet Yolo",
-        "en": "Ultra-Luxury Chalet in Méribel, 3 Valleys — Chalet Yolo"
+        "fr": "Chalet luxe aux 3 Vallées, Méribel — Chalet Yolo",
+        "en": "Luxury Chalet in Méribel, 3 Valleys — Chalet Yolo"
       },
       "description": {
         "fr": "330 m² sur quatre niveaux avec ascenseur : six chambres dont quatre suites, piscine intérieure chauffée, spa, home cinéma et salle de yoga à Méribel.",
@@ -354,7 +354,7 @@
       },
       "text": {
         "fr": "Le Chalet Yolo est une adresse d’exception proche du Raffort, à Méribel, au cœur des 3 Vallées. Ce chalet contemporain accueille jusqu’à 15 personnes dans six chambres, avec piscine intérieure, jacuzzi, sauna, hammam, salle de yoga et home cinéma.\nLe séjour est entièrement pris en charge par un chef, un chalet manager et un chauffeur.",
-        "en": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, hot tub, sauna, hammam, yoga room and home cinema.\nYour stay is fully taken care of by a chef, a chalet manager and a chauffeur."
+        "en": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, jacuzzi, sauna, hammam, yoga room and home cinema.\nYour stay is fully taken care of by a chef, a chalet manager and a chauffeur."
       }
     },
     "spaces": {
@@ -386,8 +386,8 @@
           "en": "Spa & Wellness"
         },
         "text": {
-          "fr": "Sauna, hammam, jacuzzi et bain jacuzzi : un spa complet, rien que pour vous. Le cadre idéal pour un massage au chalet, à réserver à la carte.",
-          "en": "Sauna, hammam, Jacuzzi and Jacuzzi bath: a complete spa, all to yourselves. The perfect setting for an in-chalet massage, bookable à la carte."
+          "fr": "Sauna, hammam, jacuzzi: un spa complet, rien que pour vous. Le cadre idéal pour un massage au chalet, à réserver à la carte.",
+          "en": "Sauna, hammam, Jacuzzi : a complete spa, all to yourselves. The perfect setting for an in-chalet massage, bookable à la carte."
         }
       },
       "cinema": {
@@ -537,8 +537,8 @@
         "en": "Private Indoor Pool & Spa in Méribel — Chalet Yolo"
       },
       "description": {
-        "fr": "Piscine intérieure chauffée et privative, jacuzzi, bain jacuzzi, sauna et hammam : l'espace bien-être du Chalet Yolo, chalet de luxe avec chef à Méribel.",
-        "en": "Heated private indoor pool, Jacuzzi, Jacuzzi bath, sauna and hammam: the wellness area of Chalet Yolo, a luxury catered chalet in Méribel."
+        "fr": "Piscine intérieure chauffée et privative, jacuzzi, sauna et hammam : l'espace bien-être du Chalet Yolo, chalet de luxe avec chef à Méribel.",
+        "en": "Heated private indoor pool, Jacuzzi, sauna and hammam: the wellness area of Chalet Yolo, a luxury catered chalet in Méribel."
       }
     },
     "hero": {
@@ -553,8 +553,8 @@
     },
     "pool": {
       "eyebrow": {
-        "fr": "Piscine & Jacuzzi",
-        "en": "Pool & Jacuzzi"
+        "fr": "Détente",
+        "en": "Unwind"
       },
       "title": {
         "fr": "Piscine & Jacuzzi",
@@ -567,8 +567,8 @@
     },
     "spa": {
       "eyebrow": {
-        "fr": "Spa",
-        "en": "Spa"
+        "fr": "Relaxation",
+        "en": "Relax"
       },
       "title": {
         "fr": "Sauna & Hammam",
@@ -591,19 +591,19 @@
     "meta": {
       "_emplacement": "Titre de l’onglet du navigateur + description Google (non visibles sur la page).",
       "title": {
-        "fr": "Chalet prestige à Méribel en demi-pension — Chalet Yolo",
+        "fr": "Chalet de luxe à Méribel  — Chalet Yolo",
         "en": "Chalet with Private Chef, Méribel · Full Board — Chalet Yolo"
       },
       "description": {
-        "fr": "Demi-pension ou pension complète avec chef privé, majordome et chauffeur : un chalet ultra luxe aux 3 Vallées, avec un service pensé pour votre séjour.",
-        "en": "Half board or full board with private chef, butler and chauffeur: an ultra-luxury catered chalet in Les 3 Vallées, with service tailored to your stay."
+        "fr": "Pension complète avec chef privé, chalet manager et chauffeur : un chalet ultra luxe aux 3 Vallées, avec un service pensé pour votre séjour.",
+        "en": "Full board with private chef, chalet manager and chauffeur: an ultra-luxury catered chalet in Les 3 Vallées, with service tailored to your stay."
       }
     },
     "hero": {
       "_emplacement": "Grande photo d’ouverture (table dressée). subtitle = sur-titre au-dessus ; title = grande accroche.",
       "title": {
         "fr": "Aux petits soins, du matin au soir.",
-        "en": "Pampered, from morning to night."
+        "en": "Cared for,\nfrom dawn to dusk."
       },
       "subtitle": {
         "fr": "Chef privé · Chalet Manager · Chauffeur · 24/7",
@@ -628,7 +628,7 @@
         "fr": [
           "Pension complète",
           "Chef privé",
-          "Majordome",
+          "Chalet Manager",
           "Chauffeur",
           "Navette privée incluse matin et soir vers les remontées",
           "Conciergerie dédiée",
@@ -637,9 +637,9 @@
           "Ménage de fin de séjour inclus"
         ],
         "en": [
-          "Half Catered or Full Catered",
+          "Full Catered",
           "Private chef",
-          "Butler",
+          "Chalet Manager",
           "Chauffeur",
           "Private shuttle included morning and evening to the ski lifts",
           "Dedicated concierge",
@@ -893,8 +893,8 @@
         "en": "2026 – 2027 season"
       },
       "intro": {
-        "fr": "Location à la semaine, du samedi au samedi, en demi-pension ou en pension complète.",
-        "en": "Weekly stays, Saturday to Saturday, half catered or full catered."
+        "fr": "Location à la semaine, du samedi au samedi, en pension complète.",
+        "en": "Weekly stays, Saturday to Saturday, fully catered."
       },
       "label": {
         "fr": "Tarifs par mois",
@@ -903,6 +903,11 @@
       "perNight": {
         "fr": "{price} / nuit",
         "en": "{price} / night"
+      },
+      "nights": {
+        "_emplacement": "Onglet Offre : nombre de nuits sous les dates d’une période spéciale (ex. « 2 nuits »). {count} à garder.",
+        "fr": "{count} nuits",
+        "en": "{count} nights"
       },
       "book": {
         "fr": "Réserver",
@@ -1570,8 +1575,8 @@
       "en": "The Chalet Yolo chauffeur helps a guest in ski gear out of the chalet’s private van, in front of a snow-covered chalet"
     },
     "majordome": {
-      "fr": "Portrait de la majordome du Chalet Yolo",
-      "en": "Portrait of the Chalet Yolo butler"
+      "fr": "Portrait de la chalet manager du Chalet Yolo",
+      "en": "Portrait of the Chalet Yolo chalet manager"
     },
     "chef": {
       "fr": "Portrait du chef privé du Chalet Yolo",
@@ -2038,9 +2043,9 @@
         "sourceSeed": "Rien n'a encore été enregistré : ce sont les données de départ.",
         "sourceAdmin": "Ce sont les dernières données enregistrées."
       },
-      "help": "Prix : total de la semaine en euros, chiffres seuls (ex. 18500) ; laissé vide, la carte affiche « [À FOURNIR] ». Semaine réservée : la carte est grisée, sans prix ni lien « Réserver ». Mention : facultative, {max} caractères maximum, en français ET en anglais.",
+      "help": "Prix : total de la période en euros, chiffres seuls (ex. 18500) ; laissé vide, la carte affiche « [À FOURNIR] ». Réservée : la carte est grisée, sans prix ni lien « Réserver ». Mention : facultative, {max} caractères maximum, en français ET en anglais. Dates : une semaine va du samedi au samedi ; pour une période spéciale (ex. 2 nuits du jeudi au samedi, ou une réservation de 10 jours), utilisez « Modifier les dates » ou « Ajouter une période ». Les périodes ne doivent pas se chevaucher.",
       "columns": {
-        "week": "Semaine",
+        "week": "Période",
         "price": "Prix total (€)",
         "perNight": "Par nuit",
         "booked": "Réservée",
@@ -2050,13 +2055,13 @@
       "perNightEmpty": "—",
       "months": {
         "empty": "Aucun mois : ajoutez-en un ci-dessous.",
-        "weeks": "{count} semaines",
+        "weeks": "{count} périodes",
         "remove": "Retirer ce mois",
         "removeConfirm": "Retirer {month} et toutes ses semaines ? Il disparaîtra du site à la prochaine publication.",
         "addTitle": "Ajouter un mois",
         "addLabel": "Mois",
         "addButton": "Ajouter",
-        "addHint": "Toutes ses semaines (du samedi au samedi) sont créées automatiquement.",
+        "addHint": "Toutes ses semaines (du samedi au samedi) sont créées automatiquement. Vous pourrez ensuite modifier leurs dates.",
         "addMissing": "Choisissez un mois.",
         "exists": "{month} est déjà dans la liste."
       },
@@ -2073,7 +2078,19 @@
       },
       "loading": "Chargement des tarifs…",
       "loadError": "Impossible de charger les tarifs : {message}",
-      "networkError": "le serveur ne répond pas."
+      "networkError": "le serveur ne répond pas.",
+      "period": {
+        "nights": "{count} nuits",
+        "editDates": "Modifier les dates",
+        "closeDates": "Fermer",
+        "arrival": "Arrivée",
+        "departure": "Départ",
+        "remove": "Supprimer",
+        "removeConfirm": "Supprimer la période {dates} ? Elle disparaîtra du site à la prochaine publication.",
+        "addTitle": "Ajouter une période",
+        "addButton": "Ajouter",
+        "addInvalid": "Choisissez une arrivée dans ce mois et un départ après l'arrivée ({max} nuits maximum)."
+      }
     }
   }
 }

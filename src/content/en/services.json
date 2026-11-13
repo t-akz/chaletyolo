@@ -1,10 +1,10 @@
 {
   "meta": {
     "title": "Chalet with Private Chef, Méribel · Full Board — Chalet Yolo",
-    "description": "Half board or full board with private chef, butler and chauffeur: an ultra-luxury catered chalet in Les 3 Vallées, with service tailored to your stay."
+    "description": "Full board with private chef, chalet manager and chauffeur: an ultra-luxury catered chalet in Les 3 Vallées, with service tailored to your stay."
   },
   "hero": {
-    "title": "Pampered, from morning to night.",
+    "title": "Cared for,\nfrom dawn to dusk.",
     "subtitle": "Private Chef · Chalet Manager · Chauffeur · 24/7"
   },
   "offer": {
@@ -12,9 +12,9 @@
     "servicesTitle": "At Your Service",
     "facilitiesTitle": "Ultimate Comfort",
     "services": [
-      "Half Catered or Full Catered",
+      "Full Catered",
       "Private chef",
-      "Butler",
+      "Chalet Manager",
       "Chauffeur",
       "Private shuttle included morning and evening to the ski lifts",
       "Dedicated concierge",

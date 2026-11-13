@@ -1,37 +1,1565 @@
 {
   "_lisez_moi": [
-    "Textes français modifiés le 13/11/2026 et leur version anglaise, à vérifier.",
-    "Corrigez la valeur « en » (ou « fr ») si besoin et renvoyez-moi le fichier : j'appliquerai les corrections dans le site.",
-    "La liste complète de tous les textes du site est dans textes-site.json."
+    "Vérification globale : tous les textes visibles du site, français (fr) et anglais (en) côte à côte, page par page.",
+    "Corrigez uniquement les valeurs « fr » et « en » puis renvoyez-moi le fichier : j’appliquerai les corrections. Ne renommez pas les clés ; « _emplacement » = commentaire (où le texte s’affiche).",
+    "Les mots entre accolades ({title}, {count}, {price}…) sont remplacés automatiquement : gardez-les. « \\n » = retour à la ligne.",
+    "Inclus : titres d’onglet et descriptions Google (« meta »), noms des pièces sur les plans. « MASQUÉ POUR L’INSTANT » = texte prêt mais pas affiché aujourd’hui.",
+    "Non inclus : textes invisibles (lecteurs d’écran), textes alternatifs des photos, données Google, admin des tarifs. Ils restent dans textes-site.json.",
+    "Généré le 13/11/2026."
   ],
-  "home.intro.cards.meribel.title": {
-    "_emplacement": "Accueil, 4e carte-photo (titre).",
-    "fr": "Méribel Les 3 Vallées",
-    "en": "Méribel Les 3 Vallées"
+  "common": {
+    "_emplacement": "Textes présents sur TOUTES les pages (en-tête, menu, pied de page, boutons communs).",
+    "nav": {
+      "_emplacement": "Menu plein écran (bouton burger en haut à droite).",
+      "chalet": {
+        "fr": "Le Chalet",
+        "en": "The Chalet"
+      },
+      "poolSpa": {
+        "_emplacement": "Entrée du menu vers la page Piscine & Spa (ajoutée le 13/11/2026).",
+        "fr": "Piscine & Spa",
+        "en": "Pool & Spa"
+      },
+      "services": {
+        "fr": "Aux petits soins",
+        "en": "Fully Pampered"
+      },
+      "meribel": {
+        "fr": "Les 3 Vallées",
+        "en": "Les 3 Vallées"
+      },
+      "gallery": {
+        "fr": "Galerie",
+        "en": "Gallery"
+      },
+      "contact": {
+        "fr": "Votre Séjour",
+        "en": "Your Stay"
+      }
+    },
+    "header": {
+      "_emplacement": "En-tête. Ces 3 libellés sont invisibles (lecteurs d’écran) : lien du logo, boutons ouvrir/fermer le menu.",
+      "homeLink": {
+        "fr": "Chalet Yolo — accueil",
+        "en": "Chalet Yolo — home"
+      },
+      "openMenu": {
+        "fr": "Ouvrir le menu",
+        "en": "Open menu"
+      },
+      "closeMenu": {
+        "fr": "Fermer le menu",
+        "en": "Close menu"
+      }
+    },
+    "languageSwitcher": {
+      "_emplacement": "Sélecteur FR | EN, en haut du menu plein écran (short = affiché, name = lecteurs d’écran).",
+      "label": {
+        "fr": "Langue",
+        "en": "Language"
+      },
+      "fr": {
+        "short": {
+          "fr": "FR",
+          "en": "FR"
+        },
+        "name": {
+          "fr": "Français",
+          "en": "Français"
+        }
+      },
+      "en": {
+        "short": {
+          "fr": "EN",
+          "en": "EN"
+        },
+        "name": {
+          "fr": "English",
+          "en": "English"
+        }
+      }
+    },
+    "cta": {
+      "contact": {
+        "_emplacement": "Bouton principal bordeaux « Nous contacter » : en-tête, hero de l’accueil, sections « Parlons de votre séjour ».",
+        "fr": "Nous contacter",
+        "en": "Contact us"
+      }
+    },
+    "figures": {
+      "_emplacement": "Page Le chalet, chiffres clés sous le texte d’intro : mots affichés sous 350 / 15 / 6 / 6.",
+      "surface": {
+        "fr": "m²",
+        "en": "m²"
+      },
+      "guests": {
+        "fr": "personnes",
+        "en": "guests"
+      },
+      "bedrooms": {
+        "fr": "chambres",
+        "en": "bedrooms"
+      },
+      "bathrooms": {
+        "fr": "salles de bain",
+        "en": "bathrooms"
+      }
+    },
+    "whatsapp": {
+      "_emplacement": "MASQUÉ POUR L’INSTANT (WhatsApp masqué en attendant le compte).",
+      "label": {
+        "_emplacement": "Bouton WhatsApp flottant (bas droite) et lien WhatsApp des sections « Parlons de votre séjour ».",
+        "fr": "Nous écrire sur WhatsApp",
+        "en": "Message us on WhatsApp"
+      },
+      "message": {
+        "_emplacement": "Message prérempli quand le visiteur ouvre WhatsApp.",
+        "fr": "Bonjour, je souhaiterais organiser un séjour au Chalet Yolo.",
+        "en": "Hello, I would like to arrange a stay at Chalet Yolo."
+      }
+    },
+    "footer": {
+      "_emplacement": "Pied de page (fond nude) : titres des colonnes, liens légaux, mention © en bas.",
+      "contactTitle": {
+        "fr": "Contact",
+        "en": "Contact"
+      },
+      "socialTitle": {
+        "fr": "Nous suivre",
+        "en": "Follow us"
+      },
+      "legalTitle": {
+        "_emplacement": "MASQUÉ POUR L’INSTANT (bloc Informations du pied de page masqué en attendant les informations légales). ",
+        "fr": "Informations",
+        "en": "Information"
+      },
+      "legal": {
+        "_emplacement": "MASQUÉ POUR L’INSTANT (bloc Informations du pied de page masqué en attendant les informations légales). ",
+        "fr": "Mentions légales",
+        "en": "Legal notice"
+      },
+      "privacy": {
+        "_emplacement": "MASQUÉ POUR L’INSTANT (bloc Informations du pied de page masqué en attendant les informations légales). ",
+        "fr": "Confidentialité",
+        "en": "Privacy"
+      },
+      "whatsapp": {
+        "_emplacement": "MASQUÉ POUR L’INSTANT (WhatsApp masqué en attendant le compte). ",
+        "fr": "WhatsApp",
+        "en": "WhatsApp"
+      },
+      "rights": {
+        "fr": "Tous droits réservés.",
+        "en": "All rights reserved."
+      }
+    }
   },
-  "poolSpa.hero.title": {
-    "_emplacement": "Piscine & Spa, grand titre en haut de la page.",
-    "fr": "Le luxe d'un spa. Rien que pour vous.",
-    "en": "The luxury of a spa. All to yourselves."
+  "home": {
+    "_emplacement": "Page d’accueil — FR : / · EN : /en/",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description dans les résultats Google (non visibles sur la page).",
+      "title": {
+        "fr": "Location chalet de luxe à Méribel avec chef — Chalet Yolo",
+        "en": "Luxury Catered Chalet in Méribel, 3 Valleys — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Chalet Yolo, location de chalet de luxe à Méribel avec chef privé et chalet manager : piscine intérieure chauffée, spa et 6 chambres pour 15 personnes.",
+        "en": "Chalet Yolo, a luxury catered chalet in Méribel with private chef and chalet manager, heated indoor pool and spa. Six bedrooms for 15 guests in Les 3 Vallées."
+      }
+    },
+    "introGate": {
+      "_emplacement": "Écran d’entrée bordeaux (1re visite) : label = invisible, enter = bouton, languages = nom du sélecteur Français · English (invisible).",
+      "label": {
+        "fr": "Bienvenue au Chalet Yolo",
+        "en": "Welcome to Chalet Yolo"
+      },
+      "enter": {
+        "fr": "Enter",
+        "en": "Enter"
+      },
+      "languages": {
+        "fr": "Langue du site",
+        "en": "Site language"
+      }
+    },
+    "hero": {
+      "_emplacement": "Grande photo d’ouverture (photo du chalet puis piscine qui monte au défilement). subtitle = petit sur-titre en majuscules AU-DESSUS ; title = grande accroche.",
+      "title": {
+        "fr": "La douceur de l'hiver. Le luxe du service.",
+        "en": "The softness of winter. The luxury of service."
+      },
+      "subtitle": {
+        "fr": "Chalet privé avec chef, Spa & piscine · Méribel",
+        "en": "Catered Luxury Chalet, Spa & Pool · Méribel"
+      }
+    },
+    "intro": {
+      "_emplacement": "Les 4 cartes-photos cliquables sous le hero. label = invisible.",
+      "label": {
+        "fr": "Découvrir Chalet Yolo",
+        "en": "Discover Chalet Yolo"
+      },
+      "cards": {
+        "chalet": {
+          "_emplacement": "Carte 1 (photo séjour) → page Le chalet.",
+          "title": {
+            "fr": "Le Chalet",
+            "en": "The Chalet"
+          },
+          "subtitle": {
+            "fr": "6 Chambres, Salons & Home Cinema",
+            "en": "6 Bedrooms, Lounges & Home Cinema"
+          }
+        },
+        "poolSpa": {
+          "_emplacement": "2e carte-photo sous le hero (photo piscine-02) → page Piscine & Spa.",
+          "title": {
+            "fr": "Piscine & Spa",
+            "en": "Pool & Spa"
+          },
+          "subtitle": {
+            "fr": "Sauna, Hammam & Jacuzzi",
+            "en": "Sauna, Hammam & Jacuzzi"
+          }
+        },
+        "services": {
+          "_emplacement": "Carte 2 (photo cuisine) → page Services.",
+          "title": {
+            "fr": "Aux petits soins",
+            "en": "Fully Pampered"
+          },
+          "subtitle": {
+            "fr": "Chef, Chalet Manager & Chauffeur",
+            "en": "Chef, Chalet Manager & Chauffeur"
+          }
+        },
+        "meribel": {
+          "_emplacement": "Carte 3 (photo Méribel) → page Méribel.",
+          "title": {
+            "fr": "Méribel Les 3 Vallées",
+            "en": "Méribel Les 3 Vallées"
+          },
+          "subtitle": {
+            "fr": "Le meilleur domaine skiable",
+            "en": "The Best Ski Area"
+          }
+        },
+        "contact": {
+          "_emplacement": "Carte 4 (photo piscine) → onglet Offre de la page Offre & Contact.",
+          "title": {
+            "fr": "Votre Séjour",
+            "en": "Your Stay"
+          },
+          "subtitle": {
+            "fr": "Tarifs & Réservations",
+            "en": "Rates & Bookings"
+          }
+        }
+      }
+    },
+    "gallery": {
+      "_emplacement": "Mosaïque de 8 photos : titre au-dessus + lien texte vers la Galerie.",
+      "title": {
+        "fr": "Galerie",
+        "en": "Gallery"
+      },
+      "link": {
+        "fr": "Voir toutes les photos",
+        "en": "See all photos"
+      }
+    },
+    "cta": {
+      "_emplacement": "Dernière section : titre au-dessus du bouton « Nous contacter » et du lien WhatsApp.",
+      "title": {
+        "fr": "Parlons de votre séjour",
+        "en": "Let's talk about your stay"
+      }
+    }
   },
-  "poolSpa.pool.title": {
-    "_emplacement": "Piscine & Spa, titre du bloc Piscine.",
-    "fr": "Piscine & Jacuzzi",
-    "en": "Pool & Jacuzzi"
+  "chalet": {
+    "_emplacement": "Page Le chalet — FR : /le-chalet · EN : /en/the-chalet",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description Google (non visibles sur la page).",
+      "title": {
+        "fr": "Chalet luxe aux 3 Vallées, Méribel — Chalet Yolo",
+        "en": "Luxury Chalet in Méribel, 3 Valleys — Chalet Yolo"
+      },
+      "description": {
+        "fr": "330 m² sur quatre niveaux avec ascenseur : six chambres dont quatre suites, piscine intérieure chauffée, spa, home cinéma et salle de yoga à Méribel.",
+        "en": "330 m² over four levels with a lift: six bedrooms including four suites, heated indoor pool, spa, home cinema and yoga room in Méribel, Les 3 Vallées."
+      }
+    },
+    "hero": {
+      "_emplacement": "Grande photo d’ouverture (salon cathédrale). subtitle = sur-titre au-dessus ; title = grande accroche.",
+      "title": {
+        "fr": "Un cocon en altitude",
+        "en": "A cocoon at altitude"
+      },
+      "subtitle": {
+        "fr": "Chalet de luxe · Spa, piscine & Jacuzzi",
+        "en": "Luxury Chalet · Spa, Pool & Jacuzzi"
+      }
+    },
+    "intro": {
+      "_emplacement": "Section sous le hero : title = petit sur-titre ; text = grand texte fin (un saut de ligne « \\n » = retour à la ligne). Suivi des chiffres clés (voir common.figures).",
+      "title": {
+        "fr": "Le chalet",
+        "en": "The chalet"
+      },
+      "text": {
+        "fr": "Le Chalet Yolo est une adresse d’exception proche du Raffort, à Méribel, au cœur des 3 Vallées. Ce chalet contemporain accueille jusqu’à 15 personnes dans six chambres, avec piscine intérieure, jacuzzi, sauna, hammam, salle de yoga et home cinéma.\nLe séjour est entièrement pris en charge par un chef, un chalet manager et un chauffeur.",
+        "en": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, jacuzzi, sauna, hammam, yoga room and home cinema.\nYour stay is fully taken care of by a chef, a chalet manager and a chauffeur."
+      }
+    },
+    "spaces": {
+      "_emplacement": "Accordéon de photos (colonnes qui s’élargissent au survol). label = invisible. Chaque espace : title = titre (vertical quand fermé), text = texte affiché à l’ouverture.",
+      "label": {
+        "fr": "Les espaces du chalet",
+        "en": "The chalet's spaces"
+      },
+      "pool": {
+        "_emplacement": "Colonne 1 — photo piscine-01.",
+        "title": {
+          "fr": "Piscine & Jacuzzi",
+          "en": "Pool & Jacuzzi"
+        },
+        "text": {
+          "_emplacement": "MASQUÉ POUR L’INSTANT (textes de l’accordéon masqués (essai du 13/11/2026)). ",
+          "fr": "Chauffée et entièrement privative, la piscine intérieure accueille les longueurs du matin comme la détente du soir, après une journée sur les 600 km de pistes des 3 Vallées.",
+          "en": "Heated and entirely private, the indoor pool welcomes morning lengths and evening unwinding alike, after a day on the 600 km of slopes of Les 3 Vallées."
+        }
+      },
+      "wellness": {
+        "_emplacement": "Colonne 2 — photo bien-etre-01.",
+        "title": {
+          "fr": "Bien-être & Spa",
+          "en": "Spa & Wellness"
+        },
+        "text": {
+          "_emplacement": "MASQUÉ POUR L’INSTANT (textes de l’accordéon masqués (essai du 13/11/2026)). ",
+          "fr": "Sauna, hammam, jacuzzi: un spa complet, rien que pour vous. Le cadre idéal pour un massage au chalet, à réserver à la carte.",
+          "en": "Sauna, hammam, Jacuzzi : a complete spa, all to yourselves. The perfect setting for an in-chalet massage, bookable à la carte."
+        }
+      },
+      "cinema": {
+        "_emplacement": "Colonne 3 — photo cinema-01.",
+        "title": {
+          "fr": "Home Cinema",
+          "en": "Home Cinema"
+        },
+        "text": {
+          "_emplacement": "MASQUÉ POUR L’INSTANT (textes de l’accordéon masqués (essai du 13/11/2026)). ",
+          "fr": "Une salle de cinéma pour le dernier film, un classique de montagne ou les souvenirs de la journée.",
+          "en": "A cinema room for the latest release, a mountain classic or the memories of the day."
+        }
+      },
+      "yoga": {
+        "_emplacement": "Colonne 4 — photo yoga-01.",
+        "title": {
+          "fr": "Yoga & Fitness Room",
+          "en": "Yoga & Fitness Room"
+        },
+        "text": {
+          "_emplacement": "MASQUÉ POUR L’INSTANT (textes de l’accordéon masqués (essai du 13/11/2026)). ",
+          "fr": "S'étirer avant la première montée du matin, relâcher les tensions après la dernière piste : une salle dédiée au yoga, au calme, sans quitter le chalet.",
+          "en": "Stretch before the first lift of the morning, release the tension after the last run: a room dedicated to yoga, in peace and quiet, without leaving the chalet."
+        }
+      },
+      "living": {
+        "_emplacement": "Colonne 5 — photo sejour-01.",
+        "title": {
+          "fr": "Salons & Cuisine",
+          "en": "Lounges & Kitchen"
+        },
+        "text": {
+          "_emplacement": "MASQUÉ POUR L’INSTANT (textes de l’accordéon masqués (essai du 13/11/2026)). ",
+          "fr": "Au 4e niveau, le salon cathédrale réunit cheminée, grande table et cuisine équipée. Le terrain de jeu du chef, et le cœur du chalet.",
+          "en": "On the 4th level, the cathedral-ceiling living room brings together a fireplace, a large dining table and a fitted kitchen. The chef's playground, and the heart of the chalet."
+        }
+      },
+      "rooms": {
+        "_emplacement": "Colonne 6 — photo chambre-01.",
+        "title": {
+          "fr": "Chambres & Suites",
+          "en": "Bedrooms & Suites"
+        },
+        "text": {
+          "_emplacement": "MASQUÉ POUR L’INSTANT (textes de l’accordéon masqués (essai du 13/11/2026)). ",
+          "fr": "Six chambres, dont quatre suites, pour accueillir jusqu'à 15 personnes.",
+          "en": "Six bedrooms, including four suites, for up to 15 guests."
+        }
+      }
+    },
+    "floorPlans": {
+      "_emplacement": "Section des plans : title = titre de section ; levels = titre sous chaque plan (niveaux 1 → 4, dans l’ordre).",
+      "title": {
+        "fr": "Plans du chalet",
+        "en": "Floor Plans"
+      },
+      "levels": {
+        "fr": [
+          "1er niveau",
+          "2e niveau",
+          "3e niveau",
+          "4e niveau"
+        ],
+        "en": [
+          "Level 1",
+          "Level 2",
+          "Level 3",
+          "Level 4"
+        ]
+      }
+    },
+    "location": {
+      "_emplacement": "Section Localisation : titre + phrase au-dessus de la carte.",
+      "title": {
+        "fr": "Localisation",
+        "en": "Location"
+      },
+      "text": {
+        "fr": "Le chalet se trouve proche du Raffort, à Méribel. Il est à 4 min du centre-ville et à 5 min des pistes.",
+        "en": "The chalet is located near Le Raffort, in Méribel. The Chalet is 4 min away from city-center and 5 min away from the slopes."
+      },
+      "map": {
+        "_emplacement": "Carte interactive : label = invisible ; marker = nom du repère ; zoomIn/zoomOut/attribution = boutons (invisibles, lecteurs d’écran) ; help* = message affiché quand on fait défiler la carte sans Ctrl/⌘ (ordinateur) ou avec un doigt (mobile).",
+        "label": {
+          "fr": "Carte interactive : emplacement du Chalet Yolo, proche du Raffort, à Méribel",
+          "en": "Interactive map: location of Chalet Yolo, near Le Raffort, in Méribel"
+        },
+        "marker": {
+          "fr": "Chalet Yolo",
+          "en": "Chalet Yolo"
+        },
+        "zoomIn": {
+          "fr": "Zoomer",
+          "en": "Zoom in"
+        },
+        "zoomOut": {
+          "fr": "Dézoomer",
+          "en": "Zoom out"
+        },
+        "attribution": {
+          "fr": "Afficher les sources de la carte",
+          "en": "Show map sources"
+        },
+        "helpWindows": {
+          "fr": "Utilisez Ctrl + molette pour zoomer",
+          "en": "Use Ctrl + scroll to zoom the map"
+        },
+        "helpMac": {
+          "fr": "Utilisez ⌘ + molette pour zoomer",
+          "en": "Use ⌘ + scroll to zoom the map"
+        },
+        "helpMobile": {
+          "fr": "Utilisez deux doigts pour déplacer la carte",
+          "en": "Use two fingers to move the map"
+        },
+        "landmarks": {
+          "_emplacement": "Noms des 3 repères (triangle + nom en majuscules) autour du chalet sur la carte. Mêmes noms en FR et EN aujourd’hui.",
+          "meribelVillage": {
+            "fr": "Méribel Village & Ski Lift",
+            "en": "Méribel Village & Ski Lift"
+          },
+          "olympe": {
+            "fr": "Olympe Ski Lift",
+            "en": "Olympe Ski Lift"
+          },
+          "chaudanne": {
+            "fr": "La Chaudanne Ski Lift",
+            "en": "La Chaudanne Ski Lift"
+          }
+        },
+        "durations": {
+          "_emplacement": "Pastilles de durée posées sur les traits pointillés entre le chalet et chaque repère de la carte.",
+          "meribelVillage": {
+            "fr": "4 min",
+            "en": "4 min"
+          },
+          "chaudanne": {
+            "fr": "7 min",
+            "en": "7 min"
+          }
+        }
+      }
+    }
   },
-  "services.hero.title": {
-    "_emplacement": "Services, grand titre en haut de la page.",
-    "fr": "Aux petits soins, du matin au soir.",
-    "en": "Pampered, from morning to night."
+  "poolSpa": {
+    "_emplacement": "Page Piscine & Spa — FR : /piscine-spa/ · EN : /en/pool-spa/",
+    "meta": {
+      "title": {
+        "fr": "Piscine intérieure et spa privatifs à Méribel — Chalet Yolo",
+        "en": "Private Indoor Pool & Spa in Méribel — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Piscine intérieure chauffée et privative, jacuzzi, sauna et hammam : l'espace bien-être du Chalet Yolo, chalet de luxe avec chef à Méribel.",
+        "en": "Heated private indoor pool, Jacuzzi, sauna and hammam: the wellness area of Chalet Yolo, a luxury catered chalet in Méribel."
+      }
+    },
+    "hero": {
+      "title": {
+        "fr": "Le luxe d'un spa. Rien que pour vous.",
+        "en": "The luxury of a spa. All to yourselves."
+      },
+      "subtitle": {
+        "fr": "Piscine & Spa privatifs · Méribel",
+        "en": "Private Pool & Spa · Méribel"
+      }
+    },
+    "pool": {
+      "eyebrow": {
+        "fr": "Détente",
+        "en": "Unwind"
+      },
+      "title": {
+        "fr": "Piscine & Jacuzzi",
+        "en": "Pool & Jacuzzi"
+      },
+      "text": {
+        "fr": "Intérieurs, chauffés et entièrement privatifs, la piscine et le jacuzzi du chalet vous attendent au retour des pistes. Serviettes de piscine, peignoirs et chaussons sont fournis.",
+        "en": "Indoor, heated and entirely private, the chalet's pool and Jacuzzi await you after a day on the slopes. Pool towels, bathrobes and slippers are provided."
+      }
+    },
+    "spa": {
+      "eyebrow": {
+        "fr": "Relaxation",
+        "en": "Relax"
+      },
+      "title": {
+        "fr": "Sauna & Hammam",
+        "en": "Sauna & Hammam"
+      },
+      "text": {
+        "fr": "Un spa complet et équipé pour votre confort : sauna, hammam et douches sensorielles.\nMassages et soins au chalet sur demande, à la carte.",
+        "en": "A complete spa, fully equipped for your comfort: sauna, hammam and sensory showers.\nIn-chalet massages and treatments on request, à la carte."
+      }
+    },
+    "cta": {
+      "title": {
+        "fr": "Parlons de votre séjour",
+        "en": "Let's talk about your stay"
+      }
+    }
   },
-  "services.team.members.majordome.text": {
-    "_emplacement": "Services, « Meet the team », texte de Lina (anglais déjà présent dans le site : non traduit par Claude).",
-    "fr": "Passionnée d’hospitalité, Lina a exercé dans des palaces, dont Les Airelles et l’Hôtel Barrière Les Neiges à Courchevel. Elle met sa polyvalence, sa discrétion et son sens du détail au service de chacun de vos séjours.",
-    "en": "Passionate about hospitality, Lina has worked in palace hotels, including Les Airelles and Hôtel Barrière Les Neiges in Courchevel. She brings versatility, discretion and an eye for detail to every stay."
+  "services": {
+    "_emplacement": "Page Services — FR : /services · EN : /en/services",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description Google (non visibles sur la page).",
+      "title": {
+        "fr": "Chalet de luxe à Méribel  — Chalet Yolo",
+        "en": "Chalet with Private Chef, Méribel · Full Board — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Pension complète avec chef privé, chalet manager et chauffeur : un chalet ultra luxe aux 3 Vallées, avec un service pensé pour votre séjour.",
+        "en": "Full board with private chef, chalet manager and chauffeur: an ultra-luxury catered chalet in Les 3 Vallées, with service tailored to your stay."
+      }
+    },
+    "hero": {
+      "_emplacement": "Grande photo d’ouverture (table dressée). subtitle = sur-titre au-dessus ; title = grande accroche.",
+      "title": {
+        "fr": "Aux petits soins, du matin au soir.",
+        "en": "Cared for, from dawn to dusk."
+      },
+      "subtitle": {
+        "fr": "Chef privé · Chalet Manager · Chauffeur · 24/7",
+        "en": "Private Chef · Chalet Manager · Chauffeur · 24/7"
+      }
+    },
+    "offer": {
+      "_emplacement": "Les deux cadres arrondis côte à côte : title = titre de section ; servicesTitle / facilitiesTitle = titres des cadres ; services / facilities = lignes de chaque cadre (séparées par la tête d’ourson). Les listes FR et EN sont indépendantes (le nombre de lignes peut différer).",
+      "title": {
+        "fr": "Le Service & La Maison",
+        "en": "The Service & The House"
+      },
+      "servicesTitle": {
+        "fr": "A votre service",
+        "en": "At Your Service"
+      },
+      "facilitiesTitle": {
+        "fr": "Un confort ultime",
+        "en": "Ultimate Comfort"
+      },
+      "services": {
+        "fr": [
+          "Pension complète",
+          "Chef privé",
+          "Majordome",
+          "Chauffeur",
+          "Navette privée incluse matin et soir vers les remontées",
+          "Conciergerie dédiée",
+          "Ménage quotidien des pièces de vie (7j/7)",
+          "Lits préparés, linge, peignoirs et chaussons",
+          "Ménage de fin de séjour inclus"
+        ],
+        "en": [
+          "Full Catered",
+          "Private chef",
+          "Butler",
+          "Chauffeur",
+          "Private shuttle included morning and evening to the ski lifts",
+          "Dedicated concierge",
+          "Daily cleaning of living areas (7 days a week)",
+          "Beds made up, linen, bathrobes and slippers",
+          "End-of-stay cleaning included"
+        ]
+      },
+      "facilities": {
+        "fr": [
+          "6 chambres dont 4 suites",
+          "Piscine intérieure chauffée",
+          "Jacuzzi",
+          "Sauna",
+          "Hammam",
+          "Salle de yoga",
+          "Home cinéma",
+          "Salon cathédrale avec cheminée",
+          "Ascenseur",
+          "Vue montagne"
+        ],
+        "en": [
+          "6 bedrooms including 4 suites",
+          "Heated private indoor pool",
+          "Jacuzzi",
+          "Jacuzzi bath",
+          "Sauna",
+          "Hammam",
+          "Yoga room",
+          "Home cinema",
+          "Cathedral-ceiling living room with fireplace",
+          "Lift",
+          "Mountain view"
+        ]
+      }
+    },
+    "team": {
+      "_emplacement": "Section « Meet the team » : title = titre ; members = une carte par personne (role = sur-titre, name = prénom et nom, text = présentation).",
+      "title": {
+        "fr": "Meet the team",
+        "en": "Meet the team"
+      },
+      "members": {
+        "majordome": {
+          "name": {
+            "fr": "Lina Gerard",
+            "en": "Lina Gerard"
+          },
+          "role": {
+            "fr": "Chalet Manager",
+            "en": "Chalet Manager"
+          },
+          "text": {
+            "fr": "Passionnée d’hospitalité, Lina a exercé dans des palaces, dont Les Airelles et l’Hôtel Barrière Les Neiges à Courchevel. Elle met sa polyvalence, sa discrétion et son sens du détail au service de chacun de vos séjours.",
+            "en": "Passionate about hospitality, Lina has worked in palace hotels, including Les Airelles and Hôtel Barrière Les Neiges in Courchevel. She brings versatility, discretion and an eye for detail to every stay."
+          }
+        },
+        "chef": {
+          "name": {
+            "fr": "Ricardo Tort Albelda",
+            "en": "Ricardo Tort Albelda"
+          },
+          "role": {
+            "fr": "Chef privé",
+            "en": "Private chef"
+          },
+          "text": {
+            "fr": "Plus de 25 ans en cuisine, dont des passages en palace aux Airelles et à l’Hôtel Barrière Les Neiges à Courchevel, et une passion intacte pour la gastronomie, les voyages et la découverte de nouvelles saveurs.",
+            "en": "Over 25 years in the kitchen, including time at the palace hotels Les Airelles and Hôtel Barrière Les Neiges in Courchevel, and an undiminished passion for fine food, travel and discovering new flavours."
+          }
+        }
+      }
+    },
+    "cta": {
+      "_emplacement": "Dernière section : titre + petite phrase, au-dessus du bouton « Nous contacter » et du lien WhatsApp.",
+      "title": {
+        "fr": "Parlons de votre séjour",
+        "en": "Let's talk about your stay"
+      },
+      "text": {
+        "fr": "",
+        "en": ""
+      }
+    }
   },
-  "services.team.members.chef.text": {
-    "_emplacement": "Services, « Meet the team », texte du chef (anglais déjà présent dans le site : non traduit par Claude).",
-    "fr": "Plus de 25 ans en cuisine, dont des passages en palace aux Airelles et à l’Hôtel Barrière Les Neiges à Courchevel, et une passion intacte pour la gastronomie, les voyages et la découverte de nouvelles saveurs.",
-    "en": "Over 25 years in the kitchen, including time at the palace hotels Les Airelles and Hôtel Barrière Les Neiges in Courchevel, and an undiminished passion for fine food, travel and discovering new flavours."
+  "meribel": {
+    "_emplacement": "Page Méribel — FR : /meribel · EN : /en/meribel",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description Google (non visibles sur la page).",
+      "title": {
+        "fr": "Méribel, station de ski des 3 Vallées — Chalet Yolo",
+        "en": "Méribel Ski Resort, Les 3 Vallées — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Méribel, station fondée en 1938 au cœur des 3 Vallées (600 km de pistes). Accès en voiture, en train et depuis les aéroports de Chambéry, Genève, Lyon et Grenoble.",
+        "en": "Méribel, a resort founded in 1938 at the heart of Les 3 Vallées (600 km of slopes). Access by car, by train and from Chambéry, Geneva, Lyon and Grenoble airports."
+      }
+    },
+    "hero": {
+      "_emplacement": "Grande photo d’ouverture. subtitle = sur-titre au-dessus ; title = grande accroche.",
+      "title": {
+        "fr": "Méribel : l'élégance en altitude",
+        "en": "Méribel: elegance at altitude"
+      },
+      "subtitle": {
+        "fr": "Méribel · Les 3 Vallées",
+        "en": "Méribel · Les 3 Vallées"
+      }
+    },
+    "resort": {
+      "_emplacement": "Section photo + texte « La station » : eyebrow = sur-titre, title = titre, text = ligne de faits ({foundedYear} = 1938 et {skiAreaKm} = 600 sont remplis automatiquement, à garder tels quels), location = phrase sous le texte (sans lien).",
+      "eyebrow": {
+        "fr": "Méribel",
+        "en": "Méribel"
+      },
+      "title": {
+        "fr": "Le meilleur domaine skiable au monde",
+        "en": "The world's best ski area"
+      },
+      "text": {
+        "fr": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes",
+        "en": "Resort founded in {foundedYear} · {skiAreaKm} km of slopes"
+      },
+      "location": {
+        "fr": "Elu meilleur domaine skiable du monde",
+        "en": "Voted the world's best ski area"
+      }
+    },
+    "cta": {
+      "_emplacement": "Dernière section : titre au-dessus du bouton « Nous contacter » et du lien WhatsApp.",
+      "title": {
+        "fr": "Parlons de votre séjour",
+        "en": "Let's talk about your stay"
+      }
+    }
+  },
+  "gallery": {
+    "_emplacement": "Page Galerie — FR : /galerie · EN : /en/gallery",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description Google (non visibles sur la page).",
+      "title": {
+        "fr": "Galerie — Chalet Yolo, Méribel",
+        "en": "Gallery — Chalet Yolo, Méribel"
+      },
+      "description": {
+        "fr": "Photos du Chalet Yolo à Méribel : séjour, chambres, piscine et espace bien-être, loisirs, extérieur et station.",
+        "en": "Photos of Chalet Yolo in Méribel: living areas, bedrooms, pool and wellness area, leisure, exterior and the resort."
+      }
+    },
+    "title": {
+      "_emplacement": "Titre de la page.",
+      "fr": "Galerie",
+      "en": "Gallery"
+    },
+    "filters": {
+      "_emplacement": "Boutons de filtre au-dessus de la mosaïque (label = invisible).",
+      "label": {
+        "fr": "Filtrer les photos",
+        "en": "Filter photos"
+      },
+      "all": {
+        "fr": "Tout",
+        "en": "All"
+      },
+      "sejour": {
+        "fr": "Séjour",
+        "en": "Living"
+      },
+      "chambres": {
+        "fr": "Chambres",
+        "en": "Bedrooms"
+      },
+      "bien-etre": {
+        "fr": "Bien-être",
+        "en": "Wellness"
+      },
+      "loisirs": {
+        "fr": "Loisirs",
+        "en": "Leisure"
+      },
+      "exterieur": {
+        "fr": "Extérieur",
+        "en": "Exterior"
+      },
+      "meribel": {
+        "fr": "Méribel",
+        "en": "Méribel"
+      }
+    },
+    "lightbox": {
+      "_emplacement": "Visionneuse plein écran (clic sur une photo). Libellés invisibles des boutons ; {alt} = texte alternatif de la photo, à garder.",
+      "label": {
+        "fr": "Visionneuse de photos",
+        "en": "Photo viewer"
+      },
+      "open": {
+        "fr": "Agrandir la photo : {alt}",
+        "en": "Enlarge photo: {alt}"
+      },
+      "close": {
+        "fr": "Fermer",
+        "en": "Close"
+      },
+      "previous": {
+        "fr": "Photo précédente",
+        "en": "Previous photo"
+      },
+      "next": {
+        "fr": "Photo suivante",
+        "en": "Next photo"
+      }
+    }
+  },
+  "contact": {
+    "_emplacement": "Page Offre & Contact — FR : /contact · EN : /en/contact (deux onglets).",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description Google (non visibles sur la page).",
+      "title": {
+        "fr": "Offre & Contact — Chalet Yolo, Méribel",
+        "en": "Offer & Contact — Chalet Yolo, Méribel"
+      },
+      "description": {
+        "fr": "Tarifs à la semaine et demande de séjour au Chalet Yolo, chalet privé à Méribel : dates, formule souhaitée et nombre de convives.",
+        "en": "Weekly rates and stay enquiry for Chalet Yolo, a private chalet in Méribel: dates, preferred package and number of guests."
+      }
+    },
+    "tabs": {
+      "_emplacement": "Les deux onglets en haut de la page (label = invisible).",
+      "label": {
+        "fr": "Offre et contact",
+        "en": "Offer and contact"
+      },
+      "offer": {
+        "fr": "Offre",
+        "en": "Offer"
+      },
+      "contact": {
+        "fr": "Contact",
+        "en": "Contact"
+      }
+    },
+    "offer": {
+      "_emplacement": "Onglet Offre : title = titre, intro = phrase dessous, label = invisible ; perNight = prix par nuit sous le prix total ({price} à garder) ; book = lien sur chaque carte semaine ; booked = mention sur une semaine réservée. (Les mois, prix et mentions des cartes se gèrent dans l’admin /admin/, pas ici.)",
+      "title": {
+        "fr": "Saison 2026 – 2027",
+        "en": "2026 – 2027 season"
+      },
+      "intro": {
+        "fr": "Location à la semaine, du samedi au samedi, en demi-pension ou en pension complète.",
+        "en": "Weekly stays, Saturday to Saturday, half catered or full catered."
+      },
+      "label": {
+        "fr": "Tarifs par mois",
+        "en": "Rates by month"
+      },
+      "perNight": {
+        "fr": "{price} / nuit",
+        "en": "{price} / night"
+      },
+      "nights": {
+        "_emplacement": "Onglet Offre : nombre de nuits sous les dates d’une période spéciale (ex. « 2 nuits »). {count} à garder.",
+        "fr": "{count} nuits",
+        "en": "{count} nights"
+      },
+      "book": {
+        "fr": "Réserver",
+        "en": "Book"
+      },
+      "booked": {
+        "fr": "Réservée",
+        "en": "Booked"
+      }
+    },
+    "title": {
+      "_emplacement": "Onglet Contact : titre.",
+      "fr": "Contact",
+      "en": "Contact"
+    },
+    "intro": {
+      "_emplacement": "Onglet Contact : phrase sous le titre.",
+      "fr": "Quelques détails sur votre séjour, et notre conciergerie compose une proposition à votre mesure.",
+      "en": "A few details about your stay, and our concierge will put together a proposal tailored to you."
+    },
+    "form": {
+      "_emplacement": "Formulaire de demande (2 étapes). Libellés des champs, boutons et aides.",
+      "requiredNote": {
+        "_emplacement": "Légende de l’astérisque des champs obligatoires.",
+        "fr": "Champ obligatoire",
+        "en": "Required field"
+      },
+      "stepLabel": {
+        "_emplacement": "Indicateur d’étape ({current} et {total} à garder).",
+        "fr": "Étape {current} sur {total}",
+        "en": "Step {current} of {total}"
+      },
+      "steps": {
+        "_emplacement": "Titres des étapes 1 et 2.",
+        "stay": {
+          "fr": "Le séjour",
+          "en": "Your stay"
+        },
+        "contact": {
+          "fr": "Le contact",
+          "en": "Your details"
+        }
+      },
+      "next": {
+        "_emplacement": "Bouton pour passer à l’étape 2.",
+        "fr": "Continuer",
+        "en": "Continue"
+      },
+      "back": {
+        "_emplacement": "Lien pour revenir à l’étape 1.",
+        "fr": "Retour",
+        "en": "Back"
+      },
+      "datesLegend": {
+        "fr": "Dates souhaitées",
+        "en": "Preferred dates"
+      },
+      "arrival": {
+        "fr": "Date d'arrivée",
+        "en": "Arrival date"
+      },
+      "departure": {
+        "fr": "Date de départ",
+        "en": "Departure date"
+      },
+      "flexible": {
+        "fr": "Mes dates sont flexibles",
+        "en": "My dates are flexible"
+      },
+      "guestsLegend": {
+        "fr": "Nombre de convives",
+        "en": "Number of guests"
+      },
+      "adults": {
+        "fr": "Adultes",
+        "en": "Adults"
+      },
+      "children": {
+        "fr": "Enfants",
+        "en": "Children"
+      },
+      "name": {
+        "fr": "Nom et prénom",
+        "en": "Full name"
+      },
+      "roleLegend": {
+        "fr": "Votre rôle",
+        "en": "Your role"
+      },
+      "roles": {
+        "_emplacement": "Choix discret du rôle (étape 2).",
+        "pour-moi-meme": {
+          "fr": "Je réserve pour moi-même",
+          "en": "I am booking for myself"
+        },
+        "intermediaire": {
+          "fr": "Je suis Assistant(e) Personnel(le) / Family Office / Agent",
+          "en": "I am a Personal Assistant / Family Office / Agent"
+        }
+      },
+      "channelLegend": {
+        "fr": "Canal de réponse privilégié",
+        "en": "Preferred way to reply"
+      },
+      "channels": {
+        "_emplacement": "Boutons du canal de réponse (étape 2).",
+        "whatsapp": {
+          "fr": "WhatsApp",
+          "en": "WhatsApp"
+        },
+        "email": {
+          "fr": "Email",
+          "en": "Email"
+        },
+        "appel": {
+          "fr": "Appel téléphonique",
+          "en": "Phone call"
+        }
+      },
+      "phone": {
+        "fr": "Numéro de téléphone",
+        "en": "Phone number"
+      },
+      "phoneHint": {
+        "_emplacement": "Aide sous le champ téléphone.",
+        "fr": "Avec l'indicatif du pays, par exemple +33 6 12 34 56 78",
+        "en": "Including the country code, for example +44 7700 900123"
+      },
+      "email": {
+        "fr": "Email",
+        "en": "Email"
+      },
+      "consentBefore": {
+        "_emplacement": "Case RGPD : texte avant le lien.",
+        "fr": "J'accepte que mes données soient utilisées pour répondre à ma demande, conformément à la",
+        "en": "I agree that my data may be used to respond to my enquiry, in accordance with the"
+      },
+      "consentLink": {
+        "_emplacement": "Case RGPD : texte du lien vers la page Confidentialité.",
+        "fr": "politique de confidentialité",
+        "en": "privacy policy"
+      },
+      "submit": {
+        "_emplacement": "Bouton d’envoi (fin de l’étape 2).",
+        "fr": "Envoyer ma demande",
+        "en": "Send my enquiry"
+      }
+    },
+    "errors": {
+      "_emplacement": "Messages d’erreur affichés sous un champ mal rempli ({min} et {max} à garder).",
+      "required": {
+        "fr": "Ce champ est obligatoire.",
+        "en": "This field is required."
+      },
+      "choice": {
+        "fr": "Veuillez choisir une option.",
+        "en": "Please choose an option."
+      },
+      "email": {
+        "fr": "Veuillez saisir une adresse email valide, par exemple nom@exemple.fr.",
+        "en": "Please enter a valid email address, for example name@example.com."
+      },
+      "phone": {
+        "fr": "Veuillez saisir un numéro de téléphone valide, avec l'indicatif du pays.",
+        "en": "Please enter a valid phone number, including the country code."
+      },
+      "date": {
+        "fr": "Veuillez saisir une date valide.",
+        "en": "Please enter a valid date."
+      },
+      "pastDate": {
+        "fr": "Veuillez choisir une date à venir.",
+        "en": "Please choose a future date."
+      },
+      "departureAfter": {
+        "fr": "La date de départ doit être après la date d'arrivée.",
+        "en": "The departure date must be after the arrival date."
+      },
+      "number": {
+        "fr": "Veuillez saisir un nombre entre {min} et {max}.",
+        "en": "Please enter a number between {min} and {max}."
+      },
+      "consent": {
+        "fr": "Veuillez cocher cette case pour envoyer votre demande.",
+        "en": "Please tick this box to send your enquiry."
+      }
+    },
+    "direct": {
+      "_emplacement": "Bloc « Ou directement » à côté du formulaire : titre + liens WhatsApp et email.",
+      "title": {
+        "fr": "Ou directement",
+        "en": "Or contact us directly"
+      },
+      "whatsapp": {
+        "_emplacement": "MASQUÉ POUR L’INSTANT (WhatsApp masqué en attendant le compte). ",
+        "fr": "WhatsApp",
+        "en": "WhatsApp"
+      },
+      "email": {
+        "fr": "Email",
+        "en": "Email"
+      }
+    }
+  },
+  "thanks": {
+    "_emplacement": "Page de remerciement après envoi du formulaire — FR : /merci · EN : /en/thank-you",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description Google.",
+      "title": {
+        "fr": "Merci — Chalet Yolo",
+        "en": "Thank you — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Votre demande de séjour au Chalet Yolo a bien été envoyée.",
+        "en": "Your stay enquiry for Chalet Yolo has been sent."
+      }
+    },
+    "title": {
+      "fr": "Merci",
+      "en": "Thank you"
+    },
+    "text": {
+      "fr": "Votre demande est entre de bonnes mains. Notre conciergerie revient vers vous très vite, par le canal que vous avez choisi.",
+      "en": "Your request is in good hands. Our concierge will be back in touch very soon, through the channel you chose."
+    },
+    "link": {
+      "fr": "Retour à l'accueil",
+      "en": "Back to home"
+    }
+  },
+  "notfound": {
+    "_emplacement": "Page d’erreur 404 (adresse inexistante).",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description.",
+      "title": {
+        "fr": "Page introuvable — Chalet Yolo",
+        "en": "Page not found — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Cette page n'existe pas ou a été déplacée.",
+        "en": "This page does not exist or has been moved."
+      }
+    },
+    "title": {
+      "fr": "Page introuvable",
+      "en": "Page not found"
+    },
+    "text": {
+      "fr": "La page demandée n'existe pas ou a été déplacée.",
+      "en": "The page you are looking for does not exist or has been moved."
+    },
+    "link": {
+      "fr": "Retour à l'accueil",
+      "en": "Back to home"
+    }
+  },
+  "legal": {
+    "_emplacement": "Page Mentions légales — FR : /mentions-legales · EN : /en/legal-notice. Les [À FOURNIR] sont les informations juridiques manquantes.",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description Google.",
+      "title": {
+        "fr": "Mentions légales — Chalet Yolo",
+        "en": "Legal notice — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Mentions légales du site du Chalet Yolo, chalet privé à Méribel : éditeur, hébergement, propriété intellectuelle.",
+        "en": "Legal notice for the Chalet Yolo website, a private chalet in Méribel: publisher, hosting, intellectual property."
+      }
+    },
+    "title": {
+      "fr": "Mentions légales",
+      "en": "Legal notice"
+    },
+    "updated": {
+      "fr": "Dernière mise à jour : [À FOURNIR]",
+      "en": "Last updated: [À FOURNIR]"
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Éditeur du site",
+          "paragraphs": [
+            "Raison sociale : [À FOURNIR]",
+            "Forme juridique et capital social : [À FOURNIR]",
+            "Adresse du siège : [À FOURNIR]",
+            "SIRET : [À FOURNIR]",
+            "Directeur de la publication : [À FOURNIR]",
+            "Contact : [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Hébergement",
+          "paragraphs": [
+            "Le site est hébergé par Netlify, Inc.",
+            "Adresse : [À FOURNIR]",
+            "Site web : https://www.netlify.com"
+          ]
+        },
+        {
+          "title": "Propriété intellectuelle",
+          "paragraphs": [
+            "Les textes, photographies et logos présents sur ce site sont protégés par le droit d'auteur. Toute reproduction sans autorisation préalable est interdite.",
+            "Crédits photos : [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Données personnelles",
+          "paragraphs": [
+            "Le traitement des données transmises via le formulaire de contact est décrit dans notre politique de confidentialité."
+          ],
+          "link": "Lire la politique de confidentialité"
+        }
+      ],
+      "en": [
+        {
+          "title": "Website publisher",
+          "paragraphs": [
+            "Company name: [À FOURNIR]",
+            "Legal form and share capital: [À FOURNIR]",
+            "Registered office: [À FOURNIR]",
+            "SIRET number: [À FOURNIR]",
+            "Publication director: [À FOURNIR]",
+            "Contact: [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Hosting",
+          "paragraphs": [
+            "This website is hosted by Netlify, Inc.",
+            "Address: [À FOURNIR]",
+            "Website: https://www.netlify.com"
+          ]
+        },
+        {
+          "title": "Intellectual property",
+          "paragraphs": [
+            "The texts, photographs and logos on this website are protected by copyright. Any reproduction without prior permission is prohibited.",
+            "Photo credits: [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Personal data",
+          "paragraphs": [
+            "How data sent through the contact form is processed is described in our privacy policy."
+          ],
+          "link": "Read the privacy policy"
+        }
+      ]
+    }
+  },
+  "privacy": {
+    "_emplacement": "Page Confidentialité — FR : /confidentialite · EN : /en/privacy. Les [À FOURNIR] sont les informations juridiques manquantes.",
+    "meta": {
+      "_emplacement": "Titre de l’onglet du navigateur + description Google.",
+      "title": {
+        "fr": "Confidentialité — Chalet Yolo",
+        "en": "Privacy policy — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Politique de confidentialité du site du Chalet Yolo : données du formulaire, absence de cookies, statistiques sans cookies, vos droits.",
+        "en": "Privacy policy of the Chalet Yolo website: contact form data, no cookies, cookie-free analytics, your rights."
+      }
+    },
+    "title": {
+      "fr": "Politique de confidentialité",
+      "en": "Privacy policy"
+    },
+    "updated": {
+      "fr": "Dernière mise à jour : [À FOURNIR]",
+      "en": "Last updated: [À FOURNIR]"
+    },
+    "sections": {
+      "fr": [
+        {
+          "title": "Responsable du traitement",
+          "paragraphs": [
+            "[À FOURNIR] (raison sociale, adresse et email de contact)."
+          ]
+        },
+        {
+          "title": "Données collectées",
+          "paragraphs": [
+            "Lorsque vous utilisez le formulaire de contact, nous recevons les informations que vous saisissez : dates de séjour, formule souhaitée, nombre d'adultes et d'enfants, nom et prénom, rôle (réservation pour vous-même ou pour un tiers), canal de réponse privilégié, et téléphone ou email."
+          ]
+        },
+        {
+          "title": "Finalité et base légale",
+          "paragraphs": [
+            "Ces données servent uniquement à répondre à votre demande de séjour.",
+            "Elles sont traitées sur la base de votre consentement, donné en cochant la case prévue dans le formulaire."
+          ]
+        },
+        {
+          "title": "Destinataires et hébergement",
+          "paragraphs": [
+            "Les demandes envoyées via le formulaire sont reçues et stockées par notre hébergeur Netlify, Inc., société située aux États-Unis.",
+            "Garanties encadrant ce transfert hors de l'Union européenne : [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Durée de conservation",
+          "paragraphs": [
+            "[À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Cookies",
+          "paragraphs": [
+            "Ce site ne dépose aucun cookie.",
+            "La carte de la page Le chalet est fournie par OpenFreeMap (données OpenStreetMap) : lorsqu'elle s'affiche, votre navigateur contacte ses serveurs, qui reçoivent votre adresse IP. Aucun cookie n'est déposé."
+          ]
+        },
+        {
+          "title": "Mesure d'audience",
+          "paragraphs": [
+            "Si la mesure d'audience est activée, le site utilise Umami, un outil de statistiques qui fonctionne sans cookies.",
+            "Mesure d'audience activée : [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Vos droits",
+          "paragraphs": [
+            "Conformément au Règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données.",
+            "Pour exercer ces droits : [À FOURNIR] (email de contact).",
+            "Vous pouvez également adresser une réclamation à la CNIL : https://www.cnil.fr"
+          ]
+        }
+      ],
+      "en": [
+        {
+          "title": "Data controller",
+          "paragraphs": [
+            "[À FOURNIR] (company name, address and contact email)."
+          ]
+        },
+        {
+          "title": "Data collected",
+          "paragraphs": [
+            "When you use the contact form, we receive the information you enter: stay dates, preferred package, number of adults and children, full name, role (booking for yourself or on behalf of someone else), preferred way to reply, and phone number or email."
+          ]
+        },
+        {
+          "title": "Purpose and legal basis",
+          "paragraphs": [
+            "This data is used solely to respond to your stay enquiry.",
+            "It is processed on the basis of your consent, given by ticking the box provided in the form."
+          ]
+        },
+        {
+          "title": "Recipients and hosting",
+          "paragraphs": [
+            "Enquiries sent through the form are received and stored by our hosting provider Netlify, Inc., a company based in the United States.",
+            "Safeguards for this transfer outside the European Union: [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Retention period",
+          "paragraphs": [
+            "[À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Cookies",
+          "paragraphs": [
+            "This website does not set any cookies.",
+            "The map on the Chalet page is provided by OpenFreeMap (OpenStreetMap data): when it is displayed, your browser contacts its servers, which receive your IP address. No cookies are set."
+          ]
+        },
+        {
+          "title": "Audience measurement",
+          "paragraphs": [
+            "If audience measurement is enabled, the website uses Umami, an analytics tool that works without cookies.",
+            "Audience measurement enabled: [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Your rights",
+          "paragraphs": [
+            "Under the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase, restrict, object to and port your data.",
+            "To exercise these rights: [À FOURNIR] (contact email).",
+            "You can also lodge a complaint with the CNIL (the French data protection authority): https://www.cnil.fr"
+          ]
+        }
+      ]
+    }
+  },
+  "plans_etiquettes": {
+    "_emplacement": "Noms des pièces écrits sur les plans (police manuscrite Caveat), page Le chalet. Restez court : la place est limitée sur le dessin. Ordre = ordre du fichier.",
+    "niveau-1": {
+      "_emplacement": "Plan du niveau 1 : title = nom du plan dans la vue agrandie et le texte alternatif.",
+      "title": {
+        "fr": "Niveau 1",
+        "en": "Level 1"
+      },
+      "pieces": [
+        {
+          "fr": "Dortoir",
+          "en": "Dormitory"
+        },
+        {
+          "fr": "Salle De Bain",
+          "en": "Bathroom"
+        },
+        {
+          "fr": "Home Cinéma",
+          "en": "Home Cinema"
+        },
+        {
+          "fr": "Hammam",
+          "en": "Steam Room"
+        },
+        {
+          "fr": "Toilettes",
+          "en": "Restroom"
+        },
+        {
+          "fr": "Douche Sensorielle",
+          "en": "Sensory Shower"
+        },
+        {
+          "fr": "Fitness & Yoga Room",
+          "en": "Fitness & Yoga Room"
+        },
+        {
+          "fr": "Sauna",
+          "en": "Sauna"
+        },
+        {
+          "fr": "Ascenseur",
+          "en": "Elevator"
+        },
+        {
+          "fr": "Escalier",
+          "en": "Stairs"
+        }
+      ]
+    },
+    "niveau-2": {
+      "_emplacement": "Plan du niveau 2 : title = nom du plan dans la vue agrandie et le texte alternatif.",
+      "title": {
+        "fr": "Niveau 2",
+        "en": "Level 2"
+      },
+      "pieces": [
+        {
+          "fr": "Chambre Double",
+          "en": "Double Bedroom"
+        },
+        {
+          "fr": "Salle De Bain",
+          "en": "Bathroom"
+        },
+        {
+          "fr": "Dortoir",
+          "en": "Dormitory"
+        },
+        {
+          "fr": "Salle De Bain",
+          "en": "Bathroom"
+        },
+        {
+          "fr": "Toilettes",
+          "en": "Restroom"
+        },
+        {
+          "fr": "Entrée",
+          "en": "Entrance"
+        },
+        {
+          "fr": "Ascenseur",
+          "en": "Elevator"
+        },
+        {
+          "fr": "Escalier",
+          "en": "Stairs"
+        },
+        {
+          "fr": "Jacuzzi",
+          "en": "Jacuzzi"
+        },
+        {
+          "fr": "Piscine",
+          "en": "Pool"
+        },
+        {
+          "fr": "Douche Sensorielle",
+          "en": "Sensory Shower"
+        }
+      ]
+    },
+    "niveau-3": {
+      "_emplacement": "Plan du niveau 3 : title = nom du plan dans la vue agrandie et le texte alternatif.",
+      "title": {
+        "fr": "Niveau 3",
+        "en": "Level 3"
+      },
+      "pieces": [
+        {
+          "fr": "Salle De Bain 1",
+          "en": "Bathroom 1"
+        },
+        {
+          "fr": "Chambre 1",
+          "en": "Bedroom 1"
+        },
+        {
+          "fr": "Toilettes",
+          "en": "Restroom"
+        },
+        {
+          "fr": "Toilettes",
+          "en": "Restroom"
+        },
+        {
+          "fr": "Ascenseur",
+          "en": "Elevator"
+        },
+        {
+          "fr": "Escalier",
+          "en": "Stairs"
+        },
+        {
+          "fr": "Salle De Bain 2",
+          "en": "Bathroom 2"
+        },
+        {
+          "fr": "Chambre 2",
+          "en": "Bedroom 2"
+        },
+        {
+          "fr": "Chambre 3",
+          "en": "Bedroom 3"
+        },
+        {
+          "fr": "Toilettes",
+          "en": "Restroom"
+        },
+        {
+          "fr": "Salle De Bain 3",
+          "en": "Bathroom 3"
+        },
+        {
+          "fr": "Balcon",
+          "en": "Balcony"
+        },
+        {
+          "fr": "Balcon",
+          "en": "Balcony"
+        },
+        {
+          "fr": "Terrasse",
+          "en": "Terrace"
+        }
+      ]
+    },
+    "niveau-4": {
+      "_emplacement": "Plan du niveau 4 : title = nom du plan dans la vue agrandie et le texte alternatif.",
+      "title": {
+        "fr": "Niveau 4",
+        "en": "Level 4"
+      },
+      "pieces": [
+        {
+          "fr": "Terrasse",
+          "en": "Terrace"
+        },
+        {
+          "fr": "Cuisine",
+          "en": "Kitchen"
+        },
+        {
+          "fr": "Salle À Manger",
+          "en": "Dining Room"
+        },
+        {
+          "fr": "Salon",
+          "en": "Living Room"
+        },
+        {
+          "fr": "Ascenseur",
+          "en": "Elevator"
+        },
+        {
+          "fr": "Escalier",
+          "en": "Stairs"
+        },
+        {
+          "fr": "Cheminée",
+          "en": "Fireplace"
+        }
+      ]
+    },
+    "boutons": {
+      "_emplacement": "Écrits directement dans le composant PlanCard (exception acceptée) : bouton de fermeture de la vue agrandie et libellé invisible du bouton d’agrandissement (suivi du nom du plan).",
+      "fermer": {
+        "fr": "Fermer",
+        "en": "Close"
+      },
+      "agrandir": {
+        "fr": "Agrandir le plan :",
+        "en": "Enlarge floor plan:"
+      }
+    }
   }
 }

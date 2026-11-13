@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Location chalet de luxe à Méribel avec chef — Chalet Yolo",
-    "description": "Chalet Yolo, location de chalet de luxe à Méribel avec chef privé et majordome : piscine intérieure chauffée, spa et 6 chambres pour 15 personnes."
+    "description": "Chalet Yolo, location de chalet de luxe à Méribel avec chef privé et chalet manager : piscine intérieure chauffée, spa et 6 chambres pour 15 personnes."
   },
   "introGate": {
     "label": "Bienvenue au Chalet Yolo",
@@ -35,7 +35,7 @@
       },
       "services": {
         "title": "Aux petits soins",
-        "subtitle": "Chef, Majordome & Chauffeur"
+        "subtitle": "Chef, Chalet Manager & Chauffeur"
       },
       "meribel": {
         "title": "Méribel Les 3 Vallées",
