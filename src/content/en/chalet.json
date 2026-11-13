@@ -13,6 +13,7 @@
   },
   "spaces": {
     "label": "The chalet's spaces",
+    "galleryLink": "TODO-COPY: See the photos: {title}",
     "pool": {
       "title": "Pool",
       "text": "Heated and entirely private, the indoor pool welcomes morning lengths and evening unwinding alike, after a day on the 600 km of slopes of Les 3 Vallées."

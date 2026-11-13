@@ -12,21 +12,37 @@
  *   (règle globale de src/styles/global.css).
  * - Sans JavaScript : tout est affiché, l'un sous l'autre.
  *
+ * Textes masquables (« showText={false} », essai demandé par le client le 13/11/2026) :
+ * seuls la photo et le titre restent ; les textes restent dans chalet.json.
+ *
+ * Lien vers la galerie filtrée (« href », 13/11/2026) :
+ * - Ordinateur : un clic sur la colonne ouverte y mène (la colonne fermée s'ouvre
+ *   d'abord : survol à la souris, premier appui au doigt ou au clavier).
+ * - Mobile et tablette : un appui sur le titre ouvre la bande ; un appui sur sa photo
+ *   mène à la galerie.
+ * Deux liens par colonne (l'un pour l'ordinateur, l'autre pour mobile), jamais affichés
+ * en même temps ; ils sont invisibles, seul leur libellé est lu (« linkLabel »).
+ *
  * Accessibilité : chaque titre est un bouton (aria-expanded / aria-controls).
  * Utilisé par : src/views/ChaletView.astro. Textes : src/content/{fr,en}/chalet.json.
  */
 import Icon from './Icon.astro';
 import Photo from './Photo.astro';
 import type { Lang } from '../i18n/languages';
+import { format } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
-  items: { photoId: string; title: string; eyebrow?: string; text: string }[];
+  items: { photoId: string; title: string; eyebrow?: string; text: string; href?: string }[];
   /** Titre de la section, lu par les lecteurs d'écran. */
   label: string;
+  /** Faux : textes masqués sous les titres (photo + titre seulement). */
+  showText?: boolean;
+  /** Libellé des liens vers la galerie, lu par les lecteurs d'écran ; « {title} » = titre de la colonne. */
+  linkLabel?: string;
 }
 
-const { lang, items, label } = Astro.props;
+const { lang, items, label, showText = true, linkLabel = '{title}' } = Astro.props;
 // Identifiant unique, au cas où le composant serait utilisé deux fois sur une page.
 const uid = `espaces-${Math.random().toString(36).slice(2, 8)}`;
 ---
@@ -50,16 +66,36 @@ const uid = `espaces-${Math.random().toString(36).slice(2, 8)}`;
             </button>
           </h3>
           <div class="space-col__body" id={`${uid}-panneau-${index}`} role="region" aria-labelledby={`${uid}-titre-${index}`}>
-            <div class="space-col__inner">
+            <div class:list={['space-col__inner', !showText && 'space-col__inner--no-text']}>
               <div class="space-col__media">
                 <Photo id={item.photoId} lang={lang} sizes="(min-width: 1024px) 50vw, 100vw" />
+                {/* Mobile et tablette : la photo de la bande ouverte mène à la galerie. */}
+                {item.href && (
+                  <a
+                    href={item.href}
+                    class="space-col__link space-col__link--photo"
+                    aria-label={format(linkLabel, { title: item.title })}
+                  />
+                )}
               </div>
-              <div class="space-col__text">
-                {item.eyebrow && <p class="eyebrow mb-3">{item.eyebrow}</p>}
-                <p>{item.text}</p>
-              </div>
+              {
+                showText && (
+                  <div class="space-col__text">
+                    {item.eyebrow && <p class="eyebrow mb-3">{item.eyebrow}</p>}
+                    <p>{item.text}</p>
+                  </div>
+                )
+              }
             </div>
           </div>
+          {/* Ordinateur : toute la colonne ouverte mène à la galerie. */}
+          {item.href && (
+            <a
+              href={item.href}
+              class="space-col__link space-col__link--column"
+              aria-label={format(linkLabel, { title: item.title })}
+            />
+          )}
         </li>
       ))
     }
@@ -85,7 +121,8 @@ const uid = `espaces-${Math.random().toString(36).slice(2, 8)}`;
     padding: 1.25rem 0;
     text-align: left;
     color: var(--color-heading);
-    font-size: var(--text-h3);
+    /* Titres agrandis (essai du 13/11/2026, auparavant --text-h3 = 24 → 32 px) : 28 → 36 px. */
+    font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.25rem);
     font-weight: 700;
     line-height: 1.2;
     cursor: pointer;
@@ -107,6 +144,37 @@ const uid = `espaces-${Math.random().toString(36).slice(2, 8)}`;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     border-radius: 1rem;
+  }
+
+  /* Sans texte : un peu d'air sous la photo avant le filet de la bande suivante.
+     Marge sur la photo (et non sur le bloc qui se replie) : une bande fermée ne laisse
+     ainsi rien dépasser (un « padding » sur le bloc restait visible, 13/11/2026). */
+  .space-col__inner--no-text .space-col__media {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Liens vers la galerie : zones cliquables invisibles posées sur la photo / la colonne. */
+  .space-col__link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .space-col__link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  /* Lien « colonne » : uniquement sur ordinateur avec JavaScript (voir plus bas). */
+  .space-col__link--column {
+    display: none;
+  }
+
+  /* Bande fermée : son lien n'est ni cliquable ni atteignable au clavier
+     (masqué après l'animation de fermeture, pour que la photo ne disparaisse pas d'un coup). */
+  :global(.js) .space-col[data-open='false'] .space-col__link--photo {
+    visibility: hidden;
+    transition: visibility 0s linear 0.6s;
   }
 
   .space-col__text {
@@ -191,11 +259,39 @@ const uid = `espaces-${Math.random().toString(36).slice(2, 8)}`;
     }
 
     /* Le bouton couvre toute la colonne : un clic n'importe où l'ouvre. */
+    /*
+      Titre sur une ligne, taille 28 → 40 px selon la largeur d'écran (2,8 vw) : le plus long
+      (« Yoga & Fitness Room ») doit tenir dans la colonne ouverte, même à 1024 px.
+    */
     :global(.js) .space-col__button {
       position: static;
       padding: 0 1.75rem 1.75rem;
       color: #fff;
       white-space: nowrap;
+      font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+    }
+
+    :global(.js) .space-col__inner--no-text .space-col__media {
+      margin-bottom: 0;
+    }
+
+    /* Ordinateur : le lien couvre toute la colonne, seulement quand elle est ouverte
+       (fermée, c'est le bouton qui reçoit le clic et l'ouvre). */
+    :global(.js) .space-col__link--photo {
+      display: none;
+    }
+
+    :global(.js) .space-col__link--column {
+      display: block;
+    }
+
+    :global(.js) .space-col[data-open='false'] .space-col__link--column {
+      visibility: hidden;
+    }
+
+    /* Le contour de focus est dessiné sur la colonne entière (règle ci-dessous). */
+    :global(.js) .space-col__link--column:focus-visible {
+      outline: none;
     }
 
     :global(.js) .space-col__button::before {
@@ -247,7 +343,8 @@ const uid = `espaces-${Math.random().toString(36).slice(2, 8)}`;
     }
 
     /* Focus clavier visible sur toute la colonne. */
-    :global(.js) .space-col:has(.space-col__button:focus-visible) {
+    :global(.js) .space-col:has(.space-col__button:focus-visible),
+    :global(.js) .space-col:has(.space-col__link--column:focus-visible) {
       outline: 2px solid var(--color-primary);
       outline-offset: 3px;
     }

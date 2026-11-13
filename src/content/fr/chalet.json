@@ -13,6 +13,7 @@
   },
   "spaces": {
     "label": "Les espaces du chalet",
+    "galleryLink": "Voir les photos : {title}",
     "pool": {
       "title": "Piscine & Jacuzzi",
       "text": "Chauffée et entièrement privative, la piscine intérieure accueille les longueurs du matin comme la détente du soir, après une journée sur les 600 km de pistes des 3 Vallées."

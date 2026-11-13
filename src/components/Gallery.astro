@@ -4,6 +4,9 @@
  *
  * - Filtres : boutons « Tout · Séjour · Chambres… » (visibles seulement si
  *   JavaScript est actif ; sans JavaScript, toutes les photos sont affichées).
+ * - Filtre dans l'adresse : « /galerie/#chambres » ouvre la galerie filtrée sur
+ *   Chambres (clé de src/content/photos.ts → galleryCategories). Utilisé par
+ *   l'accordéon de la page Le chalet (13/11/2026).
  * - Visionneuse : clic sur une photo → plein écran. Flèches ← → (clavier ou
  *   boutons), Échap ou clic sur le fond pour fermer. La navigation suit le
  *   filtre actif. Élément <dialog> natif : le focus clavier reste dans la
@@ -159,6 +162,14 @@ const isLarge = (index: number) => index % 7 === 0;
         });
       });
     });
+
+    // Filtre demandé dans l'adresse (ex. « #chambres ») : appliqué à l'arrivée et si l'adresse change.
+    const applyHashFilter = () => {
+      const category = decodeURIComponent(window.location.hash.slice(1));
+      filters.find((filter) => filter.dataset.filter === category)?.click();
+    };
+    applyHashFilter();
+    window.addEventListener('hashchange', applyHashFilter);
 
     // --- Visionneuse -------------------------------------------------------
     const show = (index: number) => {

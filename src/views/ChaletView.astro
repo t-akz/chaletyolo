@@ -11,9 +11,10 @@ import Hero from '../components/Hero.astro';
 import KeyFigures from '../components/KeyFigures.astro';
 import SpaceColumns from '../components/SpaceColumns.astro';
 import { figures } from '../content/chalet';
+import type { GalleryCategory } from '../content/photos';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
-import { getContent } from '../i18n/utils';
+import { getContent, localizedPath } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -26,13 +27,15 @@ const page = getContent(lang, 'chalet');
 // Colonnes d'espaces, de gauche à droite (ordre choisi par le client le 13/11/2026).
 // La première est ouverte au chargement. Salle de jeux retirée des textes par le client le 09/11/2026.
 // Sans sous-titres (retirés à la demande du client le 09/11/2026) : photo + titre + texte.
+// « gallery » : filtre de la galerie ouvert au clic sur la colonne (validé par le client le 13/11/2026).
+const galleryLink = (category: GalleryCategory) => `${localizedPath('gallery', lang)}#${category}`;
 const spaces = [
-  { photoId: 'chambre-01', ...page.spaces.rooms },
-  { photoId: 'sejour-01', ...page.spaces.living },
-  { photoId: 'cinema-01', ...page.spaces.cinema },
-  { photoId: 'piscine-01', ...page.spaces.pool },
-  { photoId: 'bien-etre-01', ...page.spaces.wellness },
-  { photoId: 'yoga-01', ...page.spaces.yoga },
+  { photoId: 'chambre-01', ...page.spaces.rooms, href: galleryLink('chambres') },
+  { photoId: 'sejour-01', ...page.spaces.living, href: galleryLink('sejour') },
+  { photoId: 'cinema-01', ...page.spaces.cinema, href: galleryLink('loisirs') },
+  { photoId: 'piscine-01', ...page.spaces.pool, href: galleryLink('bien-etre') },
+  { photoId: 'bien-etre-01', ...page.spaces.wellness, href: galleryLink('bien-etre') },
+  { photoId: 'yoga-01', ...page.spaces.yoga, href: galleryLink('loisirs') },
 ];
 
 // Plans : un par niveau (fichiers src/assets/photos/plans/plan-niveau-1 … 4).
@@ -64,7 +67,8 @@ const plans = page.floorPlans.levels.map((label, index) => ({ photoId: `plan-niv
   <!-- 3. Colonnes d'espaces (accordéon de photos) -->
   <section class="bg-bg-alt py-16 md:py-28">
     <div class="container-page" data-reveal>
-      <SpaceColumns lang={lang} label={page.spaces.label} items={spaces} />
+      {/* Textes masqués pour essai (13/11/2026) : remettre showText={true} (ou retirer l'option) pour les réafficher. */}
+      <SpaceColumns lang={lang} label={page.spaces.label} linkLabel={page.spaces.galleryLink} items={spaces} showText={false} />
     </div>
   </section>
 
