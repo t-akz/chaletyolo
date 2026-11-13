@@ -15,6 +15,7 @@ import IntroGate from '../components/IntroGate.astro';
 import IntroGateScript from '../components/IntroGateScript.astro';
 import Seo from '../components/Seo.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { whatsappEnabled } from '../components/whatsapp';
 import { getAnalytics } from '../config/site';
 import type { Lang } from '../i18n/languages';
 import type { RouteKey } from '../i18n/routes';
@@ -81,7 +82,8 @@ const analytics = getAnalytics();
       <slot />
     </main>
     <Footer lang={lang} />
-    <WhatsAppButton lang={lang} />
+    {/* Bouton WhatsApp : seulement quand le numéro est renseigné (src/components/whatsapp.ts). */}
+    {whatsappEnabled && <WhatsAppButton lang={lang} />}
     {/* Écran d'entrée : placé en dernier dans le code, l'accueil reste lu en premier. */}
     {intro && <IntroGate lang={lang} />}
     <script>

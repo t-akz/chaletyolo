@@ -36,7 +36,8 @@ export const site = {
 
   /** Liens vers les réseaux sociaux (URL complètes). */
   social: {
-    instagram: TO_PROVIDE,
+    // Fourni par le client le 13/11/2026.
+    instagram: 'https://www.instagram.com/chalet.yolo/',
   },
 } as const;
 

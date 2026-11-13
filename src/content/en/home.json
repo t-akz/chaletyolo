@@ -9,8 +9,8 @@
     "languages": "Site language"
   },
   "hero": {
-    "title": "Indulge the mountains",
-    "subtitle": "Luxury Chalet, Spa & Pool · Méribel",
+    "title": "The gentle side of winter. The luxury of service.",
+    "subtitle": "Private Catered Chalet, Spa & Pool · Méribel",
     "carousel": {
       "label": "Chalet photos",
       "roledescription": "carousel",
@@ -27,23 +27,23 @@
     "cards": {
       "chalet": {
         "title": "The Chalet",
-        "subtitle": "Pool, Spa & Yoga Room"
+        "subtitle": "6 Bedrooms, Lounges & Home Cinema"
       },
       "poolSpa": {
-        "title": "TODO-COPY: Pool & Spa",
-        "subtitle": "TODO-COPY: subtitle"
+        "title": "Pool & Spa",
+        "subtitle": "Sauna, Hammam & Jacuzzi"
       },
       "services": {
-        "title": "Our Services",
+        "title": "Fully Pampered",
         "subtitle": "Chef, Butler & Chauffeur"
       },
       "meribel": {
-        "title": "Méribel",
-        "subtitle": "In the heart of Les 3 Vallées"
+        "title": "Méribel Les 3 Vallées",
+        "subtitle": "The Best Ski Area"
       },
       "contact": {
-        "title": "Our Offers",
-        "subtitle": "Contact & Bookings"
+        "title": "Your Stay",
+        "subtitle": "Rates & Bookings"
       }
     }
   },

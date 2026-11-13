@@ -4,13 +4,13 @@
     "description": "Half board or full board with private chef, butler and chauffeur: an ultra-luxury catered chalet in Les 3 Vallées, with service tailored to your stay."
   },
   "hero": {
-    "title": "You ski. We take care of the rest.",
-    "subtitle": "Private Chef · Half or Full Board"
+    "title": "Pampered, from morning to night.",
+    "subtitle": "Private Chef · Chalet Manager · Chauffeur · 24/7"
   },
   "offer": {
-    "title": "Services & Facilities",
-    "servicesTitle": "Services",
-    "facilitiesTitle": "Facilities",
+    "title": "The Service & The House",
+    "servicesTitle": "At Your Service",
+    "facilitiesTitle": "Ultimate Comfort",
     "services": [
       "Half Catered or Full Catered",
       "Private chef",
@@ -42,17 +42,17 @@
       "majordome": {
         "name": "Lina Gerard",
         "role": "Chalet Manager",
-        "text": "Passionate about hospitality, she brings versatility, discretion and an eye for detail to every stay."
+        "text": "Passionate about hospitality, Lina has worked in palace hotels, including Les Airelles and Hôtel Barrière Les Neiges in Courchevel. She brings versatility, discretion and an eye for detail to every stay."
       },
       "chef": {
         "name": "Ricardo Tort Albelda",
         "role": "Private chef",
-        "text": "Over 25 years in the kitchen and an undiminished passion for fine food, travel and discovering new flavours."
+        "text": "Over 25 years in the kitchen, including time at the palace hotels Les Airelles and Hôtel Barrière Les Neiges in Courchevel, and an undiminished passion for fine food, travel and discovering new flavours."
       }
     }
   },
   "cta": {
     "title": "Let's talk about your stay",
-    "text": "On request, through our concierge."
+    "text": ""
   }
 }

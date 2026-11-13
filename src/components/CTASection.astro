@@ -8,14 +8,14 @@ import Eyebrow from './Eyebrow.astro';
 import TextLink from './TextLink.astro';
 import type { Lang } from '../i18n/languages';
 import { contactFormPath, getContent } from '../i18n/utils';
-import { whatsappUrl } from './whatsapp';
+import { whatsappEnabled, whatsappUrl } from './whatsapp';
 
 interface Props {
   lang: Lang;
   eyebrow?: string;
   title: string;
   text?: string;
-  /** Affiche le lien « WhatsApp » à côté du bouton. */
+  /** Affiche le lien « WhatsApp » à côté du bouton (seulement si le numéro est renseigné). */
   showWhatsapp?: boolean;
   /**
    * Fond : « alt » = blanc cassé (par défaut, toutes les pages) ; « bg » = beige, pour
@@ -38,7 +38,7 @@ const common = getContent(lang, 'common');
     <div class="mt-10 flex flex-wrap items-center gap-x-10 gap-y-6">
       <Button href={contactFormPath(lang)}>{common.cta.contact}</Button>
       {
-        showWhatsapp && (
+        showWhatsapp && whatsappEnabled && (
           <TextLink href={whatsappUrl(lang)} external>
             {common.whatsapp.label}
             <span class="sr-only">{common.newTab}</span>

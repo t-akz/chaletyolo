@@ -3,11 +3,11 @@
   "nav": {
     "label": "Main navigation",
     "chalet": "The Chalet",
-    "poolSpa": "TODO-COPY: Pool & Spa",
-    "services": "Services",
-    "meribel": "Méribel",
+    "poolSpa": "Pool & Spa",
+    "services": "Fully Pampered",
+    "meribel": "Les 3 Vallées",
     "gallery": "Gallery",
-    "contact": "Offer & Contact"
+    "contact": "Your Stay"
   },
   "header": {
     "homeLink": "Chalet Yolo — home",

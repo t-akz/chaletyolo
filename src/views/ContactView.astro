@@ -12,7 +12,7 @@ import ContactForm from '../components/ContactForm.astro';
 import Icon from '../components/Icon.astro';
 import PageTabs from '../components/PageTabs.astro';
 import WeekAccordion from '../components/WeekAccordion.astro';
-import { whatsappUrl } from '../components/whatsapp';
+import { whatsappEnabled, whatsappUrl } from '../components/whatsapp';
 import { isProvided, site, TO_PROVIDE } from '../config/site';
 import { loadSeason } from '../content/tarifs-store';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -52,6 +52,7 @@ const season = await loadSeason();
             months={season.months}
             label={page.offer.label}
             perNight={page.offer.perNight}
+            nightsLabel={page.offer.nights}
             bookLabel={page.offer.book}
             bookedLabel={page.offer.booked}
             bookPath={localizedPath('contact', lang)}
@@ -75,14 +76,18 @@ const season = await loadSeason();
             <div>
               <h3 class="border-b border-border pb-4 text-h3">{page.direct.title}</h3>
               <ul class="mt-6 space-y-4">
-                <li class="flex items-center gap-3">
-                  <Icon name="message-circle" size={22} class="shrink-0 text-decor" />
-                  <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">
-                    {page.direct.whatsapp}
-                    <span class="sr-only">{common.newTab}</span>
-                  </a>
-                  {!isProvided(site.whatsapp) && <span>{TO_PROVIDE}</span>}
-                </li>
+                {/* WhatsApp : seulement quand le numéro est renseigné (src/components/whatsapp.ts). */}
+                {
+                  whatsappEnabled && (
+                    <li class="flex items-center gap-3">
+                      <Icon name="message-circle" size={22} class="shrink-0 text-decor" />
+                      <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="text-accent underline underline-offset-4">
+                        {page.direct.whatsapp}
+                        <span class="sr-only">{common.newTab}</span>
+                      </a>
+                    </li>
+                  )
+                }
                 <li class="flex items-center gap-3">
                   <Icon name="mail" size={22} class="shrink-0 text-decor" />
                   {

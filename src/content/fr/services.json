@@ -4,7 +4,7 @@
     "description": "Demi-pension ou pension complète avec chef privé, majordome et chauffeur : un chalet ultra luxe aux 3 Vallées, avec un service pensé pour votre séjour."
   },
   "hero": {
-    "title": "Aux petits soins du matin au soir",
+    "title": "Aux petits soins, du matin au soir.",
     "subtitle": "Chef privé · Chalet Manager · Chauffeur · 24/7"
   },
   "offer": {
@@ -41,12 +41,12 @@
       "majordome": {
         "name": "Lina Gerard",
         "role": "Chalet Manager",
-        "text": "Passionnée d’hospitalité, elle met sa polyvalence, sa discrétion et son sens du détail au service de chacun de vos séjours."
+        "text": "Passionnée d’hospitalité, Lina a exercé dans des palaces, dont Les Airelles et l’Hôtel Barrière Les Neiges à Courchevel. Elle met sa polyvalence, sa discrétion et son sens du détail au service de chacun de vos séjours."
       },
       "chef": {
         "name": "Ricardo Tort Albelda",
         "role": "Chef privé",
-        "text": "Plus de 25 ans en cuisine et une passion intacte pour la gastronomie, les voyages et la découverte de nouvelles saveurs."
+        "text": "Plus de 25 ans en cuisine, dont des passages en palace aux Airelles et à l’Hôtel Barrière Les Neiges à Courchevel, et une passion intacte pour la gastronomie, les voyages et la découverte de nouvelles saveurs."
       }
     }
   },

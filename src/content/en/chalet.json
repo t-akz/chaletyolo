@@ -4,18 +4,18 @@
     "description": "330 m² over four levels with a lift: six bedrooms including four suites, heated indoor pool, spa, home cinema and yoga room in Méribel, Les 3 Vallées."
   },
   "hero": {
-    "title": "Your home in Méribel.",
-    "subtitle": "Luxury Chalet · Spa & Pool"
+    "title": "A cocoon at altitude",
+    "subtitle": "Luxury Chalet · Spa, Pool & Jacuzzi"
   },
   "intro": {
     "title": "The chalet",
-    "text": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, hot tub, sauna, hammam, yoga room and home cinema. Your stay is fully catered, with a private chef, butler and chauffeur at your service."
+    "text": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, hot tub, sauna, hammam, yoga room and home cinema.\nYour stay is fully taken care of by a chef, a chalet manager and a chauffeur."
   },
   "spaces": {
     "label": "The chalet's spaces",
-    "galleryLink": "TODO-COPY: See the photos: {title}",
+    "galleryLink": "See the photos: {title}",
     "pool": {
-      "title": "Pool",
+      "title": "Pool & Jacuzzi",
       "text": "Heated and entirely private, the indoor pool welcomes morning lengths and evening unwinding alike, after a day on the 600 km of slopes of Les 3 Vallées."
     },
     "wellness": {
@@ -27,11 +27,11 @@
       "text": "A cinema room for the latest release, a mountain classic or the memories of the day."
     },
     "yoga": {
-      "title": "Yoga",
+      "title": "Yoga & Fitness Room",
       "text": "Stretch before the first lift of the morning, release the tension after the last run: a room dedicated to yoga, in peace and quiet, without leaving the chalet."
     },
     "living": {
-      "title": "Living & Kitchen",
+      "title": "Lounges & Kitchen",
       "text": "On the 4th level, the cathedral-ceiling living room brings together a fireplace, a large dining table and a fitted kitchen. The chef's playground, and the heart of the chalet."
     },
     "rooms": {
@@ -61,7 +61,7 @@
       "helpMac": "Use ⌘ + scroll to zoom the map",
       "helpMobile": "Use two fingers to move the map",
       "landmarks": {
-        "meribelVillage": "Méribel Village",
+        "meribelVillage": "Méribel Village & Ski Lift",
         "olympe": "Olympe Ski Lift",
         "chaudanne": "La Chaudanne Ski Lift"
       },

@@ -10,7 +10,7 @@ import { identity } from '../content/chalet';
 import { isProvided, site, TO_PROVIDE } from '../config/site';
 import type { Lang } from '../i18n/languages';
 import { getContent, localizedPath } from '../i18n/utils';
-import { whatsappUrl } from './whatsapp';
+import { whatsappEnabled, whatsappUrl } from './whatsapp';
 
 interface Props {
   lang: Lang;
@@ -20,13 +20,20 @@ const { lang } = Astro.props;
 const common = getContent(lang, 'common');
 const year = new Date().getFullYear();
 
+/*
+ * Bloc « Informations » (mentions légales, confidentialité) : masqué à la demande du client
+ * (13/11/2026) en attendant les informations légales. Le remettre à « true » pour le réafficher.
+ * Les pages restent en ligne (le formulaire renvoie toujours vers la page Confidentialité).
+ */
+const showLegal = false;
+
 const socials = [
   { name: 'Instagram', url: site.social.instagram },
 ];
 ---
 
 <footer class="bg-accent-soft text-text">
-  <div class="container-page grid gap-6 py-8 md:grid-cols-4 md:gap-x-12 md:py-8">
+  <div class:list={['container-page grid gap-6 py-8 md:gap-x-12 md:py-8', showLegal ? 'md:grid-cols-4' : 'md:grid-cols-3']}>
     <div>
       <a href={localizedPath('home', lang)} aria-label={common.header.homeLink}>
         <Logo class="h-14 text-logo" />
@@ -48,13 +55,17 @@ const socials = [
             )
           }
         </li>
-        <li>
-          <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="text-accent hover:underline">
-            {common.footer.whatsapp}
-            <span class="sr-only">{common.newTab}</span>
-          </a>
-          {!isProvided(site.whatsapp) && <span> {TO_PROVIDE}</span>}
-        </li>
+        {/* WhatsApp : seulement quand le numéro est renseigné (src/components/whatsapp.ts). */}
+        {
+          whatsappEnabled && (
+            <li>
+              <a href={whatsappUrl(lang)} target="_blank" rel="noopener" class="text-accent hover:underline">
+                {common.footer.whatsapp}
+                <span class="sr-only">{common.newTab}</span>
+              </a>
+            </li>
+          )
+        }
       </ul>
     </div>
 
@@ -80,15 +91,19 @@ const socials = [
       </ul>
     </div>
 
-    <div>
-      <h2 class="eyebrow text-accent">{common.footer.legalTitle}</h2>
-      <ul class="mt-3 space-y-1 text-sm">
-        <li><a href={localizedPath('legal', lang)} class="text-accent hover:underline">{common.footer.legal}</a></li>
-        <li><a href={localizedPath('privacy', lang)} class="text-accent hover:underline">{common.footer.privacy}</a></li>
-      </ul>
-    </div>
+    {
+      showLegal && (
+        <div>
+          <h2 class="eyebrow text-accent">{common.footer.legalTitle}</h2>
+          <ul class="mt-3 space-y-1 text-sm">
+            <li><a href={localizedPath('legal', lang)} class="text-accent hover:underline">{common.footer.legal}</a></li>
+            <li><a href={localizedPath('privacy', lang)} class="text-accent hover:underline">{common.footer.privacy}</a></li>
+          </ul>
+        </div>
+      )
+    }
 
     {/* Mention « Tous droits réservés » : en bas de la grille, centrée sur toute la largeur. */}
-    <p class="text-center text-xs md:col-span-4">© {year} {identity.name}. {common.footer.rights}</p>
+    <p class="text-center text-xs md:col-span-full">© {year} {identity.name}. {common.footer.rights}</p>
   </div>
 </footer>

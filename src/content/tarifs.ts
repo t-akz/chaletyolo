@@ -8,9 +8,14 @@
  *
  * Règles (vérifiées par parseSeason, au build ET à chaque enregistrement de l'admin) :
  * - un mois = « AAAA-MM », dans l'ordre, sans doublon ;
- * - une semaine va du SAMEDI au SAMEDI (confirmé par le client le 08/11/2026) ;
- *   elle est rangée dans le mois de son samedi d'arrivée ;
- * - « price » = prix TOTAL de la semaine en euros (nombre entier), ou null → « [À FOURNIR] » ;
+ * - une « période » (une carte du site) va en principe du SAMEDI au SAMEDI (confirmé
+ *   par le client le 08/11/2026) : c'est le cas quand « end » est absent (départ = arrivée + 7 jours) ;
+ * - périodes spéciales (13/11/2026, ex. 2 nuits du jeudi 7 au samedi 9 janvier pour reprendre
+ *   le rythme du samedi, ou une réservation de 12 nuits) : « end » = date de départ choisie ;
+ *   arrivée n'importe quel jour, de 1 à {maxNights} nuits ;
+ * - une période est rangée dans le mois de son arrivée ; les périodes sont dans l'ordre
+ *   et ne se chevauchent pas, sur toute la saison (un trou entre deux périodes est permis) ;
+ * - « price » = prix TOTAL de la période en euros (nombre entier), ou null → « [À FOURNIR] » ;
  * - « booked » = semaine réservée → carte grisée, « Réservée », sans prix ni lien « Réserver » ;
  * - « badge » = mention spéciale facultative (ex. « Promo »), en français ET en anglais.
  *
@@ -22,9 +27,14 @@
 export type Badge = { fr: string; en: string };
 
 export type Week = {
-  /** Samedi d'arrivée, au format AAAA-MM-JJ. Le départ est calculé (+ 7 jours). */
+  /** Date d'arrivée, au format AAAA-MM-JJ (un samedi pour une semaine normale). */
   start: string;
-  /** Prix total de la semaine en euros, ou null si pas encore fourni. */
+  /**
+   * Date de départ (AAAA-MM-JJ), seulement pour une période spéciale.
+   * Absente = semaine normale : départ 7 jours après l'arrivée (voir weekEnd).
+   */
+  end?: string;
+  /** Prix total de la période en euros, ou null si pas encore fourni. */
   price: number | null;
   /** Vrai si la semaine est réservée. */
   booked: boolean;
@@ -43,8 +53,11 @@ export type Season = { months: Month[] };
 /** Devise des prix. */
 export const currency = 'EUR';
 
-/** Nombre de nuits d'une semaine (sert au calcul du prix par nuit). */
+/** Nombre de nuits d'une semaine normale. */
 export const nightsPerWeek = 7;
+
+/** Nombre maximal de nuits d'une période (garde-fou contre une faute de frappe). */
+export const maxNights = 31;
 
 /** Longueur maximale d'une mention spéciale (pour qu'elle tienne sur la carte). */
 export const badgeMaxLength = 25;
@@ -57,6 +70,31 @@ const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 /** Date lue en temps universel (pas de décalage d'un jour selon le fuseau horaire). */
 const toUtcDate = (iso: string) => new Date(`${iso}T00:00:00Z`);
+
+/** Vrai si « iso » est une date réelle au format AAAA-MM-JJ (refuse « 2027-02-30 »). */
+export const isRealDate = (iso: unknown): iso is string =>
+  typeof iso === 'string' && DAY_RE.test(iso) && !Number.isNaN(toUtcDate(iso).getTime()) &&
+  toUtcDate(iso).toISOString().slice(0, 10) === iso;
+
+/** Date « iso » décalée de « days » jours. */
+export function addDays(iso: string, days: number): string {
+  const date = toUtcDate(iso);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+/** Nombre de nuits entre deux dates (arrivée → départ). */
+export const nightsBetween = (start: string, end: string) =>
+  Math.round((toUtcDate(end).getTime() - toUtcDate(start).getTime()) / 86_400_000);
+
+/** Date de départ d'une période : « end » si c'est une période spéciale, sinon arrivée + 7 jours. */
+export const periodEnd = (week: Pick<Week, 'start' | 'end'>) => week.end ?? weekEnd(week.start);
+
+/** Nombre de nuits d'une période (7 pour une semaine normale). */
+export const periodNights = (week: Pick<Week, 'start' | 'end'>) => nightsBetween(week.start, periodEnd(week));
+
+/** Date en clair pour les messages d'erreur, ex. « 07/01/2027 ». */
+const frDate = (iso: string) => iso.split('-').reverse().join('/');
 
 /** Tous les samedis d'un mois (« 2027-01 » → ['2027-01-02', '2027-01-09', …]). */
 export function saturdaysOf(month: string): string[] {
@@ -92,6 +130,8 @@ export function parseSeason(data: unknown): Season {
 
   const months: Month[] = [];
   let previousMonth = '';
+  // Départ de la période précédente (toute la saison) : la suivante ne peut pas arriver avant.
+  let previousEnd = '';
   for (const rawMonth of rawMonths) {
     if (!isObject(rawMonth)) fail('un mois est mal formé.');
     const m = rawMonth as Record<string, unknown>;
@@ -102,53 +142,61 @@ export function parseSeason(data: unknown): Season {
     previousMonth = monthKey;
     if (!Array.isArray(m.weeks)) fail(`les semaines du mois ${monthKey} sont absentes.`);
 
-    const saturdays = saturdaysOf(monthKey);
     const weeks: Week[] = [];
-    let previousStart = '';
     for (const rawWeek of m.weeks as unknown[]) {
-      if (!isObject(rawWeek)) fail(`une semaine de ${monthKey} est mal formée.`);
+      if (!isObject(rawWeek)) fail(`une période de ${monthKey} est mal formée.`);
       const w = rawWeek as Record<string, unknown>;
       const start = w.start;
-      if (typeof start !== 'string' || !DAY_RE.test(start) || !saturdays.includes(start)) {
-        fail(`la semaine « ${String(start)} » n'est pas un samedi de ${monthKey}.`);
-      }
+      if (!isRealDate(start)) fail(`date d'arrivée « ${String(start)} » incorrecte (attendu AAAA-MM-JJ).`);
       const startKey = start as string;
-      if (startKey <= previousStart) fail(`la semaine du ${startKey} est en double ou dans le désordre.`);
-      previousStart = startKey;
+      if (startKey.slice(0, 7) !== monthKey) fail(`la période du ${frDate(startKey)} n'arrive pas en ${monthKey} : rangez-la dans son mois d'arrivée.`);
+
+      // Départ : absent (ou égal à arrivée + 7 jours) = semaine normale, on ne garde pas « end ».
+      let end: string | undefined;
+      if (w.end !== undefined && w.end !== null && w.end !== '') {
+        if (!isRealDate(w.end)) fail(`date de départ de la période du ${frDate(startKey)} incorrecte.`);
+        const nights = nightsBetween(startKey, w.end as string);
+        if (nights < 1) fail(`la période du ${frDate(startKey)} doit partir après son arrivée.`);
+        if (nights > maxNights) fail(`la période du ${frDate(startKey)} dépasse ${maxNights} nuits.`);
+        if (w.end !== weekEnd(startKey)) end = w.end as string;
+      }
+      const endKey = end ?? weekEnd(startKey);
+      if (previousEnd && startKey < previousEnd) {
+        fail(`la période du ${frDate(startKey)} commence avant la fin de la précédente (départ le ${frDate(previousEnd)}) : elles se chevauchent ou sont dans le désordre.`);
+      }
+      previousEnd = endKey;
 
       const price = w.price ?? null;
       if (price !== null && (typeof price !== 'number' || !Number.isInteger(price) || price <= 0 || price > priceMax)) {
-        fail(`prix de la semaine du ${startKey} incorrect (nombre entier d'euros, ou vide).`);
+        fail(`prix de la période du ${frDate(startKey)} incorrect (nombre entier d'euros, ou vide).`);
       }
 
       const booked = w.booked ?? false;
-      if (typeof booked !== 'boolean') fail(`« réservée » de la semaine du ${startKey} incorrect.`);
+      if (typeof booked !== 'boolean') fail(`« réservée » de la période du ${frDate(startKey)} incorrect.`);
 
       let badge: Badge | null = null;
       if (w.badge !== null && w.badge !== undefined) {
-        if (!isObject(w.badge)) fail(`mention de la semaine du ${startKey} mal formée.`);
+        if (!isObject(w.badge)) fail(`mention de la période du ${frDate(startKey)} mal formée.`);
         const b = w.badge as Record<string, unknown>;
         const fr = typeof b.fr === 'string' ? b.fr.trim() : '';
         const en = typeof b.en === 'string' ? b.en.trim() : '';
         if (fr || en) {
-          if (!fr || !en) fail(`la mention de la semaine du ${startKey} doit être remplie en français ET en anglais.`);
+          if (!fr || !en) fail(`la mention de la période du ${frDate(startKey)} doit être remplie en français ET en anglais.`);
           if (fr.length > badgeMaxLength || en.length > badgeMaxLength) {
-            fail(`la mention de la semaine du ${startKey} dépasse ${badgeMaxLength} caractères.`);
+            fail(`la mention de la période du ${frDate(startKey)} dépasse ${badgeMaxLength} caractères.`);
           }
           badge = { fr, en };
         }
       }
 
-      weeks.push({ start: startKey, price: price as number | null, booked: booked as boolean, badge });
+      weeks.push({ start: startKey, ...(end ? { end } : {}), price: price as number | null, booked: booked as boolean, badge });
     }
     months.push({ month: monthKey, weeks });
   }
   return { months };
 }
 
-/** Date de départ d'une semaine (samedi suivant), au format AAAA-MM-JJ. */
+/** Date de départ d'une semaine normale (arrivée + 7 jours), au format AAAA-MM-JJ. */
 export function weekEnd(start: string): string {
-  const date = toUtcDate(start);
-  date.setUTCDate(date.getUTCDate() + 7);
-  return date.toISOString().slice(0, 10);
+  return addDays(start, nightsPerWeek);
 }

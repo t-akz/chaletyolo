@@ -2,7 +2,9 @@
 /**
  * Accordéon des mois (onglet « Offre » de la page Offre & Contact).
  * Un volet par mois ; dans chaque volet, une carte par semaine (samedi → samedi) :
- * date d'arrivée et, en dessous, date de départ, prix total, et en petit le prix par nuit (total ÷ 7).
+ * date d'arrivée et, en dessous, date de départ, prix total, et en petit le prix par nuit (total ÷ nuits).
+ * Période spéciale (13/11/2026, ex. 2 nuits du 7 au 9 janvier, ou réservation de 12 nuits) :
+ * mêmes informations, avec le nombre de nuits en petit sous les dates (« 2 nuits »).
  *
  * - Ordinateur (≥ 1024 px) : volets côte à côte, nom du mois écrit à la verticale.
  *   Celui que l'on survole (souris) ou que l'on choisit (clic, clavier) s'élargit
@@ -28,7 +30,7 @@ import BearHead from '../assets/logo/ourson.svg';
 import Icon from './Icon.astro';
 import TextLink from './TextLink.astro';
 import { TO_PROVIDE } from '../config/site';
-import { currency, nightsPerWeek, weekEnd, type Month } from '../content/tarifs';
+import { currency, nightsPerWeek, periodEnd, periodNights, type Month } from '../content/tarifs';
 import type { Lang } from '../i18n/languages';
 
 interface Props {
@@ -39,6 +41,8 @@ interface Props {
   label: string;
   /** Mention sous le prix total, ex. « {price} / nuit ». */
   perNight: string;
+  /** Nombre de nuits d'une période spéciale, ex. « {count} nuits » (pas affiché pour une semaine normale). */
+  nightsLabel: string;
   /** Libellé du lien de réservation, ex. « Réserver ». */
   bookLabel: string;
   /** Mention d'une semaine réservée, ex. « Réservée ». */
@@ -47,7 +51,7 @@ interface Props {
   bookPath: string;
 }
 
-const { lang, months: season, label, perNight, bookLabel, bookedLabel, bookPath } = Astro.props;
+const { lang, months: season, label, perNight, nightsLabel, bookLabel, bookedLabel, bookPath } = Astro.props;
 const locale = lang === 'fr' ? 'fr-FR' : 'en-GB';
 
 // Dates lues en temps universel : pas de décalage d'un jour selon le fuseau horaire.
@@ -64,10 +68,14 @@ const months = season.map(({ month, weeks }) => ({
   key: month,
   title: capitalize(monthFormat.format(toDate(`${month}-01`))),
   weeks: weeks.map((week) => {
-    const end = weekEnd(week.start);
+    const end = periodEnd(week);
+    const nights = periodNights(week);
     return {
       ...week,
       end,
+      nights,
+      // « 2 nuits » sous les dates : seulement pour une période qui ne fait pas une semaine.
+      nightsText: nights === nightsPerWeek ? null : nightsLabel.replace('{count}', String(nights)),
       startLabel: capitalize(dayFormat.format(toDate(week.start))),
       endLabel: capitalize(dayFormat.format(toDate(end))),
     };
@@ -110,6 +118,7 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
                       <span class="sr-only"> – </span>
                       <time datetime={week.end}>{week.endLabel}</time>
                     </p>
+                    {week.nightsText && <p class="week-card__nights">{week.nightsText}</p>}
                     {week.booked ? (
                       <p class="week-card__status">{bookedLabel}</p>
                     ) : (
@@ -120,7 +129,7 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
                           <>
                             <p class="week-card__price">{priceFormat.format(week.price)}</p>
                             <p class="week-card__night">
-                              {perNight.replace('{price}', priceFormat.format(Math.round(week.price / nightsPerWeek)))}
+                              {perNight.replace('{price}', priceFormat.format(Math.round(week.price / week.nights)))}
                             </p>
                           </>
                         )}
@@ -220,6 +229,16 @@ const uid = `mois-${Math.random().toString(36).slice(2, 8)}`;
     display: flex;
     flex-direction: column;
     font-weight: 500;
+  }
+
+  /* Période spéciale : nombre de nuits, en petit sous les dates. */
+  .week-card__nights {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .week-card[data-booked] .week-card__nights {
+    opacity: 0.55;
   }
 
   .week-card__price {

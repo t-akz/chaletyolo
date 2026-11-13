@@ -2,10 +2,11 @@
   "_lisez_moi": [
     "Tous les textes du site, français (fr) et anglais (en) côte à côte.",
     "Modifiez uniquement les valeurs « fr » et « en ». Ne renommez pas les clés et ne supprimez pas les champs « _emplacement » (ce sont les commentaires).",
-    "Les mots entre accolades ({price}, {link}, {min}…) sont remplacés automatiquement : gardez-les tels quels.",
+    "Les mots entre accolades ({price}, {title}, {n}…) sont remplacés automatiquement : gardez-les tels quels.",
+    "« \\n » dans un texte = retour à la ligne forcé.",
     "« [À FOURNIR] » = information encore manquante.",
     "« null » = texte absent dans cette langue.",
-    "Généré le 10/11/2026 (mis à jour : « proche du Raffort » et repères de la carte) depuis src/content/{fr,en}/*.json, src/content/photos.ts, src/data/plans.ts et src/content/chalet.ts."
+    "Généré le 13/11/2026, mis à jour après la 2e série de textes français depuis src/content/{fr,en}/*.json, src/content/photos.ts, src/data/plans.ts et src/content/chalet.ts."
   ],
   "common": {
     "_emplacement": "Textes présents sur TOUTES les pages (en-tête, menu, pied de page, boutons communs).",
@@ -25,21 +26,26 @@
         "fr": "Le Chalet",
         "en": "The Chalet"
       },
+      "poolSpa": {
+        "_emplacement": "Entrée du menu vers la page Piscine & Spa (ajoutée le 13/11/2026).",
+        "fr": "Piscine & Spa",
+        "en": "Pool & Spa"
+      },
       "services": {
-        "fr": "Prestations & Facilities",
-        "en": "Services"
+        "fr": "Aux petits soins",
+        "en": "Fully Pampered"
       },
       "meribel": {
-        "fr": "Méribel",
-        "en": "Méribel"
+        "fr": "Les 3 Vallées",
+        "en": "Les 3 Vallées"
       },
       "gallery": {
         "fr": "Galerie",
         "en": "Gallery"
       },
       "contact": {
-        "fr": "Offre & Contact",
-        "en": "Offer & Contact"
+        "fr": "Votre Séjour",
+        "en": "Your Stay"
       }
     },
     "header": {
@@ -190,12 +196,47 @@
     "hero": {
       "_emplacement": "Grande photo d’ouverture (photo du chalet puis piscine qui monte au défilement). subtitle = petit sur-titre en majuscules AU-DESSUS ; title = grande accroche.",
       "title": {
-        "fr": "La montagne autrement",
-        "en": "Indulge the mountains"
+        "fr": "La douceur de l'hiver. Le luxe du service.",
+        "en": "The gentle side of winter. The luxury of service."
       },
       "subtitle": {
-        "fr": "Chalet de luxe, Spa & piscine · Méribel",
-        "en": "Luxury Chalet, Spa & Pool · Méribel"
+        "fr": "Chalet privé avec chef, Spa & piscine · Méribel",
+        "en": "Private Catered Chalet, Spa & Pool · Méribel"
+      },
+      "carousel": {
+        "_emplacement": "Invisibles : libellés du carrousel du hero lus par les lecteurs d’écran (boutons pause, précédente, suivante…). {n} et {total} à garder.",
+        "label": {
+          "fr": "Photos du chalet",
+          "en": "Chalet photos"
+        },
+        "roledescription": {
+          "fr": "carrousel",
+          "en": "carousel"
+        },
+        "slide": {
+          "fr": "Photo {n} sur {total}",
+          "en": "Photo {n} of {total}"
+        },
+        "goTo": {
+          "fr": "Afficher la photo {n}",
+          "en": "Show photo {n}"
+        },
+        "previous": {
+          "fr": "Photo précédente",
+          "en": "Previous photo"
+        },
+        "next": {
+          "fr": "Photo suivante",
+          "en": "Next photo"
+        },
+        "pause": {
+          "fr": "Mettre en pause le défilement des photos",
+          "en": "Pause the slideshow"
+        },
+        "play": {
+          "fr": "Reprendre le défilement des photos",
+          "en": "Play the slideshow"
+        }
       }
     },
     "intro": {
@@ -212,15 +253,26 @@
             "en": "The Chalet"
           },
           "subtitle": {
-            "fr": "Piscine, Spa & Yoga Room",
-            "en": "Pool, Spa & Yoga Room"
+            "fr": "6 Chambres, Salons & Home Cinema",
+            "en": "6 Bedrooms, Lounges & Home Cinema"
+          }
+        },
+        "poolSpa": {
+          "_emplacement": "2e carte-photo sous le hero (photo piscine-02) → page Piscine & Spa.",
+          "title": {
+            "fr": "Piscine & Spa",
+            "en": "Pool & Spa"
+          },
+          "subtitle": {
+            "fr": "Sauna, Hammam & Jacuzzi",
+            "en": "Sauna, Hammam & Jacuzzi"
           }
         },
         "services": {
           "_emplacement": "Carte 2 (photo cuisine) → page Services.",
           "title": {
-            "fr": "Nos Services",
-            "en": "Our Services"
+            "fr": "Aux petits soins",
+            "en": "Fully Pampered"
           },
           "subtitle": {
             "fr": "Chef, Majordome & Chauffeur",
@@ -230,23 +282,23 @@
         "meribel": {
           "_emplacement": "Carte 3 (photo Méribel) → page Méribel.",
           "title": {
-            "fr": "Méribel",
-            "en": "Méribel"
+            "fr": "Méribel Les 3 Vallées",
+            "en": "Méribel Les 3 Vallées"
           },
           "subtitle": {
-            "fr": "Au cœur des 3 Vallées",
-            "en": "In the heart of Les 3 Vallées"
+            "fr": "Le meilleur domaine skiable",
+            "en": "The Best Ski Area"
           }
         },
         "contact": {
           "_emplacement": "Carte 4 (photo piscine) → onglet Offre de la page Offre & Contact.",
           "title": {
-            "fr": "Nos Offres",
-            "en": "Our Offers"
+            "fr": "Votre Séjour",
+            "en": "Your Stay"
           },
           "subtitle": {
-            "fr": "Contact & Réservartions",
-            "en": "Contact & Bookings"
+            "fr": "Tarifs & Réservations",
+            "en": "Rates & Bookings"
           }
         }
       }
@@ -286,12 +338,12 @@
     "hero": {
       "_emplacement": "Grande photo d’ouverture (salon cathédrale). subtitle = sur-titre au-dessus ; title = grande accroche.",
       "title": {
-        "fr": "Chez vous, à Méribel.",
-        "en": "Your home in Méribel."
+        "fr": "Un cocon en altitude",
+        "en": "A cocoon at altitude"
       },
       "subtitle": {
-        "fr": "Chalet de luxe · Spa & piscine",
-        "en": "Luxury Chalet · Spa & Pool"
+        "fr": "Chalet de luxe · Spa, piscine & Jacuzzi",
+        "en": "Luxury Chalet · Spa, Pool & Jacuzzi"
       }
     },
     "intro": {
@@ -301,8 +353,8 @@
         "en": "The chalet"
       },
       "text": {
-        "fr": "Le Chalet Yolo est une adresse d’exception proche du Raffort, à Méribel, au cœur des 3 Vallées. Ce chalet contemporain accueille jusqu’à 15 personnes dans six chambres, avec piscine intérieure, jacuzzi, sauna, hammam, salle de yoga et home cinéma.\nLe séjour est entièrement pris en charge par un chef privé, un majordome et un chauffeur.",
-        "en": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, hot tub, sauna, hammam, yoga room and home cinema. Your stay is fully catered, with a private chef, butler and chauffeur at your service."
+        "fr": "Le Chalet Yolo est une adresse d’exception proche du Raffort, à Méribel, au cœur des 3 Vallées. Ce chalet contemporain accueille jusqu’à 15 personnes dans six chambres, avec piscine intérieure, jacuzzi, sauna, hammam, salle de yoga et home cinéma.\nLe séjour est entièrement pris en charge par un chef, un chalet manager et un chauffeur.",
+        "en": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, hot tub, sauna, hammam, yoga room and home cinema.\nYour stay is fully taken care of by a chef, a chalet manager and a chauffeur."
       }
     },
     "spaces": {
@@ -311,11 +363,16 @@
         "fr": "Les espaces du chalet",
         "en": "The chalet's spaces"
       },
+      "galleryLink": {
+        "_emplacement": "Invisible : libellé lu par les lecteurs d’écran sur le lien de chaque colonne de l’accordéon vers la galerie filtrée. {title} = titre de la colonne.",
+        "fr": "Voir les photos : {title}",
+        "en": "See the photos: {title}"
+      },
       "pool": {
         "_emplacement": "Colonne 1 — photo piscine-01.",
         "title": {
-          "fr": "Piscine",
-          "en": "Pool"
+          "fr": "Piscine & Jacuzzi",
+          "en": "Pool & Jacuzzi"
         },
         "text": {
           "fr": "Chauffée et entièrement privative, la piscine intérieure accueille les longueurs du matin comme la détente du soir, après une journée sur les 600 km de pistes des 3 Vallées.",
@@ -336,7 +393,7 @@
       "cinema": {
         "_emplacement": "Colonne 3 — photo cinema-01.",
         "title": {
-          "fr": "Home Cinéma",
+          "fr": "Home Cinema",
           "en": "Home Cinema"
         },
         "text": {
@@ -347,8 +404,8 @@
       "yoga": {
         "_emplacement": "Colonne 4 — photo yoga-01.",
         "title": {
-          "fr": "Yoga",
-          "en": "Yoga"
+          "fr": "Yoga & Fitness Room",
+          "en": "Yoga & Fitness Room"
         },
         "text": {
           "fr": "S'étirer avant la première montée du matin, relâcher les tensions après la dernière piste : une salle dédiée au yoga, au calme, sans quitter le chalet.",
@@ -358,8 +415,8 @@
       "living": {
         "_emplacement": "Colonne 5 — photo sejour-01.",
         "title": {
-          "fr": "Salon & Cuisine",
-          "en": "Living & Kitchen"
+          "fr": "Salons & Cuisine",
+          "en": "Lounges & Kitchen"
         },
         "text": {
           "fr": "Au 4e niveau, le salon cathédrale réunit cheminée, grande table et cuisine équipée. Le terrain de jeu du chef, et le cœur du chalet.",
@@ -446,8 +503,8 @@
         "landmarks": {
           "_emplacement": "Noms des 3 repères (triangle + nom en majuscules) autour du chalet sur la carte. Mêmes noms en FR et EN aujourd’hui.",
           "meribelVillage": {
-            "fr": "Méribel Village",
-            "en": "Méribel Village"
+            "fr": "Méribel Village & Ski Lift",
+            "en": "Méribel Village & Ski Lift"
           },
           "olympe": {
             "fr": "Olympe Ski Lift",
@@ -464,15 +521,68 @@
             "fr": "4 min",
             "en": "4 min"
           },
-          "olympe": {
-            "fr": "2 min",
-            "en": "2 min"
-          },
           "chaudanne": {
             "fr": "7 min",
             "en": "7 min"
           }
         }
+      }
+    }
+  },
+  "poolSpa": {
+    "_emplacement": "Page Piscine & Spa — FR : /piscine-spa/ · EN : /en/pool-spa/",
+    "meta": {
+      "title": {
+        "fr": "Piscine intérieure et spa privatifs à Méribel — Chalet Yolo",
+        "en": "Private Indoor Pool & Spa in Méribel — Chalet Yolo"
+      },
+      "description": {
+        "fr": "Piscine intérieure chauffée et privative, jacuzzi, bain jacuzzi, sauna et hammam : l'espace bien-être du Chalet Yolo, chalet de luxe avec chef à Méribel.",
+        "en": "Heated private indoor pool, Jacuzzi, Jacuzzi bath, sauna and hammam: the wellness area of Chalet Yolo, a luxury catered chalet in Méribel."
+      }
+    },
+    "hero": {
+      "title": {
+        "fr": "Le luxe d'un spa. Rien que pour vous.",
+        "en": "The luxury of a spa. All to yourselves."
+      },
+      "subtitle": {
+        "fr": "Piscine & Spa privatifs · Méribel",
+        "en": "Private Pool & Spa · Méribel"
+      }
+    },
+    "pool": {
+      "eyebrow": {
+        "fr": "Piscine & Jacuzzi",
+        "en": "Pool & Jacuzzi"
+      },
+      "title": {
+        "fr": "Piscine & Jacuzzi",
+        "en": "Pool & Jacuzzi"
+      },
+      "text": {
+        "fr": "Intérieurs, chauffés et entièrement privatifs, la piscine et le jacuzzi du chalet vous attendent au retour des pistes. Serviettes de piscine, peignoirs et chaussons sont fournis.",
+        "en": "Indoor, heated and entirely private, the chalet's pool and Jacuzzi await you after a day on the slopes. Pool towels, bathrobes and slippers are provided."
+      }
+    },
+    "spa": {
+      "eyebrow": {
+        "fr": "Spa",
+        "en": "Spa"
+      },
+      "title": {
+        "fr": "Sauna & Hammam",
+        "en": "Sauna & Hammam"
+      },
+      "text": {
+        "fr": "Un spa complet et équipé pour votre confort : sauna, hammam et douches sensorielles.\nMassages et soins au chalet sur demande, à la carte.",
+        "en": "A complete spa, fully equipped for your comfort: sauna, hammam and sensory showers.\nIn-chalet massages and treatments on request, à la carte."
+      }
+    },
+    "cta": {
+      "title": {
+        "fr": "Parlons de votre séjour",
+        "en": "Let's talk about your stay"
       }
     }
   },
@@ -492,27 +602,27 @@
     "hero": {
       "_emplacement": "Grande photo d’ouverture (table dressée). subtitle = sur-titre au-dessus ; title = grande accroche.",
       "title": {
-        "fr": "Vous skiez. Nous nous occupons du reste.",
-        "en": "You ski. We take care of the rest."
+        "fr": "Aux petits soins, du matin au soir.",
+        "en": "Pampered, from morning to night."
       },
       "subtitle": {
-        "fr": "Chef privé · Majordome · Chauffeur · 24.7",
-        "en": "Private Chef · Half or Full Board"
+        "fr": "Chef privé · Chalet Manager · Chauffeur · 24/7",
+        "en": "Private Chef · Chalet Manager · Chauffeur · 24/7"
       }
     },
     "offer": {
       "_emplacement": "Les deux cadres arrondis côte à côte : title = titre de section ; servicesTitle / facilitiesTitle = titres des cadres ; services / facilities = lignes de chaque cadre (séparées par la tête d’ourson). Les listes FR et EN sont indépendantes (le nombre de lignes peut différer).",
       "title": {
-        "fr": "Prestations & Facilities",
-        "en": "Services & Facilities"
+        "fr": "Le Service & La Maison",
+        "en": "The Service & The House"
       },
       "servicesTitle": {
-        "fr": "Prestations",
-        "en": "Services"
+        "fr": "A votre service",
+        "en": "At Your Service"
       },
       "facilitiesTitle": {
-        "fr": "Facilities",
-        "en": "Facilities"
+        "fr": "Un confort ultime",
+        "en": "Ultimate Comfort"
       },
       "services": {
         "fr": [
@@ -566,6 +676,43 @@
         ]
       }
     },
+    "team": {
+      "_emplacement": "Section « Meet the team » : title = titre ; members = une carte par personne (role = sur-titre, name = prénom et nom, text = présentation).",
+      "title": {
+        "fr": "Meet the team",
+        "en": "Meet the team"
+      },
+      "members": {
+        "majordome": {
+          "name": {
+            "fr": "Lina Gerard",
+            "en": "Lina Gerard"
+          },
+          "role": {
+            "fr": "Chalet Manager",
+            "en": "Chalet Manager"
+          },
+          "text": {
+            "fr": "Passionnée d’hospitalité, Lina a exercé dans des palaces, dont Les Airelles et l’Hôtel Barrière Les Neiges à Courchevel. Elle met sa polyvalence, sa discrétion et son sens du détail au service de chacun de vos séjours.",
+            "en": "Passionate about hospitality, Lina has worked in palace hotels, including Les Airelles and Hôtel Barrière Les Neiges in Courchevel. She brings versatility, discretion and an eye for detail to every stay."
+          }
+        },
+        "chef": {
+          "name": {
+            "fr": "Ricardo Tort Albelda",
+            "en": "Ricardo Tort Albelda"
+          },
+          "role": {
+            "fr": "Chef privé",
+            "en": "Private chef"
+          },
+          "text": {
+            "fr": "Plus de 25 ans en cuisine, dont des passages en palace aux Airelles et à l’Hôtel Barrière Les Neiges à Courchevel, et une passion intacte pour la gastronomie, les voyages et la découverte de nouvelles saveurs.",
+            "en": "Over 25 years in the kitchen, including time at the palace hotels Les Airelles and Hôtel Barrière Les Neiges in Courchevel, and an undiminished passion for fine food, travel and discovering new flavours."
+          }
+        }
+      }
+    },
     "cta": {
       "_emplacement": "Dernière section : titre + petite phrase, au-dessus du bouton « Nous contacter » et du lien WhatsApp.",
       "title": {
@@ -573,8 +720,8 @@
         "en": "Let's talk about your stay"
       },
       "text": {
-        "fr": "Sur demande, auprès de notre conciergerie.",
-        "en": "On request, through our concierge."
+        "fr": "",
+        "en": ""
       }
     }
   },
@@ -594,8 +741,8 @@
     "hero": {
       "_emplacement": "Grande photo d’ouverture. subtitle = sur-titre au-dessus ; title = grande accroche.",
       "title": {
-        "fr": "Le cœur des 3 Vallées, l'âme d'un village savoyard.",
-        "en": "The heart of Les 3 Vallées, the soul of a Savoyard village."
+        "fr": "Méribel : l'élégance en altitude",
+        "en": "Méribel: elegance at altitude"
       },
       "subtitle": {
         "fr": "Méribel · Les 3 Vallées",
@@ -605,20 +752,20 @@
     "resort": {
       "_emplacement": "Section photo + texte « La station » : eyebrow = sur-titre, title = titre, text = ligne de faits ({foundedYear} = 1938 et {skiAreaKm} = 600 sont remplis automatiquement, à garder tels quels), location = phrase sous le texte (sans lien).",
       "eyebrow": {
-        "fr": "La station",
-        "en": "The resort"
+        "fr": "Méribel",
+        "en": "Méribel"
       },
       "title": {
-        "fr": "Au cœur des 3 Vallées",
-        "en": "At the heart of Les 3 Vallées"
+        "fr": "Le meilleur domaine skiable au monde",
+        "en": "The world's best ski area"
       },
       "text": {
-        "fr": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes · architecture savoyarde.",
-        "en": "Resort founded in {foundedYear} · {skiAreaKm} km of slopes · Savoyard architecture."
+        "fr": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes",
+        "en": "Resort founded in {foundedYear} · {skiAreaKm} km of slopes"
       },
       "location": {
-        "fr": "Le chalet se trouve proche du Raffort.",
-        "en": "The chalet is located near Le Raffort."
+        "fr": "Elu meilleur domaine skiable du monde",
+        "en": "Voted the world's best ski area"
       }
     },
     "cta": {
@@ -1037,22 +1184,46 @@
       "fr": "Dernière mise à jour : [À FOURNIR]",
       "en": "Last updated: [À FOURNIR]"
     },
-    "sections": [
-      {
-        "title": {
-          "fr": "Éditeur du site",
-          "en": "Website publisher"
-        },
-        "paragraphs": {
-          "fr": [
+    "sections": {
+      "fr": [
+        {
+          "title": "Éditeur du site",
+          "paragraphs": [
             "Raison sociale : [À FOURNIR]",
             "Forme juridique et capital social : [À FOURNIR]",
             "Adresse du siège : [À FOURNIR]",
             "SIRET : [À FOURNIR]",
             "Directeur de la publication : [À FOURNIR]",
             "Contact : [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Hébergement",
+          "paragraphs": [
+            "Le site est hébergé par Netlify, Inc.",
+            "Adresse : [À FOURNIR]",
+            "Site web : https://www.netlify.com"
+          ]
+        },
+        {
+          "title": "Propriété intellectuelle",
+          "paragraphs": [
+            "Les textes, photographies et logos présents sur ce site sont protégés par le droit d'auteur. Toute reproduction sans autorisation préalable est interdite.",
+            "Crédits photos : [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Données personnelles",
+          "paragraphs": [
+            "Le traitement des données transmises via le formulaire de contact est décrit dans notre politique de confidentialité."
           ],
-          "en": [
+          "link": "Lire la politique de confidentialité"
+        }
+      ],
+      "en": [
+        {
+          "title": "Website publisher",
+          "paragraphs": [
             "Company name: [À FOURNIR]",
             "Legal form and share capital: [À FOURNIR]",
             "Registered office: [À FOURNIR]",
@@ -1060,61 +1231,31 @@
             "Publication director: [À FOURNIR]",
             "Contact: [À FOURNIR]"
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Hébergement",
-          "en": "Hosting"
         },
-        "paragraphs": {
-          "fr": [
-            "Le site est hébergé par Netlify, Inc.",
-            "Adresse : [À FOURNIR]",
-            "Site web : https://www.netlify.com"
-          ],
-          "en": [
+        {
+          "title": "Hosting",
+          "paragraphs": [
             "This website is hosted by Netlify, Inc.",
             "Address: [À FOURNIR]",
             "Website: https://www.netlify.com"
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Propriété intellectuelle",
-          "en": "Intellectual property"
         },
-        "paragraphs": {
-          "fr": [
-            "Les textes, photographies et logos présents sur ce site sont protégés par le droit d'auteur. Toute reproduction sans autorisation préalable est interdite.",
-            "Crédits photos : [À FOURNIR]"
-          ],
-          "en": [
+        {
+          "title": "Intellectual property",
+          "paragraphs": [
             "The texts, photographs and logos on this website are protected by copyright. Any reproduction without prior permission is prohibited.",
             "Photo credits: [À FOURNIR]"
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Données personnelles",
-          "en": "Personal data"
         },
-        "paragraphs": {
-          "fr": [
-            "Le traitement des données transmises via le formulaire de contact est décrit dans notre politique de confidentialité."
-          ],
-          "en": [
+        {
+          "title": "Personal data",
+          "paragraphs": [
             "How data sent through the contact form is processed is described in our privacy policy."
-          ]
-        },
-        "link": {
-          "fr": "Lire la politique de confidentialité",
-          "en": "Read the privacy policy"
+          ],
+          "link": "Read the privacy policy"
         }
-      }
-    ]
+      ]
+    }
   },
   "privacy": {
     "_emplacement": "Page Confidentialité — FR : /confidentialite · EN : /en/privacy. Les [À FOURNIR] sont les informations juridiques manquantes.",
@@ -1137,132 +1278,120 @@
       "fr": "Dernière mise à jour : [À FOURNIR]",
       "en": "Last updated: [À FOURNIR]"
     },
-    "sections": [
-      {
-        "title": {
-          "fr": "Responsable du traitement",
-          "en": "Data controller"
-        },
-        "paragraphs": {
-          "fr": [
+    "sections": {
+      "fr": [
+        {
+          "title": "Responsable du traitement",
+          "paragraphs": [
             "[À FOURNIR] (raison sociale, adresse et email de contact)."
-          ],
-          "en": [
-            "[À FOURNIR] (company name, address and contact email)."
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Données collectées",
-          "en": "Data collected"
         },
-        "paragraphs": {
-          "fr": [
+        {
+          "title": "Données collectées",
+          "paragraphs": [
             "Lorsque vous utilisez le formulaire de contact, nous recevons les informations que vous saisissez : dates de séjour, formule souhaitée, nombre d'adultes et d'enfants, nom et prénom, rôle (réservation pour vous-même ou pour un tiers), canal de réponse privilégié, et téléphone ou email."
-          ],
-          "en": [
-            "When you use the contact form, we receive the information you enter: stay dates, preferred package, number of adults and children, full name, role (booking for yourself or on behalf of someone else), preferred way to reply, and phone number or email."
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Finalité et base légale",
-          "en": "Purpose and legal basis"
         },
-        "paragraphs": {
-          "fr": [
+        {
+          "title": "Finalité et base légale",
+          "paragraphs": [
             "Ces données servent uniquement à répondre à votre demande de séjour.",
             "Elles sont traitées sur la base de votre consentement, donné en cochant la case prévue dans le formulaire."
-          ],
-          "en": [
-            "This data is used solely to respond to your stay enquiry.",
-            "It is processed on the basis of your consent, given by ticking the box provided in the form."
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Destinataires et hébergement",
-          "en": "Recipients and hosting"
         },
-        "paragraphs": {
-          "fr": [
+        {
+          "title": "Destinataires et hébergement",
+          "paragraphs": [
             "Les demandes envoyées via le formulaire sont reçues et stockées par notre hébergeur Netlify, Inc., société située aux États-Unis.",
             "Garanties encadrant ce transfert hors de l'Union européenne : [À FOURNIR]"
-          ],
-          "en": [
-            "Enquiries sent through the form are received and stored by our hosting provider Netlify, Inc., a company based in the United States.",
-            "Safeguards for this transfer outside the European Union: [À FOURNIR]"
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Durée de conservation",
-          "en": "Retention period"
         },
-        "paragraphs": {
-          "fr": [
-            "[À FOURNIR]"
-          ],
-          "en": [
+        {
+          "title": "Durée de conservation",
+          "paragraphs": [
             "[À FOURNIR]"
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Cookies",
-          "en": "Cookies"
         },
-        "paragraphs": {
-          "fr": [
+        {
+          "title": "Cookies",
+          "paragraphs": [
             "Ce site ne dépose aucun cookie.",
             "La carte de la page Le chalet est fournie par OpenFreeMap (données OpenStreetMap) : lorsqu'elle s'affiche, votre navigateur contacte ses serveurs, qui reçoivent votre adresse IP. Aucun cookie n'est déposé."
-          ],
-          "en": [
-            "This website does not set any cookies.",
-            "The map on the Chalet page is provided by OpenFreeMap (OpenStreetMap data): when it is displayed, your browser contacts its servers, which receive your IP address. No cookies are set."
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Mesure d'audience",
-          "en": "Audience measurement"
         },
-        "paragraphs": {
-          "fr": [
+        {
+          "title": "Mesure d'audience",
+          "paragraphs": [
             "Si la mesure d'audience est activée, le site utilise Umami, un outil de statistiques qui fonctionne sans cookies.",
             "Mesure d'audience activée : [À FOURNIR]"
-          ],
-          "en": [
-            "If audience measurement is enabled, the website uses Umami, an analytics tool that works without cookies.",
-            "Audience measurement enabled: [À FOURNIR]"
           ]
-        }
-      },
-      {
-        "title": {
-          "fr": "Vos droits",
-          "en": "Your rights"
         },
-        "paragraphs": {
-          "fr": [
+        {
+          "title": "Vos droits",
+          "paragraphs": [
             "Conformément au Règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de vos données.",
             "Pour exercer ces droits : [À FOURNIR] (email de contact).",
             "Vous pouvez également adresser une réclamation à la CNIL : https://www.cnil.fr"
-          ],
-          "en": [
+          ]
+        }
+      ],
+      "en": [
+        {
+          "title": "Data controller",
+          "paragraphs": [
+            "[À FOURNIR] (company name, address and contact email)."
+          ]
+        },
+        {
+          "title": "Data collected",
+          "paragraphs": [
+            "When you use the contact form, we receive the information you enter: stay dates, preferred package, number of adults and children, full name, role (booking for yourself or on behalf of someone else), preferred way to reply, and phone number or email."
+          ]
+        },
+        {
+          "title": "Purpose and legal basis",
+          "paragraphs": [
+            "This data is used solely to respond to your stay enquiry.",
+            "It is processed on the basis of your consent, given by ticking the box provided in the form."
+          ]
+        },
+        {
+          "title": "Recipients and hosting",
+          "paragraphs": [
+            "Enquiries sent through the form are received and stored by our hosting provider Netlify, Inc., a company based in the United States.",
+            "Safeguards for this transfer outside the European Union: [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Retention period",
+          "paragraphs": [
+            "[À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Cookies",
+          "paragraphs": [
+            "This website does not set any cookies.",
+            "The map on the Chalet page is provided by OpenFreeMap (OpenStreetMap data): when it is displayed, your browser contacts its servers, which receive your IP address. No cookies are set."
+          ]
+        },
+        {
+          "title": "Audience measurement",
+          "paragraphs": [
+            "If audience measurement is enabled, the website uses Umami, an analytics tool that works without cookies.",
+            "Audience measurement enabled: [À FOURNIR]"
+          ]
+        },
+        {
+          "title": "Your rights",
+          "paragraphs": [
             "Under the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase, restrict, object to and port your data.",
             "To exercise these rights: [À FOURNIR] (contact email).",
             "You can also lodge a complaint with the CNIL (the French data protection authority): https://www.cnil.fr"
           ]
         }
-      }
-    ]
+      ]
+    }
   },
   "photos_textes_alternatifs": {
     "_emplacement": "Textes alternatifs des photos : invisibles à l’écran, lus par les lecteurs d’écran et Google. Décrivent ce que montre la photo (ne rien affirmer qui n’y figure pas).",
@@ -1311,6 +1440,11 @@
       "fr": "Piscine intérieure chauffée aux carreaux émeraude, avec échelle en inox et tableaux colorés",
       "en": "Heated indoor pool with emerald tiles, a steel ladder and colourful artworks"
     },
+    "piscine-05": {
+      "_emplacement": "Page Piscine & Spa (bloc Piscine) et galerie.",
+      "fr": "Piscine intérieure chauffée, jacuzzi et coin détente du chalet",
+      "en": "Heated indoor pool, jacuzzi and lounge area of the chalet"
+    },
     "bien-etre-01": {
       "_emplacement": "Le chalet (colonne Bien-être) + accueil (mosaïque) + Galerie.",
       "fr": "Spa du chalet avec douche et sauna",
@@ -1320,6 +1454,11 @@
       "_emplacement": "Galerie.",
       "fr": "Hammam voûté de l’espace bien-être",
       "en": "Vaulted hammam in the spa"
+    },
+    "sauna": {
+      "_emplacement": "Page Piscine & Spa (bloc Spa) et galerie.",
+      "fr": "Sauna en bois de l’espace bien-être",
+      "en": "Wood-panelled sauna in the spa"
     },
     "cinema-01": {
       "_emplacement": "Le chalet (colonne Home Cinéma) + accueil (mosaïque) + Galerie.",
@@ -1425,6 +1564,18 @@
       "_emplacement": "Galerie.",
       "fr": "Local à skis avec chaussures, casques et vestes",
       "en": "Ski room with boots, helmets and jackets"
+    },
+    "chauffeur-01": {
+      "fr": "Le chauffeur du Chalet Yolo aide une cliente en tenue de ski à descendre du van privé aux couleurs du chalet, devant un chalet enneigé",
+      "en": "The Chalet Yolo chauffeur helps a guest in ski gear out of the chalet’s private van, in front of a snow-covered chalet"
+    },
+    "majordome": {
+      "fr": "Portrait de la majordome du Chalet Yolo",
+      "en": "Portrait of the Chalet Yolo butler"
+    },
+    "chef": {
+      "fr": "Portrait du chef privé du Chalet Yolo",
+      "en": "Portrait of the Chalet Yolo private chef"
     },
     "exterieur-02": {
       "_emplacement": "Galerie.",

@@ -3,8 +3,9 @@
  * Panneau d'administration des tarifs — /admin/ (français uniquement, non référencé).
  *
  * L'équipe y gère les cartes de l'onglet « Offre » (page Offre & Contact) :
- * mois (ajout / retrait), et pour chaque semaine : prix total, « réservée »,
- * mention spéciale FR + EN. « Enregistrer et publier » envoie tout à la
+ * mois (ajout / retrait), et pour chaque période : prix total, « réservée »,
+ * mention spéciale FR + EN. Périodes spéciales (13/11/2026) : « Modifier les dates »
+ * (arrivée et départ libres), « Supprimer », « Ajouter une période » dans chaque mois. « Enregistrer et publier » envoie tout à la
  * fonction Netlify /api/admin/tarifs, qui vérifie, enregistre (Netlify Blobs)
  * et republie le site en ligne (≈ 1 à 2 minutes).
  *
@@ -109,10 +110,15 @@ const inputClass =
     <script>
       import {
         badgeMaxLength,
+        isRealDate,
+        maxNights,
         newMonth,
-        nightsPerWeek,
+        nightsBetween,
         parseSeason,
+        periodEnd,
+        periodNights,
         weekEnd,
+        type Month,
         type Season,
         type Week,
       } from '../content/tarifs';
@@ -202,8 +208,24 @@ const inputClass =
       const utc = (iso: string) => new Date(`${iso}T00:00:00Z`);
       const dayLabel = (iso: string) => capitalize(dayFormat.format(utc(iso)));
       const monthLabel = (month: string) => capitalize(monthFormat.format(utc(`${month}-01`)));
-      const perNight = (price: number | null) =>
-        price !== null && Number.isInteger(price) && price > 0 ? euros.format(Math.round(price / nightsPerWeek)) : t.perNightEmpty;
+      // Prix par nuit = prix total ÷ nombre de nuits de la période (7 pour une semaine normale).
+      const perNight = (week: Week) => {
+        const nights = periodNights(week);
+        return week.price !== null && Number.isInteger(week.price) && week.price > 0 && nights > 0
+          ? euros.format(Math.round(week.price / nights))
+          : t.perNightEmpty;
+      };
+      // « Sam. 2 janv. → Sam. 9 janv. », suivi de « (2 nuits) » pour une période spéciale.
+      const periodLabel = (week: Week) => {
+        const nights = periodNights(week);
+        const dates = `${dayLabel(week.start)} → ${dayLabel(periodEnd(week))}`;
+        return nights === 7 ? dates : `${dates} (${fill(t.period.nights, { count: nights })})`;
+      };
+      const linkButton = (label: string, danger = false) =>
+        el('button', {
+          type: 'button',
+          class: `text-sm font-medium underline decoration-1 underline-offset-[6px] ${danger ? 'text-error' : 'text-accent'}`,
+        }, [label]);
 
       /** Petit utilitaire : crée un élément HTML (le texte est toujours inséré tel quel, jamais interprété). */
       function el<K extends keyof HTMLElementTagNameMap>(
@@ -223,10 +245,10 @@ const inputClass =
       const rowClass = 'grid gap-3 py-4 md:grid-cols-[1.3fr_1fr_0.7fr_0.6fr_1.2fr_1.2fr] md:items-center md:gap-4 md:py-3';
       const columnLabel = 'text-xs font-medium md:sr-only';
 
-      // ---------- Construction d'une ligne « semaine » ----------
-      function weekRow(week: Week, id: string): HTMLElement {
-        const dates = `${dayLabel(week.start)} → ${dayLabel(weekEnd(week.start))}`;
+      // ---------- Construction d'une ligne « période » ----------
+      function weekRow(month: Month, week: Week, id: string): HTMLElement {
         const datesId = `${id}-dates`;
+        const datesText = el('span', {}, [periodLabel(week)]);
         const field = (label: string, input: HTMLElement) =>
           el('label', { class: 'grid gap-1' }, [el('span', { class: columnLabel }, [label]), input]);
 
@@ -240,10 +262,47 @@ const inputClass =
           'aria-describedby': datesId,
         });
         price.value = week.price === null ? '' : String(week.price);
-        const night = el('span', { class: 'text-sm', 'aria-live': 'polite' }, [perNight(week.price)]);
+        const night = el('span', { class: 'text-sm', 'aria-live': 'polite' }, [perNight(week)]);
         price.addEventListener('input', () => {
           week.price = price.value === '' ? null : Number(price.value);
-          night.textContent = perNight(week.price);
+          night.textContent = perNight(week);
+          setDirty(true);
+        });
+
+        // Dates de la période (repliées) : arrivée et départ libres.
+        const arrival = el('input', { type: 'date', class: inputClass, required: '' });
+        arrival.value = week.start;
+        const departure = el('input', { type: 'date', class: inputClass, required: '' });
+        departure.value = periodEnd(week);
+        const onDates = () => {
+          if (isRealDate(arrival.value)) week.start = arrival.value;
+          // Départ = arrivée + 7 jours → semaine normale (pas de date de départ enregistrée).
+          if (isRealDate(departure.value)) week.end = departure.value === weekEnd(week.start) ? undefined : departure.value;
+          datesText.textContent = periodLabel(week);
+          night.textContent = perNight(week);
+          setDirty(true);
+        };
+        arrival.addEventListener('change', onDates);
+        departure.addEventListener('change', onDates);
+        const datesEditor = el('div', { class: 'flex flex-wrap items-end gap-4 md:col-span-6', hidden: '' }, [
+          el('label', { class: 'grid gap-1 text-sm font-medium' }, [t.period.arrival, arrival]),
+          el('label', { class: 'grid gap-1 text-sm font-medium' }, [t.period.departure, departure]),
+        ]);
+        const toggleDates = linkButton(t.period.editDates);
+        toggleDates.setAttribute('aria-expanded', 'false');
+        toggleDates.addEventListener('click', () => {
+          datesEditor.hidden = !datesEditor.hidden;
+          toggleDates.setAttribute('aria-expanded', String(!datesEditor.hidden));
+          toggleDates.textContent = datesEditor.hidden ? t.period.editDates : t.period.closeDates;
+          if (!datesEditor.hidden) arrival.focus();
+        });
+
+        // Supprimer la période (avec confirmation).
+        const remove = linkButton(t.period.remove, true);
+        remove.addEventListener('click', () => {
+          if (!window.confirm(fill(t.period.removeConfirm, { dates: periodLabel(week) }))) return;
+          month.weeks.splice(month.weeks.indexOf(week), 1);
+          render();
           setDirty(true);
         });
 
@@ -263,12 +322,16 @@ const inputClass =
         };
 
         const row = el('div', { class: rowClass, 'data-booked': week.booked ? 'true' : undefined }, [
-          el('p', { id: datesId, class: 'font-medium' }, [dates]),
+          el('div', { class: 'grid gap-1' }, [
+            el('p', { id: datesId, class: 'font-medium' }, [datesText]),
+            el('p', { class: 'flex flex-wrap gap-x-4 gap-y-1' }, [toggleDates, remove]),
+          ]),
           field(t.columns.price, price),
           el('div', { class: 'grid gap-1' }, [el('span', { class: columnLabel }, [t.columns.perNight]), night]),
           el('label', { class: 'flex items-center gap-2 md:justify-center' }, [booked, el('span', { class: 'text-sm md:sr-only' }, [t.columns.booked])]),
           field(t.columns.badgeFr, badgeInput('fr')),
           field(t.columns.badgeEn, badgeInput('en')),
+          datesEditor,
         ]);
         // Ligne grisée quand la semaine est réservée (comme sur le site).
         const paint = () => row.classList.toggle('opacity-60', booked.checked);
@@ -308,7 +371,40 @@ const inputClass =
             ),
           );
 
-          const rows = month.weeks.map((week, weekIndex) => weekRow(week, `m${monthIndex}-s${weekIndex}`));
+          const rows = month.weeks.map((week, weekIndex) => weekRow(month, week, `m${monthIndex}-s${weekIndex}`));
+
+          // Ajouter une période (arrivée dans ce mois, départ libre).
+          const [year, monthNumber] = month.month.split('-').map(Number) as [number, number];
+          const lastDay = new Date(Date.UTC(year, monthNumber, 0)).toISOString().slice(0, 10);
+          const addArrival = el('input', { type: 'date', class: inputClass, min: `${month.month}-01`, max: lastDay });
+          const addDeparture = el('input', { type: 'date', class: inputClass });
+          const addError = el('p', { role: 'alert', class: 'text-sm text-error empty:hidden basis-full' });
+          const addButton = el('button', {
+            type: 'button',
+            class: 'border border-primary px-5 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-on-primary',
+          }, [t.period.addButton]);
+          addButton.addEventListener('click', () => {
+            const start = addArrival.value;
+            const end = addDeparture.value;
+            const nights = isRealDate(start) && isRealDate(end) ? nightsBetween(start, end) : 0;
+            if (!isRealDate(start) || start.slice(0, 7) !== month.month || nights < 1 || nights > maxNights) {
+              addError.textContent = fill(t.period.addInvalid, { max: maxNights });
+              return;
+            }
+            month.weeks.push({ start, end: end === weekEnd(start) ? undefined : end, price: null, booked: false, badge: null });
+            month.weeks.sort((a, b) => a.start.localeCompare(b.start));
+            render();
+            setDirty(true);
+          });
+          const addPeriod = el('div', { class: 'mt-5 border-t border-border pt-5' }, [
+            el('h3', { class: 'text-sm font-semibold' }, [t.period.addTitle]),
+            el('div', { class: 'mt-3 flex flex-wrap items-end gap-4' }, [
+              el('label', { class: 'grid gap-1 text-sm font-medium' }, [t.period.arrival, addArrival]),
+              el('label', { class: 'grid gap-1 text-sm font-medium' }, [t.period.departure, addDeparture]),
+              addButton,
+              addError,
+            ]),
+          ]);
           monthsBox.append(
             el('section', { class: 'rounded-2xl border border-border bg-bg-alt p-5 md:p-6' }, [
               el('div', { class: 'flex flex-wrap items-baseline justify-between gap-4' }, [
@@ -319,6 +415,7 @@ const inputClass =
                 ]),
               ]),
               el('div', { class: 'mt-4 divide-y divide-border' }, [head, ...rows]),
+              addPeriod,
             ]),
           );
         });
@@ -404,7 +501,9 @@ const inputClass =
       // ---------- Enregistrer et publier ----------
       saveButton.addEventListener('click', async () => {
         if (!season) return;
-        // Vérification avant l'envoi (mêmes règles que le serveur et le site).
+        // Périodes remises dans l'ordre des dates (après une modification de dates),
+        // puis vérification avant l'envoi (mêmes règles que le serveur et le site).
+        season.months.forEach((month) => month.weeks.sort((a, b) => a.start.localeCompare(b.start)));
         let clean: Season;
         try {
           clean = parseSeason(season);

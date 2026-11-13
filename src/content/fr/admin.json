@@ -20,9 +20,9 @@
     "sourceSeed": "Rien n'a encore été enregistré : ce sont les données de départ.",
     "sourceAdmin": "Ce sont les dernières données enregistrées."
   },
-  "help": "Prix : total de la semaine en euros, chiffres seuls (ex. 18500) ; laissé vide, la carte affiche « [À FOURNIR] ». Semaine réservée : la carte est grisée, sans prix ni lien « Réserver ». Mention : facultative, {max} caractères maximum, en français ET en anglais.",
+  "help": "Prix : total de la période en euros, chiffres seuls (ex. 18500) ; laissé vide, la carte affiche « [À FOURNIR] ». Réservée : la carte est grisée, sans prix ni lien « Réserver ». Mention : facultative, {max} caractères maximum, en français ET en anglais. Dates : une semaine va du samedi au samedi ; pour une période spéciale (ex. 2 nuits du jeudi au samedi, ou une réservation de 10 jours), utilisez « Modifier les dates » ou « Ajouter une période ». Les périodes ne doivent pas se chevaucher.",
   "columns": {
-    "week": "Semaine",
+    "week": "Période",
     "price": "Prix total (€)",
     "perNight": "Par nuit",
     "booked": "Réservée",
@@ -32,13 +32,13 @@
   "perNightEmpty": "—",
   "months": {
     "empty": "Aucun mois : ajoutez-en un ci-dessous.",
-    "weeks": "{count} semaines",
+    "weeks": "{count} périodes",
     "remove": "Retirer ce mois",
     "removeConfirm": "Retirer {month} et toutes ses semaines ? Il disparaîtra du site à la prochaine publication.",
     "addTitle": "Ajouter un mois",
     "addLabel": "Mois",
     "addButton": "Ajouter",
-    "addHint": "Toutes ses semaines (du samedi au samedi) sont créées automatiquement.",
+    "addHint": "Toutes ses semaines (du samedi au samedi) sont créées automatiquement. Vous pourrez ensuite modifier leurs dates.",
     "addMissing": "Choisissez un mois.",
     "exists": "{month} est déjà dans la liste."
   },
@@ -55,5 +55,17 @@
   },
   "loading": "Chargement des tarifs…",
   "loadError": "Impossible de charger les tarifs : {message}",
-  "networkError": "le serveur ne répond pas."
+  "networkError": "le serveur ne répond pas.",
+  "period": {
+    "nights": "{count} nuits",
+    "editDates": "Modifier les dates",
+    "closeDates": "Fermer",
+    "arrival": "Arrivée",
+    "departure": "Départ",
+    "remove": "Supprimer",
+    "removeConfirm": "Supprimer la période {dates} ? Elle disparaîtra du site à la prochaine publication.",
+    "addTitle": "Ajouter une période",
+    "addButton": "Ajouter",
+    "addInvalid": "Choisissez une arrivée dans ce mois et un départ après l'arrivée ({max} nuits maximum)."
+  }
 }

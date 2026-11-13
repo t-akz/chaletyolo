@@ -1,0 +1,37 @@
+{
+  "_lisez_moi": [
+    "Textes français modifiés le 13/11/2026 et leur version anglaise, à vérifier.",
+    "Corrigez la valeur « en » (ou « fr ») si besoin et renvoyez-moi le fichier : j'appliquerai les corrections dans le site.",
+    "La liste complète de tous les textes du site est dans textes-site.json."
+  ],
+  "home.intro.cards.meribel.title": {
+    "_emplacement": "Accueil, 4e carte-photo (titre).",
+    "fr": "Méribel Les 3 Vallées",
+    "en": "Méribel Les 3 Vallées"
+  },
+  "poolSpa.hero.title": {
+    "_emplacement": "Piscine & Spa, grand titre en haut de la page.",
+    "fr": "Le luxe d'un spa. Rien que pour vous.",
+    "en": "The luxury of a spa. All to yourselves."
+  },
+  "poolSpa.pool.title": {
+    "_emplacement": "Piscine & Spa, titre du bloc Piscine.",
+    "fr": "Piscine & Jacuzzi",
+    "en": "Pool & Jacuzzi"
+  },
+  "services.hero.title": {
+    "_emplacement": "Services, grand titre en haut de la page.",
+    "fr": "Aux petits soins, du matin au soir.",
+    "en": "Pampered, from morning to night."
+  },
+  "services.team.members.majordome.text": {
+    "_emplacement": "Services, « Meet the team », texte de Lina (anglais déjà présent dans le site : non traduit par Claude).",
+    "fr": "Passionnée d’hospitalité, Lina a exercé dans des palaces, dont Les Airelles et l’Hôtel Barrière Les Neiges à Courchevel. Elle met sa polyvalence, sa discrétion et son sens du détail au service de chacun de vos séjours.",
+    "en": "Passionate about hospitality, Lina has worked in palace hotels, including Les Airelles and Hôtel Barrière Les Neiges in Courchevel. She brings versatility, discretion and an eye for detail to every stay."
+  },
+  "services.team.members.chef.text": {
+    "_emplacement": "Services, « Meet the team », texte du chef (anglais déjà présent dans le site : non traduit par Claude).",
+    "fr": "Plus de 25 ans en cuisine, dont des passages en palace aux Airelles et à l’Hôtel Barrière Les Neiges à Courchevel, et une passion intacte pour la gastronomie, les voyages et la découverte de nouvelles saveurs.",
+    "en": "Over 25 years in the kitchen, including time at the palace hotels Les Airelles and Hôtel Barrière Les Neiges in Courchevel, and an undiminished passion for fine food, travel and discovering new flavours."
+  }
+}

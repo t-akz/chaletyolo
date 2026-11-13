@@ -1,59 +1,31 @@
 {
   "months": [
     {
-      "month": "2026-11",
-      "weeks": [
-        {
-          "start": "2026-11-07",
-          "price": 23000,
-          "booked": false,
-          "badge": { "fr": "Promo", "en": "Special offer" }
-        },
-        {
-          "start": "2026-11-14",
-          "price": null,
-          "booked": true,
-          "badge": null
-        },
-        {
-          "start": "2026-11-21",
-          "price": 340000,
-          "booked": false,
-          "badge": null
-        },
-        {
-          "start": "2026-11-28",
-          "price": null,
-          "booked": false,
-          "badge": null
-        }
-      ]
-    },
-    {
       "month": "2026-12",
       "weeks": [
         {
           "start": "2026-12-05",
-          "price": null,
+          "price": 15800,
           "booked": false,
           "badge": null
         },
         {
           "start": "2026-12-12",
-          "price": null,
+          "price": 15800,
           "booked": false,
           "badge": null
         },
         {
           "start": "2026-12-19",
-          "price": null,
+          "price": 28800,
           "booked": false,
           "badge": null
         },
         {
           "start": "2026-12-26",
+          "end": "2027-01-07",
           "price": null,
-          "booked": false,
+          "booked": true,
           "badge": null
         }
       ]
@@ -62,33 +34,34 @@
       "month": "2027-01",
       "weeks": [
         {
-          "start": "2027-01-02",
-          "price": null,
+          "start": "2027-01-07",
+          "end": "2027-01-09",
+          "price": 7000,
           "booked": false,
           "badge": null
         },
         {
           "start": "2027-01-09",
-          "price": null,
+          "price": 21300,
           "booked": false,
           "badge": null
         },
         {
           "start": "2027-01-16",
-          "price": null,
+          "price": 20300,
           "booked": false,
           "badge": null
         },
         {
           "start": "2027-01-23",
-          "price": null,
+          "price": 19400,
           "booked": false,
           "badge": null
         },
         {
           "start": "2027-01-30",
           "price": null,
-          "booked": false,
+          "booked": true,
           "badge": null
         }
       ]
@@ -98,25 +71,20 @@
       "weeks": [
         {
           "start": "2027-02-06",
+          "end": "2027-02-20",
           "price": null,
-          "booked": false,
-          "badge": null
-        },
-        {
-          "start": "2027-02-13",
-          "price": null,
-          "booked": false,
+          "booked": true,
           "badge": null
         },
         {
           "start": "2027-02-20",
-          "price": null,
+          "price": 27500,
           "booked": false,
           "badge": null
         },
         {
           "start": "2027-02-27",
-          "price": null,
+          "price": 24300,
           "booked": false,
           "badge": null
         }
@@ -126,26 +94,27 @@
       "month": "2027-03",
       "weeks": [
         {
-          "start": "2027-03-06",
+          "start": "2027-03-07",
+          "end": "2027-03-13",
           "price": null,
-          "booked": false,
+          "booked": true,
           "badge": null
         },
         {
           "start": "2027-03-13",
-          "price": null,
+          "price": 18600,
           "booked": false,
           "badge": null
         },
         {
           "start": "2027-03-20",
-          "price": null,
+          "price": 19800,
           "booked": false,
           "badge": null
         },
         {
           "start": "2027-03-27",
-          "price": null,
+          "price": 19800,
           "booked": false,
           "badge": null
         }
@@ -156,25 +125,13 @@
       "weeks": [
         {
           "start": "2027-04-03",
-          "price": null,
+          "price": 18600,
           "booked": false,
           "badge": null
         },
         {
           "start": "2027-04-10",
-          "price": null,
-          "booked": false,
-          "badge": null
-        },
-        {
-          "start": "2027-04-17",
-          "price": null,
-          "booked": false,
-          "badge": null
-        },
-        {
-          "start": "2027-04-24",
-          "price": null,
+          "price": 10900,
           "booked": false,
           "badge": null
         }
