@@ -3,9 +3,10 @@
  * « Meet the team » (page Services, entre « Prestations & Facilities » et
  * « Parlons de votre séjour ») : présentation de l'équipe du chalet.
  *
- * - Grand écran (≥ 1024 px) : titre et introduction à gauche, cartes à droite.
- * - Tablette (≥ 640 px) : titre au-dessus, cartes côte à côte.
- * - Mobile : tout l'un sous l'autre.
+ * - Titre en haut, aligné à gauche ; pas d'introduction (retirée à la demande du
+ *   client le 13/11/2026).
+ * - Cartes en dessous, centrées dans la page (largeur limitée à ~900 px) : côte à
+ *   côte dès 640 px, l'une sous l'autre sur mobile.
  * - Chaque carte : portrait (format 4:5, coins arrondis), prénom (titre bordeaux),
  *   rôle (sur-titre), une ou deux lignes de présentation.
  * - Portrait absent : aplat neutre avec libellé (Photo.astro).
@@ -19,26 +20,22 @@ import type { Lang } from '../i18n/languages';
 interface Props {
   lang: Lang;
   title: string;
-  intro: string;
   members: { photoId: string; name: string; role: string; text: string }[];
 }
 
-const { lang, title, intro, members } = Astro.props;
+const { lang, title, members } = Astro.props;
 ---
 
 <section class="bg-bg pb-16 md:pb-28">
-  <div class="container-page grid gap-10 md:gap-14 lg:grid-cols-12 lg:gap-16">
-    <div class="lg:col-span-4" data-reveal>
-      <h2 class="text-h2">{title}</h2>
-      <p class="mt-6 max-w-md">{intro}</p>
-    </div>
+  <div class="container-page">
+    <h2 class="text-h2" data-reveal>{title}</h2>
 
-    <ul class="grid gap-12 sm:grid-cols-2 sm:gap-6 md:gap-10 lg:col-span-8">
+    <ul class="mx-auto mt-10 grid max-w-4xl gap-12 sm:grid-cols-2 sm:gap-6 md:mt-16 md:gap-10">
       {
         members.map((member) => (
           <li data-reveal>
             <div class="aspect-[4/5] overflow-hidden rounded-2xl">
-              <Photo id={member.photoId} lang={lang} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw" />
+              <Photo id={member.photoId} lang={lang} sizes="(min-width: 1024px) 440px, (min-width: 640px) 50vw, 100vw" />
             </div>
             <p class="eyebrow mt-6">{member.role}</p>
             <h3 class="mt-2">{member.name}</h3>

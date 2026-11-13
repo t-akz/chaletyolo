@@ -23,15 +23,16 @@ const { lang } = Astro.props;
 const common = getContent(lang, 'common');
 const page = getContent(lang, 'chalet');
 
-// Colonnes d'espaces, dans l'ordre (salle de jeux retirée des textes par le client le 09/11/2026).
+// Colonnes d'espaces, de gauche à droite (ordre choisi par le client le 13/11/2026).
+// La première est ouverte au chargement. Salle de jeux retirée des textes par le client le 09/11/2026.
 // Sans sous-titres (retirés à la demande du client le 09/11/2026) : photo + titre + texte.
 const spaces = [
+  { photoId: 'chambre-01', ...page.spaces.rooms },
+  { photoId: 'sejour-01', ...page.spaces.living },
+  { photoId: 'cinema-01', ...page.spaces.cinema },
   { photoId: 'piscine-01', ...page.spaces.pool },
   { photoId: 'bien-etre-01', ...page.spaces.wellness },
-  { photoId: 'cinema-01', ...page.spaces.cinema },
   { photoId: 'yoga-01', ...page.spaces.yoga },
-  { photoId: 'sejour-01', ...page.spaces.living },
-  { photoId: 'chambre-01', ...page.spaces.rooms },
 ];
 
 // Plans : un par niveau (fichiers src/assets/photos/plans/plan-niveau-1 … 4).
