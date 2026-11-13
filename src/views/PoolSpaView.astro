@@ -1,0 +1,58 @@
+---
+/**
+ * Page « Piscine & Spa » (FR et EN) — ajoutée à la demande du client le 13/11/2026 :
+ * Hero → la piscine (photo + texte) → le spa (texte + rangée de 3 photos : spa, hammam, sauna,
+ * choix du client du 13/11/2026) → appel à l'action.
+ * On y arrive par la carte « Piscine & Spa » de l'accueil et par le menu.
+ * Textes : src/content/{fr,en}/pool-spa.json (faits du §8 de CLAUDE.md uniquement).
+ */
+import CTASection from '../components/CTASection.astro';
+import FeatureSection from '../components/FeatureSection.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Hero from '../components/Hero.astro';
+import Photo from '../components/Photo.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../i18n/languages';
+import { getContent } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const page = getContent(lang, 'poolSpa');
+
+// Photos du bloc Spa, dans l'ordre d'affichage (choix du client du 13/11/2026).
+const spaPhotos = ['bien-etre-01', 'bien-etre-02', 'sauna'];
+---
+
+<BaseLayout lang={lang} routeKey="poolSpa" title={page.meta.title} description={page.meta.description} photoId="piscine-01" hero>
+  <Hero lang={lang} photoId="piscine-01" title={page.hero.title} subtitle={page.hero.subtitle} height="large" wide />
+
+  <FeatureSection lang={lang} photoId="piscine-05" eyebrow={page.pool.eyebrow} title={page.pool.title} text={page.pool.text} />
+
+  {/* Spa : texte, puis 3 photos côte à côte dès 640 px (l'une sous l'autre sur mobile). */}
+  <section class="bg-bg-alt py-16 md:py-28">
+    <div class="container-page">
+      <div data-reveal>
+        <Eyebrow class="mb-5">{page.spa.eyebrow}</Eyebrow>
+        <h2 class="text-h2">{page.spa.title}</h2>
+        {/* Texte élargi (56rem ≈ 900 px, demande du client du 13/11/2026) : la 1re phrase tient sur une ligne sur ordinateur.
+            whitespace-pre-line : un « \n » dans le texte (pool-spa.json) crée un retour à la ligne. */}
+        <p class="mt-6 max-w-4xl whitespace-pre-line">{page.spa.text}</p>
+      </div>
+      <ul class="mt-10 grid gap-4 sm:grid-cols-3 md:mt-16 md:gap-6">
+        {
+          spaPhotos.map((photoId) => (
+            <li class="aspect-[4/3] overflow-hidden sm:aspect-[4/5]" data-reveal>
+              <Photo id={photoId} lang={lang} sizes="(min-width: 640px) 33vw, 100vw" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {/* Fond beige : alternance beige (piscine) → blanc (spa) → beige (demande du client du 13/11/2026). */}
+  <CTASection lang={lang} title={page.cta.title} background="bg" />
+</BaseLayout>

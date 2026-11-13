@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "title": "Piscine intérieure et spa privatifs à Méribel — Chalet Yolo",
+    "description": "Piscine intérieure chauffée et privative, jacuzzi, bain jacuzzi, sauna et hammam : l'espace bien-être du Chalet Yolo, chalet de luxe avec chef à Méribel."
+  },
+  "hero": {
+    "title": "Le calme et la détente après les pistes",
+    "subtitle": "Piscine & Spa privatifs · Méribel"
+  },
+  "pool": {
+    "eyebrow": "Piscine & Jacuzzi",
+    "title": "Une piscine rien que pour vous",
+    "text": "Intérieure, chauffée et entièrement privative, la piscine du chalet vous attend au retour des pistes. Serviettes de piscine, peignoirs et chaussons sont fournis."
+  },
+  "spa": {
+    "eyebrow": "Spa",
+    "title": "Sauna & Hammam",
+    "text": "Un spa complet, réservé à votre groupe : sauna, hammam et douches sensorielles.\nMassages et soins au chalet sur demande, à la carte."
+  },
+  "cta": {
+    "title": "Parlons de votre séjour"
+  }
+}

@@ -3,13 +3,17 @@
  * Grille de cartes-photos cliquables : chaque carte est une photo avec un
  * titre et un sous-titre posés dessus, et mène vers une page.
  *
- * - Grand écran (≥ 1024 px) : 4 cartes côte à côte, format portrait.
- * - Tablette : 2 par ligne. Mobile : l'une sous l'autre.
+ * - Grand écran (≥ 1280 px) : toutes les cartes sur une seule ligne (5 depuis le
+ *   13/11/2026, demande du client), format portrait.
+ * - Tablette et petit ordinateur (768 → 1279 px) : 2 par ligne ; si le nombre de
+ *   cartes est impair, la dernière prend toute la largeur (format paysage).
+ * - Mobile : l'une sous l'autre.
  * - Survol : la photo s'agrandit lentement, une flèche apparaît à côté du titre
  *   (rien ne bouge si l'utilisateur a choisi de réduire les animations).
  * - Coins arrondis (« rounded-2xl », 16 px ; « isolate » évite que le zoom déborde
  *   des coins sur Safari).
  * - Toute la carte est un lien ; lecteurs d'écran : « titre — sous-titre ».
+ * - Titre et sous-titre sur une seule ligne : leur taille s'adapte à la largeur de la carte.
  *
  * Utilisé par : src/views/HomeView.astro (section sous le hero).
  * Textes : src/content/{fr,en}/home.json ; photos : src/content/photos.ts.
@@ -24,21 +28,27 @@ interface Props {
 }
 
 const { lang, items } = Astro.props;
+
+/** Vrai pour la dernière carte d'une liste impaire : pleine largeur sur tablette (pas de carte seule sur sa ligne). */
+const isWide = (index: number) => items.length % 2 === 1 && index === items.length - 1;
 ---
 
-<ul class="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
+<ul class="grid gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-5 xl:gap-4">
   {
-    items.map((item) => (
-      <li data-reveal>
+    items.map((item, index) => (
+      <li data-reveal class:list={[isWide(index) && 'md:col-span-2 xl:col-span-1']}>
         <a
           href={item.href}
           aria-label={`${item.title} — ${item.subtitle}`}
-          class="group relative isolate block aspect-[4/3] overflow-hidden rounded-2xl md:aspect-[4/5] lg:aspect-[3/4]"
+          class:list={[
+            'group relative isolate block aspect-[4/3] overflow-hidden rounded-2xl xl:aspect-[3/4]',
+            isWide(index) ? 'md:aspect-[16/9]' : 'md:aspect-[4/5]',
+          ]}
         >
           <Photo
             id={item.photoId}
             lang={lang}
-            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
+            sizes={isWide(index) ? '(min-width: 1280px) 20vw, 100vw' : '(min-width: 1280px) 20vw, (min-width: 768px) 50vw, 100vw'}
             class="transition-transform duration-[1.2s] ease-out group-hover:scale-105 motion-reduce:group-hover:scale-100"
           />
           {/* Voile sombre en bas : lisibilité du texte blanc */}
@@ -46,8 +56,15 @@ const { lang, items } = Astro.props;
             class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent"
             aria-hidden="true"
           />
-          <div class="absolute inset-x-0 bottom-0 p-6 text-white md:p-8">
-            <h2 class="flex items-center gap-3 text-h3 text-white">
+          {/* « @container » : le sous-titre règle sa taille sur la largeur de ce bloc */}
+          <div class="@container absolute inset-x-0 bottom-0 p-6 text-white md:p-8 xl:px-4 xl:py-5 2xl:p-6">
+            {/*
+              Titre toujours sur une seule ligne (demande du client du 12/11/2026).
+              Taille = (largeur disponible − 34 px réservés à la flèche) ÷ 8,3, bornée
+              entre 16 px et la taille normale des titres h3 (24 → 32 px) : il ne
+              rétrécit que si la carte est trop étroite. Prévu pour ~16 caractères.
+            */}
+            <h2 class="flex items-center gap-3 whitespace-nowrap text-[length:clamp(1rem,calc((100cqi_-_34px)/8.3),var(--text-h3))] text-white">
               {item.title}
               <Icon
                 name="arrow-right"
@@ -55,7 +72,15 @@ const { lang, items } = Astro.props;
                 class="-translate-x-2 opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
               />
             </h2>
-            <p class="mt-2 text-sm md:text-base">{item.subtitle}</p>
+            {/*
+              Sous-titre toujours sur une seule ligne (demande du client du 12/11/2026).
+              Taille = 5,8 % de la largeur disponible (cqi), bornée entre 11 px et
+              14 px (mobile) / 16 px (dès 768 px) : elle ne rétrécit que si la carte est
+              trop étroite (5 cartes côte à côte dès 1280 px). Prévu pour ~33 caractères.
+            */}
+            <p class="mt-2 whitespace-nowrap text-[length:clamp(0.6875rem,5.8cqi,0.875rem)] md:text-[length:clamp(0.6875rem,5.8cqi,1rem)]">
+              {item.subtitle}
+            </p>
           </div>
         </a>
       </li>

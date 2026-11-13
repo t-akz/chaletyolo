@@ -11,6 +11,7 @@ import type { Lang } from './languages';
 export const routes = {
   home: { fr: '/', en: '/en/' },
   chalet: { fr: '/le-chalet/', en: '/en/the-chalet/' },
+  poolSpa: { fr: '/piscine-spa/', en: '/en/pool-spa/' },
   services: { fr: '/services/', en: '/en/services/' },
   meribel: { fr: '/meribel/', en: '/en/meribel/' },
   gallery: { fr: '/galerie/', en: '/en/gallery/' },

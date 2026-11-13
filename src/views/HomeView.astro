@@ -1,8 +1,8 @@
 ---
 /**
  * Page d'accueil (FR et EN) — structure du §6 de CLAUDE.md (refonte du 06/11/2026) :
- * Hero en carrousel (4 photos, défilement automatique, 12/11/2026) → 4 cartes-photos (Le Chalet, Services, Méribel,
- * Offre & Contact) → mosaïque de photos → appel à l'action.
+ * Hero en carrousel (4 photos, défilement automatique, 12/11/2026) → 5 cartes-photos (Le Chalet, Piscine & Spa
+ * — ajoutée le 13/11/2026 —, Services, Méribel, Offre & Contact) → mosaïque de photos → appel à l'action.
  * Écran d'entrée (IntroGate, §5.8) par-dessus, une fois par session : option « intro » ci-dessous.
  * Textes : src/content/{fr,en}/home.json.
  */
@@ -26,10 +26,11 @@ const page = getContent(lang, 'home');
 // « accueil » = photo du chalet retouchée (hero/le-chalet.jpg sans le tuyau gris).
 const heroPhotos = ['accueil', 'piscine-04', 'cinema-01', 'service-01'];
 
-// Section sous le hero : 4 cartes-photos cliquables vers les pages principales.
+// Section sous le hero : 5 cartes-photos cliquables vers les pages principales.
 const cards = page.intro.cards;
 const introCards = [
-  { ...cards.chalet, photoId: 'sejour-02', href: localizedPath('chalet', lang) },
+  { ...cards.chalet, photoId: 'sejour-01', href: localizedPath('chalet', lang) },
+  { ...cards.poolSpa, photoId: 'piscine-02', href: localizedPath('poolSpa', lang) },
   { ...cards.services, photoId: 'cuisine-01', href: localizedPath('services', lang) },
   { ...cards.meribel, photoId: 'meribel-03', href: localizedPath('meribel', lang) },
   { ...cards.contact, photoId: 'piscine-02', href: localizedPath('contact', lang) },

@@ -4,13 +4,13 @@
     "description": "Demi-pension ou pension complète avec chef privé, majordome et chauffeur : un chalet ultra luxe aux 3 Vallées, avec un service pensé pour votre séjour."
   },
   "hero": {
-    "title": "Vous skiez. Nous nous occupons du reste.",
-    "subtitle": "Chef privé · Majordome · Chauffeur · 24.7"
+    "title": "Aux petits soins du matin au soir",
+    "subtitle": "Chef privé · Chalet Manager · Chauffeur · 24/7"
   },
   "offer": {
-    "title": "Prestations & Facilities",
-    "servicesTitle": "Prestations",
-    "facilitiesTitle": "Facilities",
+    "title": "Le Service & La Maison",
+    "servicesTitle": "A votre service",
+    "facilitiesTitle": "Un confort ultime",
     "services": [
       "Pension complète",
       "Chef privé",
@@ -42,17 +42,17 @@
       "majordome": {
         "name": "Lina Gerard",
         "role": "Chalet Manager",
-        "text": "[À FOURNIR]"
+        "text": "Passionnée d’hospitalité, elle met sa polyvalence, sa discrétion et son sens du détail au service de chacun de vos séjours."
       },
       "chef": {
         "name": "Ricardo Tort Albelda",
         "role": "Chef privé",
-        "text": "[À FOURNIR]"
+        "text": "Plus de 25 ans en cuisine et une passion intacte pour la gastronomie, les voyages et la découverte de nouvelles saveurs."
       }
     }
   },
   "cta": {
     "title": "Parlons de votre séjour",
-    "text": "Sur demande, auprès de notre conciergerie."
+    "text": ""
   }
 }

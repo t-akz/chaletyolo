@@ -3,10 +3,11 @@
   "nav": {
     "label": "Navigation principale",
     "chalet": "Le Chalet",
-    "services": "Prestations & Facilities",
-    "meribel": "Méribel",
+    "poolSpa": "Piscine & Spa",
+    "services": "Aux petits soins",
+    "meribel": "Les 3 Vallées",
     "gallery": "Galerie",
-    "contact": "Offre & Contact"
+    "contact": "Votre Séjour"
   },
   "header": {
     "homeLink": "Chalet Yolo — accueil",

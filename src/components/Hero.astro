@@ -6,6 +6,9 @@
  * Vidéo de fond (optionnelle, désactivée par défaut) : passez « video » avec
  * l'adresse d'un fichier mp4 placé dans public/ (ex. « /video/hero.mp4 »).
  * La photo reste affichée en repli (et si l'utilisateur limite les animations).
+ *
+ * Titre sur une seule ligne (optionnel, « singleLine ») : le titre ne passe jamais
+ * à la ligne ; sa taille diminue si la largeur manque (voir plus bas).
  */
 import Button from './Button.astro';
 import Photo from './Photo.astro';
@@ -22,9 +25,28 @@ interface Props {
   /** « full » = 100 % de la hauteur d'écran ; « large » = 75 % (pages intérieures). */
   height?: 'full' | 'large';
   video?: string;
+  /** Titre toujours sur une seule ligne, taille réduite si besoin (page Méribel, demande du client du 12/11/2026). */
+  singleLine?: boolean;
+  /**
+   * Zone de texte du titre élargie : 72rem (≈ 1150 px) au lieu de 56rem (≈ 900 px),
+   * pour un titre long qui passerait sinon sur 3 lignes (page Piscine & Spa, demande du client du 13/11/2026).
+   */
+  wide?: boolean;
 }
 
-const { lang, photoId, title, subtitle, cta, height = 'full', video } = Astro.props;
+const { lang, photoId, title, subtitle, cta, height = 'full', video, singleLine = false, wide = false } = Astro.props;
+
+/*
+ * Titre sur une ligne : la taille est calculée d'après le nombre de caractères.
+ * En Raleway Bold, un caractère mesure en moyenne ~0,5 fois la taille de la police
+ * (espaces compris) ; on prend 0,55 par sécurité. Taille = largeur disponible
+ * (100cqi) ÷ (caractères × 0,55), jamais plus grande que la taille normale des
+ * titres de hero (--text-display). Un titre très long devient donc petit, et un titre
+ * plein de majuscules larges (W, M) pourrait déborder légèrement.
+ */
+const titleFontSize = singleLine
+  ? `min(var(--text-display), calc(100cqi / ${([...title].length * 0.55).toFixed(2)}))`
+  : undefined;
 ---
 
 <section
@@ -55,7 +77,7 @@ const { lang, photoId, title, subtitle, cta, height = 'full', video } = Astro.pr
   </div>
 
   <div class="container-page pt-32 pb-16 md:pb-24">
-    <div class="max-w-4xl" data-reveal>
+    <div class={singleLine ? '@container' : wide ? 'max-w-6xl' : 'max-w-4xl'} data-reveal>
       {
         /* Le sur-titre (mot-clé de la page, ex. « Luxury Catered Chalet · Méribel »)
            fait partie du h1, avant le titre éditorial : même rendu visuel,
@@ -63,7 +85,10 @@ const { lang, photoId, title, subtitle, cta, height = 'full', video } = Astro.pr
       }
       <h1 class="text-white">
         {subtitle && <span class="eyebrow mb-6 block">{subtitle}</span>}{' '}
-        <span class="block text-display">{title}</span>
+        <span
+          class:list={['block text-display', singleLine && 'whitespace-nowrap']}
+          style={titleFontSize ? `font-size: ${titleFontSize}` : undefined}>{title}</span
+        >
       </h1>
       {
         cta && (

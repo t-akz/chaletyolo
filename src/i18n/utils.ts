@@ -12,6 +12,8 @@ import frHome from '../content/fr/home.json';
 import enHome from '../content/en/home.json';
 import frChalet from '../content/fr/chalet.json';
 import enChalet from '../content/en/chalet.json';
+import frPoolSpa from '../content/fr/pool-spa.json';
+import enPoolSpa from '../content/en/pool-spa.json';
 import frServices from '../content/fr/services.json';
 import enServices from '../content/en/services.json';
 import frMeribel from '../content/fr/meribel.json';
@@ -33,6 +35,7 @@ const fr = {
   common: frCommon,
   home: frHome,
   chalet: frChalet,
+  poolSpa: frPoolSpa,
   services: frServices,
   meribel: frMeribel,
   gallery: frGallery,
@@ -58,6 +61,7 @@ const content: Record<Lang, Content> = {
     common: enCommon,
     home: enHome,
     chalet: enChalet,
+    poolSpa: enPoolSpa,
     services: enServices,
     meribel: enMeribel,
     gallery: enGallery,

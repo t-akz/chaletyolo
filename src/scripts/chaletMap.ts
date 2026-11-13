@@ -9,8 +9,9 @@
  * - Repère : la tête d'ours du logo, sur l'emplacement exact du chalet.
  * - 3 repères autour (Méribel Village, Olympe, La Chaudanne) : triangle + nom.
  *   Au chargement, la carte se cadre pour que le chalet et les 3 repères soient visibles.
- * - Trait pointillé très léger du chalet vers chaque repère, avec une pastille de durée
- *   (« 4 min »…) au milieu du trait (demande du client du 10/11/2026).
+ * - Trait pointillé très léger du chalet vers les repères qui ont une durée, avec une pastille
+ *   (« 4 min »…) au milieu du trait (demande du client du 10/11/2026). Pas de trajet vers
+ *   Olympe (retiré à la demande du client le 13/11/2026) : le repère reste.
  * (Pistes de ski OpenSnowMap retirées à la demande du client le 10/11/2026.)
  * - Molette : zoom seulement avec Ctrl / ⌘ ; mobile : deux doigts pour déplacer
  *   (sinon la page resterait « coincée » dans la carte en défilant).
@@ -43,16 +44,14 @@ export interface ChaletMapOptions {
   /** Élément HTML du repère (tête d'ours). */
   marker: HTMLElement;
   /**
-   * Repères autour du chalet : position, élément HTML (triangle + nom), pastille de durée
-   * et position de la pastille (« middle » = milieu du trait, « left » = à gauche du triangle
-   * tant que le trait est court, puis au milieu du trait quand on zoome).
+   * Repères autour du chalet : position, élément HTML (triangle + nom) et, facultative,
+   * pastille de durée. Sans pastille : ni trait pointillé ni durée, seulement le repère.
    */
   landmarks: {
     lat: number;
     lng: number;
     element: HTMLElement;
     duration?: HTMLElement;
-    durationPlacement?: 'middle' | 'left';
   }[];
 }
 
@@ -71,19 +70,6 @@ const ROUTE_PAINT = {
  * se décale sur le côté droit du trait pour ne pas passer sous la tête d'ours.
  */
 const DURATION_CLEARANCE = 50;
-
-/**
- * Pastilles placées « left » : bord droit de la pastille à cette distance (en pixels) à gauche
- * de la pointe du triangle (demi-largeur du triangle 7 + espace 6), à mi-hauteur du triangle (6).
- */
-const DURATION_LEFT_OFFSET = { x: 13, y: 6 };
-
-/**
- * Pastilles placées « left » : longueur du trait à l'écran (en pixels) à partir de laquelle
- * la pastille rejoint le milieu du trait (assez de place pour elle, loin de la tête d'ours
- * et des noms du fond de carte). En dessous, elle reste à gauche du triangle.
- */
-const DURATION_LEFT_UNTIL = 140;
 
 /**
  * Nom de lieu du fond de carte masqué, car il ferait doublon avec notre repère
@@ -142,12 +128,12 @@ export function mountChaletMap(container: HTMLElement, { lat, lng, locale, marke
       map.setFilter(layer.id, (current ? ['all', current, hide] : hide) as FilterSpecification);
     }
 
-    // Traits pointillés du chalet vers chaque repère, sous les noms de lieux du fond.
+    // Traits pointillés du chalet vers chaque repère qui a une durée, sous les noms de lieux du fond.
     map.addSource('chalet-routes', {
       type: 'geojson',
       data: {
         type: 'FeatureCollection',
-        features: landmarks.map((landmark) => ({
+        features: landmarks.filter((landmark) => landmark.duration).map((landmark) => ({
           type: 'Feature',
           properties: {},
           geometry: { type: 'LineString', coordinates: [[lng, lat], [landmark.lng, landmark.lat]] },
@@ -191,15 +177,6 @@ export function mountChaletMap(container: HTMLElement, { lat, lng, locale, marke
       const ux = (target.x - chalet.x) / length;
       const uy = (target.y - chalet.y) / length;
       const [nx, ny] = -uy > 0 || (uy === 0 && ux < 0) ? [-uy, ux] : [uy, -ux];
-      // « left », trait encore court : à gauche du triangle du repère, à sa mi-hauteur
-      // (bord droit de la pastille collé au triangle, quelle que soit sa largeur).
-      if (landmark.durationPlacement === 'left' && length < DURATION_LEFT_UNTIL) {
-        const halfWidth = durationMarker.getElement().offsetWidth / 2;
-        durationMarker.setLngLat(
-          map.unproject([target.x - DURATION_LEFT_OFFSET.x - halfWidth, target.y + DURATION_LEFT_OFFSET.y]),
-        );
-        continue;
-      }
       const along = length / 2;
       const aside = Math.sqrt(Math.max(0, DURATION_CLEARANCE ** 2 - along ** 2));
       durationMarker.setLngLat(map.unproject([chalet.x + ux * along + nx * aside, chalet.y + uy * along + ny * aside]));

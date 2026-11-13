@@ -101,13 +101,19 @@ const slots: PhotoSlot[] = [
   { id: 'meribel', folder: 'hero', alt: { fr: 'La station de Méribel enneigée, au cœur des 3 Vallées', en: 'Méribel ski resort under snow, in the heart of Les 3 Vallées' } },
 
   // Espaces du chalet
+  // Version retouchée fournie par le client le 13/11/2026 (serviette effacée).
   { id: 'piscine-01', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée et salon de détente d’un chalet haut de gamme à Méribel', en: 'Heated indoor pool and lounge of a luxury chalet in Méribel' } },
   { id: 'piscine-02', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée sous une fenêtre en arc', en: 'Heated indoor pool beneath an arched window' } },
   // Hors galerie à la demande du client (09/11/2026) ; reste la photo qui monte dans le hero de l'accueil.
   { id: 'piscine-03', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée aux carreaux émeraude, éclairée par des spots', en: 'Heated indoor pool with emerald tiles and soft spotlights' }, inGallery: false },
   { id: 'piscine-04', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée aux carreaux émeraude, avec échelle en inox et tableaux colorés', en: 'Heated indoor pool with emerald tiles, a steel ladder and colourful artworks' } },
+  // Fournie par le client le 13/11/2026, puis remplacée le même jour par une version retouchée (sol lissé, 2528 px).
+  { id: 'piscine-05', folder: 'piscine', alt: { fr: 'Piscine intérieure chauffée, jacuzzi et coin détente du chalet', en: 'Heated indoor pool, jacuzzi and lounge area of the chalet' } },
   { id: 'bien-etre-01', folder: 'bien-etre', alt: { fr: 'Spa du chalet avec douche et sauna', en: 'Chalet spa with shower and sauna' } },
+  // Version retouchée fournie par le client le 13/11/2026 (serviette effacée).
   { id: 'bien-etre-02', folder: 'bien-etre', alt: { fr: 'Hammam voûté de l’espace bien-être', en: 'Vaulted hammam in the spa' } },
+  // Fournie par le client le 13/11/2026.
+  { id: 'sauna', folder: 'bien-etre', alt: { fr: 'Sauna en bois de l’espace bien-être', en: 'Wood-panelled sauna in the spa' } },
   { id: 'cinema-01', folder: 'cinema', alt: { fr: 'Home cinéma avec grand écran et canapé d’angle', en: 'Home cinema with large screen and corner sofa' } },
   { id: 'yoga-01', folder: 'yoga', alt: { fr: 'Salle de yoga', en: 'Yoga room' } },
   { id: 'yoga-02', folder: 'yoga', alt: { fr: 'Salle de yoga avec grand miroir, ballons et tapis de yoga', en: 'Yoga room with a large mirror, exercise balls and yoga mats' } },

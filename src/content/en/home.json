@@ -29,6 +29,10 @@
         "title": "The Chalet",
         "subtitle": "Pool, Spa & Yoga Room"
       },
+      "poolSpa": {
+        "title": "TODO-COPY: Pool & Spa",
+        "subtitle": "TODO-COPY: subtitle"
+      },
       "services": {
         "title": "Our Services",
         "subtitle": "Chef, Butler & Chauffeur"

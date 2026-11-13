@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "title": "TODO-COPY: Pool & Spa page title — Chalet Yolo",
+    "description": "TODO-COPY: one sentence about the heated private indoor pool, jacuzzi, jacuzzi bath, sauna and hammam."
+  },
+  "hero": {
+    "title": "TODO-COPY: hero tagline.",
+    "subtitle": "TODO-COPY: Private Pool & Spa · Méribel"
+  },
+  "pool": {
+    "eyebrow": "TODO-COPY: Pool",
+    "title": "TODO-COPY: pool title",
+    "text": "TODO-COPY: 2–3 lines about the heated private indoor pool (pool towels, bathrobes and slippers provided)."
+  },
+  "spa": {
+    "eyebrow": "TODO-COPY: Spa",
+    "title": "TODO-COPY: spa title",
+    "text": "TODO-COPY: 2–3 lines about the sauna, hammam, jacuzzi and jacuzzi bath (in-chalet massages and treatments à la carte)."
+  },
+  "cta": {
+    "title": "Let's talk about your stay"
+  }
+}

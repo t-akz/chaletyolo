@@ -30,7 +30,7 @@ const { lang, routeKey, transparent = false } = Astro.props;
 const common = getContent(lang, 'common');
 
 // Entrées du menu, dans l'ordre d'affichage.
-const menuKeys = ['chalet', 'services', 'meribel', 'gallery', 'contact'] as const;
+const menuKeys = ['chalet', 'poolSpa', 'services', 'meribel', 'gallery', 'contact'] as const;
 const menu = menuKeys.map((key) => ({
   key,
   label: common.nav[key],

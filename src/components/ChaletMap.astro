@@ -6,8 +6,10 @@
  *   exact du chalet (src/content/chalet.ts → chaletLocation, CLAUDE.md §5.7).
  * - 3 repères autour (triangle taupe + nom en majuscules) : positions dans
  *   src/content/chalet.ts → mapLandmarks, noms dans chalet.json → location.map.landmarks.
- * - Trait pointillé du chalet vers chaque repère, avec une pastille de durée
- *   (chalet.json → location.map.durations ; trait et placement dans src/scripts/chaletMap.ts).
+ * - Trait pointillé du chalet vers chaque repère qui a une durée dans chalet.json →
+ *   location.map.durations, avec une pastille de durée (trait et placement dans
+ *   src/scripts/chaletMap.ts). Olympe n'en a plus (trajet retiré le 13/11/2026) :
+ *   retirer une durée de chalet.json retire aussi le trait.
  * - Navigation : boutons + / −, glisser pour se déplacer ; molette avec Ctrl / ⌘ ;
  *   deux doigts sur mobile (un message l'explique au besoin).
  * - Chargement différé : MapLibre n'est téléchargé que lorsque la carte approche
@@ -42,23 +44,14 @@ const locale = {
   'CooperativeGesturesHandler.MobileHelpText': labels.helpMobile,
 };
 
-/**
- * Position de la pastille de durée sur son trait (voir chaletMap.ts) :
- * « middle » (par défaut) = au milieu du trait ; « left » = à gauche du triangle du repère
- * tant que le trait est court à l'écran, puis au milieu du trait quand on zoome.
- * Olympe en « left » : au-dessus du repère, elle cachait le nom « Le Raffort » du fond
- * de carte (demande du client du 10/11/2026).
- */
-const DURATION_PLACEMENT: Partial<Record<(typeof mapLandmarks)[number]['id'], 'middle' | 'left'>> = {
-  olympe: 'left',
-};
+// Durées affichées (un repère absent de la liste n'a ni trait ni pastille).
+const durations: Partial<Record<(typeof mapLandmarks)[number]['id'], string>> = labels.durations;
 
 // Repères autour du chalet, avec leur nom dans la langue de la page.
 const landmarks = mapLandmarks.map((landmark) => ({
   ...landmark,
   name: labels.landmarks[landmark.id],
-  duration: labels.durations[landmark.id],
-  durationPlacement: DURATION_PLACEMENT[landmark.id] ?? 'middle',
+  duration: durations[landmark.id],
 }));
 ---
 
@@ -81,17 +74,12 @@ const landmarks = mapLandmarks.map((landmark) => ({
   <!-- Modèles des repères autour du chalet, clonés par le script -->
   {
     landmarks.map((landmark) => (
-      <template
-        data-chalet-map-landmark
-        data-lat={landmark.lat}
-        data-lng={landmark.lng}
-        data-duration-placement={landmark.durationPlacement}
-      >
+      <template data-chalet-map-landmark data-lat={landmark.lat} data-lng={landmark.lng}>
         <span class="chalet-map-landmark">
           <span class="chalet-map-landmark__triangle" aria-hidden="true" />
           <span class="chalet-map-landmark__name">{landmark.name}</span>
         </span>
-        <span class="chalet-map-duration">{landmark.duration}</span>
+        {landmark.duration && <span class="chalet-map-duration">{landmark.duration}</span>}
       </template>
     ))
   }
@@ -201,8 +189,6 @@ const landmarks = mapLandmarks.map((landmark) => ({
               lng: Number(landmarkTemplate.dataset.lng),
               element,
               ...(duration instanceof HTMLElement ? { duration } : {}),
-              durationPlacement:
-                landmarkTemplate.dataset.durationPlacement === 'left' ? ('left' as const) : ('middle' as const),
             },
           ];
         },

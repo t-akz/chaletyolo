@@ -4,14 +4,14 @@
     "description": "Méribel, station fondée en 1938 au cœur des 3 Vallées (600 km de pistes). Accès en voiture, en train et depuis les aéroports de Chambéry, Genève, Lyon et Grenoble."
   },
   "hero": {
-    "title": "Le cœur des 3 Vallées, l'âme d'un village savoyard.",
+    "title": "Méribel : l'élégance en altitude",
     "subtitle": "Méribel · Les 3 Vallées"
   },
   "resort": {
-    "eyebrow": "La station",
-    "title": "Au cœur des 3 Vallées",
-    "text": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes · architecture savoyarde.",
-    "location": "Le chalet se trouve proche du Raffort."
+    "eyebrow": "Méribel",
+    "title": "Le meilleur domaine skiable au monde",
+    "text": "Station fondée en {foundedYear} · {skiAreaKm} km de pistes",
+    "location": "Elu meilleur domaine skiable du monde"
   },
   "cta": {
     "title": "Parlons de votre séjour"
