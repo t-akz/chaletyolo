@@ -1,0 +1,212 @@
+---
+/**
+ * Bandeau d'avis clients (page Le chalet, entre l'intro et les colonnes d'espaces) — 17/11/2026.
+ *
+ * Bande basse : sur-titre, puis les avis qui défilent lentement de droite à gauche,
+ * en boucle continue (exception au « pas de carrousel automatique » du §5.1, demandée par le client).
+ * Chaque avis : 5 étoiles bordeaux (pleines), texte entre guillemets, nom.
+ *
+ * Boucle sans à-coup : la liste des avis est écrite 3 fois à la suite (les 2 copies sont
+ * masquées aux lecteurs d'écran) et la bande glisse d'exactement une liste, puis recommence.
+ * 3 listes = assez large pour couvrir les très grands écrans sans trou.
+ *
+ * Accessibilité :
+ * - pause au survol des avis par la souris ;
+ * - bouton pause / lecture (obligatoire pour un contenu qui bouge seul, WCAG 2.2.2), avec JavaScript ;
+ * - animations réduites : rien ne bouge, les avis sont côte à côte et on les fait glisser à la main ;
+ * - les avis sont en anglais (citations des clients, non traduites) : lang="en".
+ *
+ * Données : src/content/chalet.ts → reviews. Textes : src/content/{fr,en}/chalet.json → reviews.
+ */
+import Icon from './Icon.astro';
+import type { Review } from '../content/chalet';
+
+interface Props {
+  /** Sur-titre de la bande. */
+  title: string;
+  /** Note lue par les lecteurs d'écran, ex. « {rating} étoiles sur 5 ». */
+  ratingLabel: string;
+  /** Libellés du bouton. */
+  pauseLabel: string;
+  playLabel: string;
+  reviews: Review[];
+}
+
+const { title, ratingLabel, pauseLabel, playLabel, reviews } = Astro.props;
+const copies = 3;
+---
+
+<section class="reviews bg-bg-alt py-10 md:py-12" aria-labelledby="avis-titre" data-reviews data-playing="true">
+  <div class="container-page flex items-center justify-between gap-6">
+    <h2 id="avis-titre" class="eyebrow text-accent">{title}</h2>
+    <!-- Pause / lecture : affiché par le script (sans JavaScript, la pause au survol reste possible). -->
+    <button type="button" class="reviews__toggle" data-toggle hidden aria-label={pauseLabel} data-label-pause={pauseLabel} data-label-play={playLabel}>
+      <span data-icon-pause><Icon name="pause" size={18} /></span>
+      <span data-icon-play hidden><Icon name="play" size={18} /></span>
+    </button>
+  </div>
+
+  <div class="reviews__viewport mt-6 md:mt-8">
+    <div class="reviews__track" style={`--copies: ${copies}`}>
+      {
+        Array.from({ length: copies }, (_, copy) => (
+          <ul class="reviews__list" aria-hidden={copy > 0 ? 'true' : undefined} data-copy={copy > 0 ? 'true' : undefined}>
+            {reviews.map((review) => (
+              <li class="reviews__item">
+                <figure>
+                  {/* Note : étoiles décoratives, texte lu par les lecteurs d'écran. */}
+                  <p class="reviews__stars">
+                    {Array.from({ length: review.rating }, () => (
+                      <Icon name="star" size={16} />
+                    ))}
+                    <span class="sr-only">{ratingLabel.replace('{rating}', String(review.rating))}</span>
+                  </p>
+                  <blockquote lang="en" class="reviews__text">
+                    <p>“{review.text}”</p>
+                  </blockquote>
+                  <figcaption class="reviews__author">— {review.author}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews__toggle {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-text);
+    transition: border-color 0.3s ease;
+  }
+
+  .reviews__toggle:hover {
+    border-color: var(--color-text);
+  }
+
+  .reviews__toggle[hidden] {
+    display: none;
+  }
+
+  /* Bande pleine largeur, bords fondus. */
+  .reviews__viewport {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+
+  .reviews__track {
+    --gap: 3rem;
+    display: flex;
+    width: max-content;
+    animation: reviews-scroll 50s linear infinite;
+  }
+
+  /* L'espace après le dernier avis = l'espace entre deux avis : la boucle ne se voit pas. */
+  .reviews__list {
+    display: flex;
+    gap: var(--gap);
+    padding-right: var(--gap);
+  }
+
+  .reviews__item {
+    width: min(20rem, 78vw);
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .reviews__track {
+      --gap: 4.5rem;
+    }
+
+    .reviews__item {
+      width: 26rem;
+    }
+  }
+
+  /* 5 étoiles pleines, bordeaux. */
+  .reviews__stars {
+    display: flex;
+    gap: 0.25rem;
+    color: var(--color-primary);
+  }
+
+  .reviews__stars :global(svg) {
+    fill: currentColor;
+  }
+
+  .reviews__text {
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .reviews__author {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  /* Pause : survol des avis (pas du bouton, pour que « lecture » reprenne aussitôt) ou bouton pause.
+     Les avis ne contiennent rien de focalisable au clavier : le bouton pause suffit. */
+  .reviews__viewport:hover .reviews__track,
+  .reviews[data-playing='false'] .reviews__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes reviews-scroll {
+    to {
+      transform: translateX(calc(-100% / var(--copies)));
+    }
+  }
+
+  /* Animations réduites : rien ne bouge, défilement à la main (copies retirées). */
+  @media (prefers-reduced-motion: reduce) {
+    .reviews__track {
+      animation: none;
+    }
+
+    .reviews__viewport {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      mask-image: none;
+      padding-inline: 1.5rem;
+    }
+
+    .reviews__item {
+      scroll-snap-align: start;
+    }
+
+    .reviews__list[data-copy] {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Bouton pause / lecture (affiché seulement s'il y a une animation à arrêter).
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-reviews]').forEach((section) => {
+    const toggle = section.querySelector<HTMLButtonElement>('[data-toggle]');
+    if (!toggle || reducedMotion) return;
+    const iconPause = toggle.querySelector<HTMLElement>('[data-icon-pause]');
+    const iconPlay = toggle.querySelector<HTMLElement>('[data-icon-play]');
+    toggle.hidden = false;
+
+    toggle.addEventListener('click', () => {
+      const playing = section.dataset.playing !== 'true';
+      section.dataset.playing = String(playing);
+      toggle.setAttribute('aria-label', (playing ? toggle.dataset.labelPause : toggle.dataset.labelPlay) ?? '');
+      if (iconPause) iconPause.hidden = !playing;
+      if (iconPlay) iconPlay.hidden = playing;
+    });
+  });
+</script>

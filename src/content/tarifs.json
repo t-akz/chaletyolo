@@ -122,7 +122,7 @@
       "month": "2027-03",
       "weeks": [
         {
-          "start": "2027-03-07",
+          "start": "2027-03-06",
           "end": "2027-03-13",
           "price": null,
           "booked": true,

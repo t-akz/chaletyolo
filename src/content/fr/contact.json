@@ -18,11 +18,11 @@
       "period": "Période",
       "arrival": "Arrivée",
       "departure": "Départ",
-      "price": "Prix public"
+      "price": "Tarif"
     },
     "book": "Réserver",
     "booked": "Réservé",
-    "note": "Prix publics en euros TTC, pour les dates indiquées. Les semaines vont du samedi au samedi.",
+    "note": "Tarifs en euros TTC, pour les dates indiquées. Les semaines vont du samedi au samedi.",
     "included": {
       "title": "Inclus",
       "items": [
@@ -39,7 +39,7 @@
     "extras": {
       "title": "En supplément",
       "items": [
-        "* Courses du dîner, refacturées au réel",
+        "* Restauration et boissons au prix coûtant",
         "Taxe de séjour et frais de dossier",
         "À la carte : forfaits, location de matériel, cours de ski, transferts gare et aéroport, massages au chalet, chauffeur pour vos autres déplacements",
         "** Semaine de fermeture : en location seule"
@@ -79,6 +79,8 @@
     "phone": "Numéro de téléphone",
     "phoneHint": "Avec l'indicatif du pays, par exemple +33 6 12 34 56 78",
     "email": "Email",
+    "message": "Votre message",
+    "messageHint": "Demandes particulières, questions… (facultatif)",
     "consentBefore": "J'accepte que mes données soient utilisées pour répondre à ma demande, conformément à la",
     "consentLink": "politique de confidentialité",
     "honeypot": "Ne remplissez pas ce champ si vous êtes humain :",

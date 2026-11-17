@@ -11,6 +11,12 @@
     "title": "The chalet",
     "text": "Chalet Yolo is an exceptional retreat near Le Raffort, in Méribel, at the heart of the 3 Valleys. This contemporary chalet sleeps up to 15 guests across six bedrooms, with an indoor pool, jacuzzi, sauna, hammam, yoga room and home cinema.\nYour stay is fully taken care of by a chef, a chalet manager and a chauffeur."
   },
+  "reviews": {
+    "title": "Guest reviews",
+    "rating": "{rating} out of 5 stars",
+    "pause": "Pause the scrolling reviews",
+    "play": "Resume the scrolling reviews"
+  },
   "spaces": {
     "label": "The chalet's spaces",
     "galleryLink": "See the photos: {title}",

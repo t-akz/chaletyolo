@@ -22,10 +22,11 @@ const year = new Date().getFullYear();
 
 /*
  * Bloc « Informations » (mentions légales, confidentialité) : masqué à la demande du client
- * (13/11/2026) en attendant les informations légales. Le remettre à « true » pour le réafficher.
- * Les pages restent en ligne (le formulaire renvoie toujours vers la page Confidentialité).
+ * le 13/11/2026 en attendant les informations légales, réaffiché à sa demande le 17/11/2026.
+ * « false » le masque à nouveau (les pages restent en ligne ; le formulaire renvoie toujours
+ * vers la page Confidentialité).
  */
-const showLegal = false;
+const showLegal = true;
 
 const socials = [
   { name: 'Instagram', url: site.social.instagram },

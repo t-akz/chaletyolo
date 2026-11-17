@@ -18,11 +18,11 @@
       "period": "Period",
       "arrival": "Arrival",
       "departure": "Departure",
-      "price": "Public price"
+      "price": "Rate"
     },
     "book": "Book",
     "booked": "Booked",
-    "note": "Public prices in euros, VAT included, for the dates shown. Weekly stays run Saturday to Saturday.",
+    "note": "Rates in euros, VAT included, for the dates shown. Weekly stays run Saturday to Saturday.",
     "included": {
       "title": "Included",
       "items": [
@@ -39,7 +39,7 @@
     "extras": {
       "title": "Not included",
       "items": [
-        "* Dinner ingredients, charged at cost",
+        "* Food and beverages charged at cost",
         "Tourist tax and booking fee",
         "On request: ski passes, ski hire, ski lessons, station and airport transfers, in-chalet massages, driver for other trips",
         "** Closing week: self-catered, chalet rental only"
@@ -79,6 +79,8 @@
     "phone": "Phone number",
     "phoneHint": "Including the country code, for example +44 7700 900123",
     "email": "Email",
+    "message": "Your message",
+    "messageHint": "Special requests, questions… (optional)",
     "consentBefore": "I agree that my data may be used to respond to my enquiry, in accordance with the",
     "consentLink": "privacy policy",
     "honeypot": "Do not fill in this field if you are human:",

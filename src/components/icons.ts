@@ -15,6 +15,7 @@ import Menu from '@lucide/astro/icons/menu';
 import MessageCircle from '@lucide/astro/icons/message-circle';
 import Pause from '@lucide/astro/icons/pause';
 import Play from '@lucide/astro/icons/play';
+import Star from '@lucide/astro/icons/star';
 import Van from '@lucide/astro/icons/van';
 import X from '@lucide/astro/icons/x';
 
@@ -30,6 +31,7 @@ export const icons = {
   'message-circle': MessageCircle,
   pause: Pause,
   play: Play,
+  star: Star,
   van: Van,
   x: X,
 };

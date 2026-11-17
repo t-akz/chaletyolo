@@ -56,6 +56,36 @@ export const figures = {
 } as const;
 
 // ---------------------------------------------------------------------------
+// Avis clients (fournis par le client le 17/11/2026), bandeau de la page Le chalet.
+// Citations des clients, en anglais, affichées telles quelles sur les deux langues
+// (seule correction : espace manquant après « slopes. »). Jamais dans le JSON-LD.
+// ---------------------------------------------------------------------------
+export type Review = {
+  author: string;
+  /** Note sur 5. */
+  rating: number;
+  text: string;
+};
+
+export const reviews: Review[] = [
+  {
+    author: 'Garfields',
+    rating: 5,
+    text: 'We had a great 2-3 week stay at YoloChalet is superbly comfortable, well equipped and a special place to stay for a 3 vallees ski holiday!',
+  },
+  {
+    author: 'Mazen H',
+    rating: 5,
+    text: 'Great ski vacation with my family, five minute drive to the slopes. The property was great! Would definitely recommend to anyone.',
+  },
+  {
+    author: 'Victor C.',
+    rating: 5,
+    text: 'Great place, great hosts, would definitely recommend and come back.',
+  },
+];
+
+// ---------------------------------------------------------------------------
 // Chambres
 // Noms fournis par le client (02/11/2026). En anglais, le nom propre reste
 // en français et seul « Chambre » est traduit (« Gentiane Room »).

@@ -4,37 +4,36 @@
     "description": "Legal notice for the Chalet Yolo website, a private chalet in Méribel: publisher, hosting, intellectual property."
   },
   "title": "Legal notice",
-  "updated": "Last updated: [À FOURNIR]",
+  "updated": "Last updated: 17/11/2026",
   "sections": [
     {
       "title": "Website publisher",
       "paragraphs": [
-        "Company name: [À FOURNIR]",
-        "Legal form and share capital: [À FOURNIR]",
-        "Registered office: [À FOURNIR]",
-        "SIRET number: [À FOURNIR]",
-        "Publication director: [À FOURNIR]",
-        "Contact: [À FOURNIR]"
+        "Company name: Société Yolo",
+        "Legal form and share capital: SAS",
+        "Registered office: 34 Avenue Raphael, 75016 Paris, France",
+        "SIRET number: 980 625 347 00011",
+        "Manager: JOEL SARL"
       ]
     },
     {
       "title": "Hosting",
       "paragraphs": [
         "This website is hosted by Netlify, Inc.",
-        "Address: [À FOURNIR]",
         "Website: https://www.netlify.com"
       ]
     },
     {
       "title": "Intellectual property",
       "paragraphs": [
-        "The texts, photographs and logos on this website are protected by copyright. Any reproduction without prior permission is prohibited.",
-        "Photo credits: [À FOURNIR]"
+        "The texts, photographs and logos on this website are protected by copyright. Any reproduction without prior permission is prohibited."
       ]
     },
     {
       "title": "Personal data",
-      "paragraphs": ["How data sent through the contact form is processed is described in our privacy policy."],
+      "paragraphs": [
+        "How data sent through the contact form is processed is described in our privacy policy."
+      ],
       "link": "Read the privacy policy"
     }
   ]

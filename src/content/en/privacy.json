@@ -4,16 +4,22 @@
     "description": "Privacy policy of the Chalet Yolo website: contact form data, no cookies, cookie-free analytics, your rights."
   },
   "title": "Privacy policy",
-  "updated": "Last updated: [À FOURNIR]",
+  "updated": "Last updated: 17/11/2026",
   "sections": [
     {
       "title": "Data controller",
-      "paragraphs": ["[À FOURNIR] (company name, address and contact email)."]
+      "paragraphs": [
+        "Company name: Société Yolo",
+        "Legal form and share capital: SAS",
+        "Registered office: 34 Avenue Raphael, 75016 Paris, France",
+        "SIRET number: 980 625 347 00011",
+        "Manager: JOEL SARL"
+      ]
     },
     {
       "title": "Data collected",
       "paragraphs": [
-        "When you use the contact form, we receive the information you enter: stay dates, preferred package, number of adults and children, full name, role (booking for yourself or on behalf of someone else), preferred way to reply, and phone number or email."
+        "When you use the contact form, we receive the information you enter: stay dates, preferred package, number of adults and children, full name, role (booking for yourself or on behalf of someone else), preferred way to reply, phone number or email, and any message you choose to add."
       ]
     },
     {
@@ -26,13 +32,9 @@
     {
       "title": "Recipients and hosting",
       "paragraphs": [
-        "Enquiries sent through the form are received and stored by our hosting provider Netlify, Inc., a company based in the United States.",
-        "Safeguards for this transfer outside the European Union: [À FOURNIR]"
+        "Enquiries sent through the form are received and stored by our hosting provider Netlify, Inc.",
+        "Safeguards for this transfer: https://www.netlify.com/gdpr-ccpa/"
       ]
-    },
-    {
-      "title": "Retention period",
-      "paragraphs": ["[À FOURNIR]"]
     },
     {
       "title": "Cookies",
@@ -44,16 +46,14 @@
     {
       "title": "Audience measurement",
       "paragraphs": [
-        "If audience measurement is enabled, the website uses Umami, an analytics tool that works without cookies.",
-        "Audience measurement enabled: [À FOURNIR]"
+        "If audience measurement is enabled, the website uses Umami, an analytics tool that works without cookies."
       ]
     },
     {
       "title": "Your rights",
       "paragraphs": [
         "Under the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase, restrict, object to and port your data.",
-        "To exercise these rights: [À FOURNIR] (contact email).",
-        "You can also lodge a complaint with the CNIL (the French data protection authority): https://www.cnil.fr"
+        "To exercise these rights: info@chalet-yolo.com."
       ]
     }
   ]

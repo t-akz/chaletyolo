@@ -9,8 +9,9 @@ import ChaletMap from '../components/ChaletMap.astro';
 import FloorPlans from '../components/FloorPlans.astro';
 import Hero from '../components/Hero.astro';
 import KeyFigures from '../components/KeyFigures.astro';
+import ReviewsMarquee from '../components/ReviewsMarquee.astro';
 import SpaceColumns from '../components/SpaceColumns.astro';
-import { figures } from '../content/chalet';
+import { figures, reviews } from '../content/chalet';
 import type { GalleryCategory } from '../content/photos';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
@@ -64,8 +65,20 @@ const plans = page.floorPlans.levels.map((label, index) => ({ photoId: `plan-niv
     ]}
   />
 
+  <!-- 2 bis. Avis clients qui défilent (17/11/2026) -->
+  <ReviewsMarquee
+    title={page.reviews.title}
+    ratingLabel={page.reviews.rating}
+    pauseLabel={page.reviews.pause}
+    playLabel={page.reviews.play}
+    reviews={reviews}
+  />
+
+  <!-- Fonds alternés beige (bg) / blanc (bg-alt), demande du client du 17/11/2026 :
+       intro beige → avis blanc → espaces beige → plans blanc → localisation beige. -->
+
   <!-- 3. Colonnes d'espaces (accordéon de photos) -->
-  <section class="bg-bg-alt py-16 md:py-28">
+  <section class="bg-bg py-16 md:py-28">
     <div class="container-page" data-reveal>
       {/* Textes masqués pour essai (13/11/2026) : remettre showText={true} (ou retirer l'option) pour les réafficher. */}
       <SpaceColumns lang={lang} label={page.spaces.label} linkLabel={page.spaces.galleryLink} items={spaces} showText={false} />
@@ -73,10 +86,10 @@ const plans = page.floorPlans.levels.map((label, index) => ({ photoId: `plan-niv
   </section>
 
   <!-- 4. Floor Plans -->
-  <FloorPlans lang={lang} title={page.floorPlans.title} plans={plans} background="bg" />
+  <FloorPlans lang={lang} title={page.floorPlans.title} plans={plans} background="alt" />
 
   <!-- 5. Localisation : phrase + carte interactive avec l'emplacement exact du chalet (CLAUDE.md §5.7) -->
-  <section class="bg-bg-alt py-16 md:py-28">
+  <section class="bg-bg py-16 md:py-28">
     <div class="container-page">
       <div data-reveal>
         <h2 class="mb-6 text-h2">{page.location.title}</h2>

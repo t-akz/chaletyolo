@@ -5,7 +5,7 @@
  *   (retirée à la demande du client le 09/11/2026) : elle est envoyée d'office en
  *   « full-catered » (champ caché « formule »).
  *   Étape 2 « Le contact » : nom et prénom, rôle, canal de réponse,
- *   téléphone ou email selon le canal choisi, consentement.
+ *   téléphone ou email selon le canal choisi, message libre facultatif (17/11/2026), consentement.
  *
  * Netlify Forms :
  * - un seul formulaire « demande-sejour » pour le FR et l'EN (mêmes noms de champs) ;
@@ -226,6 +226,17 @@ const stepTitleClass = 'mt-3 scroll-mt-28 text-h3 focus:outline-none';
         data-validate
         class={inputClass}
       />
+    </FormField>
+
+    <!-- Message libre, facultatif (17/11/2026) : demandes particulières, questions. -->
+    <FormField id="message" label={f.message} hint={f.messageHint} class="md:col-span-2">
+      <textarea
+        id="message"
+        name="message"
+        rows="5"
+        maxlength="2000"
+        aria-describedby="message-hint"
+        class:list={[inputClass, 'resize-y']}></textarea>
     </FormField>
 
     <div class="md:col-span-2">
