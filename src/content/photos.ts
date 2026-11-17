@@ -97,6 +97,8 @@ const slots: PhotoSlot[] = [
   { id: 'accueil', folder: 'hero', alt: { fr: 'Façade en bois et pierre du Chalet Yolo sous la neige, chalet de luxe à Méribel', en: 'Snow-covered wood and stone façade of Chalet Yolo, a luxury catered chalet in Méribel' } },
   // Remplacée le 17/11/2026 par une nouvelle photo du client (images/le-chalet-02.jpeg).
   { id: 'le-chalet-01', folder: 'hero', alt: { fr: 'Salon cathédrale du Chalet Yolo avec cheminée, charpente en bois et baies vitrées sur la montagne', en: 'Cathedral-ceiling living room at Chalet Yolo with fireplace, timber beams and picture windows onto the mountains' } },
+  // Hero de la page Le chalet depuis le 17/11/2026 (photo du client images/le-chalet-03.jpeg) ; le-chalet-01 n'est plus affichée.
+  { id: 'le-chalet-03', folder: 'hero', alt: { fr: 'Salon cathédrale du Chalet Yolo avec cheminée, charpente en bois et baies vitrées sur la montagne', en: 'Cathedral-ceiling living room at Chalet Yolo with fireplace, timber beams and picture windows onto the mountains' } },
   { id: 'le-chalet', folder: 'hero', alt: { fr: 'Le Chalet Yolo sous la neige, à Méribel dans les 3 Vallées', en: 'Chalet Yolo under snow in Méribel, Les 3 Vallées' } },
   { id: 'services', folder: 'hero', alt: { fr: 'Table dressée pour le repas devant une baie vitrée avec vue sur la montagne', en: 'Table set for a meal by a large window with a mountain view' }, position: 'center 75%' },
   { id: 'meribel', folder: 'hero', alt: { fr: 'La station de Méribel enneigée, au cœur des 3 Vallées', en: 'Méribel ski resort under snow, in the heart of Les 3 Vallées' } },
