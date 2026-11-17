@@ -395,6 +395,8 @@ L'équipe gère elle-même le tableau des tarifs de l'onglet **Offre** depuis la
   - **prix total** en euros, chiffres seuls (ex. `18500`) ; laissé vide → le site affiche « [À FOURNIR] » ;
   - **Réservée** : la ligne devient grise, affiche « Réservé » / « Booked » à la place du prix, sans lien « Réserver » ;
   - **mention spéciale** facultative (« Promo », « Exclu web »…) : 25 caractères maximum, **en français ET en anglais**.
+- **Reprendre les tarifs de départ** (en haut de la page) : remplace tout le tableau par les tarifs de `src/content/tarifs.json` (ceux du PDF « tarif » du 17/11/2026, identiques au site en local). Utile pour que le site en ligne redevienne identique au local. **Écrase tout ce qui a été saisi dans l'admin** (re-cocher « Réservée » si besoin) ; rien n'est publié avant « Enregistrer et publier » (pour annuler : recharger la page).
+  - Procédure : sur le site en ligne, `/admin/` → « Reprendre les tarifs de départ » → vérifier → « Enregistrer et publier ».
 - **Enregistrer et publier** : les données sont vérifiées, enregistrées, et le site en ligne est **à jour 1 à 2 minutes plus tard** (Netlify reconstruit le site).
 
 > La page d'admin n'est pas référencée par Google et n'est liée nulle part sur le site. Seules les personnes qui ont le mot de passe peuvent y entrer.

@@ -67,5 +67,11 @@
     "addTitle": "Ajouter une période",
     "addButton": "Ajouter",
     "addInvalid": "Choisissez une arrivée dans ce mois et un départ après l'arrivée ({max} nuits maximum)."
+  },
+  "seed": {
+    "button": "Reprendre les tarifs de départ",
+    "hint": "Remplace tout le tableau par les tarifs de départ du site (PDF « tarif » du 17/11/2026). Rien n'est publié avant « Enregistrer et publier ».",
+    "confirm": "Remplacer tout le tableau par les tarifs de départ (PDF du 17/11/2026) ? Les modifications faites dans l'admin seront perdues. Rien ne sera publié avant « Enregistrer et publier ».",
+    "done": "Tarifs de départ chargés, pas encore enregistrés : vérifiez (semaines réservées depuis ?), puis « Enregistrer et publier ». Pour annuler, rechargez la page."
   }
 }

@@ -13,6 +13,9 @@
  *   (sessionStorage), AUCUN cookie. Voir netlify/lib/admin-auth.ts.
  * - Ne fonctionne que chez Netlify (deploy preview ou site en ligne) :
  *   en local (npm run dev), les fonctions n'existent pas.
+ * - « Reprendre les tarifs de départ » (17/11/2026) : remplace le tableau de l'éditeur par
+ *   src/content/tarifs.json (tarifs du PDF du client), pour que le site en ligne redevienne
+ *   identique au local. Rien n'est publié tant qu'on ne clique pas sur « Enregistrer et publier ».
  * - Les données sont vérifiées avant l'envoi avec les mêmes règles que le site
  *   (parseSeason, src/content/tarifs.ts), puis à nouveau côté serveur.
  * Textes : src/content/fr/admin.json.
@@ -75,6 +78,14 @@ const inputClass =
 
         <p class="mt-6 max-w-3xl text-sm">{format(t.help, { max: badgeMaxLength, nameMax: nameMaxLength })}</p>
 
+        <!-- Reprendre les tarifs de départ (src/content/tarifs.json) : rien n'est publié avant « Enregistrer et publier ». -->
+        <div class="mt-6 max-w-3xl">
+          <button type="button" data-reset-seed class="text-sm font-medium text-accent underline decoration-1 underline-offset-[6px]">
+            {t.seed.button}
+          </button>
+          <p class="mt-1 text-sm">{t.seed.hint}</p>
+        </div>
+
         <!-- Les mois sont construits par le script ci-dessous. -->
         <div data-months class="mt-10 grid gap-10"></div>
 
@@ -124,6 +135,8 @@ const inputClass =
         type Week,
       } from '../content/tarifs';
       import type texts from '../content/fr/admin.json';
+      // Tarifs de départ (ceux du site en local), pour « Reprendre les tarifs de départ ».
+      import seed from '../content/tarifs.json';
 
       type Texts = typeof texts;
       type Session = { token: string; expiresAt: number };
@@ -433,6 +446,19 @@ const inputClass =
         addForm.reset();
         render();
         setDirty(true);
+      });
+
+      // ---------- Reprendre les tarifs de départ ----------
+      document.querySelector('[data-reset-seed]')!.addEventListener('click', () => {
+        if (!window.confirm(t.seed.confirm)) return;
+        try {
+          season = parseSeason(seed); // copie neuve et vérifiée de src/content/tarifs.json
+        } catch (error) {
+          setDirty(dirty, fill(t.save.error, { message: (error as Error).message.replace(/^Tarifs invalides : /, '') }));
+          return;
+        }
+        render();
+        setDirty(true, t.seed.done);
       });
 
       // ---------- Chargement ----------
