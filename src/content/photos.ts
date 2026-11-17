@@ -95,6 +95,7 @@ const slots: PhotoSlot[] = [
   // « accueil » : photo du chalet retouchée le 06/11/2026 (tuyau gris effacé à droite de l'ours) ;
   // la version d'origine, identique sinon, est hero/le-chalet.jpg.
   { id: 'accueil', folder: 'hero', alt: { fr: 'Façade en bois et pierre du Chalet Yolo sous la neige, chalet de luxe à Méribel', en: 'Snow-covered wood and stone façade of Chalet Yolo, a luxury catered chalet in Méribel' } },
+  // Remplacée le 17/11/2026 par une nouvelle photo du client (images/le-chalet-02.jpeg).
   { id: 'le-chalet-01', folder: 'hero', alt: { fr: 'Salon cathédrale du Chalet Yolo avec cheminée, charpente en bois et baies vitrées sur la montagne', en: 'Cathedral-ceiling living room at Chalet Yolo with fireplace, timber beams and picture windows onto the mountains' } },
   { id: 'le-chalet', folder: 'hero', alt: { fr: 'Le Chalet Yolo sous la neige, à Méribel dans les 3 Vallées', en: 'Chalet Yolo under snow in Méribel, Les 3 Vallées' } },
   { id: 'services', folder: 'hero', alt: { fr: 'Table dressée pour le repas devant une baie vitrée avec vue sur la montagne', en: 'Table set for a meal by a large window with a mountain view' }, position: 'center 75%' },
@@ -117,6 +118,7 @@ const slots: PhotoSlot[] = [
   { id: 'cinema-01', folder: 'cinema', alt: { fr: 'Home cinéma avec grand écran et canapé d’angle', en: 'Home cinema with large screen and corner sofa' } },
   { id: 'yoga-01', folder: 'yoga', alt: { fr: 'Salle de yoga', en: 'Yoga room' } },
   { id: 'yoga-02', folder: 'yoga', alt: { fr: 'Salle de yoga avec grand miroir, ballons et tapis de yoga', en: 'Yoga room with a large mirror, exercise balls and yoga mats' } },
+  // sejour-01 et sejour-02 : remplacées le 17/11/2026 par les versions « -A » du client.
   { id: 'sejour-01', folder: 'sejour', alt: { fr: 'Salon cathédrale avec cheminée et poutres en bois', en: 'Cathedral-ceiling living room with fireplace and timber beams' } },
   { id: 'sejour-02', folder: 'sejour', alt: { fr: 'Séjour avec feu de cheminée, suspensions en verre et cuisine ouverte sous charpente en bois', en: 'Living room with a log fire, glass pendant lights and open kitchen under timber beams' } },
   { id: 'cuisine-01', folder: 'cuisine', alt: { fr: 'Cuisine équipée sous charpente en bois, avec îlot', en: 'Fitted kitchen with island under timber beams' } },
@@ -146,6 +148,8 @@ const slots: PhotoSlot[] = [
   // « service-02 » (apéritif) retirée de la galerie à la demande du client (05/11/2026) ; son fichier services/service-02.png reste dans le dossier.
   // exterieur-02 prend sa place dans la galerie (dernière position).
   { id: 'exterieur-02', folder: 'exterieur', alt: { fr: 'Entrée du chalet en bois et pierre sous la neige, avec une sculpture d’ours au-dessus de la porte', en: 'Snow-covered wood and stone entrance of the chalet, with a bear sculpture above the door' } },
+  // Fournie par le client le 17/11/2026 (galerie, filtre Extérieur, et mosaïque de l'accueil).
+  { id: 'terrasse-01', folder: 'exterieur', alt: { fr: 'Terrasse en bois enneigée du chalet, face aux chalets voisins et aux montagnes', en: 'Snow-covered wooden terrace of the chalet, facing neighbouring chalets and the mountains' } },
   // Plans du chalet, un par niveau (section « Floor Plans » de la page Le chalet).
   { id: 'plan-niveau-1', folder: 'plans', alt: { fr: 'Plan du 1er niveau du chalet', en: 'Floor plan of level 1 of the chalet' } },
   { id: 'plan-niveau-2', folder: 'plans', alt: { fr: 'Plan du 2e niveau du chalet', en: 'Floor plan of level 2 of the chalet' } },

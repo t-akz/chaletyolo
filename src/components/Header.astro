@@ -51,10 +51,25 @@ const menu = menuKeys.map((key) => ({
     </a>
 
     <!-- À droite : bouton « Nous contacter », puis bouton du menu (burger) tout à droite -->
-    <div class="flex items-center gap-3 sm:gap-6">
+    <div class="flex items-center gap-2 sm:gap-6">
       <Button href={contactFormPath(lang)} size="sm">{common.cta.contact}</Button>
-      <button type="button" data-menu-open aria-controls="menu-mobile" aria-expanded="false" class="-mr-2 p-2">
+      {/*
+        Bouton du menu : 3 traits + mot « Menu » à droite (demande du client du 17/11/2026),
+        même typographie que le bouton « Nous contacter » (majuscules, 13 → 15 px).
+        Espacements resserrés sur mobile pour que tout tienne sur une ligne à 390 px.
+        Le mot visible est ignoré des lecteurs d'écran, qui lisent « Ouvrir le menu ».
+      */}
+      <button
+        type="button"
+        data-menu-open
+        aria-controls="menu-mobile"
+        aria-expanded="false"
+        class="-mr-1 flex items-center gap-1.5 p-1 sm:-mr-2 sm:gap-2 sm:p-2"
+      >
         <Icon name="menu" size={28} />
+        <span aria-hidden="true" class="text-[0.8125rem] font-semibold tracking-wide uppercase sm:text-[0.9375rem]">
+          {common.header.menu}
+        </span>
         <span class="sr-only">{common.header.openMenu}</span>
       </button>
     </div>

@@ -42,8 +42,23 @@ const categories = (Object.keys(galleryCategories) as GalleryCategory[]).filter(
   photos.some((photo) => photo.category === category),
 );
 
-// Une photo sur 7 est mise en valeur (2 × 2 cases).
-const isLarge = (index: number) => index % 7 === 0;
+// Photos mises en valeur (2 × 2 cases). Liste choisie (17/11/2026, demande du client)
+// pour que la mosaïque « Tout » se termine par une ligne pleine, sans trou :
+// sdb-03 n'est plus en grand, exterieur-01 l'est à sa place, et les deux dernières
+// photos (exterieur-02, terrasse-01) finissent la page côte à côte.
+// Avant : une photo sur 7 (règle automatique). Si vous ajoutez ou retirez une photo
+// de la galerie, revérifiez la dernière ligne (390, 768 et 1440 px).
+const largePhotos = new Set(['piscine-01', 'cinema-01', 'chambre-02', 'exterieur-01', 'exterieur-02', 'terrasse-01']);
+// Sur tablette (3 colonnes), deux grandes photos ne tiennent pas côte à côte :
+// terrasse-01 y reste petite (à côté d'exterieur-02) pour que la dernière ligne soit pleine.
+const largeExceptOnTablet = new Set(['terrasse-01']);
+const largeClass = (id: string) =>
+  largePhotos.has(id)
+    ? largeExceptOnTablet.has(id)
+      ? 'col-span-2 row-span-2 md:col-span-1 md:row-span-1 lg:col-span-2 lg:row-span-2'
+      : 'col-span-2 row-span-2'
+    : undefined;
+const isLarge = (id: string) => largePhotos.has(id);
 ---
 
 <div data-gallery>
@@ -69,8 +84,8 @@ const isLarge = (index: number) => index % 7 === 0;
     class="grid auto-rows-[45vw] grid-flow-dense grid-cols-2 gap-3 md:auto-rows-[28vw] md:grid-cols-3 md:gap-4 lg:auto-rows-[20vw] lg:grid-cols-4"
   >
     {
-      photos.map((photo, index) => (
-        <li data-category={photo.category} class:list={['overflow-hidden', isLarge(index) && 'col-span-2 row-span-2']}>
+      photos.map((photo) => (
+        <li data-category={photo.category} class:list={['overflow-hidden', largeClass(photo.id)]}>
           <button
             type="button"
             data-open
@@ -84,7 +99,7 @@ const isLarge = (index: number) => index % 7 === 0;
             <Photo
               id={photo.id}
               lang={lang}
-              sizes={isLarge(index) ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw'}
+              sizes={isLarge(photo.id) ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw'}
               class="transition-transform duration-700 hover:scale-[1.03]"
             />
           </button>
