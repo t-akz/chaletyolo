@@ -1,8 +1,9 @@
 ---
 /**
  * Page « Offre & Contact » (FR et EN) — §6 de CLAUDE.md. Deux onglets (PageTabs) :
- * 1. « Offre » (#offre) : saison, puis accordéon des mois avec une carte par
- *    semaine (WeekAccordion ; données : src/content/tarifs.ts, gérées depuis l'admin).
+ * 1. « Offre » (#offre) : sur le modèle du PDF « tarif » du client (17/11/2026) —
+ *    titre de la saison, tableau des tarifs (RatesTable ; données : src/content/tarifs.ts,
+ *    gérées depuis l'admin), puis listes « Inclus » / « En supplément » (textes du PDF).
  * 2. « Contact » (#demande) : l'ancienne page Contact, inchangée — titre, une
  *    ligne d'intro, formulaire et bloc « Ou directement » (WhatsApp, email).
  *    Les boutons « Nous contacter » du site mènent directement ici (contactFormPath).
@@ -11,7 +12,7 @@
 import ContactForm from '../components/ContactForm.astro';
 import Icon from '../components/Icon.astro';
 import PageTabs from '../components/PageTabs.astro';
-import WeekAccordion from '../components/WeekAccordion.astro';
+import RatesTable from '../components/RatesTable.astro';
 import { whatsappEnabled, whatsappUrl } from '../components/whatsapp';
 import { isProvided, site, TO_PROVIDE } from '../config/site';
 import { loadSeason } from '../content/tarifs-store';
@@ -41,22 +42,45 @@ const season = await loadSeason();
         { id: 'demande', label: page.tabs.contact },
       ]}
     >
-      <!-- Onglet 1 : l'offre -->
+      <!-- Onglet 1 : l'offre (mise en page du PDF « tarif ») -->
       <div slot="offre">
-        <!-- Titre sans largeur maximale : sur une seule ligne dès qu'il y a la place (tablette, ordinateur). -->
-        <h2 class="text-h1">{page.offer.title}</h2>
-        <p class="mt-6 max-w-2xl">{page.offer.intro}</p>
-        <div class="mt-12 md:mt-16">
-          <WeekAccordion
-            lang={lang}
-            months={season.months}
-            label={page.offer.label}
-            perNight={page.offer.perNight}
-            nightsLabel={page.offer.nights}
-            bookLabel={page.offer.book}
-            bookedLabel={page.offer.booked}
-            bookPath={localizedPath('contact', lang)}
-          />
+        <p class="eyebrow text-accent">{page.offer.eyebrow}</p>
+        <!-- Titre sans largeur maximale : sur une seule ligne dès qu'il y a la place. -->
+        <h2 class="mt-4 text-h1">{page.offer.title}</h2>
+
+        <!-- Ordinateur (≥ 1280 px) : tableau à gauche, « Inclus » / « En supplément » à droite.
+             En dessous : l'un sous l'autre (les deux listes côte à côte dès 768 px). -->
+        <div class="mt-12 grid gap-16 md:mt-16 xl:grid-cols-12 xl:gap-12">
+          <div class="xl:col-span-7">
+            <h3 class="eyebrow text-accent">{page.offer.formula}</h3>
+            <div class="mt-6">
+              <RatesTable
+                lang={lang}
+                months={season.months}
+                caption={page.offer.label}
+                columns={page.offer.columns}
+                bookLabel={page.offer.book}
+                bookedLabel={page.offer.booked}
+                bookPath={localizedPath('contact', lang)}
+              />
+            </div>
+            <p class="mt-5 text-sm">{page.offer.note}</p>
+          </div>
+
+          <div class="grid gap-12 md:grid-cols-2 md:gap-10 xl:col-span-4 xl:col-start-9 xl:grid-cols-1">
+            {
+              [page.offer.included, page.offer.extras].map((block) => (
+                <div>
+                  <h3 class="eyebrow border-b border-text pb-3 text-accent">{block.title}</h3>
+                  <ul class="mt-5 space-y-4">
+                    {block.items.map((item) => (
+                      <li class="border-l border-text/50 pl-4 text-sm leading-relaxed md:text-base">{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
         </div>
       </div>
 

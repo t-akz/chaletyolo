@@ -20,16 +20,16 @@
     "sourceSeed": "Rien n'a encore été enregistré : ce sont les données de départ.",
     "sourceAdmin": "Ce sont les dernières données enregistrées."
   },
-  "help": "Prix : total de la période en euros, chiffres seuls (ex. 18500) ; laissé vide, la carte affiche « [À FOURNIR] ». Réservée : la carte est grisée, sans prix ni lien « Réserver ». Mention : facultative, {max} caractères maximum, en français ET en anglais. Dates : une semaine va du samedi au samedi ; pour une période spéciale (ex. 2 nuits du jeudi au samedi, ou une réservation de 10 jours), utilisez « Modifier les dates » ou « Ajouter une période ». Les périodes ne doivent pas se chevaucher.",
+  "help": "Nom : facultatif (ex. « Noël » / « Christmas »), {nameMax} caractères maximum, en français ET en anglais ; laissé vide, le site affiche le nom du mois. Prix : total de la période en euros, chiffres seuls (ex. 18500) ; laissé vide, le site affiche « [À FOURNIR] ». Réservée : la ligne est grisée, « Réservé » à la place du prix, sans lien « Réserver ». Mention : facultative, {max} caractères maximum, en français ET en anglais. Dates : une semaine va du samedi au samedi ; pour une période spéciale (ex. 2 nuits du jeudi au samedi, ou une réservation de 10 jours), utilisez « Modifier les dates » ou « Ajouter une période ». Les périodes ne doivent pas se chevaucher.",
   "columns": {
     "week": "Période",
+    "nameFr": "Nom (FR)",
+    "nameEn": "Nom (EN)",
     "price": "Prix total (€)",
-    "perNight": "Par nuit",
     "booked": "Réservée",
     "badgeFr": "Mention (FR)",
     "badgeEn": "Mention (EN)"
   },
-  "perNightEmpty": "—",
   "months": {
     "empty": "Aucun mois : ajoutez-en un ci-dessous.",
     "weeks": "{count} périodes",

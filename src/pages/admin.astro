@@ -3,8 +3,8 @@
  * Panneau d'administration des tarifs — /admin/ (français uniquement, non référencé).
  *
  * L'équipe y gère les cartes de l'onglet « Offre » (page Offre & Contact) :
- * mois (ajout / retrait), et pour chaque période : prix total, « réservée »,
- * mention spéciale FR + EN. Périodes spéciales (13/11/2026) : « Modifier les dates »
+ * mois (ajout / retrait), et pour chaque période : nom FR + EN (17/11/2026, facultatif :
+ * vide = nom du mois), prix total, « réservée », mention spéciale FR + EN. Périodes spéciales (13/11/2026) : « Modifier les dates »
  * (arrivée et départ libres), « Supprimer », « Ajouter une période » dans chaque mois. « Enregistrer et publier » envoie tout à la
  * fonction Netlify /api/admin/tarifs, qui vérifie, enregistre (Netlify Blobs)
  * et republie le site en ligne (≈ 1 à 2 minutes).
@@ -23,7 +23,7 @@ import '../styles/global.css';
 
 import Button from '../components/Button.astro';
 import t from '../content/fr/admin.json';
-import { badgeMaxLength } from '../content/tarifs';
+import { badgeMaxLength, nameMaxLength } from '../content/tarifs';
 import { format } from '../i18n/utils';
 
 const inputClass =
@@ -73,7 +73,7 @@ const inputClass =
           </button>
         </div>
 
-        <p class="mt-6 max-w-3xl text-sm">{format(t.help, { max: badgeMaxLength })}</p>
+        <p class="mt-6 max-w-3xl text-sm">{format(t.help, { max: badgeMaxLength, nameMax: nameMaxLength })}</p>
 
         <!-- Les mois sont construits par le script ci-dessous. -->
         <div data-months class="mt-10 grid gap-10"></div>
@@ -112,6 +112,7 @@ const inputClass =
         badgeMaxLength,
         isRealDate,
         maxNights,
+        nameMaxLength,
         newMonth,
         nightsBetween,
         parseSeason,
@@ -203,18 +204,10 @@ const inputClass =
       // ---------- Mise en forme ----------
       const dayFormat = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
       const monthFormat = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-      const euros = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
       const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
       const utc = (iso: string) => new Date(`${iso}T00:00:00Z`);
       const dayLabel = (iso: string) => capitalize(dayFormat.format(utc(iso)));
       const monthLabel = (month: string) => capitalize(monthFormat.format(utc(`${month}-01`)));
-      // Prix par nuit = prix total ÷ nombre de nuits de la période (7 pour une semaine normale).
-      const perNight = (week: Week) => {
-        const nights = periodNights(week);
-        return week.price !== null && Number.isInteger(week.price) && week.price > 0 && nights > 0
-          ? euros.format(Math.round(week.price / nights))
-          : t.perNightEmpty;
-      };
       // « Sam. 2 janv. → Sam. 9 janv. », suivi de « (2 nuits) » pour une période spéciale.
       const periodLabel = (week: Week) => {
         const nights = periodNights(week);
@@ -242,7 +235,7 @@ const inputClass =
       const inputClass =
         'block w-full border border-text/60 bg-bg-alt px-3 py-2 text-text focus-visible:border-accent';
       // Grille des colonnes sur ordinateur (une ligne par semaine) ; empilé sur mobile.
-      const rowClass = 'grid gap-3 py-4 md:grid-cols-[1.3fr_1fr_0.7fr_0.6fr_1.2fr_1.2fr] md:items-center md:gap-4 md:py-3';
+      const rowClass = 'grid gap-3 py-4 md:grid-cols-[1.3fr_1.2fr_1.2fr_0.9fr_0.6fr_1fr_1fr] md:items-center md:gap-4 md:py-3';
       const columnLabel = 'text-xs font-medium md:sr-only';
 
       // ---------- Construction d'une ligne « période » ----------
@@ -262,10 +255,8 @@ const inputClass =
           'aria-describedby': datesId,
         });
         price.value = week.price === null ? '' : String(week.price);
-        const night = el('span', { class: 'text-sm', 'aria-live': 'polite' }, [perNight(week)]);
         price.addEventListener('input', () => {
           week.price = price.value === '' ? null : Number(price.value);
-          night.textContent = perNight(week);
           setDirty(true);
         });
 
@@ -279,12 +270,11 @@ const inputClass =
           // Départ = arrivée + 7 jours → semaine normale (pas de date de départ enregistrée).
           if (isRealDate(departure.value)) week.end = departure.value === weekEnd(week.start) ? undefined : departure.value;
           datesText.textContent = periodLabel(week);
-          night.textContent = perNight(week);
           setDirty(true);
         };
         arrival.addEventListener('change', onDates);
         departure.addEventListener('change', onDates);
-        const datesEditor = el('div', { class: 'flex flex-wrap items-end gap-4 md:col-span-6', hidden: '' }, [
+        const datesEditor = el('div', { class: 'flex flex-wrap items-end gap-4 md:col-span-7', hidden: '' }, [
           el('label', { class: 'grid gap-1 text-sm font-medium' }, [t.period.arrival, arrival]),
           el('label', { class: 'grid gap-1 text-sm font-medium' }, [t.period.departure, departure]),
         ]);
@@ -310,24 +300,27 @@ const inputClass =
         const booked = el('input', { type: 'checkbox', class: 'size-5 accent-primary', 'aria-describedby': datesId });
         booked.checked = week.booked;
 
-        // Mentions FR / EN.
-        const badgeInput = (lang: 'fr' | 'en') => {
-          const input = el('input', { type: 'text', maxlength: String(badgeMaxLength), class: inputClass, 'aria-describedby': datesId });
-          input.value = week.badge?.[lang] ?? '';
+        // Textes FR / EN : mention spéciale (« badge ») et nom de la période (« name »).
+        const textInput = (key: 'badge' | 'name', lang: 'fr' | 'en', max: number) => {
+          const input = el('input', { type: 'text', maxlength: String(max), class: inputClass, 'aria-describedby': datesId });
+          input.value = week[key]?.[lang] ?? '';
           input.addEventListener('input', () => {
-            week.badge = { fr: week.badge?.fr ?? '', en: week.badge?.en ?? '', [lang]: input.value };
+            week[key] = { fr: week[key]?.fr ?? '', en: week[key]?.en ?? '', [lang]: input.value };
             setDirty(true);
           });
           return input;
         };
+        const badgeInput = (lang: 'fr' | 'en') => textInput('badge', lang, badgeMaxLength);
+        const nameInput = (lang: 'fr' | 'en') => textInput('name', lang, nameMaxLength);
 
         const row = el('div', { class: rowClass, 'data-booked': week.booked ? 'true' : undefined }, [
           el('div', { class: 'grid gap-1' }, [
             el('p', { id: datesId, class: 'font-medium' }, [datesText]),
             el('p', { class: 'flex flex-wrap gap-x-4 gap-y-1' }, [toggleDates, remove]),
           ]),
+          field(t.columns.nameFr, nameInput('fr')),
+          field(t.columns.nameEn, nameInput('en')),
           field(t.columns.price, price),
-          el('div', { class: 'grid gap-1' }, [el('span', { class: columnLabel }, [t.columns.perNight]), night]),
           el('label', { class: 'flex items-center gap-2 md:justify-center' }, [booked, el('span', { class: 'text-sm md:sr-only' }, [t.columns.booked])]),
           field(t.columns.badgeFr, badgeInput('fr')),
           field(t.columns.badgeEn, badgeInput('en')),
@@ -366,8 +359,8 @@ const inputClass =
 
           // En-têtes de colonnes (ordinateur uniquement ; sur mobile, chaque champ a son libellé).
           const head = el('div', { class: `${rowClass} hidden border-b border-border text-xs font-semibold uppercase tracking-wider md:grid`, 'aria-hidden': 'true' },
-            [t.columns.week, t.columns.price, t.columns.perNight, t.columns.booked, t.columns.badgeFr, t.columns.badgeEn].map((label, i) =>
-              el('span', { class: i === 3 ? 'md:text-center' : '' }, [label]),
+            [t.columns.week, t.columns.nameFr, t.columns.nameEn, t.columns.price, t.columns.booked, t.columns.badgeFr, t.columns.badgeEn].map((label, i) =>
+              el('span', { class: i === 4 ? 'md:text-center' : '' }, [label]),
             ),
           );
 

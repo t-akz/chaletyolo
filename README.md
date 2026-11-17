@@ -379,20 +379,21 @@ Fichiers : `src/components/IntroGate.astro` (l'écran), `src/components/IntroGat
 
 ## 12. Admin des tarifs (page Offre & Contact)
 
-L'équipe gère elle-même les cartes de l'onglet **Offre** depuis la page **`/admin/`** du site (ex. `https://www.chalet-yolo.com/admin/`) : aucune modification de code, aucun compte GitHub.
+L'équipe gère elle-même le tableau des tarifs de l'onglet **Offre** depuis la page **`/admin/`** du site (ex. `https://www.chalet-yolo.com/admin/`) : aucune modification de code, aucun compte GitHub.
 
 ### Ce que l'on peut faire
 
 - **Mois** : « Ajouter un mois » (toutes ses semaines, du samedi au samedi, sont créées automatiquement) ou « Retirer ce mois » (avec confirmation).
-- **Périodes spéciales** (une carte qui ne va pas du samedi au samedi) :
+- **Périodes spéciales** (une ligne qui ne va pas du samedi au samedi) :
   - **« Modifier les dates »** sous une période : arrivée et départ libres (1 à 31 nuits) ;
   - **« Ajouter une période »** en bas de chaque mois (arrivée dans ce mois, départ libre) ;
   - **« Supprimer »** sous une période (avec confirmation).
-  - Une période est rangée dans le mois de son **arrivée** ; deux périodes ne doivent pas se **chevaucher** (un trou entre deux est permis). Sur le site, la carte affiche en plus le nombre de nuits (« 2 nuits »).
+  - Une période est rangée dans le mois de son **arrivée** ; deux périodes ne doivent pas se **chevaucher** (un trou entre deux est permis). Pensez à l'indiquer dans le nom (ex. « Janvier, 2 nuits »).
   - Exemple (janvier 2027) : réservation du 26/12 au 07/01 → dans décembre, la semaine du 26/12 passe en « Modifier les dates » au départ du 07/01 et en « Réservée » ; dans janvier, on supprime la semaine du 02/01 (elle chevaucherait) et on ajoute la période 07/01 → 09/01 avec son prix.
 - **Pour chaque période** :
-  - **prix total** en euros, chiffres seuls (ex. `18500`) ; le prix par nuit (total ÷ nombre de nuits) se calcule tout seul ; laissé vide → la carte affiche « [À FOURNIR] » ;
-  - **Réservée** : la carte devient grise, affiche « Réservée » / « Booked », sans prix ni lien « Réserver » ;
+  - **nom** facultatif (« Ouverture », « Noël », « Vacances de février »…), 40 caractères maximum, **en français ET en anglais** ; laissé vide → le site affiche le nom du mois (« Janvier » / « January ») ;
+  - **prix total** en euros, chiffres seuls (ex. `18500`) ; laissé vide → le site affiche « [À FOURNIR] » ;
+  - **Réservée** : la ligne devient grise, affiche « Réservé » / « Booked » à la place du prix, sans lien « Réserver » ;
   - **mention spéciale** facultative (« Promo », « Exclu web »…) : 25 caractères maximum, **en français ET en anglais**.
 - **Enregistrer et publier** : les données sont vérifiées, enregistrées, et le site en ligne est **à jour 1 à 2 minutes plus tard** (Netlify reconstruit le site).
 

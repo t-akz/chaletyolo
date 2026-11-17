@@ -17,7 +17,9 @@
  *   et ne se chevauchent pas, sur toute la saison (un trou entre deux périodes est permis) ;
  * - « price » = prix TOTAL de la période en euros (nombre entier), ou null → « [À FOURNIR] » ;
  * - « booked » = semaine réservée → carte grisée, « Réservée », sans prix ni lien « Réserver » ;
- * - « badge » = mention spéciale facultative (ex. « Promo »), en français ET en anglais.
+ * - « badge » = mention spéciale facultative (ex. « Promo »), en français ET en anglais ;
+ * - « name » = nom de la période facultatif (ex. « Noël » / « Christmas », 17/11/2026, d'après
+ *   le PDF « tarif » du client), en français ET en anglais ; absent → nom du mois d'arrivée.
  *
  * Ce fichier ne dépend ni d'Astro ni de Netlify : il est utilisé par la construction
  * du site, par les fonctions Netlify (netlify/functions/) et par le script de la
@@ -25,6 +27,9 @@
  */
 
 export type Badge = { fr: string; en: string };
+
+/** Nom d'une période (même forme qu'une mention : français + anglais). */
+export type PeriodName = Badge;
 
 export type Week = {
   /** Date d'arrivée, au format AAAA-MM-JJ (un samedi pour une semaine normale). */
@@ -40,6 +45,11 @@ export type Week = {
   booked: boolean;
   /** Mention spéciale (promo, exclu web…), ou null. */
   badge: Badge | null;
+  /**
+   * Nom de la période (« Ouverture », « Noël »…), seulement s'il est renseigné.
+   * Absent = le site affiche le nom du mois d'arrivée (« Janvier »).
+   */
+  name?: PeriodName;
 };
 
 export type Month = {
@@ -61,6 +71,9 @@ export const maxNights = 31;
 
 /** Longueur maximale d'une mention spéciale (pour qu'elle tienne sur la carte). */
 export const badgeMaxLength = 25;
+
+/** Longueur maximale d'un nom de période (ex. « Vacances de février »). */
+export const nameMaxLength = 40;
 
 /** Prix maximal accepté (garde-fou contre une faute de frappe). */
 export const priceMax = 1_000_000;
@@ -174,22 +187,29 @@ export function parseSeason(data: unknown): Season {
       const booked = w.booked ?? false;
       if (typeof booked !== 'boolean') fail(`« réservée » de la période du ${frDate(startKey)} incorrect.`);
 
-      let badge: Badge | null = null;
-      if (w.badge !== null && w.badge !== undefined) {
-        if (!isObject(w.badge)) fail(`mention de la période du ${frDate(startKey)} mal formée.`);
-        const b = w.badge as Record<string, unknown>;
+      // Texte facultatif en français ET en anglais (mention, nom de période) : null s'il est vide.
+      const bilingual = (raw: unknown, what: string, max: number): Badge | null => {
+        if (raw === null || raw === undefined) return null;
+        if (!isObject(raw)) fail(`${what} de la période du ${frDate(startKey)} mal formé(e).`);
+        const b = raw as Record<string, unknown>;
         const fr = typeof b.fr === 'string' ? b.fr.trim() : '';
         const en = typeof b.en === 'string' ? b.en.trim() : '';
-        if (fr || en) {
-          if (!fr || !en) fail(`la mention de la période du ${frDate(startKey)} doit être remplie en français ET en anglais.`);
-          if (fr.length > badgeMaxLength || en.length > badgeMaxLength) {
-            fail(`la mention de la période du ${frDate(startKey)} dépasse ${badgeMaxLength} caractères.`);
-          }
-          badge = { fr, en };
-        }
-      }
+        if (!fr && !en) return null;
+        if (!fr || !en) fail(`${what} de la période du ${frDate(startKey)} doit être rempli(e) en français ET en anglais.`);
+        if (fr.length > max || en.length > max) fail(`${what} de la période du ${frDate(startKey)} dépasse ${max} caractères.`);
+        return { fr, en };
+      };
+      const badge = bilingual(w.badge, 'la mention', badgeMaxLength);
+      const name = bilingual(w.name, 'le nom', nameMaxLength);
 
-      weeks.push({ start: startKey, ...(end ? { end } : {}), price: price as number | null, booked: booked as boolean, badge });
+      weeks.push({
+        start: startKey,
+        ...(end ? { end } : {}),
+        price: price as number | null,
+        booked: booked as boolean,
+        badge,
+        ...(name ? { name } : {}),
+      });
     }
     months.push({ month: monthKey, weeks });
   }

@@ -1,0 +1,285 @@
+---
+/**
+ * Tableau des tarifs (onglet « Offre » de la page Offre & Contact), sur le modèle
+ * du PDF « tarif » fourni par le client le 17/11/2026 (remplace l'accordéon des mois).
+ *
+ * Une ligne par période : nom · arrivée · départ · prix public, puis un lien discret
+ * « Réserver ». Filet foncé sous les en-têtes, filets fins entre les lignes.
+ * - Nom : celui saisi dans l'admin (« Noël », « Fermeture** »…), sinon le nom du mois d'arrivée.
+ * - Période réservée : ligne grisée, « Réservé » à la place du prix, sans lien.
+ * - Prix manquant : « [À FOURNIR] ».
+ * - Mention spéciale (promo…) : petite étiquette après le nom.
+ * - Mobile (< 768 px) : 2 colonnes seulement (période + prix) ; les dates passent
+ *   en petit sous le nom, le lien « Réserver » sous le prix.
+ *
+ * Lien « Réserver » : ouvre l'onglet Contact avec les dates déjà remplies dans le
+ * formulaire. Sans JavaScript : lien vers « /contact/?arrivee=…&depart=…#demande ».
+ * Masqué pour les périodes déjà commencées (le formulaire refuse une date passée).
+ *
+ * Données : src/content/tarifs.ts (gérées depuis l'admin). Textes : src/content/{fr,en}/contact.json.
+ */
+import TextLink from './TextLink.astro';
+import { TO_PROVIDE } from '../config/site';
+import { currency, periodEnd, type Month } from '../content/tarifs';
+import type { Lang } from '../i18n/languages';
+
+interface Props {
+  lang: Lang;
+  /** Mois de la saison, chacun avec ses périodes (src/content/tarifs.ts). */
+  months: Month[];
+  /** Légende du tableau, lue par les lecteurs d'écran. */
+  caption: string;
+  /** En-têtes des colonnes. */
+  columns: { period: string; arrival: string; departure: string; price: string };
+  /** Libellé du lien de réservation, ex. « Réserver ». */
+  bookLabel: string;
+  /** Mention d'une période réservée, ex. « Réservé ». */
+  bookedLabel: string;
+  /** Adresse de la page qui contient le formulaire, ex. « /contact/ ». */
+  bookPath: string;
+}
+
+const { lang, months, caption, columns, bookLabel, bookedLabel, bookPath } = Astro.props;
+const locale = lang === 'fr' ? 'fr-FR' : 'en-GB';
+
+// Dates lues en temps universel : pas de décalage d'un jour selon le fuseau horaire.
+const toDate = (iso: string) => new Date(`${iso}T00:00:00Z`);
+// « 05/12/2026 », comme dans le PDF (même écriture en français et en anglais britannique).
+const dateFormat = new Intl.DateTimeFormat(locale, { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' });
+const monthFormat = new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' });
+const priceFormat = new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 });
+const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
+// Toutes les périodes de la saison, à la suite, prêtes à afficher.
+const rows = months.flatMap(({ weeks }) =>
+  weeks.map((week) => {
+    const end = periodEnd(week);
+    return {
+      ...week,
+      end,
+      label: week.name?.[lang] ?? capitalize(monthFormat.format(toDate(week.start))),
+      startLabel: dateFormat.format(toDate(week.start)),
+      endLabel: dateFormat.format(toDate(end)),
+      priceLabel: week.price === null ? TO_PROVIDE : priceFormat.format(week.price),
+      bookHref: `${bookPath}?arrivee=${week.start}&depart=${end}#demande`,
+    };
+  }),
+);
+---
+
+<div class="rates" data-rates>
+  <table class="rates__table">
+    <caption class="sr-only">{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{columns.period}</th>
+        <th scope="col" class="rates__wide">{columns.arrival}</th>
+        <th scope="col" class="rates__wide">{columns.departure}</th>
+        <th scope="col" class="rates__price">{columns.price}</th>
+        <th scope="col" class="rates__wide"><span class="sr-only">{bookLabel}</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr data-booked={row.booked ? 'true' : undefined}>
+            <th scope="row" class="rates__name">
+              {row.label}
+              {/* Mention spéciale (promo…), sauf sur une période réservée. */}
+              {row.badge && !row.booked && <span class="rates__badge">{row.badge[lang]}</span>}
+              {/* Mobile : dates en petit sous le nom. */}
+              <span class="rates__dates">
+                <time datetime={row.start}>{row.startLabel}</time> → <time datetime={row.end}>{row.endLabel}</time>
+              </span>
+            </th>
+            <td class="rates__wide">
+              <time datetime={row.start}>{row.startLabel}</time>
+            </td>
+            <td class="rates__wide">
+              <time datetime={row.end}>{row.endLabel}</time>
+            </td>
+            {row.booked ? (
+              <td class="rates__price rates__status">{bookedLabel}</td>
+            ) : (
+              <td class="rates__price">
+                <span class="rates__amount">{row.priceLabel}</span>
+                {/* Mobile : lien « Réserver » sous le prix. */}
+                <span class="rates__book rates__book--narrow" data-book data-arrivee={row.start}>
+                  <TextLink href={row.bookHref}>
+                    {bookLabel}
+                    <span class="sr-only">
+                      {' '}
+                      {row.startLabel} – {row.endLabel}
+                    </span>
+                  </TextLink>
+                </span>
+              </td>
+            )}
+            <td class="rates__wide rates__book-cell">
+              {!row.booked && (
+                <span class="rates__book" data-book data-arrivee={row.start}>
+                  <TextLink href={row.bookHref}>
+                    {bookLabel}
+                    <span class="sr-only">
+                      {' '}
+                      {row.startLabel} – {row.endLabel}
+                    </span>
+                  </TextLink>
+                </span>
+              )}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .rates__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rates__table th,
+  .rates__table td {
+    padding: 0.875rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  /* En-têtes : petits, avec un filet foncé dessous (comme le PDF). */
+  .rates__table thead th {
+    padding-top: 0;
+    border-bottom: 1px solid var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .rates__table tbody tr {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Nom de la période : texte courant (pas de gras, comme le PDF). */
+  .rates__name {
+    font-weight: 400;
+    padding-right: 1rem !important;
+  }
+
+  .rates__price {
+    text-align: right !important;
+    white-space: nowrap;
+  }
+
+  .rates__amount {
+    display: block;
+    font-weight: 600;
+  }
+
+  /* Mention spéciale : petite étiquette bordeaux après le nom. */
+  .rates__badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    border: 1px solid var(--color-primary);
+    border-radius: 999px;
+    padding: 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    vertical-align: 0.15em;
+  }
+
+  /* Période réservée : ligne grisée (gris lisible, contraste AA), « Réservé » en petit. */
+  tr[data-booked] {
+    color: color-mix(in srgb, var(--color-text) 70%, var(--color-bg));
+  }
+
+  .rates__status {
+    font-size: 0.875rem;
+  }
+
+  /* ---------- Mobile (< 768 px) : période + prix ---------- */
+  .rates__wide {
+    display: none;
+  }
+
+  .rates__dates {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .rates__book--narrow {
+    display: block;
+    margin-top: 0.375rem;
+  }
+
+  /* Lien masqué par le script (période commencée) : « hidden » doit l'emporter sur display. */
+  .rates__book[hidden] {
+    display: none !important;
+  }
+
+  /* ---------- Tablette et ordinateur (≥ 768 px) : 5 colonnes, une ligne par période ---------- */
+  @media (min-width: 768px) {
+    .rates__wide {
+      display: table-cell;
+    }
+
+    .rates__dates,
+    .rates__book--narrow {
+      display: none;
+    }
+
+    .rates__table th,
+    .rates__table td {
+      padding: 0.75rem 1.5rem 0.75rem 0;
+      white-space: nowrap;
+    }
+
+    .rates__table .rates__name {
+      white-space: normal;
+    }
+
+    .rates__table .rates__price {
+      padding-right: 0;
+    }
+
+    .rates__table .rates__book-cell {
+      padding-left: 1.5rem;
+      padding-right: 0;
+      text-align: right;
+    }
+  }
+</style>
+
+<script>
+  // Lien « Réserver » : masqué pour les périodes déjà commencées (date passée refusée par le formulaire).
+  const now = new Date();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+
+  document.querySelectorAll<HTMLElement>('[data-rates] [data-book]').forEach((book) => {
+    if ((book.dataset.arrivee ?? '') < today) {
+      book.hidden = true;
+      return;
+    }
+    // Même page : ouvre l'onglet Contact (#demande) puis remplit les dates, sans recharger.
+    const link = book.querySelector('a');
+    link?.addEventListener('click', (event) => {
+      event.preventDefault();
+      const params = new URL(link.href).searchParams;
+      const detail = { arrivee: params.get('arrivee') ?? undefined, depart: params.get('depart') ?? undefined };
+      const prefill = () => document.dispatchEvent(new CustomEvent('contact-form:prefill', { detail }));
+      if (location.hash === '#demande') prefill();
+      else {
+        // Les onglets (PageTabs) réagissent d'abord au changement d'adresse, puis on remplit.
+        window.addEventListener('hashchange', prefill, { once: true });
+        location.hash = 'demande';
+      }
+    });
+  });
+</script>

@@ -7,26 +7,42 @@
           "start": "2026-12-05",
           "price": 15800,
           "booked": false,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Ouverture",
+            "en": "Opening"
+          }
         },
         {
           "start": "2026-12-12",
           "price": 15800,
           "booked": false,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Ouverture",
+            "en": "Opening"
+          }
         },
         {
           "start": "2026-12-19",
           "price": 28800,
           "booked": false,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Noël",
+            "en": "Christmas"
+          }
         },
         {
           "start": "2026-12-26",
           "end": "2027-01-07",
           "price": null,
           "booked": true,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Nouvel An",
+            "en": "New Year"
+          }
         }
       ]
     },
@@ -38,7 +54,11 @@
           "end": "2027-01-09",
           "price": 7000,
           "booked": false,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Janvier, 2 nuits",
+            "en": "January, 2 nights"
+          }
         },
         {
           "start": "2027-01-09",
@@ -80,13 +100,21 @@
           "start": "2027-02-20",
           "price": 27500,
           "booked": false,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Vacances de février",
+            "en": "February half-term"
+          }
         },
         {
           "start": "2027-02-27",
           "price": 24300,
           "booked": false,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Vacances de février",
+            "en": "February half-term"
+          }
         }
       ]
     },
@@ -116,7 +144,11 @@
           "start": "2027-03-27",
           "price": 19800,
           "booked": false,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Pâques",
+            "en": "Easter"
+          }
         }
       ]
     },
@@ -133,7 +165,11 @@
           "start": "2027-04-10",
           "price": 10900,
           "booked": false,
-          "badge": null
+          "badge": null,
+          "name": {
+            "fr": "Fermeture**",
+            "en": "Closing week**"
+          }
         }
       ]
     }

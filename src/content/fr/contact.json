@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Offre & Contact — Chalet Yolo, Méribel",
-    "description": "Tarifs à la semaine et demande de séjour au Chalet Yolo, chalet privé à Méribel : dates, formule souhaitée et nombre de convives."
+    "description": "Tarifs de l'hiver 2026–2027 et demande de séjour au Chalet Yolo, chalet privé avec chef à Méribel : dates, prestations incluses et nombre de convives."
   },
   "pageTitle": "Offre & Contact",
   "tabs": {
@@ -10,13 +10,41 @@
     "contact": "Contact"
   },
   "offer": {
-    "title": "Saison 2026 – 2027",
-    "intro": "Location à la semaine, du samedi au samedi, en pension complète.",
-    "label": "Tarifs par mois",
-    "perNight": "{price} / nuit",
-    "nights": "{count} nuits",
+    "eyebrow": "Tarifs",
+    "title": "Hiver 2026–2027",
+    "formula": "Full Catered · Formule avec chef et service",
+    "label": "Tarifs de l'hiver 2026–2027, formule avec chef et service",
+    "columns": {
+      "period": "Période",
+      "arrival": "Arrivée",
+      "departure": "Départ",
+      "price": "Prix public"
+    },
     "book": "Réserver",
-    "booked": "Réservée"
+    "booked": "Réservé",
+    "note": "Prix publics en euros TTC, pour les dates indiquées. Les semaines vont du samedi au samedi.",
+    "included": {
+      "title": "Inclus",
+      "items": [
+        "Le chalet entier, pour vous seuls : 330 m², six chambres, jusqu'à 15 personnes",
+        "Piscine intérieure, jacuzzi, hammam, sauna, salle de yoga et fitness, home cinéma",
+        "Chef privé chaque jour : petit-déjeuner, goûter d'après-ski, apéritif et dîner*",
+        "Chalet manager pendant tout le séjour",
+        "Ménage quotidien",
+        "Van privé pour les allers-retours aux pistes",
+        "Linge de lit et serviettes, changés à mi-séjour",
+        "Wi-Fi, ski room avec sèche-chaussures, parking intérieur sécurisé"
+      ]
+    },
+    "extras": {
+      "title": "En supplément",
+      "items": [
+        "* Courses du dîner, refacturées au réel",
+        "Taxe de séjour et frais de dossier",
+        "À la carte : forfaits, location de matériel, cours de ski, transferts gare et aéroport, massages au chalet, chauffeur pour vos autres déplacements",
+        "** Semaine de fermeture : en location seule"
+      ]
+    }
   },
   "title": "Contact",
   "intro": "Quelques détails sur votre séjour, et notre conciergerie compose une proposition à votre mesure.",

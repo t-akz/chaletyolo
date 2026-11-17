@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Offer & Contact — Chalet Yolo, Méribel",
-    "description": "Weekly rates and stay enquiry for Chalet Yolo, a private chalet in Méribel: dates, preferred package and number of guests."
+    "description": "Winter 2026–2027 rates and stay enquiry for Chalet Yolo, a fully catered private chalet in Méribel: dates, what is included and number of guests."
   },
   "pageTitle": "Offer & Contact",
   "tabs": {
@@ -10,13 +10,41 @@
     "contact": "Contact"
   },
   "offer": {
-    "title": "2026 – 2027 season",
-    "intro": "Weekly stays, Saturday to Saturday, fully catered.",
-    "label": "Rates by month",
-    "perNight": "{price} / night",
-    "nights": "{count} nights",
+    "eyebrow": "Rates",
+    "title": "Winter 2026–2027",
+    "formula": "Full Catered",
+    "label": "Winter 2026–2027 rates, fully catered",
+    "columns": {
+      "period": "Period",
+      "arrival": "Arrival",
+      "departure": "Departure",
+      "price": "Public price"
+    },
     "book": "Book",
-    "booked": "Booked"
+    "booked": "Booked",
+    "note": "Public prices in euros, VAT included, for the dates shown. Weekly stays run Saturday to Saturday.",
+    "included": {
+      "title": "Included",
+      "items": [
+        "The whole chalet, yours alone: 330 m², six bedrooms, up to 15 guests",
+        "Indoor pool, jacuzzi, hammam, sauna, yoga and fitness room, home cinema",
+        "Private chef every day: breakfast, après-ski tea, apéritif and dinner*",
+        "Chalet manager throughout your stay",
+        "Daily housekeeping",
+        "Private van to and from the slopes",
+        "Bed linen and towels, changed mid-stay",
+        "Wi-Fi, ski room with boot dryers, secure indoor parking"
+      ]
+    },
+    "extras": {
+      "title": "Not included",
+      "items": [
+        "* Dinner ingredients, charged at cost",
+        "Tourist tax and booking fee",
+        "On request: ski passes, ski hire, ski lessons, station and airport transfers, in-chalet massages, driver for other trips",
+        "** Closing week: self-catered, chalet rental only"
+      ]
+    }
   },
   "title": "Contact",
   "intro": "A few details about your stay, and our concierge will put together a proposal tailored to you.",
