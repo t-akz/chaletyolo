@@ -2,7 +2,9 @@
 /**
  * Page d'accueil (FR et EN) — structure du §6 de CLAUDE.md (refonte du 06/11/2026) :
  * Hero en carrousel (4 photos, défilement automatique, 12/11/2026) → 5 cartes-photos (Le Chalet, Piscine & Spa
- * — ajoutée le 13/11/2026 —, Services, Méribel, Offre & Contact) → mosaïque de photos → appel à l'action.
+ * — ajoutée le 13/11/2026 —, Services, Méribel, Offre & Contact) → avis clients qui défilent (18/11/2026)
+ * → mosaïque de photos → appel à l'action.
+ * Fonds alternés (18/11/2026) : cartes blanc → avis beige → mosaïque blanc → appel à l'action beige.
  * Écran d'entrée (IntroGate, §5.8) par-dessus, une fois par session : option « intro » ci-dessous.
  * Textes : src/content/{fr,en}/home.json.
  */
@@ -10,6 +12,8 @@ import CTASection from '../components/CTASection.astro';
 import HeroCarousel from '../components/HeroCarousel.astro';
 import PhotoMosaic from '../components/PhotoMosaic.astro';
 import ImageLinkCards from '../components/ImageLinkCards.astro';
+import ReviewsMarquee from '../components/ReviewsMarquee.astro';
+import { reviews } from '../content/chalet';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
 import { contactFormPath, getContent, localizedPath } from '../i18n/utils';
@@ -65,12 +69,23 @@ const mosaicPhotos = [
     </div>
   </section>
 
+  <!-- Avis clients qui défilent (déplacés depuis la page Le chalet le 18/11/2026) -->
+  <ReviewsMarquee
+    title={page.reviews.title}
+    ratingLabel={page.reviews.rating}
+    pauseLabel={page.reviews.pause}
+    playLabel={page.reviews.play}
+    reviews={reviews}
+    background="bg"
+  />
+
   <PhotoMosaic
     lang={lang}
     photoIds={mosaicPhotos}
     title={page.gallery.title}
     link={{ href: localizedPath('gallery', lang), label: page.gallery.link }}
+    background="alt"
   />
 
-  <CTASection lang={lang} title={page.cta.title} />
+  <CTASection lang={lang} title={page.cta.title} background="bg" />
 </BaseLayout>

@@ -47,6 +47,12 @@
       }
     }
   },
+  "reviews": {
+    "title": "Avis de nos hôtes",
+    "rating": "{rating} étoiles sur 5",
+    "pause": "Mettre en pause le défilement des avis",
+    "play": "Reprendre le défilement des avis"
+  },
   "gallery": {
     "title": "Galerie",
     "link": "Voir toutes les photos"

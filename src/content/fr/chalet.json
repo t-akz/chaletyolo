@@ -11,11 +11,9 @@
     "title": "Le chalet",
     "text": "Le Chalet Yolo est une adresse d’exception proche du Raffort, à Méribel, au cœur des 3 Vallées. Ce chalet contemporain accueille jusqu’à 15 personnes dans six chambres, avec piscine intérieure, jacuzzi, sauna, hammam, salle de yoga et home cinéma.\nLe séjour est entièrement pris en charge par un chef, un chalet manager et un chauffeur."
   },
-  "reviews": {
-    "title": "Avis de nos hôtes",
-    "rating": "{rating} étoiles sur 5",
-    "pause": "Mettre en pause le défilement des avis",
-    "play": "Reprendre le défilement des avis"
+  "quote": {
+    "text": "L'élégance, c'est quand l'intérieur est aussi beau que l'extérieur",
+    "author": "Coco Chanel"
   },
   "spaces": {
     "label": "Les espaces du chalet",

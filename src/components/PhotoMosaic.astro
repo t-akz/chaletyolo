@@ -17,16 +17,18 @@ interface Props {
   photoIds: string[];
   title?: string;
   link?: { href: string; label: string };
+  /** Fond de la section : « bg » = beige (par défaut), « alt » = blanc. */
+  background?: 'bg' | 'alt';
 }
 
-const { lang, photoIds, title, link } = Astro.props;
+const { lang, photoIds, title, link, background = 'bg' } = Astro.props;
 const ids = photoIds.filter((id) => !getPhoto(id).hidden);
 // Photos mises en valeur : position dans la liste → taille.
 const LARGE = 0;
 const WIDE = 5;
 ---
 
-<section class="bg-bg py-16 md:py-28">
+<section class:list={['py-16 md:py-28', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}>
   <div class="container-page">
     {title && <h2 class="mb-12 text-h2 md:mb-16" data-reveal>{title}</h2>}
 

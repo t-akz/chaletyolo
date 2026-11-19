@@ -1,7 +1,7 @@
 ---
 /**
  * Page « Le chalet » (FR et EN) — refonte du 06/11/2026, 5 sections (CLAUDE.md §6) :
- * Hero → intro (texte + chiffres clés) → colonnes d'espaces (accordéon de photos)
+ * Hero → intro (texte + chiffres clés) → colonnes d'espaces (accordéon de photos) → citation (18/11/2026)
  * → « Floor Plans » (plans par niveau) → localisation (phrase + carte interactive).
  * Textes : src/content/{fr,en}/chalet.json ; faits : src/content/chalet.ts.
  */
@@ -9,9 +9,8 @@ import ChaletMap from '../components/ChaletMap.astro';
 import FloorPlans from '../components/FloorPlans.astro';
 import Hero from '../components/Hero.astro';
 import KeyFigures from '../components/KeyFigures.astro';
-import ReviewsMarquee from '../components/ReviewsMarquee.astro';
 import SpaceColumns from '../components/SpaceColumns.astro';
-import { figures, reviews } from '../content/chalet';
+import { figures } from '../content/chalet';
 import type { GalleryCategory } from '../content/photos';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/languages';
@@ -65,23 +64,31 @@ const plans = page.floorPlans.levels.map((label, index) => ({ photoId: `plan-niv
     ]}
   />
 
-  <!-- 2 bis. Avis clients qui défilent (17/11/2026) -->
-  <ReviewsMarquee
-    title={page.reviews.title}
-    ratingLabel={page.reviews.rating}
-    pauseLabel={page.reviews.pause}
-    playLabel={page.reviews.play}
-    reviews={reviews}
-  />
-
-  <!-- Fonds alternés beige (bg) / blanc (bg-alt), demande du client du 17/11/2026 :
-       intro beige → avis blanc → espaces beige → plans blanc → localisation beige. -->
+  <!-- Fonds alternés beige (bg) / blanc (bg-alt), demandes du client du 17 et du 18/11/2026 :
+       intro beige → espaces blanc → citation beige → plans blanc → localisation beige. -->
 
   <!-- 3. Colonnes d'espaces (accordéon de photos) -->
-  <section class="bg-bg py-16 md:py-28">
+  <section class="bg-bg-alt py-16 md:py-28">
     <div class="container-page" data-reveal>
       {/* Textes masqués pour essai (13/11/2026) : remettre showText={true} (ou retirer l'option) pour les réafficher. */}
       <SpaceColumns lang={lang} label={page.spaces.label} linkLabel={page.spaces.galleryLink} items={spaces} showText={false} />
+    </div>
+  </section>
+
+  <!-- 3 bis. Citation (18/11/2026 ; d'abord à la place des avis clients, déplacée entre les espaces et les plans).
+       Grand texte en italique fin (Thin), centré, en bordeaux, sans guillemets, auteur en petit dessous (sans tiret), encadré au plus près
+       de deux équerres grises fines (en haut à gauche, en bas à droite) : demandes du client
+       du 18/11/2026 (exception au « aligné à gauche » du §5.1). Texte et auteur : chalet.json → quote. -->
+  <section class="bg-bg py-10 md:py-14">
+    <div class="container-page" data-reveal>
+      <!-- w-fit : le cadre épouse la largeur du texte, les équerres restent collées à lui. -->
+      <figure class="quote mx-auto w-fit max-w-4xl text-center text-heading">
+        <blockquote>
+          <!-- text-center sur le <p> : la règle globale « p { text-align: left } » l'emporte sinon. -->
+          <p class="text-h2 leading-tight font-thin italic text-center text-balance">{page.quote.text}</p>
+        </blockquote>
+        <figcaption class="mt-5 text-sm font-semibold">{page.quote.author}</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -103,3 +110,46 @@ const plans = page.floorPlans.levels.map((label, index) => ({ photoId: `plan-niv
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* Citation : deux équerres (« L ») grises fines, en haut à gauche et en bas à droite, près du texte. */
+  .quote {
+    position: relative;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .quote::before,
+  .quote::after {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0 solid color-mix(in srgb, var(--color-text) 35%, transparent);
+    content: '';
+  }
+
+  .quote::before {
+    top: 0;
+    left: 0;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .quote::after {
+    right: 0;
+    bottom: 0;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+  }
+
+  @media (min-width: 768px) {
+    .quote {
+      padding: 1.5rem 2.5rem;
+    }
+
+    .quote::before,
+    .quote::after {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+</style>

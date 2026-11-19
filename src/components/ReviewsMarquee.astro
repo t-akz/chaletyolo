@@ -1,6 +1,7 @@
 ---
 /**
- * Bandeau d'avis clients (page Le chalet, entre l'intro et les colonnes d'espaces) — 17/11/2026.
+ * Bandeau d'avis clients — créé le 17/11/2026 sur la page Le chalet, déplacé le 18/11/2026 sur la page
+ * d'accueil (entre les cartes-photos et la galerie), à la demande du client.
  *
  * Bande basse : sur-titre, puis les avis qui défilent lentement de droite à gauche,
  * en boucle continue (exception au « pas de carrousel automatique » du §5.1, demandée par le client).
@@ -16,7 +17,7 @@
  * - animations réduites : rien ne bouge, les avis sont côte à côte et on les fait glisser à la main ;
  * - les avis sont en anglais (citations des clients, non traduites) : lang="en".
  *
- * Données : src/content/chalet.ts → reviews. Textes : src/content/{fr,en}/chalet.json → reviews.
+ * Données : src/content/chalet.ts → reviews. Textes : src/content/{fr,en}/home.json → reviews.
  */
 import Icon from './Icon.astro';
 import type { Review } from '../content/chalet';
@@ -30,13 +31,20 @@ interface Props {
   pauseLabel: string;
   playLabel: string;
   reviews: Review[];
+  /** Fond de la bande : « bg » = beige, « alt » = blanc (par défaut). */
+  background?: 'bg' | 'alt';
 }
 
-const { title, ratingLabel, pauseLabel, playLabel, reviews } = Astro.props;
+const { title, ratingLabel, pauseLabel, playLabel, reviews, background = 'alt' } = Astro.props;
 const copies = 3;
 ---
 
-<section class="reviews bg-bg-alt py-10 md:py-12" aria-labelledby="avis-titre" data-reviews data-playing="true">
+<section
+  class:list={['reviews py-10 md:py-12', background === 'alt' ? 'bg-bg-alt' : 'bg-bg']}
+  aria-labelledby="avis-titre"
+  data-reviews
+  data-playing="true"
+>
   <div class="container-page flex items-center justify-between gap-6">
     <h2 id="avis-titre" class="eyebrow text-accent">{title}</h2>
     <!-- Pause / lecture : affiché par le script (sans JavaScript, la pause au survol reste possible). -->
